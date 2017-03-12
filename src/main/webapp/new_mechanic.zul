@@ -1,0 +1,42 @@
+<?page title="Thợ mới" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<include src="menu_bar.zul"></include>
+	<window title="Thông tin thợ mới" border="normal"
+		apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('viewmodels.AddNewMechanicViewModel')">
+		<vlayout>
+			<hbox pack="center">
+				<label>Họ tên</label>
+				<textbox id="name_textbox" width="400px"
+					constraint="no empty">
+				</textbox>
+			</hbox>
+			<hbox pack="center">
+				<label>Địa chỉ</label>
+				<textbox id="address_textbox" width="400px"
+					constraint="no empty">
+				</textbox>
+			</hbox>
+			<hbox pack="center">
+				<label>Điện thoại</label>
+				<intbox id="phone_textbox" width="400px"
+					constraint="no empty">
+				</intbox>
+			</hbox>
+			<hbox pack="center">
+				<label>Giới tính</label>
+				<combobox model="@load(vm.genders)" id="gender_combobox"
+					constraint="no empty" readonly="true">
+					<template name="model">
+						<comboitem label="@load(each)"></comboitem>
+					</template>
+				</combobox>
+			</hbox>
+			<button
+				onClick="@command('saveNewMechanic', name =  name_textbox.value , address = address_textbox.value , phone_number = phone_textbox.value, gender = gender_combobox.selectedItem.label)">
+				Lưu
+			</button>
+		</vlayout>
+	</window>
+
+</zk>

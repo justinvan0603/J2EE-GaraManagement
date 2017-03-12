@@ -1,0 +1,45 @@
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
+<zk>
+	<style src="/css/style.css" />
+	<window apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm')@init('controller.MyViewModel')">
+		<listbox selectedItem="@bind(vm.selectedOrder)"
+			model="@bind(vm.ordersList)">
+			<listhead sizable="true">
+				<listheader label="order No" sort="auto(orderNumber)" />
+				<listheader label="Customer Name"
+					sort="auto(LOWER(customerFname))" />
+				<listheader label="Gender" sort="auto(customerGender)" />
+				<listheader label="Phone" sort="auto(customerPhone)" />
+				<listheader label="Status" sort="auto(status)" />
+				<listheader label="Order Total" align="right"
+					sort="auto(orderTotal)" />
+				<listheader label="Order Date" align="center"
+					sort="auto(orderDate)" />
+				<listheader label="Delivered" sort="auto(delivered)" />
+			</listhead>
+			<template name="model" var="p1">
+				<listitem>
+					<listcell label="@load(p1.orderNumber)" />
+					<listcell
+						label="@load(vm.getCustomerName(p1.customerFname, p1.customerLname))" />
+					<listcell>
+						<hbox spacing="20px">
+							<image sclass="@bind(p1.customerGender)" />
+							<label value="@load(p1.customerGender)" />
+						</hbox>
+					</listcell>
+					<listcell
+						label="@load(p1.customerPhone) @converter('zk7example2.MyPhoneConverter')" />
+					<listcell label="@load(p1.status)" />
+					<listcell
+						label="@load(c:formatNumber(p1.orderTotal, '$#,###.00'))" />
+					<listcell
+						label="@load(p1.orderDate) @converter('formatedDate', format='MM/dd/yyyy')" />
+					<listcell
+						label="@bind(p1.delivered eq 1?'Yes':'No')" />
+				</listitem>
+			</template>
+		</listbox>
+	</window>
+</zk>

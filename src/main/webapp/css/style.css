@@ -1,0 +1,13 @@
+.Male {
+	width: 25px;
+	background-image: url('../images/male.png');
+	background-repeat: no-repeat;
+	border: 0 none;
+}
+
+.Female {
+	width: 25px;
+	background-image: url('../images/female.png');
+	background-repeat: no-repeat;
+	border: 0 none;
+}

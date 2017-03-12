@@ -1,0 +1,20 @@
+<?page title="new page title" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<vlayout>
+		<menubar id="menubar" orient="horizontal">
+			<menu label="Tổng quan"></menu>
+			<menu label="Phụ tùng"></menu>
+			<menu label="Khách hàng"></menu>
+			<menu label="Tiếp nhận xe"></menu>
+			<menu label="Phiếu sửa chữa"></menu>
+			<menu label="Thu chi"></menu>
+			<menu label="Bảo hành"></menu>
+			<menu label="Nhập hàng"></menu>
+			<menu label="Báo cáo"></menu>
+			<menu label="Thiếp lập"
+				image="/images/ic_settings_black_18dp_1x.png">
+			</menu>
+		</menubar>
+
+	</vlayout>
+</zk>

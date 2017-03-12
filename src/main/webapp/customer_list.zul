@@ -1,0 +1,36 @@
+<?page title="new page title" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<include src="menu_bar.zul"></include>
+	<window title="new page title" border="normal"
+		apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('viewmodels.CustomerViewModel')">
+		<listbox hflex="1" mold="paging" pageSize="10"
+			model="@load(vm.customers)" width="100%">
+			<auxhead>
+				<auxheader colspan="6" class="topic">Thợ</auxheader>
+			</auxhead>
+			<listhead>
+				<listheader label="Id" width="80px" />
+				<listheader label="Họ tên" />
+				<listheader label="Số điện thoại" width="150px" />
+				<listheader label="CMND" />
+				<listheader label="Giới tính" width="150px" />
+				<listheader label="Tác vụ" width="150px" />
+			</listhead>
+			<template name="model" var="e">
+				<listitem>
+					<listcell label="@load(e.maKH)"></listcell>
+					<listcell label="@load(e.hoTen)"></listcell>
+					<listcell label="@load(e.sdt)"></listcell>
+					<listcell label="@load(e.cmnd)"></listcell>
+					<listcell label="@load(e.gioiTinh)"></listcell>
+					<listcell>
+						<button
+							image="/images/ic_edit_black_18dp_1x.png">
+						</button>
+					</listcell>
+				</listitem>
+			</template>
+		</listbox>
+	</window>
+</zk>
