@@ -46,4 +46,5 @@
 	<!-- service to interact with mechanic data -->
 	<bean id="mechanic_service" class="business.service.MechanicServiceImpl" />
 	<bean id="customer_service" class="business.service.CustomerServiceImpl" />
+	<bean id="tho_service" class="business.service.ThoServiceImpl" />
 </beans>
