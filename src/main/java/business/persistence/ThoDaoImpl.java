@@ -73,11 +73,14 @@ public class ThoDaoImpl implements GeneralDao<Tho> {
 		try {
 			session = this.sessionFactory.openSession();
 			transaction = session.getTransaction();
-			this.sessionFactory.getCurrentSession().save(newEntity);
-			transaction.commit();
+			transaction.begin();
+			session.save(newEntity);
+			if (!transaction.wasCommitted())
+				transaction.commit();
 			result = true;
 		} catch (Exception e) {
 			// TODO: handle exception
+			e.printStackTrace();
 			result = false;
 		} finally {
 			if (session.isOpen()) {

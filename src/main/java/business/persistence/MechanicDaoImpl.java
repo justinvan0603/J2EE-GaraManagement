@@ -84,11 +84,12 @@ public class MechanicDaoImpl implements GeneralDao<Mechanic> {
 			session = this.sessionFactory.openSession();
 			transaction = session.getTransaction();
 			transaction.begin();
-			this.sessionFactory.getCurrentSession().save(newEntity);
+			session.save(newEntity);
 			transaction.commit();
 			result = true;
 		} catch (Exception e) {
 			// TODO: handle exception
+
 			result = false;
 		} finally {
 			if (session.isOpen()) {
