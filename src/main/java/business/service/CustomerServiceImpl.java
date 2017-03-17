@@ -7,8 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import business.entities.Customer;
-import business.entities.Mechanic;
-import business.persistence.CustomerDaoImpl;
 import business.persistence.GeneralDao;
 
 @Service

@@ -1,0 +1,67 @@
+<?page title="Thông tin xe" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<include src="menu_bar.zul"></include>
+	<window title="Thông tin xe" border="normal"
+		apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('viewmodels.XeEditViewModel')">
+		<hbox align="start" style="padding : 16px;">
+			<vbox style="padding : 16px;">
+				<label>Biển số xe</label>
+				<textbox value="@bind(vm.currentVehicle.bienSoXe)"
+					width="250px" readonly="true">
+				</textbox>
+				<label>Khách hàng</label>
+				<textbox value="@bind(vm.currentVehicle.maKH)"
+					width="250px" readonly="true">
+				</textbox>
+				<label>Ngày tiếp nhận</label>
+				<datebox id="in_date_box"
+					value="@bind(vm.currentVehicle.ngayTiepNhan)" width="250px">
+				</datebox>
+				<label>Hình thức</label>
+				<textbox value="@bind(vm.currentVehicle.typeString)"
+					readonly="true" width="250px">
+				</textbox>
+			</vbox>
+			<vbox style="padding : 16px;">
+				<label>Hiệu xe</label>
+				<combobox id="cmbHieuXe" width="250px"
+					model="@load(vm.listOfHieuXe)" readonly="true"
+					value="@bind(vm.selectedHieuXe.maHieuXe)"
+					selectedItem="@bind(vm.selectedHieuXe.maHieuXe)">
+					<template name="model">
+						<comboitem label="@load(each.maHieuXe)" />
+					</template>
+				</combobox>
+				<label>Số khung</label>
+				<textbox id="textbox_sokhung"
+					value="@bind(vm.currentVehicle.soKhung)" width="250px">
+				</textbox>
+				<label>Số máy</label>
+				<textbox id="textbox_somay"
+					value="@bind(vm.currentVehicle.soMay)" width="250px">
+				</textbox>
+				<label>Số KM</label>
+				<intbox id="textbox_sokm"
+					value="@bind(vm.currentVehicle.soKM)" width="250px">
+				</intbox>
+				<label>Tình trạng</label>
+				<textbox id="textbox_tinhtrang" rows="5"
+					value="@bind(vm.currentVehicle.tinhTrang)" width="250px">
+				</textbox>
+				<label>Đời xe</label>
+				<intbox id="textbox_doixe"
+					value="@bind(vm.currentVehicle.doiXe)" width="250px">
+				</intbox>
+				<!-- update button -->
+				<button
+					onClick="@command('updateVehicle', in_date = in_date_box.value , 
+					hieu_xe = cmbHieuXe.value,  so_khung = textbox_sokhung.text, 
+					so_may = textbox_somay.text, so_km = textbox_sokm.value, tinh_trang = textbox_tinhtrang.text,
+					 doi_xe =textbox_doixe.text )">
+					Cập nhật
+				</button>
+			</vbox>
+		</hbox>
+	</window>
+</zk>

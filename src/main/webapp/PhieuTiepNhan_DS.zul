@@ -1,0 +1,80 @@
+<?page title="Danh sách phiếu tiếp nhận" contentType="text/html;charset=UTF-8"?>
+<?import  utils.StringFormatUtil ?>
+<zk>
+	<!-- import mutual menu bar -->
+	<include src="menu_bar.zul"></include>
+
+	<window title="Danh phiếu tiếp nhận" border="normal" height="100%"
+		apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('viewmodels.PhieuTiepNhanDSViewModel')">
+		<vlayout width="100%">
+			<hlayout style="text-align : left; padding : 4px;">
+				<label value="Tìm kiếm"></label>
+				<combobox id="search_type_combobox" readonly="true"
+					model="@load(vm.searchTypes)">
+					<template name="model">
+						<comboitem label="@load(each)"></comboitem>
+					</template>
+				</combobox>
+				<textbox width="400px" id="search_textbox"></textbox>
+				<button id="searchButton"
+					onClick="@command('filterData', search_index = search_type_combobox.selectedIndex , search_string = search_textbox.text )">
+					Tìm kiếm
+				</button>
+				|
+				<button id="button_add_new_customer"
+					onClick="@command('addNewHeaderFromNewCustomer')">
+					Thêm mới từ khách mới
+				</button>
+				|
+				<button id="button_add_from_frequenter"
+					onClick="@command('addNewHeaderFromFrequenterr')">
+					Thêm mới từ khách quen
+				</button>
+			</hlayout>
+			<!-- mechanic list area -->
+
+			<listbox hflex="1" mold="paging" pageSize="10"
+				model="@load(vm.listOfReceiveHeaders)" width="100%">
+				<auxhead>
+					<auxheader colspan="8">Phiếu tiếp nhận</auxheader>
+				</auxhead>
+				<listhead>
+					<listheader label="Mã phiếu" width="80px" />
+					<listheader label="Biển số xe" />
+					<listheader label="Mã khách hàng" width="150px" />
+					<listheader label="Ngày lập" />
+					<listheader label="Ngày trả" />
+					<listheader label="Mã nhân viên" />
+					<listheader label="Mã số chờ" />
+					<listheader label="Tác vụ" />
+				</listhead>
+				<template name="model" var="e">
+					<listitem>
+						<listcell label="@load(e.id)"></listcell>
+						<listcell label="@load(e.licensePlate)"></listcell>
+						<listcell label="@load(e.customer.hoTen)"></listcell>
+						<listcell label="@load(e.shortCreationDate)">
+						</listcell>
+						<listcell label="@load(e.shortGiveBackDate)"></listcell>
+						<listcell label="@load(e.staffId)"></listcell>
+						<listcell label="@load(e.queueNumber)"></listcell>
+						<listcell>
+							<button
+								image="/images/ic_edit_black_18dp_1x.png">
+							</button>
+							<!-- condition for showing button -->
+							<zk if="${1 == 1}">
+								<button
+									image="/images/ic_delete_black_18dp_1x.png">
+								</button>
+							</zk>
+						</listcell>
+					</listitem>
+				</template>
+			</listbox>
+		</vlayout>
+
+	</window>
+
+</zk>

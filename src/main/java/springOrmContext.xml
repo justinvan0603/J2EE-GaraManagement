@@ -45,6 +45,9 @@
 	<bean id="CRUDService" class="business.service.CRUDServiceImpl" />
 	<!-- service to interact with mechanic data -->
 	<bean id="mechanic_service" class="business.service.MechanicServiceImpl" />
+	<bean id="phieutiepnhan_service" class="business.service.PhieuTiepNhanServiceImpl" />
 	<bean id="customer_service" class="business.service.CustomerServiceImpl" />
 	<bean id="tho_service" class="business.service.ThoServiceImpl" />
+	<bean id="xe_service" class="business.service.XeServiceImpl" />
+	<bean id="hieuxe_service" class="business.service.HieuXeServiceImpl" />
 </beans>

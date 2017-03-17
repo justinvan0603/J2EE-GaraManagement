@@ -1,0 +1,79 @@
+<?page title="Danh sách xe" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<!-- import mutual menu bar -->
+	<include src="menu_bar.zul"></include>
+	<window title="Danh sách thợ" border="normal" height="100%"
+		apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('viewmodels.XeDSViewModel')">
+		<vlayout width="100%">
+			<hlayout style="text-align : left; padding : 4px;">
+				<label value="Tìm kiếm"></label>
+				<combobox readonly="true" id="search_type_combobox"
+					model="@load(vm.searchTypes)">
+					<template name="model">
+						<comboitem label="@load(each)"></comboitem>
+					</template>
+				</combobox>
+				<textbox width="400px" id="search_textbox"></textbox>
+				<button id="searchButton"
+					onClick="@command('filterData', search_string=search_textbox.value , search_index = search_type_combobox.selectedIndex )">
+					Tìm kiếm
+				</button>
+				|
+				<button id="addNew"
+					onClick="@command('addNewVehicle')">
+					Thêm mới
+				</button>
+			</hlayout>
+			<!-- mechanic list area -->
+
+			<listbox hflex="1" mold="paging" pageSize="10"
+				model="@load(vm.listOfVehicel)" width="100%"
+				selectedItem="@bind(vm.selectedXe)">
+				<auxhead>
+					<auxheader colspan="10" class="topic">
+						Thợ
+					</auxheader>
+				</auxhead>
+				<listhead>
+					<listheader label="Biển số" width="150px" />
+					<listheader label="Khách hàng" />
+					<listheader label="Ngày tiếp nhận" width="150px" />
+					<listheader label="Hiệu xe" />
+					<listheader label="Tình trạng" />
+					<listheader label="Hình thức" width="150px" />
+					<listheader label="Số máy" width="150px" />
+					<listheader label="Số khung" width="150px" />
+					<listheader label="Số KM" width="150px" />
+					<listheader label="Thao tác" width="150px" />
+				</listhead>
+				<template name="model" var="e">
+					<listitem>
+						<listcell label="@load(e.bienSoXe)"></listcell>
+						<listcell label="@load(e.maKH)"></listcell>
+						<listcell label="@load(e.inDateStringFormat)"></listcell>
+						<listcell label="@load(e.hieuXe.maHieuXe)"></listcell>
+						<listcell label="@load(e.tinhTrang)"></listcell>
+						<listcell label="@load(e.typeString)"></listcell>
+						<listcell label="@load(e.soMay)"></listcell>
+						<listcell label="@load(e.soKhung)"></listcell>
+						<listcell label="@load(e.soKM)"></listcell>
+						<listcell>
+							<!-- set tool tip is id of vehicle -->
+							<button tooltip="@load(e.bienSoXe)"
+								onClick="@command('seeVehicleDetail', vehicle_id=e.bienSoXe)"
+								image="/images/ic_edit_black_18dp_1x.png">
+							</button>
+							<button
+								image="/images/ic_delete_black_18dp_1x.png"
+								onClick="@command('deleteVehicle' , vehicle_id = e.bienSoXe)">
+							</button>
+						</listcell>
+					</listitem>
+				</template>
+			</listbox>
+		</vlayout>
+
+	</window>
+
+</zk>
