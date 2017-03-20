@@ -6,47 +6,78 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import business.entities.Customer;
 
+import business.entities.NhanVien;
+import business.entities.Xe;
 
 @Repository
-public class CustomerDaoImpl implements GeneralDao<Customer> {
-
+public class NhanVienDaoImpl implements GeneralDao<NhanVien> {
 	@Autowired
 	private SessionFactory sessionFactory;
 
-	@Override
-	public Customer findById(long id, Class<Customer> entityClass) {
-		// TODO Auto-generated method stub
-		// TODO Auto-generated method stub
-		Session session = this.sessionFactory.openSession();
-		Criteria criteria = session.createCriteria(entityClass);
-		criteria.add(Restrictions.eq("MaKH", id));
-		return (Customer) criteria.list().get(0);
+	public void setSessionFactory(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
 	}
+	@Override
+	public NhanVien findById(long id, Class<NhanVien> entityClass) {
+		// TODO Auto-generated method stub
+		Session session = null;
+		Transaction transaction = null;
+		NhanVien result = null;
+		try {
+			session = this.sessionFactory.openSession();
+			transaction = session.beginTransaction();
 
-	
+			result = (NhanVien) session.get(entityClass, id);
+
+			transaction.commit();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			result = null;
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
+		return result;
+	}
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Customer> getAll(Class<Customer> entityClass) {
+	public List<NhanVien> getAll(Class<NhanVien> entityClass) {
 		// TODO Auto-generated method stub
-		Session session = this.sessionFactory.openSession();
-		Criteria criteria = session.createCriteria(entityClass);
-		return criteria.list();
+		Session session = null;
+		Transaction transaction = null;
+		List<NhanVien> result = null;
+		try {
+			session = this.sessionFactory.openSession();
+			transaction = session.beginTransaction();
+			Criteria criteria = session.createCriteria(entityClass);
+			result = criteria.list(); // get all records
+			transaction.commit();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			result = null;
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
+		return result;
 	}
 
 	@Override
-	public List<Customer> query(String query, Class<Customer> entityClass) {
+	public List<NhanVien> query(String query, Class<NhanVien> entityClass) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public boolean update(Long id, Customer newInfor) {
+	public boolean update(Long id, NhanVien newInfor) {
 		// TODO Auto-generated method stub
 		Session session = null;
 		Transaction transaction = null;
@@ -54,15 +85,17 @@ public class CustomerDaoImpl implements GeneralDao<Customer> {
 		try {
 			session = this.sessionFactory.openSession();
 			transaction = session.beginTransaction();
-			Customer customer = (Customer) session.get(Customer.class, id);
-			if (customer != null) {
-				customer.setCmnd(newInfor.getCmnd());
-				customer.setDiachi(newInfor.getDiachi());
-				customer.setHoTen(newInfor.getHoTen());
-				customer.setGioiTinh(newInfor.getGioiTinh());
-				customer.setSdt(newInfor.getSdt());
+			NhanVien nhanvien = (NhanVien) session.get(NhanVien.class, id);
+			if (nhanvien != null) {
+				nhanvien.setUsername(newInfor.getUsername());
+				nhanvien.setPassword(newInfor.getPassword());
+				nhanvien.setMaNhomNguoiDung(newInfor.getMaNhomNguoiDung());
+				nhanvien.setDiachi(newInfor.getDiachi());
+				nhanvien.setHoTen(newInfor.getHoTen());
+				nhanvien.setGioiTinh(newInfor.getGioiTinh());
+				nhanvien.setSdt(newInfor.getSdt());
 				// start to update
-				session.saveOrUpdate(customer);
+				session.saveOrUpdate(nhanvien);
 			}
 			transaction.commit();
 			isSuccess = true;
@@ -79,7 +112,7 @@ public class CustomerDaoImpl implements GeneralDao<Customer> {
 	}
 
 	@Override
-	public boolean delete(Long id, Class<Customer> entity) {
+	public boolean delete(Long id, Class<NhanVien> entity) {
 		// TODO Auto-generated method stub
 		Session session = null;
 		Transaction transaction = null;
@@ -87,12 +120,11 @@ public class CustomerDaoImpl implements GeneralDao<Customer> {
 		try {
 			session = this.sessionFactory.openSession();
 			transaction = session.beginTransaction();
-			Customer customer = (Customer) session.get(entity, id);
-			if (customer != null) {
-				session.delete(customer);
+			Xe xe = (Xe) session.get(entity, id);
+			if (xe != null) {
+				session.delete(xe);
 			}
 			transaction.commit();
-			isSuccess = true;
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -106,7 +138,7 @@ public class CustomerDaoImpl implements GeneralDao<Customer> {
 	}
 
 	@Override
-	public boolean save(Customer newEntity) {
+	public boolean save(NhanVien newEntity) {
 		// TODO Auto-generated method stub
 		Session session = null;
 		Transaction transaction = null;

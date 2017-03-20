@@ -1,0 +1,63 @@
+<?page title="Nhập nhân viên" contentType="text/html;charset=UTF-8"?>
+<zk>
+<include src="menu_bar.zul"></include>
+<window title="Thông tin nhân viên" border="normal"
+		apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('viewmodels.NhanVienAddViewModel')">
+		<vlayout>
+		<hbox pack="center">
+				<label>Username</label>
+				<textbox id="username_textbox" width="400px"
+					constraint="no empty">
+				</textbox>
+			</hbox>
+			<hbox pack="center">
+				<label>Password</label>
+				<textbox type="password" id="password_textbox" width="400px"
+					constraint="no empty">
+				</textbox>
+			</hbox>
+			<hbox pack="center">
+				<label>Họ tên</label>
+				<textbox id="name_textbox" width="400px"
+					constraint="no empty">
+				</textbox>
+			</hbox>
+			<hbox pack="center">
+				<label>Địa chỉ</label>
+				<textbox id="address_textbox" width="400px"
+					constraint="no empty">
+				</textbox>
+			</hbox>
+			<hbox pack="center">
+				<label>Điện thoại</label>
+				<textbox id="phone_textbox" width="400px"
+					constraint="no empty">
+				</textbox>
+			</hbox>
+			<hbox pack="center">
+				<label>Quyền hạn:</label>
+				<combobox model="@load(vm.listNhomNguoiDung)" id="permission_combobox"
+					constraint="no empty" readonly="true">
+					<template name="model">
+						<comboitem label="${each.getTenNhom()}"  ></comboitem>
+					</template>
+				</combobox>
+			</hbox>
+			<hbox pack="center">
+				<label>Giới tính</label>
+				<combobox model="@load(vm.genders)" id="gender_combobox"
+					constraint="no empty" readonly="true">
+					<template name="model">
+						<comboitem label="@load(each)"  ></comboitem>
+					</template>
+				</combobox>
+			</hbox>
+			<button
+				onClick="@command('SaveNhanVien', name =  name_textbox.value , address = address_textbox.value , phone_number = phone_textbox.value,cmnd = CMND_textbox.value, gender = gender_combobox.selectedItem.label, permission = permission_combobox.selectedItem.value, username = username_textbox, password = password_textbox)">
+				Lưu
+			</button>
+		</vlayout>
+
+</window>
+</zk>

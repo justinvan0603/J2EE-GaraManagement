@@ -19,12 +19,15 @@
 
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		
 		<property name="dataSource" ref="dataSource" />
 		<!-- package of models -->
 		<property name="packagesToScan" value="business.entities" />
-
+		
 		<property name="hibernateProperties">
+		
 			<props>
+				
 				<prop key="configurationClass">org.hibernate.cfg.AnnotationConfiguration</prop>
 				<prop key="hibernate.show_sql">true</prop>
 				<prop key="hibernate.format_sql">true</prop>

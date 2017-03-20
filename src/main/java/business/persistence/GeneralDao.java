@@ -22,6 +22,7 @@ public interface GeneralDao<T> {
 	 *            : Class of entity for Hibernate to choose the table
 	 * @return : Entity satisfies the criteria
 	 */
+
 	public T findById(long id, Class<T> entityClass);
 
 	/**

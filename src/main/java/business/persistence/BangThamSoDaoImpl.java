@@ -9,25 +9,31 @@ import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import business.entities.Xe;
+import business.entities.BangThamSo;
+
+
+
 
 @Repository
-public class XeDaoImpl implements GeneralDao<Xe> {
+public class BangThamSoDaoImpl implements GeneralDao<BangThamSo> {
 
 	@Autowired
 	private SessionFactory sessionFactory;
+	public void setSessionFactory(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
+	}
 
-	@Override
-	public Xe findById(long id, Class<Xe> entityClass) {
+
+	public  BangThamSo findByIdString(String id, Class<BangThamSo> entityClass) {
 		// TODO Auto-generated method stub
 		Session session = null;
 		Transaction transaction = null;
-		Xe result = null;
+		BangThamSo result = null;
 		try {
 			session = this.sessionFactory.openSession();
 			transaction = session.beginTransaction();
 
-			result = (Xe) session.get(entityClass, id);
+			result = (BangThamSo) session.get(entityClass, id);
 
 			transaction.commit();
 		} catch (Exception e) {
@@ -41,14 +47,13 @@ public class XeDaoImpl implements GeneralDao<Xe> {
 		}
 		return result;
 	}
-
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Xe> getAll(Class<Xe> entityClass) {
+	public List<BangThamSo> getAll(Class<BangThamSo> entityClass) {
 		// TODO Auto-generated method stub
 		Session session = null;
 		Transaction transaction = null;
-		List<Xe> result = null;
+		List<BangThamSo> result = null;
 		try {
 			session = this.sessionFactory.openSession();
 			transaction = session.beginTransaction();
@@ -68,13 +73,13 @@ public class XeDaoImpl implements GeneralDao<Xe> {
 	}
 
 	@Override
-	public List<Xe> query(String query, Class<Xe> entityClass) {
+	public List<BangThamSo> query(String query, Class<BangThamSo> entityClass) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public boolean update(Long id, Xe newInfor) {
+	public boolean update(Long id, BangThamSo newInfor) {
 		// TODO Auto-generated method stub
 		Session session = null;
 		Transaction transaction = null;
@@ -82,69 +87,14 @@ public class XeDaoImpl implements GeneralDao<Xe> {
 		try {
 			session = this.sessionFactory.openSession();
 			transaction = session.beginTransaction();
-			Xe xe = (Xe) session.get(Xe.class, id);
-			if (xe != null) {
-				xe.setDoiXe(newInfor.getDoiXe());
-				xe.setHieuXe(newInfor.getHieuXe());
-				xe.setHinhThuc(newInfor.getHinhThuc());
-				// khach hang
-				xe.setNgayTiepNhan(newInfor.getNgayTiepNhan());
-				xe.setSoKhung(newInfor.getSoKhung());
-				xe.setSoKM(newInfor.getSoKM());
-				xe.setSoMay(newInfor.getSoMay());
-				xe.setTinhTrang(newInfor.getTinhTrang());
+			BangThamSo bangThamSo = (BangThamSo) session.get(BangThamSo.class, id);
+			if (bangThamSo != null) {
+	
+				bangThamSo.setNoiDung(newInfor.getNoiDung());
+				bangThamSo.setGiaTri(newInfor.getGiaTri());
 				// start to update
-				session.saveOrUpdate(xe);
+				session.saveOrUpdate(bangThamSo);
 			}
-			transaction.commit();
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-			isSuccess = false;
-		} finally {
-			if (session != null && session.isOpen()) {
-				session.close();
-			}
-		}
-		return isSuccess;
-	}
-
-	@Override
-	public boolean delete(Long id, Class<Xe> entity) {
-		// TODO Auto-generated method stub
-		Session session = null;
-		Transaction transaction = null;
-		boolean isSuccess = false;
-		try {
-			session = this.sessionFactory.openSession();
-			transaction = session.beginTransaction();
-			Xe xe = (Xe) session.get(entity, id);
-			if (xe != null) {
-				session.delete(xe);
-			}
-			transaction.commit();
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-			isSuccess = false;
-		} finally {
-			if (session != null && session.isOpen()) {
-				session.close();
-			}
-		}
-		return isSuccess;
-	}
-
-	@Override
-	public boolean save(Xe newEntity) {
-		// TODO Auto-generated method stub
-		Session session = null;
-		Transaction transaction = null;
-		boolean isSuccess = false;
-		try {
-			session = this.sessionFactory.openSession();
-			transaction = session.beginTransaction();
-			session.save(newEntity);
 			transaction.commit();
 			isSuccess = true;
 		} catch (Exception e) {
@@ -160,9 +110,27 @@ public class XeDaoImpl implements GeneralDao<Xe> {
 	}
 
 	@Override
+	public boolean delete(Long id, Class<BangThamSo> entity) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean save(BangThamSo newEntity) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
 	public SessionFactory getSessionFactory() {
 		// TODO Auto-generated method stub
-		return this.sessionFactory;
+		return null;
+	}
+
+	@Override
+	public BangThamSo findById(long id, Class<BangThamSo> entityClass) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

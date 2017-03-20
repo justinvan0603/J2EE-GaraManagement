@@ -14,6 +14,7 @@
 	<bean id="transactionManager"
 		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory" />
+		
 	</bean>
 
 
@@ -43,7 +44,10 @@
 		class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
 
 	<bean id="CRUDService" class="business.service.CRUDServiceImpl" />
+	<bean id="bangthamso_service" class="business.service.BangThamSoServiceImpl" />
 	<!-- service to interact with mechanic data -->
+	<bean id="nhomnguoidung_service" class="business.service.NhomNguoiDungServiceImpl" />
+	<bean id="nhanvien_service" class="business.service.NhanVienServiceImpl" />
 	<bean id="mechanic_service" class="business.service.MechanicServiceImpl" />
 	<bean id="phieutiepnhan_service" class="business.service.PhieuTiepNhanServiceImpl" />
 	<bean id="customer_service" class="business.service.CustomerServiceImpl" />
