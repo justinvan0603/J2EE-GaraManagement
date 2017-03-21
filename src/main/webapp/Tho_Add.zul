@@ -4,26 +4,29 @@
 	<window title="Thông tin thợ mới" border="normal"
 		apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('viewmodels.ThoAddViewModel')">
-		<vlayout>
-			<hbox pack="center">
+		<hbox align="start" style="padding : 16px;">
+			<vbox style="padding : 16px;" xmlns:w="client">
 				<label>Họ tên</label>
 				<textbox id="name_textbox" width="400px"
-					constraint="no empty">
+					constraint="no empty" maxlength="30">
 				</textbox>
-			</hbox>
-			<hbox pack="center">
 				<label>Địa chỉ</label>
 				<textbox id="address_textbox" width="400px"
-					constraint="no empty">
+					constraint="no empty" maxlength="200">
 				</textbox>
-			</hbox>
-			<hbox pack="center">
 				<label>Điện thoại</label>
-				<intbox id="phone_textbox" width="400px"
-					constraint="no empty">
-				</intbox>
-			</hbox>
-			<hbox pack="center">
+				<textbox id="phone_textbox" width="400px"
+					constraint="no empty" maxlength="11">
+					<attribute w:name="doKeyPress_">
+						<![CDATA[
+							function(evt)
+							{
+								if ((evt.which < 48 || evt.which > 57) && evt.which != 8 && evt.which != 0)
+									evt.stop();
+							}
+						]]>
+					</attribute>
+				</textbox>
 				<label>Giới tính</label>
 				<combobox model="@load(vm.genders)" id="gender_combobox"
 					constraint="no empty" readonly="true">
@@ -31,12 +34,12 @@
 						<comboitem label="@load(each)"></comboitem>
 					</template>
 				</combobox>
-			</hbox>
 			<button
 				onClick="@command('saveNewTho', name =  name_textbox.value , address = address_textbox.value , phone_number = phone_textbox.value, gender = gender_combobox.selectedItem.label)">
 				Lưu
-			</button>
-		</vlayout>
+				</button>
+			</vbox>
+		</hbox>
 	</window>
 
 </zk>

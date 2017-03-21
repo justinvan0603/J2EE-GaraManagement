@@ -20,30 +20,46 @@ public class ThoDaoImpl implements GeneralDao<Tho> {
 
 	@Override
 	public Tho findById(long id, Class<Tho> entityClass) {
-		return (Tho) this.sessionFactory.openSession().get(entityClass, id);
+		Session session = null;
+		Transaction transaction = null;
+		Tho result = null;
+		try {
+			session = this.sessionFactory.openSession();
+			transaction = session.beginTransaction();
+			result = (Tho) session.get(entityClass, id);
+			transaction.commit();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			result = null;
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
+		return result;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Tho> getAll(Class<Tho> entityClass) {
 		List<Tho> results = new ArrayList<Tho>();
-		// TODO Auto-generated method stub
 		Session session = null;
 		Transaction transaction = null;
 		try {
 			session = this.sessionFactory.openSession();
-			transaction = session.getTransaction();
+			transaction = session.beginTransaction();
 			Criteria criteria = session.createCriteria(entityClass);
 			results = criteria.list();
 			transaction.commit();
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
+			results = null;
 		} finally {
-			if (session.isOpen()) {
+			if (session != null && session.isOpen()) {
 				session.close();
 			}
 		}
-
 		return results;
 	}
 
@@ -55,44 +71,85 @@ public class ThoDaoImpl implements GeneralDao<Tho> {
 
 	@Override
 	public boolean update(Long id, Tho newInfor) {
-		// TODO Auto-generated method stub
-		return false;
+		Session session = null;
+		Transaction transaction = null;
+		boolean isSuccess = false;
+		try {
+			session = this.sessionFactory.openSession();
+			transaction = session.beginTransaction();
+			Tho tho = (Tho) session.get(Tho.class, id);
+			if (tho != null) {
+				tho.setName(newInfor.getName());
+				tho.setPhone(newInfor.getPhone());
+				tho.setGender(newInfor.getGender());
+				tho.setAddress(newInfor.getAddress());
+				session.saveOrUpdate(tho);
+				isSuccess = true;
+				transaction.commit();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			isSuccess = false;
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
+		return isSuccess;
 	}
 
 	@Override
 	public boolean delete(Long id, Class<Tho> entity) {
-		// TODO Auto-generated method stub
-		return false;
+		Session session = null;
+		Transaction transaction = null;
+		boolean isSuccess = false;
+		try {
+			session = this.sessionFactory.openSession();
+			transaction = session.beginTransaction();
+			Tho tho = (Tho) session.get(entity, id);
+			if (tho != null) {
+				session.delete(tho);
+			}
+			transaction.commit();
+			isSuccess = true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			isSuccess = false;
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
+		return isSuccess;
 	}
 
 	@Override
 	public boolean save(Tho newEntity) {
-		Transaction transaction = null;
 		Session session = null;
-		boolean result = false;
+		Transaction transaction = null;
+		boolean isSuccess = false;
 		try {
 			session = this.sessionFactory.openSession();
-			transaction = session.getTransaction();
-			transaction.begin();
+			transaction = session.beginTransaction();
 			session.save(newEntity);
-			if (!transaction.wasCommitted())
-				transaction.commit();
-			result = true;
+			transaction.commit();
+			isSuccess = true;
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
-			result = false;
+			isSuccess = false;
 		} finally {
-			if (session.isOpen()) {
+			if (session != null && session.isOpen()) {
 				session.close();
 			}
 		}
-
-		return result;
+		return isSuccess;
 	}
 
 	@Override
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
+	
 }

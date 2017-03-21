@@ -1,0 +1,54 @@
+<?page title="Sửa thông tin thợ" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<include src="menu_bar.zul"></include>
+	<window title="Cập nhật thông tin thợ" border="normal"
+		apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('viewmodels.ThoEditViewModel')">
+		<hbox align="start" style="padding : 16px;">
+			<vbox style="padding : 16px;" xmlns:w="client">
+				<textbox id="id_textbox" visible="false"
+					value="@bind(vm.currentTho.id)">
+				</textbox>
+				<label>Họ tên</label>
+				<textbox id="name_textbox" width="400px"
+					constraint="no empty" maxlength="30"
+					value="@bind(vm.currentTho.name)">
+				</textbox>
+				<label>Địa chỉ</label>
+				<textbox id="address_textbox" width="400px"
+					constraint="no empty" maxlength="200"
+					value="@bind(vm.currentTho.address)">
+				</textbox>
+				<label>Điện thoại</label>
+				<textbox id="phone_textbox" width="400px"
+					constraint="no empty" maxlength="11"
+					value="@bind(vm.currentTho.phone)">
+					<attribute w:name="doKeyPress_">
+						<![CDATA[
+							function(evt)
+							{
+								if ((evt.which < 48 || evt.which > 57) && evt.which != 8 && evt.which != 0)
+									evt.stop();
+							}
+						]]>
+					</attribute>
+				</textbox>
+				<label>Giới tính</label>
+				<combobox model="@load(vm.genders)" 
+					id="gender_combobox"
+					constraint="no empty" readonly="true"
+					value="@bind(vm.currentGender)"
+					selectedItem="@bind(vm.currentGender)">
+					<template name="model">
+						<comboitem label="@load(each)"></comboitem>
+					</template>
+				</combobox>
+				<button
+				onClick="@command('updateTho', id =  id_textbox.value ,name =  name_textbox.value , address = address_textbox.value , phone_number = phone_textbox.value, gender = gender_combobox.selectedItem.label)">
+				Cập nhật
+				</button>
+			</vbox>
+		</hbox>
+	</window>
+
+</zk>

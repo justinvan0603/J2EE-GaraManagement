@@ -1,6 +1,5 @@
 package viewmodels;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.zkoss.bind.annotation.BindingParam;
@@ -8,19 +7,22 @@ import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zkplus.spring.SpringUtil;
+import org.zkoss.zul.Messagebox;
 
 import business.entities.Tho;
 import business.service.ThoServiceImpl;;
 
 public class ThoDSViewModel {
 	
-	private static final List<String> SEARCH_TYPES = new ArrayList<String>();
+	// parameter name of selected id for passing via Executions class
+	public static final String SELECTED_THO_ID = "selected_tho_id";
+	// array of search types string for this page
+	private static final String[] SEARCH_TYPES = new String[] {
 
-	static {
-		SEARCH_TYPES.add("Họ tên");
-	}
+				"Tất cả", "Tên", "Số điện thoại", "Địa chỉ" };
 	
 	@WireVariable
 	private ThoServiceImpl thoService;
@@ -44,15 +46,70 @@ public class ThoDSViewModel {
 	@NotifyChange("listOfTho")
 	public void filterData(@BindingParam("search_string") String searchString,
 			@BindingParam("combobox_selected_index") int selectedIndex) {
-		// if search type is name
-		if (selectedIndex == 0) {
-			this.listOfTho = this.thoService.findByName(searchString);
+		switch (selectedIndex) {
+		case 0: // search by id of receive header
+			this.listOfTho = this.thoService.getAll(Tho.class);
+			break;
+		case 1: // search by id of receive header
+			if (!searchString.isEmpty()) {
+				this.listOfTho.clear(); // clear all items
+				this.listOfTho = this.thoService.find(searchString, null, null);
+			}
+			break;
+		case 2: //
+			if (!searchString.isEmpty()) {
+				this.listOfTho.clear(); // clear all items
+				this.listOfTho = this.thoService.find(null, searchString, null);
+			}
+			break;
+		case 3: //
+			if (!searchString.isEmpty()) {
+				this.listOfTho.clear(); // clear all items
+				this.listOfTho = this.thoService.find(null, null, searchString);
+			}
+			break;
+		default:
+			break;
 		}
 	}
 	
 	@Command
+	public void editTho(@BindingParam("tho_id") long id) {
+		// save session the selected id
+		Sessions.getCurrent().setAttribute(SELECTED_THO_ID, id);
+		Executions.sendRedirect("./Tho_Edit.zul");
+	}
+
+	@Command
+	@NotifyChange("listOfTho")
+	public void deleteTho(@BindingParam("tho_id") long id) {
+
+		 if (this.thoService.delete(id, Tho.class)) {
+ 			this.listOfTho = this.thoService.getAll(Tho.class);
+ 		} else {
+ 			Messagebox.show("Lỗi khi xoá");
+ 		}
+	}
+	
+//	@Command
+//	@NotifyChange("listOfTho")
+//	public void confirmDeleteTho(@BindingParam("tho_id") final long id) {
+//
+//		 Messagebox.show("Bạn có chắc chắn muốn xoá?", "Thông báo", Messagebox.YES | Messagebox.NO, 
+//			        Messagebox.QUESTION, new EventListener<Event>() {
+//			            @Override
+//			            public void onEvent(final Event evt) throws InterruptedException {
+//			                if (Messagebox.ON_YES.equals(evt.getName())) {
+//			                    deleteTho(id);
+//			                }
+//			            }
+//			        }
+//			    );
+//	}
+	
+	@Command
 	public void addNewThoRedirect() {
-		Executions.sendRedirect("./new_mechanic.zul");
+		Executions.sendRedirect("./Tho_Add.zul");
 	}
 
 	public List<Tho> getListOfTho() {
@@ -77,7 +134,7 @@ public class ThoDSViewModel {
 	 * 
 	 * @return : {@link List} of {@link String} search types
 	 */
-	public List<String> getSearchTypes() {
+	public String[] getSearchTypes() {
 		return SEARCH_TYPES;
 	}
 	

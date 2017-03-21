@@ -3,7 +3,8 @@ package business.service;
 import java.util.List;
 
 import org.hibernate.Criteria;
-import org.hibernate.SessionFactory;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,15 +41,13 @@ public class ThoServiceImpl implements GeneralService<Tho>{
 	@Override
 	@Transactional
 	public boolean update(Long id, Tho newInfor) {
-		// TODO Auto-generated method stub
-		return false;
+		return thoDaoImpl.update(id, newInfor);
 	}
 
 	@Override
 	@Transactional
 	public boolean delete(Long id, Class<Tho> entity) {
-		// TODO Auto-generated method stub
-		return false;
+		return thoDaoImpl.delete(id, entity);
 	}
 
 	@Override
@@ -58,12 +57,34 @@ public class ThoServiceImpl implements GeneralService<Tho>{
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Tho> findByName(String name) {
-		// get Session factory from DAO object to interact with persistence
-		// layer
-		SessionFactory sessionFactory = this.thoDaoImpl.getSessionFactory();
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Tho.class);
-		criteria.add(Restrictions.like("name", "%" + name + "%"));
-		return criteria.list();
+	public List<Tho> find(String name, String sdt, String diachi) {
+		Session session = null;
+		Transaction transaction = null;
+		List<Tho> result = null;
+		try {
+			session = this.thoDaoImpl.getSessionFactory().openSession();
+			transaction = session.beginTransaction();
+			Criteria criteria = session.createCriteria(Tho.class);
+			if (name != null){
+				criteria.add(Restrictions.like("name", "%" + name + "%"));
+			} else if (sdt != null){
+				criteria.add(Restrictions.like("phone", "%" + sdt + "%"));
+			} else {
+				criteria.add(Restrictions.like("address", "%" + diachi + "%"));
+			}
+			result = criteria.list(); // get all records
+			transaction.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			result = null;
+		}
+		finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
+		return result;
 	}
+	
+	
 }
