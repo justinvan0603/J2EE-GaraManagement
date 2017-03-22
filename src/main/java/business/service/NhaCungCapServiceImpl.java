@@ -1,5 +1,6 @@
 package business.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -90,12 +91,12 @@ public class NhaCungCapServiceImpl implements GeneralService<NhaCungCap> {
 		return result;
 	}
 	
-	@SuppressWarnings({ "unchecked", "null" })
+	@SuppressWarnings({ "unchecked" })
 	public List<String> getAllNhomNCC() {
 		Session session = null;
 		Transaction transaction = null;
 		List<NhomNhaCungCap> result = null;
-		List<String> listNCC = null;
+		List<String> listNCC = new ArrayList<String>();
 		try {
 			session = this.nhaCungCapDaoImpl.getSessionFactory().openSession();
 			transaction = session.beginTransaction();

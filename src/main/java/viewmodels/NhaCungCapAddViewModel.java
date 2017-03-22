@@ -1,6 +1,5 @@
 package viewmodels;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.zkoss.bind.annotation.BindingParam;
@@ -12,19 +11,23 @@ import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.Messagebox;
 
 import business.entities.NhaCungCap;
+import business.entities.NhomNhaCungCap;
 import business.service.NhaCungCapServiceImpl;
+import business.service.NhomNhaCungCapServiceImpl;
 
 public class NhaCungCapAddViewModel {
 
 	@WireVariable
 	private NhaCungCapServiceImpl nccService;
-	private static List<String> LOAINCC = new ArrayList<String>();
+	private NhomNhaCungCapServiceImpl nhomNCCService;
+	private List<NhomNhaCungCap> nhomNhaCungCap;
 	
 	@Init
 	public void init() {
 		// get service bean from Spring
 		this.nccService = (NhaCungCapServiceImpl) SpringUtil.getBean("ncc_service");
-		//LOAINCC = this.nccService.getAllNhomNCC();
+		this.nhomNCCService = (NhomNhaCungCapServiceImpl) SpringUtil.getBean("nhomncc_service");
+		this.setNhomNhaCungCap(this.nhomNCCService.getAll(NhomNhaCungCap.class));
 	}
 	
 	@Command
@@ -53,12 +56,12 @@ public class NhaCungCapAddViewModel {
 
 	}
 
-	/**
-	 * Binding values to combobox
-	 * 
-	 * @return
-	 */
-	public List<String> getLoaiNCC() {
-		return LOAINCC;
+	public List<NhomNhaCungCap> getNhomNhaCungCap() {
+		return nhomNhaCungCap;
 	}
+
+	public void setNhomNhaCungCap(List<NhomNhaCungCap> nhomNhaCungCap) {
+		this.nhomNhaCungCap = nhomNhaCungCap;
+	}
+	
 }
