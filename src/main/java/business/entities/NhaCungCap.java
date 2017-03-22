@@ -14,15 +14,19 @@ public class NhaCungCap {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "MaNCC")
-	int MaNCC;
+	private int MaNCC;
+	
 	@Column(name = "TenNCC")
-	String TenNCC;
+	private String TenNCC;
+	
 	@Column(name = "DiaChi")
-	String DiaChi;
+	private String DiaChi;
+	
 	@Column(name = "SDT")
-	String SDT;
+	private String SDT;
+	
 	@Column(name = "NhomNCC")
-	String NhomNCC;
+	private String NhomNCC;
 	
 	public int getMaNCC() {
 		return MaNCC;

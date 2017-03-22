@@ -13,7 +13,7 @@ import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.Messagebox;
 
 import business.entities.Tho;
-import business.service.ThoServiceImpl;;
+import business.service.ThoServiceImpl;
 
 public class ThoDSViewModel {
 	

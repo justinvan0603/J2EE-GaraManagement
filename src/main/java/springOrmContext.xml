@@ -54,4 +54,5 @@
 	<bean id="tho_service" class="business.service.ThoServiceImpl" />
 	<bean id="xe_service" class="business.service.XeServiceImpl" />
 	<bean id="hieuxe_service" class="business.service.HieuXeServiceImpl" />
+	<bean id="nhacungcap_service" class="business.service.NhaCungCapServiceImpl" />
 </beans>

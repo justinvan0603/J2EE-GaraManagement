@@ -10,23 +10,23 @@ import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import business.entities.Tho;
+import business.entities.NhaCungCap;
 
 @Repository
-public class ThoDaoImpl implements GeneralDao<Tho> {
+public class NhaCungCapDaoImpl implements GeneralDao<NhaCungCap> {
 
 	@Autowired
 	private SessionFactory sessionFactory;
-
+	
 	@Override
-	public Tho findById(long id, Class<Tho> entityClass) {
+	public NhaCungCap findById(long id, Class<NhaCungCap> entityClass) {
 		Session session = null;
 		Transaction transaction = null;
-		Tho result = null;
+		NhaCungCap result = null;
 		try {
 			session = this.sessionFactory.openSession();
 			transaction = session.beginTransaction();
-			result = (Tho) session.get(entityClass, id);
+			result = (NhaCungCap) session.get(entityClass, id);
 			transaction.commit();
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -42,8 +42,8 @@ public class ThoDaoImpl implements GeneralDao<Tho> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Tho> getAll(Class<Tho> entityClass) {
-		List<Tho> results = new ArrayList<Tho>();
+	public List<NhaCungCap> getAll(Class<NhaCungCap> entityClass) {
+		List<NhaCungCap> results = new ArrayList<NhaCungCap>();
 		Session session = null;
 		Transaction transaction = null;
 		try {
@@ -64,26 +64,26 @@ public class ThoDaoImpl implements GeneralDao<Tho> {
 	}
 
 	@Override
-	public List<Tho> query(String query, Class<Tho> entityClass) {
+	public List<NhaCungCap> query(String query, Class<NhaCungCap> entityClass) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public boolean update(Long id, Tho newInfor) {
+	public boolean update(Long id, NhaCungCap newInfor) {
 		Session session = null;
 		Transaction transaction = null;
 		boolean isSuccess = false;
 		try {
 			session = this.sessionFactory.openSession();
 			transaction = session.beginTransaction();
-			Tho tho = (Tho) session.get(Tho.class, id);
-			if (tho != null) {
-				tho.setName(newInfor.getName());
-				tho.setPhone(newInfor.getPhone());
-				tho.setGender(newInfor.getGender());
-				tho.setAddress(newInfor.getAddress());
-				session.saveOrUpdate(tho);
+			NhaCungCap ncc = (NhaCungCap) session.get(NhaCungCap.class, id);
+			if (ncc != null) {
+				ncc.setTenNCC(newInfor.getTenNCC());
+				ncc.setSDT(newInfor.getSDT());
+				ncc.setDiaChi(newInfor.getDiaChi());
+				ncc.setNhomNCC(newInfor.getNhomNCC());
+				session.saveOrUpdate(ncc);
 				isSuccess = true;
 				transaction.commit();
 			}
@@ -99,16 +99,16 @@ public class ThoDaoImpl implements GeneralDao<Tho> {
 	}
 
 	@Override
-	public boolean delete(Long id, Class<Tho> entity) {
+	public boolean delete(Long id, Class<NhaCungCap> entity) {
 		Session session = null;
 		Transaction transaction = null;
 		boolean isSuccess = false;
 		try {
 			session = this.sessionFactory.openSession();
 			transaction = session.beginTransaction();
-			Tho tho = (Tho) session.get(entity, id);
-			if (tho != null) {
-				session.delete(tho);
+			NhaCungCap ncc = (NhaCungCap) session.get(entity, id);
+			if (ncc != null) {
+				session.delete(ncc);
 			}
 			transaction.commit();
 			isSuccess = true;
@@ -125,7 +125,7 @@ public class ThoDaoImpl implements GeneralDao<Tho> {
 	}
 
 	@Override
-	public boolean save(Tho newEntity) {
+	public boolean save(NhaCungCap newEntity) {
 		Session session = null;
 		Transaction transaction = null;
 		boolean isSuccess = false;
@@ -149,7 +149,8 @@ public class ThoDaoImpl implements GeneralDao<Tho> {
 
 	@Override
 	public SessionFactory getSessionFactory() {
-		return sessionFactory;
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }
