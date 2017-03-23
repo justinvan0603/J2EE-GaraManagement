@@ -16,25 +16,29 @@ public class BangThamSoEditViewModel {
 	@WireVariable
 	private BangThamSoServiceImpl bangThamSoService;
 	private BangThamSo currentThamSo;
+
 	public BangThamSoServiceImpl getBangThamSoService() {
 		return bangThamSoService;
 	}
+
 	public void setBangThamSoService(BangThamSoServiceImpl bangThamSoService) {
 		this.bangThamSoService = bangThamSoService;
 	}
+
 	public BangThamSo getCurrentThamSo() {
 		return currentThamSo;
 	}
+
 	public void setCurrentThamSo(BangThamSo currentThamSo) {
 		this.currentThamSo = currentThamSo;
 	}
+
 	@Init
 	public void init() {
 		this.bangThamSoService = (BangThamSoServiceImpl) SpringUtil.getBean("bangthamso_service");
 		String thamsoId = (String) Sessions.getCurrent().getAttribute(BangThamSoDSViewModel.SELECTED_THAMSO);
-		this.currentThamSo = this.bangThamSoService.findById(thamsoId, BangThamSo.class);
+		this.currentThamSo = this.bangThamSoService.findById(Long.parseLong(thamsoId), BangThamSo.class);
 
-		
 	}
-	
+
 }

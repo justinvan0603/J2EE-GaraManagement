@@ -104,6 +104,7 @@ public class XeServiceImpl implements GeneralService<Xe> {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
+	@Transactional
 	public List<Xe> filterByDate(Date inDate) {
 		Session session = null;
 		Transaction transaction = null;
@@ -132,6 +133,7 @@ public class XeServiceImpl implements GeneralService<Xe> {
 	 * @param lincensePlate
 	 * @return
 	 */
+	@Transactional
 	public Xe findByLicensePlate(String lincensePlate) {
 		Session session = null;
 		Transaction transaction = null;
@@ -162,6 +164,7 @@ public class XeServiceImpl implements GeneralService<Xe> {
 	 * @param newInfor
 	 * @return
 	 */
+	@Transactional
 	public boolean update(String bienSo, Xe newInfor) {
 		// TODO Auto-generated method stub
 		Session session = null;
@@ -196,6 +199,7 @@ public class XeServiceImpl implements GeneralService<Xe> {
 		return isSuccess;
 	}
 
+	@Transactional
 	public boolean delete(String bienSo) {
 		// TODO Auto-generated method stub
 		Session session = null;
@@ -220,6 +224,31 @@ public class XeServiceImpl implements GeneralService<Xe> {
 			}
 		}
 		return isSuccess;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public List<Xe> loadByCustomerId(Integer customerId) {
+		Session session = null;
+		Transaction transaction = null;
+		List<Xe> result = null;
+		try {
+			session = this.xeDaoImpl.getSessionFactory().openSession();
+			transaction = session.beginTransaction();
+			Criteria criteria = session.createCriteria(Xe.class);
+			criteria.add(Restrictions.eq("maKH", customerId));
+			result = criteria.list(); // get all records
+			transaction.commit();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			result = null;
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
+		return result;
 	}
 
 }

@@ -1,5 +1,6 @@
 package business.service;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import business.entities.Customer;
-
 
 import business.persistence.GeneralDao;
 
@@ -46,20 +46,17 @@ public class CustomerServiceImpl implements GeneralService<Customer> {
 	public boolean update(Long id, Customer newInfor) {
 		return this.customerDaoImpl.update(id, newInfor);
 		// TODO Auto-generated method stub
-		//return false;
+		// return false;
 	}
 
 	@Override
 	@Transactional
 	public boolean delete(Long id, Class<Customer> entity) {
 		// TODO Auto-generated method stub
-		try
-		{
+		try {
 			return this.customerDaoImpl.delete(id, entity);
-			//return true;
-		}
-		catch(Exception ex)
-		{
+			// return true;
+		} catch (Exception ex) {
 			return false;
 		}
 	}
@@ -69,9 +66,9 @@ public class CustomerServiceImpl implements GeneralService<Customer> {
 	public boolean save(Customer newEntity) {
 		// TODO Auto-generated method stub
 		return this.customerDaoImpl.save(newEntity);
-		//return false;
+		// return false;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List<Customer> findByName(String name) {
 		// get Session factory from DAO object to interact with persistence
@@ -81,6 +78,7 @@ public class CustomerServiceImpl implements GeneralService<Customer> {
 		criteria.add(Restrictions.like("HoTen", "%" + name + "%"));
 		return criteria.list();
 	}
+
 	@SuppressWarnings("unchecked")
 	public List<Customer> findByPhone(String phone) {
 		// get Session factory from DAO object to interact with persistence
@@ -88,10 +86,10 @@ public class CustomerServiceImpl implements GeneralService<Customer> {
 		SessionFactory sessionFactory = this.customerDaoImpl.getSessionFactory();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Customer.class);
 		criteria.add(Restrictions.like("Sdt", "%" + phone + "%"));
-		
-		
+
 		return criteria.list();
 	}
+
 	@SuppressWarnings("unchecked")
 	public List<Customer> findByCMND(String CMND) {
 		// get Session factory from DAO object to interact with persistence
@@ -99,18 +97,30 @@ public class CustomerServiceImpl implements GeneralService<Customer> {
 		SessionFactory sessionFactory = this.customerDaoImpl.getSessionFactory();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Customer.class);
 		criteria.add(Restrictions.like("Cmnd", "%" + CMND + "%"));
-		
+
 		return criteria.list();
 	}
+
 	@SuppressWarnings("unchecked")
 	public List<Customer> findByAddress(String Address) {
 		// get Session factory from DAO object to interact with persistence
 		// layer
 		SessionFactory sessionFactory = this.customerDaoImpl.getSessionFactory();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Customer.class);
-		
+
 		criteria.add(Restrictions.like("Diachi", "%" + Address + "%"));
 		return criteria.list();
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public Long getLastedId() {
+		SessionFactory sessionFactory = this.customerDaoImpl.getSessionFactory();
+		BigInteger result = (BigInteger) sessionFactory.openSession()
+				.createSQLQuery("Select count(last_insert_id()) FROM khachhang;").uniqueResult();
+		return result.longValue();
 	}
 
 }

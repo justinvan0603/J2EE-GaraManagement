@@ -7,24 +7,51 @@
 		<hlayout style="padding : 16px;">
 			<!-- Customer information box -->
 			<vbox style="padding : 16px;">
+				<label>Ngày lập</label>
+				<datebox constraint="no empty" id="datebox_ngaylap"
+					readonly="true" buttonVisible="false"
+					value="@save(vm.phieuTiepNhan.creationDate, before='luuPhieuTiepNhan') @save(vm.xe.ngayTiepNhan, before='luuPhieuTiepNhan') @bind(vm.currentDate)"
+					width="250px">
+				</datebox>
 				<label>Tên khách hàng</label>
 				<textbox constraint="no empty" id="textbox_tenkhachhang"
+					value="@save(vm.customer.hoTen, before='luuPhieuTiepNhan')"
 					width="250px">
 				</textbox>
 				<label>Địa chỉ</label>
 				<textbox constraint="no empty" id="textbox_diachi"
+					value="@save(vm.customer.diachi, before='luuPhieuTiepNhan')"
 					rows="3" width="250px">
 				</textbox>
+				<label>Số điện thoại</label>
+				<intbox constraint="no empty" id="textbox_sdt"
+					value="@save(vm.customer.sdt, before='luuPhieuTiepNhan')"
+					width="250px">
+				</intbox>
+				<label>Số CMND</label>
+				<intbox constraint="no empty" id="textbox_cmnd"
+					value="@save(vm.customer.cmnd, before='luuPhieuTiepNhan')"
+					width="250px">
+				</intbox>
+				<label>Giới tính</label>
+				<combobox id="combobox_gioitinh" width="250px"
+					onSelect="@command('onComboboxGenderChanged' , gender_boolean = self.selectedItem.value)"
+					readonly="true">
+					<comboitem value="@bind(true)" label="Nam" />
+					<comboitem value="@bind(false)" label="Nữ" />
+				</combobox>
 			</vbox>
 
 			<!-- vehicle information box -->
 			<vbox style="padding : 16px;">
 				<label>Biển số xe</label>
 				<textbox constraint="no empty" id="textbox_biensoxe"
+					value="@save(vm.phieuTiepNhan.licensePlate, before='luuPhieuTiepNhan') @save(vm.xe.bienSoXe, before='luuPhieuTiepNhan') "
 					width="250px">
 				</textbox>
 				<label>Hiệu xe</label>
 				<combobox id="cmbHieuXe" width="250px"
+					onSelect="@command('onVehicleTypesComboboxChanged', vehicle_type = self.selectedItem.value)"
 					model="@load(vm.listOfHieuXes)" readonly="true">
 					<template name="model">
 						<comboitem value="@load(each.maHieuXe)"
@@ -32,28 +59,53 @@
 					</template>
 				</combobox>
 				<label>Số khung</label>
-				<textbox id="textbox_sokhung" width="250px"></textbox>
-				<label>Số máy</label>
-				<textbox id="textbox_somay" width="250px"></textbox>
-				<label>Số KM</label>
-				<intbox id="textbox_sokm" width="250px"></intbox>
-				<label>Tình trạng</label>
-				<textbox id="textbox_tinhtrang" rows="5"
+				<textbox id="textbox_sokhung"
+					value=" @save(vm.xe.soKhung, before='luuPhieuTiepNhan')"
 					width="250px">
 				</textbox>
+				<label>Số máy</label>
+				<textbox id="textbox_somay"
+					value=" @save(vm.xe.soMay, before='luuPhieuTiepNhan')"
+					width="250px">
+				</textbox>
+				<label>Số KM</label>
+				<intbox id="textbox_sokm"
+					value="@save(vm.xe.soKM, before='luuPhieuTiepNhan')"
+					width="250px">
+				</intbox>
+				<label>Tình trạng</label>
+				<textbox id="textbox_tinhtrang"
+					value=" @save ( vm.xe.tinhTrang, before='luuPhieuTiepNhan')"
+					rows="5" width="250px">
+				</textbox>
 				<label>Đời xe</label>
-				<intbox id="textbox_doixe" width="250px"></intbox>
+				<intbox id="textbox_doixe"
+					value=" @save ( vm.xe.doiXe, before='luuPhieuTiepNhan')"
+					width="250px">
+				</intbox>
 				<!-- update button -->
 			</vbox>
-			<button
+			<vbox>
+				<label>Ngày trả</label>
+				<datebox constraint="no empty" id="datebox_ngaytraxe" 
+					value="@save(vm.phieuTiepNhan.givebackDate)" width="250px">
+				</datebox>
+				<button onClick="@command('luuPhieuTiepNhan')">
+					Lưu
+				</button>
+			</vbox>
+			<!-- 
+				<button
 				onClick="@command('saveNewCustomerVehicle', bien_so = textbox_biensoxe.text,ma_khachhang = combobox_khachhang.selectedItem.value,in_date = in_date_box.value, hieu_xe = cmbHieuXe.value,  
-					so_khung = textbox_sokhung.text, 
-					so_may = textbox_somay.text,
-					so_km = textbox_sokm.value,
-					tinh_trang = textbox_tinhtrang.text,
-					doi_xe =textbox_doixe.text )">
+				so_khung = textbox_sokhung.text, 
+				so_may = textbox_somay.text,
+				so_km = textbox_sokm.value,
+				tinh_trang = textbox_tinhtrang.text,
+				doi_xe =textbox_doixe.text )">
 				Lưu
-			</button>
+				</button>
+			-->
+
 		</hlayout>
 	</window>
 </zk>

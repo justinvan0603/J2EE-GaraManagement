@@ -175,4 +175,11 @@ public class Xe {
 		return StringFormatUtil.shortDateTime(this.ngayTiepNhan);
 	}
 
+	@Override
+	public String toString() {
+		return "Xe [bienSoXe=" + bienSoXe + ", maKH=" + maKH + ", ngayTiepNhan=" + ngayTiepNhan + ", tinhTrang="
+				+ tinhTrang + ", hinhThuc=" + hinhThuc + ", soMay=" + soMay + ", soKhung=" + soKhung + ", doiXe="
+				+ doiXe + ", soKM=" + soKM + ", hieuXeReference=" + hieuXeReference + ", hieuXe=" + hieuXe + "]";
+	}
+
 }

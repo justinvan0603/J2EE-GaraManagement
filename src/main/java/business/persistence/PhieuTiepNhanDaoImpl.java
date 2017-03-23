@@ -144,8 +144,8 @@ public class PhieuTiepNhanDaoImpl implements GeneralDao<PhieuTiepNhan> {
 			transaction = session.beginTransaction();
 			// find the entity to be deleted
 			session.save(newEntity);
-			isSuccess = true;
 			transaction.commit();
+			isSuccess = true;
 		} catch (Exception e) {
 			// TODO: handle exception
 			isSuccess = false;

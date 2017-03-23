@@ -28,7 +28,7 @@
 				</button>
 				|
 				<button id="button_add_from_frequenter"
-					onClick="@command('addNewHeaderFromFrequenterr')">
+					onClick="@command('addNewHeaderFromFrequenter')">
 					Thêm mới từ khách quen
 				</button>
 			</hlayout>

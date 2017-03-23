@@ -14,7 +14,7 @@ public class Customer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "MaKH")
-	
+
 	long MaKH;
 	@Column(name = "HoTen")
 	String HoTen;
@@ -88,6 +88,12 @@ public class Customer {
 
 	public void setGioiTinh(boolean gioiTinh) {
 		GioiTinh = gioiTinh;
+	}
+
+	@Override
+	public String toString() {
+		return "Customer [MaKH=" + MaKH + ", HoTen=" + HoTen + ", Cmnd=" + Cmnd + ", Sdt=" + Sdt + ", Diachi=" + Diachi
+				+ ", SoTienNo=" + SoTienNo + ", GioiTinh=" + GioiTinh + "]";
 	}
 
 }
