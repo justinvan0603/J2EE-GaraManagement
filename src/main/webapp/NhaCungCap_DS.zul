@@ -42,12 +42,12 @@
 					<listitem>
 						<listcell label="@load(e.maNCC)" visible="false"></listcell>
 						<listcell label="@load(e.tenNCC)"></listcell>
-						<listcell label="@load(e.sDT)"></listcell>
+						<listcell label="@load(e.soDienThoai)"></listcell>
 						<listcell label="@load(e.diaChi)"></listcell>
 						<listcell label="@load(e.nhomNCC)">
 						</listcell>
 						<listcell>
-							<button tooltip="@load(e.id)"
+							<button tooltip="@load(e.maNCC)"
 								onClick="@command('editNCC', ncc_id=e.maNCC)"
 								image="/images/ic_edit_black_18dp_1x.png">
 							</button>

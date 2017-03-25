@@ -80,7 +80,7 @@ public class NhaCungCapDaoImpl implements GeneralDao<NhaCungCap> {
 			NhaCungCap ncc = (NhaCungCap) session.get(NhaCungCap.class, id);
 			if (ncc != null) {
 				ncc.setTenNCC(newInfor.getTenNCC());
-				ncc.setSDT(newInfor.getSDT());
+				ncc.setSoDienThoai(newInfor.getSoDienThoai());
 				ncc.setDiaChi(newInfor.getDiaChi());
 				ncc.setNhomNCC(newInfor.getNhomNCC());
 				session.saveOrUpdate(ncc);
@@ -150,7 +150,7 @@ public class NhaCungCapDaoImpl implements GeneralDao<NhaCungCap> {
 	@Override
 	public SessionFactory getSessionFactory() {
 		// TODO Auto-generated method stub
-		return null;
+		return sessionFactory;
 	}
 	
 }

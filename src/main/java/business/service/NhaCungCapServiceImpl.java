@@ -62,7 +62,7 @@ public class NhaCungCapServiceImpl implements GeneralService<NhaCungCap> {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<NhaCungCap> find(String name, String sdt, String diachi) {
+	public List<NhaCungCap> find(String name, String sdt, String diachi, String tennhom) {
 		Session session = null;
 		Transaction transaction = null;
 		List<NhaCungCap> result = null;
@@ -73,9 +73,11 @@ public class NhaCungCapServiceImpl implements GeneralService<NhaCungCap> {
 			if (name != null){
 				criteria.add(Restrictions.like("TenNCC", "%" + name + "%"));
 			} else if (sdt != null){
-				criteria.add(Restrictions.like("SDT", "%" + sdt + "%"));
-			} else {
+				criteria.add(Restrictions.like("SoDienThoai", "%" + sdt + "%"));
+			} else if (diachi != null){
 				criteria.add(Restrictions.like("DiaChi", "%" + diachi + "%"));
+			} else {
+				criteria.add(Restrictions.like("NhomNCC", "%" + tennhom + "%"));
 			}
 			result = criteria.list(); // get all records
 			transaction.commit();

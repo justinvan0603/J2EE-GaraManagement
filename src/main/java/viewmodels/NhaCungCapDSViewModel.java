@@ -22,7 +22,7 @@ public class NhaCungCapDSViewModel {
 	// array of search types string for this page
 	private static final String[] SEARCH_TYPES = new String[] {
 
-				"Tất cả", "Tên", "Số điện thoại", "Địa chỉ" };
+				"Tất cả", "Tên", "Số điện thoại", "Địa chỉ", "Tên nhóm" };
 	
 	@WireVariable
 	private NhaCungCapServiceImpl nccService;
@@ -52,19 +52,25 @@ public class NhaCungCapDSViewModel {
 		case 1: // search by id of receive header
 			if (!searchString.isEmpty()) {
 				this.listOfNCC.clear(); // clear all items
-				this.listOfNCC = this.nccService.find(searchString, null, null);
+				this.listOfNCC = this.nccService.find(searchString, null, null,null);
 			}
 			break;
 		case 2: //
 			if (!searchString.isEmpty()) {
 				this.listOfNCC.clear(); // clear all items
-				this.listOfNCC = this.nccService.find(null, searchString, null);
+				this.listOfNCC = this.nccService.find(null, searchString, null,null);
 			}
 			break;
 		case 3: //
 			if (!searchString.isEmpty()) {
 				this.listOfNCC.clear(); // clear all items
-				this.listOfNCC = this.nccService.find(null, null, searchString);
+				this.listOfNCC = this.nccService.find(null, null, searchString,null);
+			}
+			break;
+		case 4: //
+			if (!searchString.isEmpty()) {
+				this.listOfNCC.clear(); // clear all items
+				this.listOfNCC = this.nccService.find(null, null, null, searchString);
 			}
 			break;
 		default:
@@ -80,7 +86,7 @@ public class NhaCungCapDSViewModel {
 	}
 
 	@Command
-	@NotifyChange("listOfTho")
+	@NotifyChange("listOfNCC")
 	public void deleteNCC(@BindingParam("ncc_id") long id) {
 
 		 if (this.nccService.delete(id, NhaCungCap.class)) {

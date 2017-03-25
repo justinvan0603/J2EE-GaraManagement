@@ -14,7 +14,7 @@ public class NhaCungCap {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "MaNCC")
-	private int MaNCC;
+	private long MaNCC;
 	
 	@Column(name = "TenNCC")
 	private String TenNCC;
@@ -23,12 +23,12 @@ public class NhaCungCap {
 	private String DiaChi;
 	
 	@Column(name = "SDT")
-	private String SDT;
+	private String SoDienThoai;
 	
 	@Column(name = "NhomNCC")
 	private String NhomNCC;
 	
-	public int getMaNCC() {
+	public long getMaNCC() {
 		return MaNCC;
 	}
 	public void setMaNCC(int maNCC) {
@@ -46,16 +46,17 @@ public class NhaCungCap {
 	public void setDiaChi(String diaChi) {
 		DiaChi = diaChi;
 	}
-	public String getSDT() {
-		return SDT;
-	}
-	public void setSDT(String sDT) {
-		SDT = sDT;
-	}
 	public String getNhomNCC() {
 		return NhomNCC;
 	}
 	public void setNhomNCC(String nhomNCC) {
 		NhomNCC = nhomNCC;
 	}
+	public String getSoDienThoai() {
+		return SoDienThoai;
+	}
+	public void setSoDienThoai(String soDienThoai) {
+		SoDienThoai = soDienThoai;
+	}
+	
 }

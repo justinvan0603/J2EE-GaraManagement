@@ -1,0 +1,54 @@
+<?page title="Cập nhật thông tin nhà cung cấp" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<include src="menu_bar.zul"></include>
+	<window title="Cập nhật thông tin nhà cung cấp" border="normal"
+		apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('viewmodels.NhaCungCapEditViewModel')">
+		<hbox align="start" style="padding : 16px;">
+			<vbox style="padding : 16px;" xmlns:w="client">
+				<textbox id="id_textbox" width="400px" visible="false"
+					constraint="no empty" maxlength="30"
+					value="@bind(vm.currentNCC.maNCC)">
+				</textbox>
+				<label>Tên</label>
+				<textbox id="name_textbox" width="400px"
+					constraint="no empty" maxlength="100"
+					value="@bind(vm.currentNCC.tenNCC)">
+				</textbox>
+				<label>Địa chỉ</label>
+				<textbox id="address_textbox" width="400px"
+					constraint="no empty" maxlength="200"
+					value="@bind(vm.currentNCC.diaChi)">
+				</textbox>
+				<label>Điện thoại</label>
+				<textbox id="phone_textbox" width="400px"
+					constraint="no empty" maxlength="11"
+					value="@bind(vm.currentNCC.soDienThoai)">
+					<attribute w:name="doKeyPress_">
+						<![CDATA[
+							function(evt)
+							{
+								if ((evt.which < 48 || evt.which > 57) && evt.which != 8 && evt.which != 0)
+									evt.stop();
+							}
+						]]>
+					</attribute>
+				</textbox>
+				<label>Nhóm nhà cung cấp</label>
+				<combobox model="@load(vm.nhomNhaCungCap)" id="type_combobox"
+					constraint="no empty" readonly="true"
+					value="@bind(vm.currentNCC.nhomNCC)"
+					selectedItem="@bind(vm.currentNCC.nhomNCC)">
+					<template name="model">
+						<comboitem label="${each.getTenNhom()}"></comboitem>
+					</template>
+				</combobox>
+			<button
+				onClick="@command('updateNCC', id = id_textbox.value,name =  name_textbox.value , address = address_textbox.value , phone_number = phone_textbox.value, type = type_combobox.selectedItem.label)">
+				Cập nhật
+				</button>
+			</vbox>
+		</hbox>
+	</window>
+
+</zk>
