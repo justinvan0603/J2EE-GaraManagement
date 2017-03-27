@@ -14,21 +14,27 @@ public class PhuTung {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "Id")
-	int Id;
+	long Id;
+	
 	@Column(name = "MaPhuTung")
 	String MaPhuTung;
+	
 	@Column(name = "TenPhuTung")
 	String TenPhuTung;
+	
 	@Column(name = "MaHieuXe")
 	String MaHieuXe;
+	
 	@Column(name = "SoLuongTon")
 	int SoLuongTon;
+	
 	@Column(name = "DonGiaXuat")
 	Double DonGiaXuat;
+	
 	@Column(name = "HanBaoHanh")
 	int HanBaoHanh;
 	
-	public int getId() {
+	public long getId() {
 		return Id;
 	}
 	public void setId(int id) {

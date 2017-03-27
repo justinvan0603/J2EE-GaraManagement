@@ -1,0 +1,45 @@
+<?page title="Phụ tùng mới" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<include src="menu_bar.zul"></include>
+	<window title="Thông tin phụ tùng mới" border="normal"
+		apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('viewmodels.PhuTungAddViewModel')">
+		<hbox align="start" style="padding : 16px;">
+			<vbox style="padding : 16px;" xmlns:w="client">
+				<label>Mã phụ tùng</label>
+				<textbox id="mapt_textbox" width="400px"
+					constraint="no empty" maxlength="20">
+				</textbox>
+				<label>Tên phụ tùng</label>
+				<textbox id="tenpt_textbox" width="400px"
+					constraint="no empty" maxlength="200">
+				</textbox>
+				<label>Hiệu xe</label>
+				<combobox model="@load(vm.dsHieuXe)" id="hieuxe_combobox"
+					constraint="no empty" readonly="true">
+					<template name="model">
+						<comboitem label="${each.getMaHieuXe()}"></comboitem>
+					</template>
+				</combobox>
+				<label>Thời hạn bảo hành</label>
+				<textbox id="tgbh_textbox" width="400px"
+					constraint="no empty" maxlength="2">
+					<attribute w:name="doKeyPress_">
+						<![CDATA[
+							function(evt)
+							{
+								if ((evt.which < 48 || evt.which > 57) && evt.which != 8 && evt.which != 0)
+									evt.stop();
+							}
+						]]>
+					</attribute>
+				</textbox>
+				<button
+				onClick="@command('saveNewPhuTung', mapt =  mapt_textbox.value , tenpt = tenpt_textbox.value , hieuxe = hieuxe_combobox.selectedItem.label, tgbh = tgbh_textbox.value)">
+				Lưu
+				</button>
+			</vbox>
+		</hbox>
+	</window>
+
+</zk>

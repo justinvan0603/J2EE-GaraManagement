@@ -15,24 +15,33 @@ public class PhieuThu {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "IdPhieuThuTien")
-	int IdPhieuThuTien;
+	long IdPhieuThuTien;
+	
 	@Column(name = "MaPhieuThu")
 	String MaPhieuThu;
+	
 	@Column(name = "NgayLap")
 	Date NgayLap;
+	
 	@Column(name = "IdPhieuDichVu")
 	int IdPhieuDichVu;
+	
 	@Column(name = "IdPhieuBanXe")
 	int IdPhieuBanXe;
+	
 	@Column(name = "IdPhieuBanLe")
 	int IdPhieuBanLe;
+	
 	@Column(name = "NoiDung")
 	String NoiDung;
+	
 	@Column(name = "SoTien")
 	Double SoTien;
+	
 	@Column(name = "MaNV")
 	int MaNV;
-	public int getIdPhieuThuTien() {
+	
+	public long getIdPhieuThuTien() {
 		return IdPhieuThuTien;
 	}
 	public void setIdPhieuThuTien(int idPhieuThuTien) {

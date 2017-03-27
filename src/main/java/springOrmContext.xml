@@ -56,4 +56,6 @@
 	<bean id="hieuxe_service" class="business.service.HieuXeServiceImpl" />
 	<bean id="nhacungcap_service" class="business.service.NhaCungCapServiceImpl" />
 	<bean id="nhomncc_service" class="business.service.NhomNhaCungCapServiceImpl" />
+	<bean id="phieuthu_service" class="business.service.PhieuThuServiceImpl" />
+	<bean id="phutung_service" class="business.service.PhuTungServiceImpl" />
 </beans>
