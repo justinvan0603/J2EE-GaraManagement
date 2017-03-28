@@ -1,7 +1,12 @@
 package business.service;
 
+import java.util.Date;
 import java.util.List;
 
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +30,7 @@ public class PhieuThuServiceImpl implements GeneralService<PhieuThu> {
 	@Transactional
 	public List<PhieuThu> getAll(Class<PhieuThu> entityClass) {
 		// TODO Auto-generated method stub
-		return this.getAll(entityClass);
+		return this.phieuThuDaoImpl.getAll(entityClass);
 	}
 
 	@Override
@@ -56,5 +61,35 @@ public class PhieuThuServiceImpl implements GeneralService<PhieuThu> {
 		return this.phieuThuDaoImpl.save(newEntity);
 	}
 
-	
+	@SuppressWarnings("unchecked")
+	public List<PhieuThu> find(String maphieu, Date ngaylap, String tennv, String noidungthu) {
+		Session session = null;
+		Transaction transaction = null;
+		List<PhieuThu> result = null;
+		try {
+			session = this.phieuThuDaoImpl.getSessionFactory().openSession();
+			transaction = session.beginTransaction();
+			Criteria criteria = session.createCriteria(PhieuThu.class);
+			if (maphieu != null){
+				criteria.add(Restrictions.like("MaPhieuThu", "%" + maphieu + "%"));
+			} else if (ngaylap != null){
+				criteria.add(Restrictions.eq("NgayLap", ngaylap));
+			} else if (tennv != null){
+				criteria.add(Restrictions.like("HoTen", "%" + tennv + "%"));
+			} else {
+				criteria.add(Restrictions.like("NoiDung", "%" + noidungthu + "%"));
+			}
+			result = criteria.list(); // get all records
+			transaction.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			result = null;
+		}
+		finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
+		return result;
+	}
 }

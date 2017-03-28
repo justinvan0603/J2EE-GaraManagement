@@ -1,5 +1,9 @@
 package viewmodels;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.zkoss.bind.annotation.BindingParam;
@@ -12,6 +16,8 @@ import org.zkoss.zul.Messagebox;
 
 import business.entities.PhieuThu;
 import business.service.PhieuThuServiceImpl;
+import utils.DateUtil;
+import utils.StringFormatUtil;
 
 public class PhieuThuDSViewModel {
 
@@ -39,36 +45,51 @@ public class PhieuThuDSViewModel {
 	@NotifyChange("listOfPhieuThu")
 	public void filterData(@BindingParam("search_string") String searchString,
 			@BindingParam("combobox_selected_index") int selectedIndex) {
-//		switch (selectedIndex) {
-//		case 0: // search by id of receive header
-//			this.listOfTho = this.thoService.getAll(Tho.class);
-//			break;
-//		case 1: // search by id of receive header
-//			if (!searchString.isEmpty()) {
-//				this.listOfTho.clear(); // clear all items
-//				this.listOfTho = this.thoService.find(searchString, null, null);
-//			}
-//			break;
-//		case 2: //
-//			if (!searchString.isEmpty()) {
-//				this.listOfTho.clear(); // clear all items
-//				this.listOfTho = this.thoService.find(null, searchString, null);
-//			}
-//			break;
-//		case 3: //
-//			if (!searchString.isEmpty()) {
-//				this.listOfTho.clear(); // clear all items
-//				this.listOfTho = this.thoService.find(null, null, searchString);
-//			}
-//			break;
-//		default:
-//			break;
-//		}
+		switch (selectedIndex) {
+		case 0: // search by id of receive header
+			this.listOfPhieuThu = this.phieuThuService.getAll(PhieuThu.class);
+			break;
+		case 1: // search by id of receive header
+			if (!searchString.isEmpty()) {
+				this.listOfPhieuThu.clear(); // clear all items
+				this.listOfPhieuThu = this.phieuThuService.find(searchString, null, null, null);
+			}
+			break;
+		case 2: //
+			if (!searchString.isEmpty()) {
+				Date searchDate = null;
+				try {
+				String[] dateSplit = searchString.split("/");
+				searchDate = DateUtil.parseFromStringArray(dateSplit);
+				} catch (Exception e) {
+					// TODO: handle exception
+					Messagebox.show("Vui lòng nhập định dạng ngày với format 'dd/MM/yyyy'", "Lỗi", Messagebox.OK,
+							Messagebox.ERROR);
+				}
+				this.listOfPhieuThu.clear(); // clear all items
+				this.listOfPhieuThu = this.phieuThuService.find(null, searchDate, null, null);
+			}
+			break;
+		case 3: //
+			if (!searchString.isEmpty()) {
+				this.listOfPhieuThu.clear(); // clear all items
+				this.listOfPhieuThu = this.phieuThuService.find(null, null, searchString, null);
+			}
+			break;
+		case 4: //
+			if (!searchString.isEmpty()) {
+				this.listOfPhieuThu.clear(); // clear all items
+				this.listOfPhieuThu = this.phieuThuService.find(null, null, null, searchString);
+			}
+			break;
+		default:
+			break;
+		}
 	}
 	
 	@Command
 	@NotifyChange("listOfPhieuThu")
-	public void deleteTho(@BindingParam("phieuthu_id") long id) {
+	public void deletePhieuThu(@BindingParam("phieuthu_id") long id) {
 
 		 if (this.phieuThuService.delete(id, PhieuThu.class)) {
  			this.listOfPhieuThu = this.phieuThuService.getAll(PhieuThu.class);

@@ -6,7 +6,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import utils.StringFormatUtil;
 
 @Entity
 @Table(name = "phieuthutien")
@@ -24,13 +28,13 @@ public class PhieuThu {
 	Date NgayLap;
 	
 	@Column(name = "IdPhieuDichVu")
-	int IdPhieuDichVu;
+	Long IdPhieuDichVu;
 	
 	@Column(name = "IdPhieuBanXe")
-	int IdPhieuBanXe;
+	Long IdPhieuBanXe;
 	
 	@Column(name = "IdPhieuBanLe")
-	int IdPhieuBanLe;
+	Long IdPhieuBanLe;
 	
 	@Column(name = "NoiDung")
 	String NoiDung;
@@ -39,61 +43,94 @@ public class PhieuThu {
 	Double SoTien;
 	
 	@Column(name = "MaNV")
-	int MaNV;
+	long MaNV;
 	
+	@ManyToOne
+	@JoinColumn(name = "MaNV", referencedColumnName = "MaNV", insertable = false, updatable = false)
+	private NhanVien NhanVien;
+
 	public long getIdPhieuThuTien() {
 		return IdPhieuThuTien;
 	}
-	public void setIdPhieuThuTien(int idPhieuThuTien) {
+
+	public void setIdPhieuThuTien(long idPhieuThuTien) {
 		IdPhieuThuTien = idPhieuThuTien;
 	}
+
 	public String getMaPhieuThu() {
 		return MaPhieuThu;
 	}
+
 	public void setMaPhieuThu(String maPhieuThu) {
 		MaPhieuThu = maPhieuThu;
 	}
+
 	public Date getNgayLap() {
 		return NgayLap;
 	}
+
 	public void setNgayLap(Date ngayLap) {
 		NgayLap = ngayLap;
 	}
-	public int getIdPhieuDichVu() {
+
+	public Long getIdPhieuDichVu() {
 		return IdPhieuDichVu;
 	}
-	public void setIdPhieuDichVu(int idPhieuDichVu) {
+
+	public void setIdPhieuDichVu(Long idPhieuDichVu) {
 		IdPhieuDichVu = idPhieuDichVu;
 	}
-	public int getIdPhieuBanXe() {
+
+	public Long getIdPhieuBanXe() {
 		return IdPhieuBanXe;
 	}
-	public void setIdPhieuBanXe(int idPhieuBanXe) {
+
+	public void setIdPhieuBanXe(Long idPhieuBanXe) {
 		IdPhieuBanXe = idPhieuBanXe;
 	}
-	public int getIdPhieuBanLe() {
+
+	public Long getIdPhieuBanLe() {
 		return IdPhieuBanLe;
 	}
-	public void setIdPhieuBanLe(int idPhieuBanLe) {
+
+	public void setIdPhieuBanLe(Long idPhieuBanLe) {
 		IdPhieuBanLe = idPhieuBanLe;
 	}
+
 	public String getNoiDung() {
 		return NoiDung;
 	}
+
 	public void setNoiDung(String noiDung) {
 		NoiDung = noiDung;
 	}
+
 	public Double getSoTien() {
 		return SoTien;
 	}
+
 	public void setSoTien(Double soTien) {
 		SoTien = soTien;
 	}
-	public int getMaNV() {
+
+	public long getMaNV() {
 		return MaNV;
 	}
-	public void setMaNV(int maNV) {
+
+	public void setMaNV(long maNV) {
 		MaNV = maNV;
+	}
+
+	public NhanVien getNhanVien() {
+		return NhanVien;
+	}
+
+	public void setNhanVien(NhanVien nhanVien) {
+		NhanVien = nhanVien;
+	}
+	
+	public String getShortNgayLap() {
+		return StringFormatUtil.shortDateTime(this.NgayLap);
 	}
 	
 	
