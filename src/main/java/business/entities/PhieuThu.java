@@ -30,8 +30,8 @@ public class PhieuThu {
 	@Column(name = "IdPhieuDichVu")
 	Long IdPhieuDichVu;
 	
-	@Column(name = "IdPhieuBanXe")
-	Long IdPhieuBanXe;
+//	@Column(name = "IdPhieuBanXe")
+//	Long IdPhieuBanXe;
 	
 	@Column(name = "IdPhieuBanLe")
 	Long IdPhieuBanLe;
@@ -81,13 +81,13 @@ public class PhieuThu {
 		IdPhieuDichVu = idPhieuDichVu;
 	}
 
-	public Long getIdPhieuBanXe() {
-		return IdPhieuBanXe;
-	}
-
-	public void setIdPhieuBanXe(Long idPhieuBanXe) {
-		IdPhieuBanXe = idPhieuBanXe;
-	}
+//	public Long getIdPhieuBanXe() {
+//		return IdPhieuBanXe;
+//	}
+//
+//	public void setIdPhieuBanXe(Long idPhieuBanXe) {
+//		IdPhieuBanXe = idPhieuBanXe;
+//	}
 
 	public Long getIdPhieuBanLe() {
 		return IdPhieuBanLe;

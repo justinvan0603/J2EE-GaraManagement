@@ -7,7 +7,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import utils.StringFormatUtil;
 
 @Entity
 @Table(name = "phieudathang")
@@ -28,14 +32,22 @@ public class PhieuDatHang {
 	private Date NgayGiao;
 
 	@Column(name = "MaNV")
-	private int MaNV;
+	private long MaNV;
 	
 	@Column(name = "TongTien")
 	private Double TongTien;
 	
 	@Column(name = "MaNCC")
-	private int MaNCC;
+	private long MaNCC;
 
+	@ManyToOne
+	@JoinColumn(name = "MaNV", referencedColumnName = "MaNV", insertable = false, updatable = false)
+	private NhanVien NhanVien;
+	
+	@ManyToOne
+	@JoinColumn(name = "MaNCC", referencedColumnName = "MaNCC", insertable = false, updatable = false)
+	private NhaCungCap NhaCungCap;
+	
 	public long getId_PhieuDatHang() {
 		return Id_PhieuDatHang;
 	}
@@ -68,11 +80,11 @@ public class PhieuDatHang {
 		NgayGiao = ngayGiao;
 	}
 
-	public int getMaNV() {
+	public long getMaNV() {
 		return MaNV;
 	}
 
-	public void setMaNV(int maNV) {
+	public void setMaNV(long maNV) {
 		MaNV = maNV;
 	}
 
@@ -84,13 +96,36 @@ public class PhieuDatHang {
 		TongTien = tongTien;
 	}
 
-	public int getMaNCC() {
+	public long getMaNCC() {
 		return MaNCC;
 	}
 
-	public void setMaNCC(int maNCC) {
+	public void setMaNCC(long maNCC) {
 		MaNCC = maNCC;
 	}
+
+	public NhanVien getNhanVien() {
+		return NhanVien;
+	}
+
+	public void setNhanVien(NhanVien nhanVien) {
+		NhanVien = nhanVien;
+	}
+
+	public NhaCungCap getNhaCungCap() {
+		return NhaCungCap;
+	}
+
+	public void setNhaCungCap(NhaCungCap nhaCungCap) {
+		NhaCungCap = nhaCungCap;
+	}
 	
+	public String getShortDateNgayDat()	{
+		return StringFormatUtil.shortDateTime(NgayDat);
+	}
+	
+	public String getShortDateNgayGiao()	{
+		return StringFormatUtil.shortDateTime(NgayGiao);
+	}
 	
 }

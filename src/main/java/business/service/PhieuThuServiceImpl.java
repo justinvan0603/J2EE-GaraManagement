@@ -6,6 +6,7 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -75,7 +76,8 @@ public class PhieuThuServiceImpl implements GeneralService<PhieuThu> {
 			} else if (ngaylap != null){
 				criteria.add(Restrictions.eq("NgayLap", ngaylap));
 			} else if (tennv != null){
-				criteria.add(Restrictions.like("HoTen", "%" + tennv + "%"));
+				criteria.createAlias("NhanVien", "staff"); // 
+				criteria.add(Restrictions.like("staff.HoTen", tennv, MatchMode.ANYWHERE));
 			} else {
 				criteria.add(Restrictions.like("NoiDung", "%" + noidungthu + "%"));
 			}

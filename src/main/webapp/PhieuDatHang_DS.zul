@@ -1,0 +1,67 @@
+<?page title="Danh sách phiếu đặt hàng" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<!-- import mutual menu bar -->
+	<include src="menu_bar.zul"></include>
+	<window title="Danh sách phiếu đặt hàng" border="normal" height="100%"
+		apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('viewmodels.PhieuDatHangDSViewModel')">
+		<vlayout width="100%">
+			<hlayout style="text-align : left; padding : 4px;">
+				<label value="Tìm kiếm"></label>
+				<combobox readonly="true" id="search_type_combobox"
+					model="@load(vm.searchTypes)">
+					<template name="model">
+						<comboitem label="@load(each)"></comboitem>
+					</template>
+				</combobox>
+				<textbox width="400px" id="search_textbox"></textbox>
+				<button id="searchButton"
+					onClick="@command('filterData', search_string=search_textbox.value , combobox_selected_index = search_type_combobox.selectedIndex )">
+					Tìm kiếm
+				</button>
+				|
+				<button id="addNew"
+					onClick="@command('addNewPhieuDatHangRedirect')">
+					Thêm mới
+				</button>
+			</hlayout>
+
+			<listbox hflex="1" mold="paging" pageSize="10"
+				model="@load(vm.listOfPhieuDatHang)" width="100%">
+				<listhead>
+					<listheader label="Id" width="80px" visible="false" />
+					<listheader label="Mã phiếu đặt" />
+					<listheader label="Nhân viên lập" />
+					<listheader label="Ngày đặt" />
+					<listheader label="Ngày hẹn giao" />
+					<listheader label="Nhà cung cấp" />
+					<listheader label="Số tiền" />
+					<listheader label="Tác vụ" width="150px" />
+				</listhead>
+				<template name="model" var="e">
+					<listitem>
+						<listcell label="@load(e.id_PhieuDatHang)" visible="false"></listcell>
+						<listcell label="@load(e.maPhieuDat)"></listcell>
+						<listcell label="@load(e.nhanVien.hoTen)"></listcell>
+						<listcell label="@load(e.shortDateNgayDat)"></listcell>
+						<listcell label="@load(e.shortDateNgayGiao)"></listcell>
+						<listcell label="@load(e.nhaCungCap.tenNCC)"></listcell>
+						<listcell label="@load(e.tongTien)"></listcell>
+						<listcell>
+							<button tooltip="@load(e.id_PhieuDatHang)"
+								onClick="@command('editPhieuDatHang', phieudh_id = e.id_PhieuDatHang)"
+								image="/images/ic_edit_black_18dp_1x.png">
+							</button>
+							<button
+								image="/images/ic_delete_black_18dp_1x.png"
+								onClick="@command('deletePhieuDatHang' , phieudh_id = e.id_PhieuDatHang)">
+							</button>
+						</listcell>
+					</listitem>
+				</template>
+			</listbox>
+		</vlayout>
+
+	</window>
+
+</zk>

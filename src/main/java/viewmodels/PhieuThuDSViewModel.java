@@ -1,8 +1,5 @@
 package viewmodels;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -17,7 +14,6 @@ import org.zkoss.zul.Messagebox;
 import business.entities.PhieuThu;
 import business.service.PhieuThuServiceImpl;
 import utils.DateUtil;
-import utils.StringFormatUtil;
 
 public class PhieuThuDSViewModel {
 
@@ -59,8 +55,9 @@ public class PhieuThuDSViewModel {
 			if (!searchString.isEmpty()) {
 				Date searchDate = null;
 				try {
-				String[] dateSplit = searchString.split("/");
-				searchDate = DateUtil.parseFromStringArray(dateSplit);
+					String[] dateSplit = searchString.split("/");
+					searchDate = DateUtil.parseFromStringArray(dateSplit);
+					System.out.println(searchString);
 				} catch (Exception e) {
 					// TODO: handle exception
 					Messagebox.show("Vui lòng nhập định dạng ngày với format 'dd/MM/yyyy'", "Lỗi", Messagebox.OK,

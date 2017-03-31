@@ -58,4 +58,6 @@
 	<bean id="nhomncc_service" class="business.service.NhomNhaCungCapServiceImpl" />
 	<bean id="phieuthu_service" class="business.service.PhieuThuServiceImpl" />
 	<bean id="phutung_service" class="business.service.PhuTungServiceImpl" />
+	<bean id="phieudathang_service" class="business.service.PhieuDatHangServiceImpl" />
+	<bean id="phieunhaphang_service" class="business.service.PhieuNhapHangServiceImpl" />
 </beans>
