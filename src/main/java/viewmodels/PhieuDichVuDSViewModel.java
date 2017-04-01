@@ -7,6 +7,8 @@ import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zkplus.spring.SpringUtil;
 
@@ -25,6 +27,7 @@ public class PhieuDichVuDSViewModel {
 		SEARCH_TYPES.add("Mã phiếu");
 		
 	}
+	public static String PDV_ID = "PDV_ID";
 	public PhieuDichVu getSelectedPDV() {
 		return selectedPDV;
 	}
@@ -75,5 +78,15 @@ public class PhieuDichVuDSViewModel {
 //			this.listNhanVien = this.nhanVienService.findByUsername(searchString);
 //			
 //		}
+	}
+	@Command 
+	public void editPhieuDichVu(@BindingParam("id") Long id)
+	{
+		Sessions.getCurrent().setAttribute(PDV_ID, id);
+		Executions.sendRedirect("./PhieuDichVu_Edit.zul");
+	}
+	@Command
+	public void ThemPhieuDichVu() {
+		Executions.sendRedirect("./PhieuDichVu_Add.zul");
 	}
 }

@@ -18,17 +18,17 @@ import business.persistence.GeneralDao;
 public class ChiTietPhieuBanLeServiceImpl implements GeneralService<CT_PhieuBanLe> {
 
 	@Autowired
-	private GeneralDao<CT_PhieuBanLe> ctPhieuBanLeDaoImpl;
+	private GeneralDao<CT_PhieuBanLe> chiTietPhieuBanLeDaoImpl;
 	@Override
 	public CT_PhieuBanLe findById(long id, Class<CT_PhieuBanLe> entityClass) {
 		// TODO Auto-generated method stub
-		return this.ctPhieuBanLeDaoImpl.findById(id, entityClass);
+		return this.chiTietPhieuBanLeDaoImpl.findById(id, entityClass);
 	}
 
 	@Override
 	public List<CT_PhieuBanLe> getAll(Class<CT_PhieuBanLe> entityClass) {
 		// TODO Auto-generated method stub
-		return this.ctPhieuBanLeDaoImpl.getAll(entityClass);
+		return this.chiTietPhieuBanLeDaoImpl.getAll(entityClass);
 	}
 
 	@Override
@@ -38,29 +38,29 @@ public class ChiTietPhieuBanLeServiceImpl implements GeneralService<CT_PhieuBanL
 	}
 
 	public GeneralDao<CT_PhieuBanLe> getCtPhieuBanLeDaoImpl() {
-		return ctPhieuBanLeDaoImpl;
+		return chiTietPhieuBanLeDaoImpl;
 	}
 
 	public void setCtPhieuBanLeDaoImpl(GeneralDao<CT_PhieuBanLe> ctPhieuBanLeDaoImpl) {
-		this.ctPhieuBanLeDaoImpl = ctPhieuBanLeDaoImpl;
+		this.chiTietPhieuBanLeDaoImpl = ctPhieuBanLeDaoImpl;
 	}
 
 	@Override
 	public boolean update(Long id, CT_PhieuBanLe newInfor) {
 		// TODO Auto-generated method stub
-		return this.ctPhieuBanLeDaoImpl.update(id, newInfor);
+		return this.chiTietPhieuBanLeDaoImpl.update(id, newInfor);
 	}
 
 	@Override
 	public boolean delete(Long id, Class<CT_PhieuBanLe> entity) {
 		// TODO Auto-generated method stub
-		return this.ctPhieuBanLeDaoImpl.delete(id, entity);
+		return this.chiTietPhieuBanLeDaoImpl.delete(id, entity);
 	}
 
 	@Override
 	public boolean save(CT_PhieuBanLe newEntity) {
 		// TODO Auto-generated method stub
-		return this.ctPhieuBanLeDaoImpl.save(newEntity);
+		return this.chiTietPhieuBanLeDaoImpl.save(newEntity);
 	}
 	@SuppressWarnings("unchecked")
 	public List<CT_PhieuBanLe> getByIdPhieuBanLe (Long id,Class<CT_PhieuBanLe> entity)
@@ -69,7 +69,7 @@ public class ChiTietPhieuBanLeServiceImpl implements GeneralService<CT_PhieuBanL
 		Transaction transaction = null;
 		List<CT_PhieuBanLe> result = null;
 		try {
-			session = this.ctPhieuBanLeDaoImpl.getSessionFactory().openSession();
+			session = this.chiTietPhieuBanLeDaoImpl.getSessionFactory().openSession();
 			transaction = session.beginTransaction();
 			Criteria criteria = session.createCriteria(CT_PhieuBanLe.class);
 			criteria.add(Restrictions.eq("IdPhieuBanLe", id));

@@ -6,13 +6,15 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.annotations.Persister;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import business.entities.CT_PhieuBanLe;
 import business.entities.PhieuBanLe;
 
 
-
+@Repository
 public class ChiTietPhieuBanLeDaoImpl implements GeneralDao<CT_PhieuBanLe> {
 	@Autowired
 	private SessionFactory sessionFactory;
