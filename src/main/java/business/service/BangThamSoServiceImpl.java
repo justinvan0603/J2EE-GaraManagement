@@ -3,7 +3,10 @@ package business.service;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,7 +36,31 @@ public class BangThamSoServiceImpl implements GeneralService<BangThamSo> {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
+	@Transactional
+	public BangThamSo findByIdThamSoString (String id, Class<BangThamSo> entityClass)
+	{
+		Session session = null;
+		Transaction transaction = null;
+		BangThamSo result = null;
+		try {
+			session = this.bangThamSoDaoImpl.getSessionFactory().openSession();
+			transaction = session.beginTransaction();
+			Criteria criteria = session.createCriteria(BangThamSo.class);
+			criteria.add(Restrictions.eq("TenThamSo", id));
+			result = (BangThamSo) criteria.uniqueResult(); // get result
+			transaction.commit();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			result = null;
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
+		return result;
+	}
 	@Override
 	@Transactional
 	public List<BangThamSo> getAll(Class<BangThamSo> entityClass) {

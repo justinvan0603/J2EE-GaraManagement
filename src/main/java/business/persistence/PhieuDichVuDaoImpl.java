@@ -9,27 +9,29 @@ import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import business.entities.NhomNguoiDung;
+
+import business.entities.PhieuDichVu;
 
 @Repository
-public class NhomNguoiDungDaoImpl  implements GeneralDao<NhomNguoiDung>{
+public class PhieuDichVuDaoImpl implements GeneralDao<PhieuDichVu> {
+
 	@Autowired
 	private SessionFactory sessionFactory;
+
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
-	
 	@Override
-	public NhomNguoiDung findById(long id, Class<NhomNguoiDung> entityClass) {
+	public PhieuDichVu findById(long id, Class<PhieuDichVu> entityClass) {
 		// TODO Auto-generated method stub
 		Session session = null;
 		Transaction transaction = null;
-		NhomNguoiDung result = null;
+		PhieuDichVu result = null;
 		try {
 			session = this.sessionFactory.openSession();
 			transaction = session.beginTransaction();
 
-			result = (NhomNguoiDung) session.get(entityClass, id);
+			result = (PhieuDichVu) session.get(entityClass, id);
 
 			transaction.commit();
 		} catch (Exception e) {
@@ -45,11 +47,11 @@ public class NhomNguoiDungDaoImpl  implements GeneralDao<NhomNguoiDung>{
 	}
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<NhomNguoiDung> getAll(Class<NhomNguoiDung> entityClass) {
+	public List<PhieuDichVu> getAll(Class<PhieuDichVu> entityClass) {
 		// TODO Auto-generated method stub
 		Session session = null;
 		Transaction transaction = null;
-		List<NhomNguoiDung> result = null;
+		List<PhieuDichVu> result = null;
 		try {
 			session = this.sessionFactory.openSession();
 			transaction = session.beginTransaction();
@@ -69,27 +71,65 @@ public class NhomNguoiDungDaoImpl  implements GeneralDao<NhomNguoiDung>{
 	}
 
 	@Override
-	public List<NhomNguoiDung> query(String query, Class<NhomNguoiDung> entityClass) {
+	public List<PhieuDichVu> query(String query, Class<PhieuDichVu> entityClass) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public boolean update(Long id, NhomNguoiDung newInfor) {
+	public boolean update(Long id, PhieuDichVu newInfor) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean delete(Long id, Class<NhomNguoiDung> entity) {
+	public boolean delete(Long id, Class<PhieuDichVu> entity) {
 		// TODO Auto-generated method stub
-		return false;
+		Session session = null;
+		Transaction transaction = null;
+		boolean isSuccess = false;
+		try {
+			session = this.sessionFactory.openSession();
+			transaction = session.beginTransaction();
+			PhieuDichVu pdv = (PhieuDichVu) session.get(entity, id);
+			if (pdv != null) {
+				session.delete(pdv);
+			}
+			transaction.commit();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			isSuccess = false;
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
+		return isSuccess;
 	}
 
 	@Override
-	public boolean save(NhomNguoiDung newEntity) {
+	public boolean save(PhieuDichVu newEntity) {
 		// TODO Auto-generated method stub
-		return false;
+		Session session = null;
+		Transaction transaction = null;
+		boolean isSuccess = false;
+		try {
+			session = this.sessionFactory.openSession();
+			transaction = session.beginTransaction();
+			session.save(newEntity);
+			transaction.commit();
+			isSuccess = true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			isSuccess = false;
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
+		return isSuccess;
 	}
 
 	@Override
@@ -97,6 +137,5 @@ public class NhomNguoiDungDaoImpl  implements GeneralDao<NhomNguoiDung>{
 		// TODO Auto-generated method stub
 		return sessionFactory;
 	}
-	
 
 }

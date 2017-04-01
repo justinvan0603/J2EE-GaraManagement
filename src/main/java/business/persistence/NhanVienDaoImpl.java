@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 
 
 import business.entities.NhanVien;
-import business.entities.Xe;
+
 
 @Repository
 public class NhanVienDaoImpl implements GeneralDao<NhanVien> {
@@ -120,9 +120,9 @@ public class NhanVienDaoImpl implements GeneralDao<NhanVien> {
 		try {
 			session = this.sessionFactory.openSession();
 			transaction = session.beginTransaction();
-			Xe xe = (Xe) session.get(entity, id);
-			if (xe != null) {
-				session.delete(xe);
+			NhanVien nhanvien = (NhanVien) session.get(entity, id);
+			if (nhanvien != null) {
+				session.delete(nhanvien);
 			}
 			transaction.commit();
 		} catch (Exception e) {

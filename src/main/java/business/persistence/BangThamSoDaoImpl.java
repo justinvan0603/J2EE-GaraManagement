@@ -124,7 +124,7 @@ public class BangThamSoDaoImpl implements GeneralDao<BangThamSo> {
 	@Override
 	public SessionFactory getSessionFactory() {
 		// TODO Auto-generated method stub
-		return null;
+		return this.sessionFactory;
 	}
 
 	@Override
