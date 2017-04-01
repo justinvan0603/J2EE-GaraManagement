@@ -10,7 +10,6 @@ import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import business.entities.PhieuDatHang;
 import business.entities.PhieuNhapHang;
 
 @Repository
