@@ -1,0 +1,91 @@
+<?page title="Danh sách phiếu bảo hành" contentType="text/html;charset=UTF-8"?>
+<?import  utils.StringFormatUtil ?>
+<zk>
+	<!-- import mutual menu bar -->
+	<include src="menu_bar.zul"></include>
+
+	<window title="Danh phiếu bảo hành" border="normal" height="100%"
+		apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('viewmodels.PhieuBaoHanhEditViewModel')">
+		<vlayout width="100%">
+			<!-- general information -->
+			<hlayout style="text-align : left; padding : 4px;">
+				<vbox width="180px">
+					<label>Mã phiếu</label>
+					<textbox readonly="true"
+						value="@load(vm.selectedPhieuBaoHanh.maPhieuBaoHanh)">
+					</textbox>
+				</vbox>
+				<vbox width="180px">
+					<label>Ngày lập</label>
+					<textbox readonly="true"
+						value="@load(vm.selectedPhieuBaoHanh.shortCreationDate)">
+					</textbox>
+				</vbox>
+				<vbox width="180px">
+					<label>Nhân viên lập</label>
+					<textbox readonly="true" rows="3"
+						value="@load(vm.selectedPhieuBaoHanh.nhanVien.hoTen)">
+					</textbox>
+				</vbox>
+				<vbox width="240px">
+					<label>Tình trạng</label>
+					<textbox rows="5" cols="25"
+						value=" @save(vm.selectedPhieuBaoHanh.tinhTrang, before='updatePhieuBaoHanh') @load(vm.selectedPhieuBaoHanh.tinhTrang)">
+					</textbox>
+				</vbox>
+				<vbox width="240px">
+					<label>Thao tác</label>
+					<button onClick="@command('updatePhieuBaoHanh')"
+						image="/images/ic_done.png">
+						Lưu
+					</button>
+				</vbox>
+			</hlayout>
+			<!-- detail list -->
+			<listbox hflex="1" mold="paging" pageSize="15"
+				model="@load(vm.listOfCT_PhieuBaoHanhs)" width="100%">
+				<auxhead>
+					<auxheader colspan="5">
+						Danh sách chi tiết
+					</auxheader>
+				</auxhead>
+				<listhead>
+					<listheader label="Mã phụ tùng" width="100px" />
+					<listheader label="Phụ tùng" />
+					<listheader label="Ngày hẹn trả" />
+					<listheader label="Ngày trả" />
+					<listheader label="Tác vụ" />
+				</listhead>
+				<template name="model" var="e">
+					<listitem>
+						<listcell label="@load(e.maPhuTung)"></listcell>
+						<listcell label="@load(e.phuTung.tenPhuTung)"></listcell>
+						<listcell>
+							<datebox width="180px"
+								onChange="@command('onDateBoxNgayHenTraChange', ngayhentra = self.value)"
+								value="@load(e.ngayHenTra)">
+							</datebox>
+						</listcell>
+						<listcell>
+							<datebox width="180px"
+								onChange="@command('onDateBoxNgayTraChange', ngaytra = self.value)"
+								value="@load(e.ngayTra)">
+							</datebox>
+						</listcell>
+						<listcell>
+							<hbox>
+								<button
+									onClick="@command('updateChiTietPhieuBaoHanh', id = e.id)">
+									Lưu
+								</button>
+							</hbox>
+						</listcell>
+					</listitem>
+				</template>
+			</listbox>
+		</vlayout>
+
+	</window>
+
+</zk>

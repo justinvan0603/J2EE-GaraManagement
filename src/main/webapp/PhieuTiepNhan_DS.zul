@@ -34,19 +34,19 @@
 			</hlayout>
 			<!-- mechanic list area -->
 
-			<listbox hflex="1" mold="paging" pageSize="10"
+			<listbox hflex="1" mold="paging" pageSize="15"
 				model="@load(vm.listOfReceiveHeaders)" width="100%">
 				<auxhead>
 					<auxheader colspan="8">Phiếu tiếp nhận</auxheader>
 				</auxhead>
 				<listhead>
-					<listheader label="Mã phiếu" width="80px" />
-					<listheader label="Biển số xe" />
-					<listheader label="Mã khách hàng" width="150px" />
-					<listheader label="Ngày lập" />
-					<listheader label="Ngày trả" />
-					<listheader label="Mã nhân viên" />
-					<listheader label="Mã số chờ" />
+					<listheader label="Mã phiếu" width="60px" />
+					<listheader label="Biển số xe" width="150px" />
+					<listheader label="Khách hàng" />
+					<listheader label="Ngày lập" width="100px" />
+					<listheader label="Ngày trả" width="100px" />
+					<listheader label="Tình trạng" />
+					<listheader label="Mã nhân viên" width="150px" />
 					<listheader label="Tác vụ" />
 				</listhead>
 				<template name="model" var="e">
@@ -57,18 +57,24 @@
 						<listcell label="@load(e.shortCreationDate)">
 						</listcell>
 						<listcell label="@load(e.shortGiveBackDate)"></listcell>
-						<listcell label="@load(e.staffId)"></listcell>
-						<listcell label="@load(e.queueNumber)"></listcell>
+						<listcell label="@load(e.state)"></listcell>
+						<listcell label="@load(e.nhanVien.hoTen)"></listcell>
 						<listcell>
-							<button
-								image="/images/ic_edit_black_18dp_1x.png">
-							</button>
-							<!-- condition for showing button -->
-							<zk if="${1 == 1}">
+							<hbox>
 								<button
+									onClick="@command('seePhieuTiepNhanDetail', phieutiepnhan_id = e.id)"
+									image="/images/ic_edit_black_18dp_1x.png">
+								</button>
+								<button
+									if="${e.numberofServiceHeaders == 0}" visible="true">
+									Lập phiếu DV
+								</button>
+								<button
+									onClick="@command('deletePhieuTiepNhan', phieutiepnhan_id = e.id)"
+									if="${e.numberofServiceHeaders == 0}" visible="true"
 									image="/images/ic_delete_black_18dp_1x.png">
 								</button>
-							</zk>
+							</hbox>
 						</listcell>
 					</listitem>
 				</template>

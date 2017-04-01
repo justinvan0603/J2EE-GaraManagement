@@ -28,5 +28,65 @@ public class CT_PhieuDichVu {
 	private double ThanhTien;
 	@Column(name = "HanBaoHanh")
 	private Date HanBaoHanh;
-	
+
+	public CT_PhieuDichVu() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public long getId() {
+		return Id;
+	}
+
+	public void setId(long id) {
+		Id = id;
+	}
+
+	public String getIdPhieuDichVu() {
+		return IdPhieuDichVu;
+	}
+
+	public void setIdPhieuDichVu(String idPhieuDichVu) {
+		IdPhieuDichVu = idPhieuDichVu;
+	}
+
+	public long getMaPhuTung() {
+		return MaPhuTung;
+	}
+
+	public void setMaPhuTung(long maPhuTung) {
+		MaPhuTung = maPhuTung;
+	}
+
+	public long getSoLuong() {
+		return SoLuong;
+	}
+
+	public void setSoLuong(long soLuong) {
+		SoLuong = soLuong;
+	}
+
+	public double getDonGia() {
+		return DonGia;
+	}
+
+	public void setDonGia(double donGia) {
+		DonGia = donGia;
+	}
+
+	public double getThanhTien() {
+		return ThanhTien;
+	}
+
+	public void setThanhTien(double thanhTien) {
+		ThanhTien = thanhTien;
+	}
+
+	public Date getHanBaoHanh() {
+		return HanBaoHanh;
+	}
+
+	public void setHanBaoHanh(Date hanBaoHanh) {
+		HanBaoHanh = hanBaoHanh;
+	}
+
 }

@@ -1,0 +1,85 @@
+<?page title="Phiếu bảo hành mới" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<window title="Phiếu bảo hành mới" border="normal" width="100%"
+		height="100%" apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('viewmodels.PhieuBaoHanhAddViewModel')">
+		<!-- thong tin phieu bao hanh moi -->
+		<vlayout>
+			<groupbox>
+				<!-- general information -->
+				<hlayout style="text-align : left; padding : 4px;">
+
+					<vbox width="180px">
+						<label>Ngày lập</label>
+						<textbox readonly="true"
+							value="@load(vm.phieuBaoHanh.ngayLap)">
+						</textbox>
+					</vbox>
+					<vbox width="180px">
+						<label>Mã phiếu dịch vụ</label>
+						<textbox id="textbox_maphieudv"></textbox>
+					</vbox>
+					<vbox width="180px">
+						<label>Mã phiếu bán lẻ</label>
+						<textbox id="textbox_maphieubanle"></textbox>
+					</vbox>
+					<vbox width="180px">
+						<label>Nhân viên lập</label>
+						<textbox readonly="true"
+							value="@load(vm.phieuBaoHanh.nhanVien.hoTen)" rows="3">
+						</textbox>
+					</vbox>
+					<vbox width="240px">
+						<label>Tình trạng</label>
+						<textbox rows="5" cols="25"
+							value="@load(vm.phieuBaoHanh.tinhTrang) @save(vm.phieuBaoHanh.tinhTrang, before = 'luuPhieuBaoHanh')">
+						</textbox>
+					</vbox>
+				</hlayout>
+			</groupbox>
+			<!-- nhap thong tin chi tiet -->
+			<window title="Nhập chi tiết" border="none">
+				<hlayout style="padding : 4px;">
+					<label>Mã phụ tùng</label>
+					<intbox id="intbox_maphutung"></intbox>
+					<label>Ngày hẹn trả</label>
+					<datebox id="datebox_ngayhentra"></datebox>
+					<button
+						onClick="@command('themChiTiet', maphutung = intbox_maphutung.value , ngayhentra = datebox_ngayhentra.value)">
+						Thêm
+					</button>
+				</hlayout>
+			</window>
+			<listbox height="480px" hflex="1" mold="paging"
+				model="@load(vm.listOfCT_PhieuBaoHanhs)" pageSize="15"
+				width="100%">
+				<auxhead>
+					<auxheader colspan="3">
+						Danh sách chi tiết phiếu bảo hành
+					</auxheader>
+				</auxhead>
+				<listhead>
+					<listheader label="Mã phụ tùng" width="100px" />
+					<listheader label="Ngày hẹn trả" />
+					<listheader label="Tác vụ" />
+				</listhead>
+				<template name="model" var="e">
+					<listitem>
+						<listcell label="@load(e.maPhuTung)"></listcell>
+						<listcell label="@load(e.ngayHenTra)"></listcell>
+						<listcell>
+							<button
+								onClick="@command('xoaChiTiet', maphutung = e.maPhuTung)">
+								Xóa
+							</button>
+						</listcell>
+					</listitem>
+				</template>
+			</listbox>
+			<button
+				onClick="@command('luuPhieuBaoHanh', maphieudv = textbox_maphieudv.text,  maphieubanle = textbox_maphieubanle.text)">
+				Lưu
+			</button>
+		</vlayout>
+	</window>
+</zk>

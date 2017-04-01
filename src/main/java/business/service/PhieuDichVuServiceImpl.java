@@ -8,14 +8,14 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
 import business.entities.PhieuDichVu;
 import business.persistence.GeneralDao;
 
 @Service
-public class PhieuDichVuServiceImpl implements GeneralService<PhieuDichVu>{
+public class PhieuDichVuServiceImpl implements GeneralService<PhieuDichVu> {
 	@Autowired
 	private GeneralDao<PhieuDichVu> phieuDichVuDaoImpl;
+
 	public GeneralDao<PhieuDichVu> getPhieuDichVuDaoImpl() {
 		return phieuDichVuDaoImpl;
 	}
@@ -59,13 +59,13 @@ public class PhieuDichVuServiceImpl implements GeneralService<PhieuDichVu>{
 		// TODO Auto-generated method stub
 		return this.phieuDichVuDaoImpl.save(newEntity);
 	}
+
 	@SuppressWarnings("unchecked")
 	public List<PhieuDichVu> findByMaPhieu(String maphieu) {
 		// get Session factory from DAO object to interact with persistence
 		// layer
 		SessionFactory sessionFactory = this.phieuDichVuDaoImpl.getSessionFactory();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(PhieuDichVu.class);
-		
 		criteria.add(Restrictions.like("MaPhieuDichVu", "%" + maphieu + "%"));
 		return criteria.list();
 	}

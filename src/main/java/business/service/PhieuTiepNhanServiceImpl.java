@@ -106,6 +106,38 @@ public class PhieuTiepNhanServiceImpl implements GeneralService<PhieuTiepNhan> {
 	}
 
 	/**
+	 * Find all receive headers by staff creating (by name)
+	 * 
+	 * @param staffName
+	 *            : name of staff as criteria
+	 * @return {@link List} of {@link PhieuTiepNhan}(s) satisfied criteria
+	 */
+	@SuppressWarnings("unchecked")
+	public List<PhieuTiepNhan> filterByCreationStaffName(String staffName) {
+		Session session = null;
+		Transaction transaction = null;
+		List<PhieuTiepNhan> results = null; // returned list
+		try {
+			session = this.phieuTiepNhanDaoImpl.getSessionFactory().openSession();
+			transaction = session.beginTransaction();
+			Criteria criteria = session.createCriteria(PhieuTiepNhan.class);
+			criteria.createAlias("nhanVien", "staff"); // 
+			criteria.add(Restrictions.like("staff.HoTen", staffName, MatchMode.ANYWHERE));
+			results = criteria.list(); // get result
+			transaction.commit();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
+
+		return results;
+	}
+
+	/**
 	 * Find all receive headers by license plate
 	 * 
 	 * @param value
@@ -135,4 +167,5 @@ public class PhieuTiepNhanServiceImpl implements GeneralService<PhieuTiepNhan> {
 
 		return results;
 	}
+
 }

@@ -8,35 +8,29 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
+import business.entities.CT_PhieuBaoHanh;
 import business.entities.PhieuTiepNhan;
 
-/**
- * Implementation Dao objet of {@link PhieuTiepNhan} entity
- * 
- * @author TNS
- *
- */
 @Repository
-public class PhieuTiepNhanDaoImpl implements GeneralDao<PhieuTiepNhan> {
+public class CTPhieuBaoHanhDaoImpl implements GeneralDao<CT_PhieuBaoHanh> {
 
 	@Autowired
 	private SessionFactory sessionFactory;
 
 	@Override
-	public PhieuTiepNhan findById(long id, Class<PhieuTiepNhan> entityClass) {
+	public CT_PhieuBaoHanh findById(long id, Class<CT_PhieuBaoHanh> entityClass) {
 		// TODO Auto-generated method stub
 		Session session = null;
 		Transaction transaction = null;
-		PhieuTiepNhan result = null;
+		CT_PhieuBaoHanh result = null;
 		try {
 			session = this.sessionFactory.openSession();
 			transaction = session.beginTransaction();
-			result = (PhieuTiepNhan) session.get(entityClass, id);
+			result = (CT_PhieuBaoHanh) session.get(entityClass, Integer.parseInt(id + ""));
 			transaction.commit();
 		} catch (Exception e) {
 			// TODO: handle exception
-
+			e.printStackTrace();
 		} finally {
 			if (session != null && session.isOpen()) {
 				session.close();
@@ -48,12 +42,11 @@ public class PhieuTiepNhanDaoImpl implements GeneralDao<PhieuTiepNhan> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<PhieuTiepNhan> getAll(Class<PhieuTiepNhan> entityClass) {
-		// TODO Auto-generated method stub
+	public List<CT_PhieuBaoHanh> getAll(Class<CT_PhieuBaoHanh> entityClass) {
 		// TODO Auto-generated method stub
 		Session session = null;
 		Transaction transaction = null;
-		List<PhieuTiepNhan> results = null;
+		List<CT_PhieuBaoHanh> results = null;
 		try {
 			session = this.sessionFactory.openSession();
 			transaction = session.beginTransaction();
@@ -71,13 +64,13 @@ public class PhieuTiepNhanDaoImpl implements GeneralDao<PhieuTiepNhan> {
 	}
 
 	@Override
-	public List<PhieuTiepNhan> query(String query, Class<PhieuTiepNhan> entityClass) {
+	public List<CT_PhieuBaoHanh> query(String query, Class<CT_PhieuBaoHanh> entityClass) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public boolean update(Long id, PhieuTiepNhan newInfor) {
+	public boolean update(Long id, CT_PhieuBaoHanh newInfor) {
 		// TODO Auto-generated method stub
 		Session session = null;
 		Transaction transaction = null;
@@ -85,15 +78,39 @@ public class PhieuTiepNhanDaoImpl implements GeneralDao<PhieuTiepNhan> {
 		try {
 			session = this.sessionFactory.openSession();
 			transaction = session.beginTransaction();
-			PhieuTiepNhan entity = this.findById(id, PhieuTiepNhan.class);
+			CT_PhieuBaoHanh entity = this.findById(id, CT_PhieuBaoHanh.class);
 			if (entity != null) {
-				entity.setCreationDate(newInfor.getCreationDate());
-				entity.setGivebackDate(newInfor.getGivebackDate());
-				entity.setState(newInfor.getState());
+				entity.setNgayHenTra(newInfor.getNgayHenTra());
+				entity.setNgayTra(newInfor.getNgayTra());
 				// more updates here
-
 				session.saveOrUpdate(entity);
+				isSuccess = true;
+			} else {
+				isSuccess = false;
 			}
+			transaction.commit();
+		} catch (Exception e) {
+			// TODO: handle exception
+			isSuccess = false;
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
+		return isSuccess;
+	}
+
+	@Override
+	public boolean delete(Long id, Class<CT_PhieuBaoHanh> entityClas) {
+		// TODO Auto-generated method stub
+		Session session = null;
+		Transaction transaction = null;
+		boolean isSuccess = false;
+		try {
+			session = this.sessionFactory.openSession();
+			transaction = session.beginTransaction();
+			CT_PhieuBaoHanh ct_PhieuBaoHanh = this.findById(id, entityClas);
+			session.delete(ct_PhieuBaoHanh); // start to delete
 			isSuccess = true;
 			transaction.commit();
 		} catch (Exception e) {
@@ -108,7 +125,7 @@ public class PhieuTiepNhanDaoImpl implements GeneralDao<PhieuTiepNhan> {
 	}
 
 	@Override
-	public boolean delete(Long id, Class<PhieuTiepNhan> entityClass) {
+	public boolean save(CT_PhieuBaoHanh newEntity) {
 		// TODO Auto-generated method stub
 		Session session = null;
 		Transaction transaction = null;
@@ -116,38 +133,9 @@ public class PhieuTiepNhanDaoImpl implements GeneralDao<PhieuTiepNhan> {
 		try {
 			session = this.sessionFactory.openSession();
 			transaction = session.beginTransaction();
-			// find the entity to be deleted
-			PhieuTiepNhan entity = this.findById(id, entityClass);
-			if (entity != null) {
-				session.delete(entity);
-			}
-			isSuccess = true;
-			transaction.commit();
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-			isSuccess = false;
-		} finally {
-			if (session != null && session.isOpen()) {
-				session.close();
-			}
-		}
-		return isSuccess;
-	}
-
-	@Override
-	public boolean save(PhieuTiepNhan newEntity) {
-		// TODO Auto-generated method stub
-		Session session = null;
-		Transaction transaction = null;
-		boolean isSuccess = false;
-		try {
-			session = this.sessionFactory.openSession();
-			transaction = session.beginTransaction();
-			// find the entity to be deleted
 			session.save(newEntity);
-			transaction.commit();
 			isSuccess = true;
+			transaction.commit();
 		} catch (Exception e) {
 			// TODO: handle exception
 			isSuccess = false;

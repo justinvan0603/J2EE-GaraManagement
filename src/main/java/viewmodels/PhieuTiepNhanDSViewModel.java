@@ -28,9 +28,10 @@ public class PhieuTiepNhanDSViewModel {
 	public static final String ADD_NEW_TYPE = "add_new_type";
 	public static final String FROM_NEW_CUSTOMER = "new_customer";
 	public static final String FROM_FREQUENTER = "frequenter";
+	public static final String SELECTED_PHIEUTIEPNHAN_ID = "selected_phieutiepnhan_id";
 	// list of search types for view page
 	private static final String[] SEARCH_TYPES = new String[] { "Mã phiếu", "Biển số xe", "Ngày tiếp nhận",
-			"Ngày hẹn trả" };
+			"Ngày hẹn trả", "Tên nhân viên lập" };
 
 	@WireVariable
 	private PhieuTiepNhanServiceImpl phieuTiepNhanServiceImpl;
@@ -109,6 +110,9 @@ public class PhieuTiepNhanDSViewModel {
 							Messagebox.ERROR);
 				}
 				break;
+			case 4: // filter by staff name
+				this.listOfReceiveHeaders = this.phieuTiepNhanServiceImpl.filterByCreationStaffName(searchString.trim());
+				break;
 			default:
 				break;
 			}
@@ -116,6 +120,33 @@ public class PhieuTiepNhanDSViewModel {
 			this.listOfReceiveHeaders = this.phieuTiepNhanServiceImpl.getAll(PhieuTiepNhan.class);
 		}
 
+	}
+
+	/**
+	 * Xoa phieu tiep nhan
+	 * 
+	 * @param id
+	 *            : id phieu tiep nhan can xoa
+	 */
+	@Command
+	@NotifyChange("listOfReceiveHeaders")
+	public void deletePhieuTiepNhan(@BindingParam("phieutiepnhan_id") Long id) {
+		this.phieuTiepNhanServiceImpl.delete(id, PhieuTiepNhan.class);
+		// refresh data
+		this.listOfReceiveHeaders = this.phieuTiepNhanServiceImpl.getAll(PhieuTiepNhan.class);
+	}
+
+	/**
+	 * Xem va sua thong tin phieu tiep nhan
+	 * 
+	 * @param id
+	 *            : id phieu tiep nhan de xem chi tiet.
+	 */
+	@Command
+	public void seePhieuTiepNhanDetail(@BindingParam("phieutiepnhan_id") Long id) {
+		// save id into session
+		Sessions.getCurrent().setAttribute(SELECTED_PHIEUTIEPNHAN_ID, id);
+		Executions.sendRedirect("./PhieuTiepNhan_Edit.zul");
 	}
 
 	public List<PhieuTiepNhan> getListOfReceiveHeaders() {

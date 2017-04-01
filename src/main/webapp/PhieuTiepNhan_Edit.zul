@@ -1,0 +1,47 @@
+<?page title="new page title" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<window title="Xem thông tin phiếu tiếp nhận" border="normal"
+		apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('viewmodels.PhieuTiepNhanEditViewModel')">
+		<style src="./css/style.css" />
+		<hbox>
+			<vbox sclass="layout_fit_margins">
+				<label>Mã phiếu</label>
+				<textbox value="@bind(vm.selectedPhieuTiepNhan.id)"
+					readonly="true" width="280px">
+				</textbox>
+				<label>Ngày lập</label>
+				<datebox readonly="true" buttonVisible="false"
+					value="@bind(vm.selectedPhieuTiepNhan.creationDate)"
+					width="280px">
+				</datebox>
+				<label>Khách hàng</label>
+				<textbox readonly="true"
+					value="@bind(vm.selectedPhieuTiepNhan.customer.hoTen)"
+					width="280px">
+				</textbox>
+				<label>Biển số xe</label>
+				<textbox readonly="true"
+					value="@bind(vm.selectedPhieuTiepNhan.licensePlate)"
+					width="280px">
+				</textbox>
+			</vbox>
+			<vbox sclass="layout_fit_margins">
+				<label>Ngày trả xe</label>
+				<datebox
+					value="@bind(vm.selectedPhieuTiepNhan.givebackDate) @save(vm.selectedPhieuTiepNhan.givebackDate, before='updatePhieuTiepNhan')"
+					width="280px">
+				</datebox>
+				<label>Tình trạng</label>
+				<textbox
+					value="@bind(vm.selectedPhieuTiepNhan.state) @save(vm.selectedPhieuTiepNhan.state, before='updatePhieuTiepNhan')"
+					rows="5" width="280px">
+				</textbox>
+				<button
+					onClick="@command('updatePhieuTiepNhan', phieutiepnhan_id= vm.selectedPhieuTiepNhan.id)">
+					Cập nhật
+				</button>
+			</vbox>
+		</hbox>
+	</window>
+</zk>

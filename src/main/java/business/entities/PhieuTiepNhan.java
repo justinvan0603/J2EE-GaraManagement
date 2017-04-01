@@ -13,6 +13,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Formula;
+
 import utils.StringFormatUtil;
 
 /**
@@ -53,11 +55,20 @@ public class PhieuTiepNhan {
 	@Column(name = "MaNV")
 	private Integer staffId;
 
+	// Number of service headers for this current "Phieu tiep nhan"
+	// this field is as a flag for view to add some components or not
+	@Formula("(select count(*) from phieudichvu A where A.MaPhieuTiepNhan = MaPhieuTiepNhan )")
+	private Integer numberofServiceHeaders;
+
 	// Relationships
 
 	@ManyToOne
 	@JoinColumn(name = "MaKH", referencedColumnName = "MaKH", insertable = false, updatable = false)
 	private Customer customer; // customer of this receive header
+
+	@ManyToOne
+	@JoinColumn(name = "MaNV", referencedColumnName = "MaNV", insertable = false, updatable = false)
+	private NhanVien nhanVien;
 
 	public PhieuTiepNhan() {
 		// TODO Auto-generated constructor stub
@@ -144,6 +155,14 @@ public class PhieuTiepNhan {
 		return StringFormatUtil.shortDateTime(this.creationDate);
 	}
 
+	public Integer getNumberofServiceHeaders() {
+		return numberofServiceHeaders;
+	}
+
+	public void setNumberofServiceHeaders(Integer numberofServiceHeaders) {
+		this.numberofServiceHeaders = numberofServiceHeaders;
+	}
+
 	/**
 	 * Get give back date time in format string 'dd/MM/yyyy'
 	 * 
@@ -151,6 +170,14 @@ public class PhieuTiepNhan {
 	 */
 	public String getShortGiveBackDate() {
 		return StringFormatUtil.shortDateTime(this.givebackDate);
+	}
+
+	public NhanVien getNhanVien() {
+		return nhanVien;
+	}
+
+	public void setNhanVien(NhanVien nhanVien) {
+		this.nhanVien = nhanVien;
 	}
 
 	@Override

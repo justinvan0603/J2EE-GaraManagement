@@ -9,34 +9,31 @@ import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import business.entities.PhieuTiepNhan;
+import business.entities.PhieuBaoHanh;
 
-/**
- * Implementation Dao objet of {@link PhieuTiepNhan} entity
- * 
- * @author TNS
- *
- */
 @Repository
-public class PhieuTiepNhanDaoImpl implements GeneralDao<PhieuTiepNhan> {
+public class PhieuBaoHanhDaoImpl implements GeneralDao<PhieuBaoHanh> {
 
 	@Autowired
 	private SessionFactory sessionFactory;
 
 	@Override
-	public PhieuTiepNhan findById(long id, Class<PhieuTiepNhan> entityClass) {
+	public PhieuBaoHanh findById(long id, Class<PhieuBaoHanh> entityClass) {
 		// TODO Auto-generated method stub
 		Session session = null;
 		Transaction transaction = null;
-		PhieuTiepNhan result = null;
+		PhieuBaoHanh result = null;
 		try {
 			session = this.sessionFactory.openSession();
 			transaction = session.beginTransaction();
-			result = (PhieuTiepNhan) session.get(entityClass, id);
+			result = (PhieuBaoHanh) session.get(entityClass, Integer.parseInt(id + ""));
+			// start to initialize the inner because we use lazy loading
+			// strategy
+			// Hibernate.initialize(result.getListOfCT_PhieuBaoHanhs());
 			transaction.commit();
 		} catch (Exception e) {
 			// TODO: handle exception
-
+			e.printStackTrace();
 		} finally {
 			if (session != null && session.isOpen()) {
 				session.close();
@@ -48,12 +45,11 @@ public class PhieuTiepNhanDaoImpl implements GeneralDao<PhieuTiepNhan> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<PhieuTiepNhan> getAll(Class<PhieuTiepNhan> entityClass) {
-		// TODO Auto-generated method stub
+	public List<PhieuBaoHanh> getAll(Class<PhieuBaoHanh> entityClass) {
 		// TODO Auto-generated method stub
 		Session session = null;
 		Transaction transaction = null;
-		List<PhieuTiepNhan> results = null;
+		List<PhieuBaoHanh> results = null;
 		try {
 			session = this.sessionFactory.openSession();
 			transaction = session.beginTransaction();
@@ -62,6 +58,7 @@ public class PhieuTiepNhanDaoImpl implements GeneralDao<PhieuTiepNhan> {
 			transaction.commit();
 		} catch (Exception e) {
 			// TODO: handle exception
+			e.printStackTrace();
 		} finally {
 			if (session != null && session.isOpen()) {
 				session.close();
@@ -71,13 +68,13 @@ public class PhieuTiepNhanDaoImpl implements GeneralDao<PhieuTiepNhan> {
 	}
 
 	@Override
-	public List<PhieuTiepNhan> query(String query, Class<PhieuTiepNhan> entityClass) {
+	public List<PhieuBaoHanh> query(String query, Class<PhieuBaoHanh> entityClass) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public boolean update(Long id, PhieuTiepNhan newInfor) {
+	public boolean update(Long id, PhieuBaoHanh newInfor) {
 		// TODO Auto-generated method stub
 		Session session = null;
 		Transaction transaction = null;
@@ -85,13 +82,11 @@ public class PhieuTiepNhanDaoImpl implements GeneralDao<PhieuTiepNhan> {
 		try {
 			session = this.sessionFactory.openSession();
 			transaction = session.beginTransaction();
-			PhieuTiepNhan entity = this.findById(id, PhieuTiepNhan.class);
+			PhieuBaoHanh entity = this.findById(id, PhieuBaoHanh.class);
 			if (entity != null) {
-				entity.setCreationDate(newInfor.getCreationDate());
-				entity.setGivebackDate(newInfor.getGivebackDate());
-				entity.setState(newInfor.getState());
+				entity.setTinhTrang(newInfor.getTinhTrang()); // update tinh
+																// trang
 				// more updates here
-
 				session.saveOrUpdate(entity);
 			}
 			isSuccess = true;
@@ -108,7 +103,7 @@ public class PhieuTiepNhanDaoImpl implements GeneralDao<PhieuTiepNhan> {
 	}
 
 	@Override
-	public boolean delete(Long id, Class<PhieuTiepNhan> entityClass) {
+	public boolean delete(Long id, Class<PhieuBaoHanh> entityClass) {
 		// TODO Auto-generated method stub
 		Session session = null;
 		Transaction transaction = null;
@@ -117,7 +112,7 @@ public class PhieuTiepNhanDaoImpl implements GeneralDao<PhieuTiepNhan> {
 			session = this.sessionFactory.openSession();
 			transaction = session.beginTransaction();
 			// find the entity to be deleted
-			PhieuTiepNhan entity = this.findById(id, entityClass);
+			PhieuBaoHanh entity = this.findById(id, entityClass);
 			if (entity != null) {
 				session.delete(entity);
 			}
@@ -136,7 +131,7 @@ public class PhieuTiepNhanDaoImpl implements GeneralDao<PhieuTiepNhan> {
 	}
 
 	@Override
-	public boolean save(PhieuTiepNhan newEntity) {
+	public boolean save(PhieuBaoHanh newEntity) {
 		// TODO Auto-generated method stub
 		Session session = null;
 		Transaction transaction = null;
