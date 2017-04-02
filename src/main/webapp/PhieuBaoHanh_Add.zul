@@ -34,7 +34,7 @@
 				<hlayout style="padding : 4px;">
 					<label>Hiệu xe</label>
 					<combobox id="cmbHieuXe" width="250px"
-						onSelect="@command('onComboboxHieuXeChange', ma_hieuxe = self.selectedItem.value)"
+						onSelect="@command('onComboboxHieuXeChange', ma_hieuxe = self.selectedItem.value, cmb_event = combobox_phutung)"
 						model="@load(vm.listOfHieuXes)" readonly="true">
 						<template name="model">
 							<comboitem value="@load(each.maHieuXe)"
@@ -42,6 +42,7 @@
 						</template>
 					</combobox>
 					<combobox id="combobox_phutung" width="250px"
+						selectedItem="@load(vm.selectedPhutung)"
 						model="@load(vm.listOfPhuTungs)" readonly="true">
 						<template name="model">
 							<comboitem value="@load(each.id)"

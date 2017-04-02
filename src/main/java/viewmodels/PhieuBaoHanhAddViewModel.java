@@ -6,11 +6,18 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.ContextParam;
+import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.select.Selectors;
+import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Messagebox;
@@ -44,6 +51,7 @@ public class PhieuBaoHanhAddViewModel {
 	// to load on view
 	private List<HieuXe> listOfHieuXes;
 	private List<PhuTung> listOfPhuTungs;
+	private PhuTung selectedPhutung;
 
 	// entities to be saved
 	private PhieuBaoHanh phieuBaoHanh;
@@ -107,9 +115,10 @@ public class PhieuBaoHanhAddViewModel {
 	}
 
 	@Command
-	@NotifyChange("listOfPhuTungs")
+	@NotifyChange({ "listOfPhuTungs", "selectedPhutung" })
 	public void onComboboxHieuXeChange(@BindingParam("ma_hieuxe") String maHieuXe) {
 		this.listOfPhuTungs = this.phuTungServiceImpl.find(null, null, maHieuXe);
+		this.selectedPhutung = this.listOfPhuTungs.get(0);
 	}
 
 	@Command
@@ -165,6 +174,14 @@ public class PhieuBaoHanhAddViewModel {
 
 	public void setListOfPhuTungs(List<PhuTung> listOfPhuTungs) {
 		this.listOfPhuTungs = listOfPhuTungs;
+	}
+
+	public PhuTung getSelectedPhutung() {
+		return selectedPhutung;
+	}
+
+	public void setSelectedPhutung(PhuTung selectedPhutung) {
+		this.selectedPhutung = selectedPhutung;
 	}
 
 }
