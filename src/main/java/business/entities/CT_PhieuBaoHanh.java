@@ -21,17 +21,11 @@ public class CT_PhieuBaoHanh {
 	@Column(name = "Id")
 	private Integer id;
 
-	@Column(name = "MaPhieuDV")
-	private Integer maPhieuDichVu;
-
 	@Column(name = "MaPhuTung")
 	private Integer maPhuTung;
 
 	@Column(name = "MaPhieuBH")
 	private Integer maPhieuBaoHanh;
-
-	@Column(name = "MaPhieuBanLe")
-	private Integer maPhieuBanLe;
 
 	@Column(name = "NgayHenTra")
 	@Temporal(TemporalType.DATE)
@@ -58,14 +52,6 @@ public class CT_PhieuBaoHanh {
 		this.id = id;
 	}
 
-	public Integer getMaPhieuDichVu() {
-		return maPhieuDichVu;
-	}
-
-	public void setMaPhieuDichVu(Integer maPhieuDichVu) {
-		this.maPhieuDichVu = maPhieuDichVu;
-	}
-
 	public Integer getMaPhuTung() {
 		return maPhuTung;
 	}
@@ -80,14 +66,6 @@ public class CT_PhieuBaoHanh {
 
 	public void setMaPhieuBaoHanh(Integer maPhieuBaoHanh) {
 		this.maPhieuBaoHanh = maPhieuBaoHanh;
-	}
-
-	public Integer getMaPhieuBanLe() {
-		return maPhieuBanLe;
-	}
-
-	public void setMaPhieuBanLe(Integer maPhieuBanLe) {
-		this.maPhieuBanLe = maPhieuBanLe;
 	}
 
 	public Date getNgayHenTra() {
@@ -119,9 +97,7 @@ public class CT_PhieuBaoHanh {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((maPhieuBanLe == null) ? 0 : maPhieuBanLe.hashCode());
 		result = prime * result + ((maPhieuBaoHanh == null) ? 0 : maPhieuBaoHanh.hashCode());
-		result = prime * result + ((maPhieuDichVu == null) ? 0 : maPhieuDichVu.hashCode());
 		result = prime * result + ((maPhuTung == null) ? 0 : maPhuTung.hashCode());
 		result = prime * result + ((ngayHenTra == null) ? 0 : ngayHenTra.hashCode());
 		result = prime * result + ((ngayTra == null) ? 0 : ngayTra.hashCode());
@@ -142,20 +118,10 @@ public class CT_PhieuBaoHanh {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (maPhieuBanLe == null) {
-			if (other.maPhieuBanLe != null)
-				return false;
-		} else if (!maPhieuBanLe.equals(other.maPhieuBanLe))
-			return false;
 		if (maPhieuBaoHanh == null) {
 			if (other.maPhieuBaoHanh != null)
 				return false;
 		} else if (!maPhieuBaoHanh.equals(other.maPhieuBaoHanh))
-			return false;
-		if (maPhieuDichVu == null) {
-			if (other.maPhieuDichVu != null)
-				return false;
-		} else if (!maPhieuDichVu.equals(other.maPhieuDichVu))
 			return false;
 		if (maPhuTung == null) {
 			if (other.maPhuTung != null)

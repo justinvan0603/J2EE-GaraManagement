@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,11 +15,11 @@ import business.entities.PhuTung;
 import business.persistence.GeneralDao;
 
 @Service
-public class PhuTungServiceImpl implements GeneralService<PhuTung>{
+public class PhuTungServiceImpl implements GeneralService<PhuTung> {
 
 	@Autowired
 	private GeneralDao<PhuTung> phuTungDaoImpl;
-	
+
 	@Override
 	@Transactional(readOnly = true)
 	public PhuTung findById(long id, Class<PhuTung> entityClass) {
@@ -70,24 +71,24 @@ public class PhuTungServiceImpl implements GeneralService<PhuTung>{
 			session = this.phuTungDaoImpl.getSessionFactory().openSession();
 			transaction = session.beginTransaction();
 			Criteria criteria = session.createCriteria(PhuTung.class);
-			if (mapt != null){
-				criteria.add(Restrictions.like("MaPhuTung", "%" + mapt + "%"));
-			} else if (tenpt != null){
-				criteria.add(Restrictions.like("TenPhuTung", "%" + tenpt + "%"));
+			if (mapt != null) {
+				criteria.add(Restrictions.like("MaPhuTung", mapt, MatchMode.ANYWHERE));
+			} else if (tenpt != null) {
+				criteria.add(Restrictions.like("TenPhuTung", tenpt, MatchMode.ANYWHERE));
 			} else {
-				criteria.add(Restrictions.like("MaHieuXe", "%" + hieuxe + "%"));
+				criteria.add(Restrictions.like("MaHieuXe", hieuxe, MatchMode.ANYWHERE));
 			}
 			result = criteria.list(); // get all records
 			transaction.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
 			result = null;
-		}
-		finally {
+		} finally {
 			if (session != null && session.isOpen()) {
 				session.close();
 			}
 		}
 		return result;
 	}
+
 }

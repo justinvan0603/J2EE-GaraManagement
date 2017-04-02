@@ -16,14 +16,6 @@
 						</textbox>
 					</vbox>
 					<vbox width="180px">
-						<label>Mã phiếu dịch vụ</label>
-						<textbox id="textbox_maphieudv"></textbox>
-					</vbox>
-					<vbox width="180px">
-						<label>Mã phiếu bán lẻ</label>
-						<textbox id="textbox_maphieubanle"></textbox>
-					</vbox>
-					<vbox width="180px">
 						<label>Nhân viên lập</label>
 						<textbox readonly="true"
 							value="@load(vm.phieuBaoHanh.nhanVien.hoTen)" rows="3">
@@ -40,17 +32,32 @@
 			<!-- nhap thong tin chi tiet -->
 			<window title="Nhập chi tiết" border="none">
 				<hlayout style="padding : 4px;">
-					<label>Mã phụ tùng</label>
-					<intbox id="intbox_maphutung"></intbox>
+					<label>Hiệu xe</label>
+					<combobox id="cmbHieuXe" width="250px"
+						onSelect="@command('onComboboxHieuXeChange', ma_hieuxe = self.selectedItem.value)"
+						model="@load(vm.listOfHieuXes)" readonly="true">
+						<template name="model">
+							<comboitem value="@load(each.maHieuXe)"
+								label="@load(each.maHieuXe)" />
+						</template>
+					</combobox>
+					<combobox id="combobox_phutung" width="250px"
+						model="@load(vm.listOfPhuTungs)" readonly="true">
+						<template name="model">
+							<comboitem value="@load(each.id)"
+								label="@load(each.tenPhuTung)" />
+						</template>
+					</combobox>
 					<label>Ngày hẹn trả</label>
 					<datebox id="datebox_ngayhentra"></datebox>
 					<button
-						onClick="@command('themChiTiet', maphutung = intbox_maphutung.value , ngayhentra = datebox_ngayhentra.value)">
+						onClick="@command('themChiTiet', maphutung = combobox_phutung.selectedItem.value
+						 , ngayhentra = datebox_ngayhentra.value)">
 						Thêm
 					</button>
 				</hlayout>
 			</window>
-			<listbox height="480px" hflex="1" mold="paging"
+			<listbox height="200px" hflex="1" mold="paging"
 				model="@load(vm.listOfCT_PhieuBaoHanhs)" pageSize="15"
 				width="100%">
 				<auxhead>
@@ -76,10 +83,7 @@
 					</listitem>
 				</template>
 			</listbox>
-			<button
-				onClick="@command('luuPhieuBaoHanh', maphieudv = textbox_maphieudv.text,  maphieubanle = textbox_maphieubanle.text)">
-				Lưu
-			</button>
+			<button onClick="@command('luuPhieuBaoHanh')">Lưu</button>
 		</vlayout>
 	</window>
 </zk>
