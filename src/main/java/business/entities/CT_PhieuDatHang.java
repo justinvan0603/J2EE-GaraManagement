@@ -5,7 +5,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "ct_phieudathang")
@@ -17,10 +20,10 @@ public class CT_PhieuDatHang {
 	private long Id;
 
 	@Column(name = "IdPhieuDatHang")
-	private int IdPhieuDatHang;
+	private long IdPhieuDatHang;
 
 	@Column(name = "MaPhuTung")
-	private int IdPhuTung;
+	private long IdPhuTung;
 
 	@Column(name = "SoLuong")
 	private int SoLuong;
@@ -30,6 +33,16 @@ public class CT_PhieuDatHang {
 	
 	@Column(name = "ThanhTien")
 	private Double ThanhTien;
+	
+	@Transient
+	private String TenPT;
+	
+	@Transient
+	private String MaPT;
+	
+	@ManyToOne
+	@JoinColumn(name = "MaPhuTung", referencedColumnName = "Id", insertable = false, updatable = false)
+	private PhuTung PhuTung;
 
 	public long getId() {
 		return Id;
@@ -39,19 +52,19 @@ public class CT_PhieuDatHang {
 		Id = id;
 	}
 
-	public int getIdPhieuDatHang() {
+	public long getIdPhieuDatHang() {
 		return IdPhieuDatHang;
 	}
 
-	public void setIdPhieuDatHang(int idPhieuDatHang) {
+	public void setIdPhieuDatHang(long idPhieuDatHang) {
 		IdPhieuDatHang = idPhieuDatHang;
 	}
 
-	public int getIdPhuTung() {
+	public long getIdPhuTung() {
 		return IdPhuTung;
 	}
 
-	public void setIdPhuTung(int idPhuTung) {
+	public void setIdPhuTung(long idPhuTung) {
 		IdPhuTung = idPhuTung;
 	}
 
@@ -78,6 +91,55 @@ public class CT_PhieuDatHang {
 	public void setThanhTien(Double thanhTien) {
 		ThanhTien = thanhTien;
 	}
-	
+
+	public PhuTung getPhuTung() {
+		return PhuTung;
+	}
+
+	public void setPhuTung(PhuTung phuTung) {
+		PhuTung = phuTung;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (int) (IdPhieuDatHang ^ (IdPhieuDatHang >>> 32));
+		result = prime * result + (int) (IdPhuTung ^ (IdPhuTung >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CT_PhieuDatHang other = (CT_PhieuDatHang) obj;
+		if (IdPhieuDatHang != other.IdPhieuDatHang)
+			return false;
+		if (IdPhuTung != other.IdPhuTung)
+			return false;
+		return true;
+	}
+
+	public String getTenPT() {
+		return TenPT;
+	}
+
+	public void setTenPT(String tenPT) {
+		TenPT = tenPT;
+	}
+
+	public String getMaPT() {
+		return MaPT;
+	}
+
+	public void setMaPT(String maPT) {
+		MaPT = maPT;
+	}
+
 	
 }

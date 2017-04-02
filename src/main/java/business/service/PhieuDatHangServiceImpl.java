@@ -95,7 +95,7 @@ public class PhieuDatHangServiceImpl implements GeneralService<PhieuDatHang>{
 			transaction = session.beginTransaction();
 			Criteria criteria = session.createCriteria(PhieuDatHang.class);
 			if (maphieu != null){
-				criteria.add(Restrictions.like("MaPhieuDat", "%" + maphieu + "%"));
+				criteria.add(Restrictions.like("MaPhieuDat", maphieu, MatchMode.ANYWHERE));
 			} else if (ngaylap != null){
 				criteria.add(Restrictions.eq("NgayDat", ngaylap));
 			} else if (ngayhengiao != null){

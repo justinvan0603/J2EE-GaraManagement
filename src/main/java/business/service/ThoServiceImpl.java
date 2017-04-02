@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -66,11 +67,11 @@ public class ThoServiceImpl implements GeneralService<Tho>{
 			transaction = session.beginTransaction();
 			Criteria criteria = session.createCriteria(Tho.class);
 			if (name != null){
-				criteria.add(Restrictions.like("name", "%" + name + "%"));
+				criteria.add(Restrictions.like("name", name, MatchMode.ANYWHERE));
 			} else if (sdt != null){
-				criteria.add(Restrictions.like("phone", "%" + sdt + "%"));
+				criteria.add(Restrictions.like("phone", sdt, MatchMode.ANYWHERE));
 			} else {
-				criteria.add(Restrictions.like("address", "%" + diachi + "%"));
+				criteria.add(Restrictions.like("address", diachi, MatchMode.ANYWHERE));
 			}
 			result = criteria.list(); // get all records
 			transaction.commit();

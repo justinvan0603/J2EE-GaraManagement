@@ -72,14 +72,14 @@ public class PhieuThuServiceImpl implements GeneralService<PhieuThu> {
 			transaction = session.beginTransaction();
 			Criteria criteria = session.createCriteria(PhieuThu.class);
 			if (maphieu != null){
-				criteria.add(Restrictions.like("MaPhieuThu", "%" + maphieu + "%"));
+				criteria.add(Restrictions.like("MaPhieuThu", maphieu, MatchMode.ANYWHERE));
 			} else if (ngaylap != null){
 				criteria.add(Restrictions.eq("NgayLap", ngaylap));
 			} else if (tennv != null){
 				criteria.createAlias("NhanVien", "staff"); // 
 				criteria.add(Restrictions.like("staff.HoTen", tennv, MatchMode.ANYWHERE));
 			} else {
-				criteria.add(Restrictions.like("NoiDung", "%" + noidungthu + "%"));
+				criteria.add(Restrictions.like("NoiDung", noidungthu, MatchMode.ANYWHERE));
 			}
 			result = criteria.list(); // get all records
 			transaction.commit();

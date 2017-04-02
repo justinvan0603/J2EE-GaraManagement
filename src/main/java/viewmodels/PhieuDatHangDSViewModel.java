@@ -13,7 +13,12 @@ import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.Messagebox;
 
+import business.entities.CT_PhieuBaoHanh;
+import business.entities.CT_PhieuDatHang;
+import business.entities.PhieuBaoHanh;
 import business.entities.PhieuDatHang;
+import business.persistence.ChiTietPhieuDatHangDaoImpl;
+import business.service.ChiTietPhieuDatHangServiceImpl;
 import business.service.PhieuDatHangServiceImpl;
 import utils.DateUtil;
 
@@ -22,24 +27,27 @@ public class PhieuDatHangDSViewModel {
 	public static final String SELECTED_PDH_ID = "selected_phieudathang_id";
 	private static final String[] SEARCH_TYPES = new String[] {
 
-			"Tất cả", "Mã phiếu", "Nhân viên lập", "Ngày lập phiếu", "Ngày hẹn giao",  "Tên nhà cung cấp" };
+			"Tất cả", "Mã phiếu", "Nhân viên lập", "Ngày lập phiếu", "Ngày hẹn giao", "Tên nhà cung cấp" };
 
 	@WireVariable
 	private PhieuDatHangServiceImpl phieuDatHangService;
+	private ChiTietPhieuDatHangServiceImpl chiTietPhieuDatHangService;
 	private List<PhieuDatHang> listOfPhieuDatHang;
-	
+
 	@Init
 	public void init() {
 		// get bean from Spring, no need to create new object, Spring framework
 		// will manage this bean
 		this.phieuDatHangService = (PhieuDatHangServiceImpl) SpringUtil.getBean("phieudathang_service");
+		this.chiTietPhieuDatHangService = (ChiTietPhieuDatHangServiceImpl) SpringUtil
+				.getBean("ct_phieudathang_service");
 		if (this.phieuDatHangService != null) {
 			this.listOfPhieuDatHang = this.phieuDatHangService.getAll(PhieuDatHang.class);
 		} else {
 			throw new NullPointerException("GeneralService is NULL");
 		}
 	}
-	
+
 	@Command
 	@NotifyChange("listOfPhieuDatHang")
 	public void filterData(@BindingParam("search_string") String searchString,
@@ -51,13 +59,13 @@ public class PhieuDatHangDSViewModel {
 		case 1: // search by id of receive header
 			if (!searchString.isEmpty()) {
 				this.listOfPhieuDatHang.clear(); // clear all items
-				this.listOfPhieuDatHang = this.phieuDatHangService.find(searchString, null, null, null,null);
+				this.listOfPhieuDatHang = this.phieuDatHangService.find(searchString, null, null, null, null);
 			}
 			break;
 		case 2: //
 			if (!searchString.isEmpty()) {
 				this.listOfPhieuDatHang.clear(); // clear all items
-				this.listOfPhieuDatHang = this.phieuDatHangService.find(null, searchString, null, null,null);
+				this.listOfPhieuDatHang = this.phieuDatHangService.find(null, searchString, null, null, null);
 			}
 			break;
 		case 3: //
@@ -73,7 +81,7 @@ public class PhieuDatHangDSViewModel {
 							Messagebox.ERROR);
 				}
 				this.listOfPhieuDatHang.clear(); // clear all items
-				this.listOfPhieuDatHang = this.phieuDatHangService.find(null,null , searchDate, null,null);
+				this.listOfPhieuDatHang = this.phieuDatHangService.find(null, null, searchDate, null, null);
 			}
 			break;
 		case 4: //
@@ -89,36 +97,42 @@ public class PhieuDatHangDSViewModel {
 							Messagebox.ERROR);
 				}
 				this.listOfPhieuDatHang.clear(); // clear all items
-				this.listOfPhieuDatHang = this.phieuDatHangService.find(null, null, null, searchDate,null);
+				this.listOfPhieuDatHang = this.phieuDatHangService.find(null, null, null, searchDate, null);
 			}
 			break;
 		case 5: //
 			if (!searchString.isEmpty()) {
 				this.listOfPhieuDatHang.clear(); // clear all items
-				this.listOfPhieuDatHang = this.phieuDatHangService.find(null, null, null, null,searchString);
+				this.listOfPhieuDatHang = this.phieuDatHangService.find(null, null, null, null, searchString);
 			}
 			break;
 		default:
 			break;
 		}
 	}
-	
+
 	@Command
 	@NotifyChange("listOfPhieuDatHang")
 	public void deletePhieuDatHang(@BindingParam("phieudh_id") long id) {
 
-		 if (this.phieuDatHangService.delete(id, PhieuDatHang.class)) {
- 			this.listOfPhieuDatHang = this.phieuDatHangService.getAll(PhieuDatHang.class);
- 		} else {
- 			Messagebox.show("Lỗi khi xoá");
- 		}
+		List<CT_PhieuDatHang> listOfCT_PhieuDatHang = this.chiTietPhieuDatHangService
+				.getAllByPhieuDatHangId(id);
+		if (!listOfCT_PhieuDatHang.isEmpty()) {
+			for (CT_PhieuDatHang ct : listOfCT_PhieuDatHang) {
+				this.chiTietPhieuDatHangService.delete(ct.getId(),
+				CT_PhieuDatHang.class);
+			}
+		}
+		this.phieuDatHangService.delete(id, PhieuDatHang.class);
+		this.listOfPhieuDatHang = this.phieuDatHangService.getAll(PhieuDatHang.class);
+
 	}
-	
+
 	@Command
 	public void addNewPhieuDatHangRedirect() {
 		Executions.sendRedirect("./PhieuDatHang_Add.zul");
 	}
-	
+
 	@Command
 	public void editPhieuDatHang(@BindingParam("phieudh_id") long id) {
 		// save session the selected id
@@ -145,6 +159,5 @@ public class PhieuDatHangDSViewModel {
 	public void setPhieuDatHangService(PhieuDatHangServiceImpl phieuDatHangService) {
 		this.phieuDatHangService = phieuDatHangService;
 	}
-	
-	
+
 }

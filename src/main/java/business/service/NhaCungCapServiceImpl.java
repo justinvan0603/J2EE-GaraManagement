@@ -6,6 +6,7 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -71,13 +72,13 @@ public class NhaCungCapServiceImpl implements GeneralService<NhaCungCap> {
 			transaction = session.beginTransaction();
 			Criteria criteria = session.createCriteria(NhaCungCap.class);
 			if (name != null){
-				criteria.add(Restrictions.like("TenNCC", "%" + name + "%"));
+				criteria.add(Restrictions.like("TenNCC", name, MatchMode.ANYWHERE));
 			} else if (sdt != null){
-				criteria.add(Restrictions.like("SoDienThoai", "%" + sdt + "%"));
+				criteria.add(Restrictions.like("SoDienThoai", sdt, MatchMode.ANYWHERE));
 			} else if (diachi != null){
-				criteria.add(Restrictions.like("DiaChi", "%" + diachi + "%"));
+				criteria.add(Restrictions.like("DiaChi", diachi, MatchMode.ANYWHERE));
 			} else {
-				criteria.add(Restrictions.like("NhomNCC", "%" + tennhom + "%"));
+				criteria.add(Restrictions.like("NhomNCC", tennhom, MatchMode.ANYWHERE));
 			}
 			result = criteria.list(); // get all records
 			transaction.commit();

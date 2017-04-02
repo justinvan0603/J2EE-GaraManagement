@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -17,10 +19,10 @@ public class CT_PhieuNhapHang {
 	private long Id;
 
 	@Column(name = "IdPhieuNhapHang")
-	private int IdPhieuNhapHang;
+	private long IdPhieuNhapHang;
 
 	@Column(name = "MaPhuTung")
-	private int IdPhuTung;
+	private long IdPhuTung;
 
 	@Column(name = "SoLuong")
 	private int SoLuong;
@@ -31,6 +33,10 @@ public class CT_PhieuNhapHang {
 	@Column(name = "ThanhTien")
 	private Double ThanhTien;
 
+	@ManyToOne
+	@JoinColumn(name = "MaPhuTung", referencedColumnName = "Id", insertable = false, updatable = false)
+	private PhuTung PhuTung;
+
 	public long getId() {
 		return Id;
 	}
@@ -39,19 +45,19 @@ public class CT_PhieuNhapHang {
 		Id = id;
 	}
 
-	public int getIdPhieuNhapHang() {
+	public long getIdPhieuNhapHang() {
 		return IdPhieuNhapHang;
 	}
 
-	public void setIdPhieuNhapHang(int idPhieuNhapHang) {
+	public void setIdPhieuNhapHang(long idPhieuNhapHang) {
 		IdPhieuNhapHang = idPhieuNhapHang;
 	}
 
-	public int getIdPhuTung() {
+	public long getIdPhuTung() {
 		return IdPhuTung;
 	}
 
-	public void setIdPhuTung(int idPhuTung) {
+	public void setIdPhuTung(long idPhuTung) {
 		IdPhuTung = idPhuTung;
 	}
 
@@ -77,6 +83,39 @@ public class CT_PhieuNhapHang {
 
 	public void setThanhTien(Double thanhTien) {
 		ThanhTien = thanhTien;
+	}
+
+	public PhuTung getPhuTung() {
+		return PhuTung;
+	}
+
+	public void setPhuTung(PhuTung phuTung) {
+		PhuTung = phuTung;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (int) (IdPhieuNhapHang ^ (IdPhieuNhapHang >>> 32));
+		result = prime * result + (int) (IdPhuTung ^ (IdPhuTung >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CT_PhieuNhapHang other = (CT_PhieuNhapHang) obj;
+		if (IdPhieuNhapHang != other.IdPhieuNhapHang)
+			return false;
+		if (IdPhuTung != other.IdPhuTung)
+			return false;
+		return true;
 	}
 	
 	
