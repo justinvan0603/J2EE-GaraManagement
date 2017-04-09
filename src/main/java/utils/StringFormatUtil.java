@@ -1,5 +1,6 @@
 package utils;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -35,6 +36,7 @@ public class StringFormatUtil {
 	 * @return
 	 */
 	public static String toCurrencyString(double value) {
-		return String.format("#,###,###", value);
+		DecimalFormat decimalFormat = new DecimalFormat("###,###,###.00");
+		return decimalFormat.format(value);
 	}
 }

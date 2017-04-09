@@ -182,8 +182,10 @@ public class XeServiceImpl implements GeneralService<Xe> {
 				xe.setSoKM(newInfor.getSoKM());
 				xe.setSoMay(newInfor.getSoMay());
 				xe.setTinhTrang(newInfor.getTinhTrang());
+				xe.setMaKH(newInfor.getMaKH());
+				xe.setHinhThuc(newInfor.getHinhThuc());
 				// start to update
-				session.update(xe);
+				session.saveOrUpdate(xe);
 			}
 			transaction.commit();
 			isSuccess = true;

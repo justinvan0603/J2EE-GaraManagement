@@ -1,5 +1,8 @@
 <?page title="Phiếu bảo hành mới" contentType="text/html;charset=UTF-8"?>
 <zk>
+
+	<!-- import mutual menu bar -->
+	<include src="menu_bar.zul"></include>
 	<window title="Phiếu bảo hành mới" border="normal" width="100%"
 		height="100%" apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('viewmodels.PhieuBaoHanhAddViewModel')">

@@ -10,9 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import business.entities.CT_PhieuBaoHanh;
 import business.entities.CT_PhieuDatHang;
-import business.entities.PhieuBaoHanh;
 import business.persistence.GeneralDao;
 
 @Service

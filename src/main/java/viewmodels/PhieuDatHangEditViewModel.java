@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.DependsOn;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Executions;
@@ -52,7 +53,6 @@ public class PhieuDatHangEditViewModel {
 	private Double tongTien;
 
 	@Init
-	@NotifyChange({"selectedNCC","selectedNhomNCC"})
 	public void init() {
 		long id = ((Long) Sessions.getCurrent().getAttribute(PhieuDatHangDSViewModel.SELECTED_PDH_ID)).longValue();
 		this.phieuServiceImpl = (PhieuDatHangServiceImpl) SpringUtil.getBean("phieudathang_service");
@@ -68,9 +68,16 @@ public class PhieuDatHangEditViewModel {
 			this.listOfHieuXes = this.hieuXeServiceImpl.getAll(HieuXe.class);
 			this.listOfNhomNCCs = this.nhomNhaCungCapServiceImpl.getAll(NhomNhaCungCap.class);
 			this.setOfCT_Phieus = this.ctPhieuServiceImpl.getAllByPhieuDatHangId(id);
-			this.selectedNCC = this.nhaCungCapServiceImpl.findById(phieu.getMaNCC(), NhaCungCap.class);
-			this.selectedNhomNCC = this.nhomNhaCungCapServiceImpl.find(selectedNCC.getNhomNCC());
-			//Messagebox.show(this.selectedNCC.getTenNCC() + this.selectedNhomNCC.getTenNhom());
+			// su dung setter be bind cac selected item thi ben zk view moi
+			// access duoc
+			this.setSelectedNCC(this.nhaCungCapServiceImpl.findById(phieu.getMaNCC(), NhaCungCap.class));
+			this.setSelectedNhomNCC(this.nhomNhaCungCapServiceImpl.find(selectedNCC.getNhomNCC()));
+			// list nha cung cap phai co du lieu thi moi binding duoc selected
+			// item
+			this.listOfNhaCungCaps = this.nhaCungCapServiceImpl.find(null, null, null,
+					this.selectedNhomNCC.getTenNhom());
+			// Messagebox.show(this.selectedNCC.getTenNCC() +
+			// this.selectedNhomNCC.getTenNhom());
 		} else {
 			if (this.phieuServiceImpl == null) {
 				throw new NullPointerException("Service 'PhieuDatHang' is null");
@@ -85,7 +92,7 @@ public class PhieuDatHangEditViewModel {
 	}
 
 	@Command
-	@NotifyChange({"setOfCT_Phieus","tongTien"})
+	@NotifyChange({ "setOfCT_Phieus", "tongTien" })
 	public void themChiTiet(@BindingParam("id_pt") long mapt, @BindingParam("sl") int sl,
 			@BindingParam("dongia") double dongia, @BindingParam("thanhtien") double thanhtien) {
 		PhuTung pt = this.phuTungServiceImpl.findById(mapt, PhuTung.class);
@@ -95,20 +102,20 @@ public class PhieuDatHangEditViewModel {
 		ct_Phieu.setDonGia(dongia);
 		ct_Phieu.setThanhTien(thanhtien);
 		ct_Phieu.setMaPT(pt.getMaPhuTung());
-		ct_Phieu.setTenPT(pt.getTenPhuTung());	
-		if (this.setOfCT_Phieus.add(ct_Phieu)){
+		ct_Phieu.setTenPT(pt.getTenPhuTung());
+		if (this.setOfCT_Phieus.add(ct_Phieu)) {
 			this.tongTien += thanhTien;
 		}
 	}
 
 	@Command
-	@NotifyChange({"setOfCT_Phieus","tongTien"})
+	@NotifyChange({ "setOfCT_Phieus", "tongTien" })
 	public void xoaChiTiet(@BindingParam("id_pt") long idpt) {
 		for (Iterator<CT_PhieuDatHang> iterator = this.setOfCT_Phieus.iterator(); iterator.hasNext();) {
 			CT_PhieuDatHang ct_Phieu = iterator.next();
 			if (ct_Phieu.getIdPhuTung() == idpt) {
 				iterator.remove();
-				tongTien -=ct_Phieu.getThanhTien();
+				tongTien -= ct_Phieu.getThanhTien();
 			}
 		}
 	}

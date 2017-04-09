@@ -8,7 +8,6 @@ import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import business.entities.CT_PhieuBaoHanh;
 import business.entities.CT_PhieuNhapHang;
 
 @Repository
