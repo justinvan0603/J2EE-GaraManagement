@@ -82,6 +82,7 @@ public class PhieuDatHangDaoImpl implements GeneralDao<PhieuDatHang> {
 				pdh.setMaPhieuDat(newInfor.getMaPhieuDat());
 				pdh.setNgayGiao(newInfor.getNgayGiao());
 				pdh.setMaNCC(newInfor.getMaNCC());
+				pdh.setTongTien(newInfor.getTongTien());
 				session.saveOrUpdate(pdh);
 				isSuccess = true;
 				transaction.commit();

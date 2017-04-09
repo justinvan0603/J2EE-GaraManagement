@@ -128,4 +128,11 @@ public class PhieuDatHang {
 		return StringFormatUtil.shortDateTime(NgayGiao);
 	}
 	
+	public void AddTongTien(Double tien){
+		this.TongTien += tien;
+	}
+	
+	public void SubTongTien(Double tien){
+		this.TongTien -= tien;
+	}
 }

@@ -30,7 +30,8 @@
 					<vbox width="300px">
 						<label>Ngày hẹn giao</label>
 						<datebox id="datebox_ngaygiao" width="200px"
-							constraint="no empty, no past" value="@load(vm.phieu.ngayGiao)"
+							constraint="no empty, no past" 
+							value="@load(vm.phieu.ngayGiao) @save(vm.phieu.ngayGiao, before = 'luuPhieu')"
 							readonly="true" format="dd/MM/yyyy">
 						</datebox>
 					</vbox>
@@ -51,6 +52,7 @@
 					<vbox width="300px">
 						<label>Nhà cung cấp</label>
 						<combobox id="combobox_ncc" width="200px"
+							onSelect="@command('onComboboxNCCChange', ma_ncc = self.selectedItem.value)"
 							model="@load(vm.listOfNhaCungCaps)"
 							selectedItem="@bind(vm.selectedNCC)" readonly="true">
 							<template name="model">
@@ -174,6 +176,7 @@
 			<listbox height="200px" hflex="1" mold="paging"
 				model="@load(vm.setOfCT_Phieus)" pageSize="15" width="100%">
 				<listhead>
+					<listheader label="Idct" width="100px" visible="false" />
 					<listheader label="Mã phụ tùng" width="100px" />
 					<listheader label="Tên phụ tùng" />
 					<listheader label="Số lượng" />
@@ -183,14 +186,15 @@
 				</listhead>
 				<template name="model" var="e">
 					<listitem>
-						<listcell label="@load(e.maPT)"></listcell>
-						<listcell label="@load(e.tenPT)"></listcell>
+						<listcell label="@load(e.id)" visible="false"></listcell>
+						<listcell label="@load(e.phuTung.maPhuTung)"></listcell>
+						<listcell label="@load(e.phuTung.tenPhuTung)"></listcell>
 						<listcell label="@load(e.soLuong)"></listcell>
 						<listcell label="@load(e.donGia)"></listcell>
 						<listcell label="@load(e.thanhTien)"></listcell>
 						<listcell>
 							<button
-								onClick="@command('xoaChiTiet', id_pt = e.idPhuTung)">
+								onClick="@command('xoaChiTiet', id_ct = e.id, thanhtien = e.thanhTien)">
 								Xóa
 							</button>
 						</listcell>
@@ -201,7 +205,10 @@
 				<label width="50px">Tổng tiền:</label>
 				<label value="@load(vm.tongTien)"></label>
 			</hlayout>
-			<button onClick="@command('luuPhieu')">Lưu</button>
+			<hlayout style="padding: 4px">
+				<button onClick="@command('luuPhieu')">Lưu</button>
+				<button onClick="@command('thoat')">Huỷ</button>
+			</hlayout>	
 		</vlayout>
 	</window>
 </zk>

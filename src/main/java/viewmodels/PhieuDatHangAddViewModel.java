@@ -77,11 +77,13 @@ public class PhieuDatHangAddViewModel {
 			c.add(Calendar.DATE, 1);
 			day = c.getTime();
 			this.phieu.setNgayGiao(day);
-
+			this.tongTien = 0.0;
+			
 			this.listOfHieuXes = this.hieuXeServiceImpl.getAll(HieuXe.class);
 			this.listOfNhomNCCs = this.nhomNhaCungCapServiceImpl.getAll(NhomNhaCungCap.class);
 
 			this.setOfCT_Phieus = new HashSet<CT_PhieuDatHang>();
+			
 		} else {
 			if (this.phieuServiceImpl == null) {
 				throw new NullPointerException("Service 'PhieuDatHang' is null");
@@ -93,11 +95,10 @@ public class PhieuDatHangAddViewModel {
 				throw new NullPointerException("Service 'NhanVien' is null");
 			}
 		}
-		this.tongTien = 0.0;
 	}
 
 	@Command
-	@NotifyChange({"setOfCT_Phieus","tongTien"})
+	@NotifyChange({ "setOfCT_Phieus", "tongTien" })
 	public void themChiTiet(@BindingParam("id_pt") long mapt, @BindingParam("sl") int sl,
 			@BindingParam("dongia") double dongia, @BindingParam("thanhtien") double thanhtien) {
 		PhuTung pt = this.phuTungServiceImpl.findById(mapt, PhuTung.class);
@@ -107,20 +108,20 @@ public class PhieuDatHangAddViewModel {
 		ct_Phieu.setDonGia(dongia);
 		ct_Phieu.setThanhTien(thanhtien);
 		ct_Phieu.setMaPT(pt.getMaPhuTung());
-		ct_Phieu.setTenPT(pt.getTenPhuTung());	
-		if (this.setOfCT_Phieus.add(ct_Phieu)){
+		ct_Phieu.setTenPT(pt.getTenPhuTung());
+		if (this.setOfCT_Phieus.add(ct_Phieu)) {
 			this.tongTien += thanhTien;
 		}
 	}
 
 	@Command
-	@NotifyChange({"setOfCT_Phieus","tongTien"})
+	@NotifyChange({ "setOfCT_Phieus", "tongTien" })
 	public void xoaChiTiet(@BindingParam("id_pt") long idpt) {
 		for (Iterator<CT_PhieuDatHang> iterator = this.setOfCT_Phieus.iterator(); iterator.hasNext();) {
 			CT_PhieuDatHang ct_Phieu = iterator.next();
 			if (ct_Phieu.getIdPhuTung() == idpt) {
 				iterator.remove();
-				tongTien -=ct_Phieu.getThanhTien();
+				tongTien -= ct_Phieu.getThanhTien();
 			}
 		}
 	}
@@ -159,23 +160,38 @@ public class PhieuDatHangAddViewModel {
 	}
 
 	@Command
+	@NotifyChange("selectedNCC")
+	public void onComboboxNCCChange(@BindingParam("ma_ncc") long ma_ncc) {
+		this.selectedNCC = this.nhaCungCapServiceImpl.findById(ma_ncc, NhaCungCap.class);
+	}
+
+	@Command
 	public void luuPhieu() {
-		this.phieu.setMaNCC(selectedNCC.getMaNCC());
-		this.phieu.setTongTien(tongTien);
-		if (this.phieuServiceImpl.save(this.phieu)) {
-			for (Iterator<CT_PhieuDatHang> iterator = this.setOfCT_Phieus.iterator(); iterator.hasNext();) {
-				CT_PhieuDatHang ct_Phieu = iterator.next();
-				ct_Phieu.setIdPhieuDatHang(this.phieu.getId_PhieuDatHang());
-				// start to save detail
-				if (!this.ctPhieuServiceImpl.save(ct_Phieu)) {
-					Messagebox.show("Lưu lỗi", "Thông báo", Messagebox.RETRY, Messagebox.ERROR);
+		if (this.setOfCT_Phieus.size() > 0) {
+			this.phieu.setMaNCC(selectedNCC.getMaNCC());
+			this.phieu.setTongTien(tongTien);
+			if (this.phieuServiceImpl.save(this.phieu)) {
+				for (Iterator<CT_PhieuDatHang> iterator = this.setOfCT_Phieus.iterator(); iterator.hasNext();) {
+					CT_PhieuDatHang ct_Phieu = iterator.next();
+					ct_Phieu.setIdPhieuDatHang(this.phieu.getId_PhieuDatHang());
+					// start to save detail
+					if (!this.ctPhieuServiceImpl.save(ct_Phieu)) {
+						Messagebox.show("Lưu lỗi", "Thông báo", Messagebox.RETRY, Messagebox.ERROR);
+					}
 				}
+				Messagebox.show("Lưu thành công", "Thông báo", Messagebox.OK, Messagebox.INFORMATION);
+				Executions.sendRedirect("./PhieuDatHang_DS.zul");
+			} else {
+				Messagebox.show("Lưu lỗi", "Thông báo", Messagebox.RETRY, Messagebox.ERROR);
 			}
-			Messagebox.show("Lưu thành công", "Thông báo", Messagebox.OK, Messagebox.INFORMATION);
-			Executions.sendRedirect("./PhieuDatHang_DS.zul");
 		} else {
-			Messagebox.show("Lưu lỗi", "Thông báo", Messagebox.RETRY, Messagebox.ERROR);
+			Messagebox.show("Mỗi phiếu phải có ít nhất một chi tiết phiếu.", "Thông báo", Messagebox.RETRY, Messagebox.ERROR);
 		}
+	}
+
+	@Command
+	public void thoat() {
+		Executions.sendRedirect("./PhieuDatHang_DS.zul");
 	}
 
 	public List<HieuXe> getListOfHieuXes() {

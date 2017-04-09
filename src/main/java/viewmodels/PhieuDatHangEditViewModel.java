@@ -1,10 +1,8 @@
 package viewmodels;
 
-import java.util.Iterator;
 import java.util.List;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
-import org.zkoss.bind.annotation.DependsOn;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Executions;
@@ -51,10 +49,11 @@ public class PhieuDatHangEditViewModel {
 	private NhomNhaCungCap selectedNhomNCC;
 	private Double thanhTien;
 	private Double tongTien;
+	private long idPhieu;
 
 	@Init
 	public void init() {
-		long id = ((Long) Sessions.getCurrent().getAttribute(PhieuDatHangDSViewModel.SELECTED_PDH_ID)).longValue();
+		idPhieu = ((Long) Sessions.getCurrent().getAttribute(PhieuDatHangDSViewModel.SELECTED_PDH_ID)).longValue();
 		this.phieuServiceImpl = (PhieuDatHangServiceImpl) SpringUtil.getBean("phieudathang_service");
 		this.ctPhieuServiceImpl = (ChiTietPhieuDatHangServiceImpl) SpringUtil.getBean("ct_phieudathang_service");
 		this.nhanVienServiceImpl = (NhanVienServiceImpl) SpringUtil.getBean("nhanvien_service");
@@ -64,20 +63,14 @@ public class PhieuDatHangEditViewModel {
 		this.nhaCungCapServiceImpl = (NhaCungCapServiceImpl) SpringUtil.getBean("nhacungcap_service");
 		// make sure services are valid
 		if (this.phieuServiceImpl != null && this.ctPhieuServiceImpl != null && this.nhanVienServiceImpl != null) {
-			this.phieu = phieuServiceImpl.findById(id, PhieuDatHang.class);
+			this.phieu = phieuServiceImpl.findById(idPhieu, PhieuDatHang.class);
+			this.setTongTien(this.phieu.getTongTien());
 			this.listOfHieuXes = this.hieuXeServiceImpl.getAll(HieuXe.class);
 			this.listOfNhomNCCs = this.nhomNhaCungCapServiceImpl.getAll(NhomNhaCungCap.class);
-			this.setOfCT_Phieus = this.ctPhieuServiceImpl.getAllByPhieuDatHangId(id);
-			// su dung setter be bind cac selected item thi ben zk view moi
-			// access duoc
 			this.setSelectedNCC(this.nhaCungCapServiceImpl.findById(phieu.getMaNCC(), NhaCungCap.class));
 			this.setSelectedNhomNCC(this.nhomNhaCungCapServiceImpl.find(selectedNCC.getNhomNCC()));
-			// list nha cung cap phai co du lieu thi moi binding duoc selected
-			// item
-			this.listOfNhaCungCaps = this.nhaCungCapServiceImpl.find(null, null, null,
-					this.selectedNhomNCC.getTenNhom());
-			// Messagebox.show(this.selectedNCC.getTenNCC() +
-			// this.selectedNhomNCC.getTenNhom());
+			this.listOfNhaCungCaps = this.nhaCungCapServiceImpl.find(null, null, null,this.selectedNhomNCC.getTenNhom());
+			loadChiTietPhieu();
 		} else {
 			if (this.phieuServiceImpl == null) {
 				throw new NullPointerException("Service 'PhieuDatHang' is null");
@@ -91,33 +84,44 @@ public class PhieuDatHangEditViewModel {
 		}
 	}
 
+	@NotifyChange("setOfCT_Phieus")
+	private void loadChiTietPhieu() {
+		this.setOfCT_Phieus = this.ctPhieuServiceImpl.getAllByPhieuDatHangId(idPhieu);
+	}
+
 	@Command
 	@NotifyChange({ "setOfCT_Phieus", "tongTien" })
 	public void themChiTiet(@BindingParam("id_pt") long mapt, @BindingParam("sl") int sl,
 			@BindingParam("dongia") double dongia, @BindingParam("thanhtien") double thanhtien) {
 		PhuTung pt = this.phuTungServiceImpl.findById(mapt, PhuTung.class);
 		CT_PhieuDatHang ct_Phieu = new CT_PhieuDatHang();
+		ct_Phieu.setIdPhieuDatHang(this.phieu.getId_PhieuDatHang());
 		ct_Phieu.setIdPhuTung(mapt);
 		ct_Phieu.setSoLuong(sl);
 		ct_Phieu.setDonGia(dongia);
 		ct_Phieu.setThanhTien(thanhtien);
 		ct_Phieu.setMaPT(pt.getMaPhuTung());
 		ct_Phieu.setTenPT(pt.getTenPhuTung());
-		if (this.setOfCT_Phieus.add(ct_Phieu)) {
-			this.tongTien += thanhTien;
+		if (this.ctPhieuServiceImpl.save(ct_Phieu)) {
+			this.tongTien += thanhtien;
+			loadChiTietPhieu();
+			Messagebox.show("Thêm chi tiết phiếu thành công", "Thông báo", Messagebox.OK, Messagebox.INFORMATION);
 		}
 	}
 
 	@Command
 	@NotifyChange({ "setOfCT_Phieus", "tongTien" })
-	public void xoaChiTiet(@BindingParam("id_pt") long idpt) {
-		for (Iterator<CT_PhieuDatHang> iterator = this.setOfCT_Phieus.iterator(); iterator.hasNext();) {
-			CT_PhieuDatHang ct_Phieu = iterator.next();
-			if (ct_Phieu.getIdPhuTung() == idpt) {
-				iterator.remove();
-				tongTien -= ct_Phieu.getThanhTien();
+	public void xoaChiTiet(@BindingParam("id_ct") long idct, @BindingParam("thanhtien") double thanhtien) {
+		if (this.setOfCT_Phieus.size() > 1){
+			if (this.ctPhieuServiceImpl.delete(idct, CT_PhieuDatHang.class)) {
+				this.tongTien -= thanhtien;
+				loadChiTietPhieu();
+				Messagebox.show("Xoá chi tiết phiếu thành công", "Thông báo", Messagebox.OK, Messagebox.INFORMATION);
 			}
+		} else {
+			Messagebox.show("Mỗi phiếu phải có ít nhất một chi tiết phiếu.", "Thông báo", Messagebox.RETRY, Messagebox.ERROR);
 		}
+		
 	}
 
 	@Command
@@ -154,23 +158,30 @@ public class PhieuDatHangEditViewModel {
 	}
 
 	@Command
+	@NotifyChange("selectedNCC")
+	public void onComboboxNCCChange(@BindingParam("ma_ncc") long ma_ncc) {
+		this.selectedNCC = this.nhaCungCapServiceImpl.findById(ma_ncc, NhaCungCap.class);
+	}
+
+	@Command
 	public void luuPhieu() {
-		this.phieu.setMaNCC(selectedNCC.getMaNCC());
-		this.phieu.setTongTien(tongTien);
-		if (this.phieuServiceImpl.save(this.phieu)) {
-			for (Iterator<CT_PhieuDatHang> iterator = this.setOfCT_Phieus.iterator(); iterator.hasNext();) {
-				CT_PhieuDatHang ct_Phieu = iterator.next();
-				ct_Phieu.setIdPhieuDatHang(this.phieu.getId_PhieuDatHang());
-				// start to save detail
-				if (!this.ctPhieuServiceImpl.save(ct_Phieu)) {
-					Messagebox.show("Lưu lỗi", "Thông báo", Messagebox.RETRY, Messagebox.ERROR);
-				}
+		if (this.setOfCT_Phieus.size() > 0) {
+			this.phieu.setMaNCC(selectedNCC.getMaNCC());
+			this.phieu.setTongTien(this.tongTien);
+			if (this.phieuServiceImpl.update(idPhieu, this.phieu)) {
+				Messagebox.show("Cập nhật thành công", "Thông báo", Messagebox.OK, Messagebox.INFORMATION);
+				Executions.sendRedirect("./PhieuDatHang_DS.zul");
+			} else {
+				Messagebox.show("Lưu lỗi", "Thông báo", Messagebox.RETRY, Messagebox.ERROR);
 			}
-			Messagebox.show("Lưu thành công", "Thông báo", Messagebox.OK, Messagebox.INFORMATION);
-			Executions.sendRedirect("./PhieuDatHang_DS.zul");
 		} else {
-			Messagebox.show("Lưu lỗi", "Thông báo", Messagebox.RETRY, Messagebox.ERROR);
+			Messagebox.show("Mỗi phiếu phải có ít nhất một chi tiết phiếu.", "Thông báo", Messagebox.RETRY, Messagebox.ERROR);
 		}
+	}
+
+	@Command
+	public void thoat() {
+		Executions.sendRedirect("./PhieuDatHang_DS.zul");
 	}
 
 	public List<HieuXe> getListOfHieuXes() {
@@ -245,20 +256,20 @@ public class PhieuDatHangEditViewModel {
 		this.thanhTien = thanhTien;
 	}
 
-	public Double getTongTien() {
-		return tongTien;
-	}
-
-	public void setTongTien(Double tongTien) {
-		this.tongTien = tongTien;
-	}
-
 	public NhomNhaCungCap getSelectedNhomNCC() {
 		return selectedNhomNCC;
 	}
 
 	public void setSelectedNhomNCC(NhomNhaCungCap selectedNhomNCC) {
 		this.selectedNhomNCC = selectedNhomNCC;
+	}
+
+	public Double getTongTien() {
+		return tongTien;
+	}
+
+	public void setTongTien(Double tongTien) {
+		this.tongTien = tongTien;
 	}
 
 }

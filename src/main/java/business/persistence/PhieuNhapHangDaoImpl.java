@@ -80,6 +80,7 @@ public class PhieuNhapHangDaoImpl implements GeneralDao<PhieuNhapHang>{
 			PhieuNhapHang pnh = (PhieuNhapHang) session.get(PhieuNhapHang.class, id);
 			if (pnh != null) {
 				pnh.setMaPhieuNhapHang(newInfor.getMaPhieuNhapHang());
+				pnh.setTongTien(newInfor.getTongTien());
 				session.saveOrUpdate(pnh);
 				isSuccess = true;
 				transaction.commit();

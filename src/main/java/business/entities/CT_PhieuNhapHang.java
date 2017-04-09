@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "ct_phieunh")
@@ -33,6 +34,12 @@ public class CT_PhieuNhapHang {
 	@Column(name = "ThanhTien")
 	private Double ThanhTien;
 
+	@Transient
+	private String TenPT;
+	
+	@Transient
+	private String MaPT;
+	
 	@ManyToOne
 	@JoinColumn(name = "MaPhuTung", referencedColumnName = "Id", insertable = false, updatable = false)
 	private PhuTung PhuTung;
@@ -118,5 +125,19 @@ public class CT_PhieuNhapHang {
 		return true;
 	}
 	
-	
+	public String getTenPT() {
+		return TenPT;
+	}
+
+	public void setTenPT(String tenPT) {
+		TenPT = tenPT;
+	}
+
+	public String getMaPT() {
+		return MaPT;
+	}
+
+	public void setMaPT(String maPT) {
+		MaPT = maPT;
+	}
 }

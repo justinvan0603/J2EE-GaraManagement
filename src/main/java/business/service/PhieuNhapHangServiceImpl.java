@@ -29,7 +29,7 @@ public class PhieuNhapHangServiceImpl implements GeneralService<PhieuNhapHang> {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(readOnly = true)
 	public List<PhieuNhapHang> getAll(Class<PhieuNhapHang> entityClass) {
 		// TODO Auto-generated method stub
 		return this.phieuNhapHangDaoImpl.getAll(entityClass);
@@ -97,7 +97,7 @@ public class PhieuNhapHangServiceImpl implements GeneralService<PhieuNhapHang> {
 			if (maphieu != null){
 				criteria.add(Restrictions.like("MaPhieuNhapHang", maphieu, MatchMode.ANYWHERE));
 			} else if (ngaylap != null){
-				criteria.add(Restrictions.eq("NgayDat", ngaylap));
+				criteria.add(Restrictions.eq("NgayLap", ngaylap));
 			} else if (maphieudat != null){
 				criteria.add(Restrictions.like("IdPhieuDatHang", maphieudat, MatchMode.ANYWHERE));
 			} else if (tennv != null){
