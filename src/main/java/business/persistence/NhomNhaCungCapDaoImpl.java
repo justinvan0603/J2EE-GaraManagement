@@ -74,7 +74,7 @@ public class NhomNhaCungCapDaoImpl implements GeneralDao<NhomNhaCungCap>{
 	@Override
 	public SessionFactory getSessionFactory() {
 		// TODO Auto-generated method stub
-		return null;
+		return sessionFactory;
 	}
 
 }

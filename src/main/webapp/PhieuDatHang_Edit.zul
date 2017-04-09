@@ -1,16 +1,15 @@
-<?page title="Lập phiếu đặt hàng" contentType="text/html;charset=UTF-8"?>
+<?page title="Cập nhật phiếu đặt hàng" contentType="text/html;charset=UTF-8"?>
 <zk>
 	<include src="menu_bar.zul"></include>
-	<window title="Lập phiếu đặt hàng" border="normal" width="100%"
+	<window title="Cập nhật phiếu đặt hàng" border="normal" width="100%"
 		height="550px" apply="org.zkoss.bind.BindComposer"
-		viewModel="@id('vm') @init('viewmodels.PhieuDatHangAddViewModel')">
+		viewModel="@id('vm') @init('viewmodels.PhieuDatHangEditViewModel')">
 		<vlayout>
 			<groupbox>
 				<hlayout style="text-align : left; padding : 4px;">
 					<vbox width="300px">
 						<label>Mã phiếu đặt</label>
-						<textbox
-							maxlength="20"
+						<textbox maxlength="20"
 							value="@load(vm.phieu.maPhieuDat) @save(vm.phieu.maPhieuDat, before = 'luuPhieu')"
 							width="200px">
 						</textbox>
@@ -23,16 +22,15 @@
 					</vbox>
 					<vbox width="300px">
 						<label>Ngày lập</label>
-						<datebox id="datebox_ngaylap" width="200px" buttonVisible="false"
-							value="@load(vm.phieu.ngayDat)"
+						<datebox id="datebox_ngaylap" width="200px"
+							buttonVisible="false" value="@load(vm.phieu.ngayDat)"
 							readonly="true" format="dd/MM/yyyy">
 						</datebox>
 					</vbox>
 					<vbox width="300px">
 						<label>Ngày hẹn giao</label>
 						<datebox id="datebox_ngaygiao" width="200px"
-							constraint="no empty, no past"
-							value="@load(vm.phieu.ngayGiao)"
+							constraint="no empty, no past" value="@load(vm.phieu.ngayGiao)"
 							readonly="true" format="dd/MM/yyyy">
 						</datebox>
 					</vbox>
@@ -42,7 +40,8 @@
 						<label>Nhóm nhà cung cấp</label>
 						<combobox id="combobox_nhomncc" width="200px"
 							onSelect="@command('onComboboxNhomNCCChange', tennhom = self.selectedItem.value)"
-							model="@load(vm.listOfNhomNCCs)" readonly="true">
+							model="@load(vm.listOfNhomNCCs)"
+							selectedItem="@load(vm.selectedNhomNCC)" readonly="true">
 							<template name="model">
 								<comboitem value="@load(each.tenNhom)"
 									label="@load(each.tenNhom)" />
@@ -52,8 +51,8 @@
 					<vbox width="300px">
 						<label>Nhà cung cấp</label>
 						<combobox id="combobox_ncc" width="200px"
-							selectedItem="@load(vm.selectedNCC)"
-							model="@load(vm.listOfNhaCungCaps)" readonly="true">
+							model="@load(vm.listOfNhaCungCaps)"
+							selectedItem="@load(vm.selectedNCC)" readonly="true">
 							<template name="model">
 								<comboitem value="@load(each.maNCC)"
 									label="@load(each.tenNCC)" />
@@ -64,7 +63,7 @@
 			</groupbox>
 			<!-- nhap thong tin chi tiet -->
 			<window title="Nhập chi tiết" border="none">
-				<hlayout style="padding : 4px;"  xmlns:w="client">
+				<hlayout style="padding : 4px;" xmlns:w="client">
 					<label>Hiệu xe</label>
 					<combobox id="cmbHieuXe" width="120px"
 						onSelect="@command('onComboboxHieuXeChange', ma_hieuxe = self.selectedItem.value)"
@@ -85,43 +84,37 @@
 						</template>
 					</combobox>
 					<label>Lượng tồn:</label>
-					<textbox readonly="true" 
-						value="@load(vm.selectedPhuTung.soLuongTon)"
-						width="40px">
+					<textbox readonly="true"
+						value="@load(vm.selectedPhuTung.soLuongTon)" width="40px">
 					</textbox>
 					<label>Số lượng:</label>
-					<textbox id="textbox_soluong" 
+					<textbox id="textbox_soluong"
 						onChange="@command('onSlandDongiaChange',sl = textbox_soluong.value, dongia = textbox_dongia.value)"
 						width="40px" maxlength="3">
 						<attribute w:name="doKeyPress_">
-							<![CDATA[
-								function(evt)
-								{
-									if ((evt.which < 48 || evt.which > 57) && evt.which != 8 && evt.which != 0)
-										evt.stop();
-								}
-							]]>
+							
+							<![CDATA[ function(evt) { if ((evt.which <
+							48 || evt.which > 57) && evt.which != 8 &&
+							evt.which != 0) evt.stop(); } ]]>
+							
 						</attribute>
 					</textbox>
 					<label>Đơn giá:</label>
-					<textbox id="textbox_dongia" 
+					<textbox id="textbox_dongia"
 						value="@load(vm.selectedPhuTung.donGiaXuat)"
 						onChange="@command('onSlandDongiaChange',sl = textbox_soluong.value, dongia = textbox_dongia.value)"
 						width="100px" maxlength="8">
 						<attribute w:name="doKeyPress_">
-							<![CDATA[
-								function(evt)
-								{
-									if ((evt.which < 48 || evt.which > 57) && evt.which != 8 && evt.which != 0)
-										evt.stop();
-								}
-							]]>
+							
+							<![CDATA[ function(evt) { if ((evt.which <
+							48 || evt.which > 57) && evt.which != 8 &&
+							evt.which != 0) evt.stop(); } ]]>
+							
 						</attribute>
 					</textbox>
 					<label>Thành tiền:</label>
 					<textbox id="textbox_thanhtien" readonly="true"
-						value="@load(vm.thanhTien)"
-						width="150px">
+						value="@load(vm.thanhTien)" width="150px">
 					</textbox>
 					<button
 						onClick="@command('themChiTiet', id_pt = combobox_phutung.selectedItem.value
@@ -131,8 +124,7 @@
 				</hlayout>
 			</window>
 			<listbox height="200px" hflex="1" mold="paging"
-				model="@load(vm.setOfCT_Phieus)" pageSize="15"
-				width="100%">
+				model="@load(vm.setOfCT_Phieus)" pageSize="15" width="100%">
 				<listhead>
 					<listheader label="Mã phụ tùng" width="100px" />
 					<listheader label="Tên phụ tùng" />
@@ -158,7 +150,7 @@
 				</template>
 			</listbox>
 			<hlayout>
-				<label width="50px">Tổng tiền:</label> 
+				<label width="50px">Tổng tiền:</label>
 				<label value="@load(vm.tongTien)"></label>
 			</hlayout>
 			<button onClick="@command('luuPhieu')">Lưu</button>

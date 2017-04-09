@@ -1,24 +1,19 @@
 package viewmodels;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
-
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.Messagebox;
 
 import business.entities.CT_PhieuDatHang;
 import business.entities.HieuXe;
 import business.entities.NhaCungCap;
-import business.entities.NhanVien;
 import business.entities.NhomNhaCungCap;
 import business.entities.PhieuDatHang;
 import business.entities.PhuTung;
@@ -30,7 +25,7 @@ import business.service.NhomNhaCungCapServiceImpl;
 import business.service.PhieuDatHangServiceImpl;
 import business.service.PhuTungServiceImpl;
 
-public class PhieuDatHangAddViewModel {
+public class PhieuDatHangEditViewModel {
 
 	// services for interacting with persistence layer
 	private PhieuDatHangServiceImpl phieuServiceImpl;
@@ -49,15 +44,17 @@ public class PhieuDatHangAddViewModel {
 
 	// entities to be saved
 	private PhieuDatHang phieu;
-	private Set<CT_PhieuDatHang> setOfCT_Phieus; // use Set
+	private List<CT_PhieuDatHang> setOfCT_Phieus; // use Set
 	private PhuTung selectedPhuTung;
 	private NhaCungCap selectedNCC;
+	private NhomNhaCungCap selectedNhomNCC;
 	private Double thanhTien;
 	private Double tongTien;
-	private long maNV = 1;
 
 	@Init
+	@NotifyChange({"selectedNCC","selectedNhomNCC"})
 	public void init() {
+		long id = ((Long) Sessions.getCurrent().getAttribute(PhieuDatHangDSViewModel.SELECTED_PDH_ID)).longValue();
 		this.phieuServiceImpl = (PhieuDatHangServiceImpl) SpringUtil.getBean("phieudathang_service");
 		this.ctPhieuServiceImpl = (ChiTietPhieuDatHangServiceImpl) SpringUtil.getBean("ct_phieudathang_service");
 		this.nhanVienServiceImpl = (NhanVienServiceImpl) SpringUtil.getBean("nhanvien_service");
@@ -67,21 +64,13 @@ public class PhieuDatHangAddViewModel {
 		this.nhaCungCapServiceImpl = (NhaCungCapServiceImpl) SpringUtil.getBean("nhacungcap_service");
 		// make sure services are valid
 		if (this.phieuServiceImpl != null && this.ctPhieuServiceImpl != null && this.nhanVienServiceImpl != null) {
-			this.phieu = new PhieuDatHang();
-			Date day = new Date();
-			this.phieu.setNgayDat(day);
-			this.phieu.setMaNV(maNV);
-			this.phieu.setNhanVien(this.nhanVienServiceImpl.findById(maNV, NhanVien.class));
-			Calendar c = Calendar.getInstance();
-			c.setTime(day);
-			c.add(Calendar.DATE, 1);
-			day = c.getTime();
-			this.phieu.setNgayGiao(day);
-
+			this.phieu = phieuServiceImpl.findById(id, PhieuDatHang.class);
 			this.listOfHieuXes = this.hieuXeServiceImpl.getAll(HieuXe.class);
 			this.listOfNhomNCCs = this.nhomNhaCungCapServiceImpl.getAll(NhomNhaCungCap.class);
-
-			this.setOfCT_Phieus = new HashSet<CT_PhieuDatHang>();
+			this.setOfCT_Phieus = this.ctPhieuServiceImpl.getAllByPhieuDatHangId(id);
+			this.selectedNCC = this.nhaCungCapServiceImpl.findById(phieu.getMaNCC(), NhaCungCap.class);
+			this.selectedNhomNCC = this.nhomNhaCungCapServiceImpl.find(selectedNCC.getNhomNCC());
+			//Messagebox.show(this.selectedNCC.getTenNCC() + this.selectedNhomNCC.getTenNhom());
 		} else {
 			if (this.phieuServiceImpl == null) {
 				throw new NullPointerException("Service 'PhieuDatHang' is null");
@@ -93,7 +82,6 @@ public class PhieuDatHangAddViewModel {
 				throw new NullPointerException("Service 'NhanVien' is null");
 			}
 		}
-		this.tongTien = 0.0;
 	}
 
 	@Command
@@ -210,11 +198,11 @@ public class PhieuDatHangAddViewModel {
 		this.listOfNhomNCCs = listOfNhomNCCs;
 	}
 
-	public Set<CT_PhieuDatHang> getSetOfCT_Phieus() {
+	public List<CT_PhieuDatHang> getSetOfCT_Phieus() {
 		return setOfCT_Phieus;
 	}
 
-	public void setSetOfCT_Phieus(Set<CT_PhieuDatHang> setOfCT_Phieus) {
+	public void setSetOfCT_Phieus(List<CT_PhieuDatHang> setOfCT_Phieus) {
 		this.setOfCT_Phieus = setOfCT_Phieus;
 	}
 
@@ -256,6 +244,14 @@ public class PhieuDatHangAddViewModel {
 
 	public void setTongTien(Double tongTien) {
 		this.tongTien = tongTien;
+	}
+
+	public NhomNhaCungCap getSelectedNhomNCC() {
+		return selectedNhomNCC;
+	}
+
+	public void setSelectedNhomNCC(NhomNhaCungCap selectedNhomNCC) {
+		this.selectedNhomNCC = selectedNhomNCC;
 	}
 
 }
