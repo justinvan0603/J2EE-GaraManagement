@@ -79,7 +79,34 @@ public class PhieuDichVuDaoImpl implements GeneralDao<PhieuDichVu> {
 	@Override
 	public boolean update(Long id, PhieuDichVu newInfor) {
 		// TODO Auto-generated method stub
-		return false;
+		Session session = null;
+		Transaction transaction = null;
+		boolean isSuccess = false;
+		try {
+			session = this.sessionFactory.openSession();
+			transaction = session.beginTransaction();
+			PhieuDichVu entity = this.findById(id, PhieuDichVu.class);
+			if (entity != null) {
+				//entity.setTinhTrang(newInfor.getTinhTrang()); // update tinh
+				entity.setMaPhieuDichVu(newInfor.getMaPhieuDichVu());
+				entity.setTienCong(newInfor.getTienCong());
+				entity.setSoTienConLai(newInfor.getSoTienConLai());
+				entity.setTongTien(newInfor.getTongTien());
+				//entity.setMaTho(maTho);
+				// more updates here
+				session.saveOrUpdate(entity);
+			}
+			isSuccess = true;
+			transaction.commit();
+		} catch (Exception e) {
+			// TODO: handle exception
+			isSuccess = false;
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
+		return isSuccess;
 	}
 
 	@Override

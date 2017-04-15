@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import business.entities.CT_PhieuDichVu;
+
 import business.persistence.GeneralDao;
 
 @Service
@@ -61,8 +62,9 @@ public class ChiTietPhieuDichVuServiceImpl implements GeneralService<CT_PhieuDic
 		return this.chiTietPhieuDichVuDaoImpl.save(newEntity);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Transactional
-	public List<CT_PhieuDichVu> getByPhieuDichVuId(Integer phieuDichVuId) {
+	public List<CT_PhieuDichVu> getByPhieuDichVuId(long phieuDichVuId) {
 		Session session = null;
 		Transaction transaction = null;
 		List<CT_PhieuDichVu> results = null;

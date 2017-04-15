@@ -111,9 +111,11 @@ public class ChiTietPhieuDichVuDaoImpl implements GeneralDao<CT_PhieuDichVu> {
 			transaction = session.beginTransaction();
 			CT_PhieuDichVu ct_PhieuDV = this.findById(id, entityClass);
 			session.delete(ct_PhieuDV); // start to delete
-			isSuccess = true;
+			
 			transaction.commit();
+			isSuccess = true;
 		} catch (Exception e) {
+			e.printStackTrace();
 			// TODO: handle exception
 			isSuccess = false;
 		} finally {
@@ -137,6 +139,7 @@ public class ChiTietPhieuDichVuDaoImpl implements GeneralDao<CT_PhieuDichVu> {
 			isSuccess = true;
 			transaction.commit();
 		} catch (Exception e) {
+			e.printStackTrace();
 			// TODO: handle exception
 			isSuccess = false;
 		} finally {

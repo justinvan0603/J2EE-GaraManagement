@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -75,7 +76,7 @@ public class CustomerServiceImpl implements GeneralService<Customer> {
 		// layer
 		SessionFactory sessionFactory = this.customerDaoImpl.getSessionFactory();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Customer.class);
-		criteria.add(Restrictions.like("HoTen", "%" + name + "%"));
+		criteria.add(Restrictions.like("HoTen", name, MatchMode.ANYWHERE));
 		return criteria.list();
 	}
 
@@ -85,7 +86,7 @@ public class CustomerServiceImpl implements GeneralService<Customer> {
 		// layer
 		SessionFactory sessionFactory = this.customerDaoImpl.getSessionFactory();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Customer.class);
-		criteria.add(Restrictions.like("Sdt", "%" + phone + "%"));
+		criteria.add(Restrictions.like("Sdt", phone,MatchMode.ANYWHERE));
 
 		return criteria.list();
 	}
@@ -96,7 +97,7 @@ public class CustomerServiceImpl implements GeneralService<Customer> {
 		// layer
 		SessionFactory sessionFactory = this.customerDaoImpl.getSessionFactory();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Customer.class);
-		criteria.add(Restrictions.like("Cmnd", "%" + CMND + "%"));
+		criteria.add(Restrictions.like("Cmnd",  CMND, MatchMode.ANYWHERE ));
 
 		return criteria.list();
 	}
@@ -108,7 +109,7 @@ public class CustomerServiceImpl implements GeneralService<Customer> {
 		SessionFactory sessionFactory = this.customerDaoImpl.getSessionFactory();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Customer.class);
 
-		criteria.add(Restrictions.like("Diachi", "%" + Address + "%"));
+		criteria.add(Restrictions.like("Diachi",  Address, MatchMode.ANYWHERE));
 		return criteria.list();
 	}
 

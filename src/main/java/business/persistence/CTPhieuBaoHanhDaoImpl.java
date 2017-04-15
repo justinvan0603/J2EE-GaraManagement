@@ -115,6 +115,7 @@ public class CTPhieuBaoHanhDaoImpl implements GeneralDao<CT_PhieuBaoHanh> {
 			transaction.commit();
 		} catch (Exception e) {
 			// TODO: handle exception
+			e.printStackTrace();
 			isSuccess = false;
 		} finally {
 			if (session != null && session.isOpen()) {

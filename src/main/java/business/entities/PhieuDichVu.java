@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -34,14 +36,33 @@ public class PhieuDichVu {
 	private long MaNV;
 	@Column(name = "TienCong")
 	private double TienCong;
+	@ManyToOne
+	@JoinColumn(name = "MaNV", referencedColumnName = "MaNV", insertable = false, updatable = false)
+	private NhanVien nhanVien;
+	@ManyToOne
+	@JoinColumn(name = "MaTho", referencedColumnName = "MaTho", insertable = false, updatable = false)
+	private Tho Tho;
+	
 	public double getTienCong() {
 		return TienCong;
 	}
 	public void setTienCong(double tienCong) {
 		TienCong = tienCong;
 	}
+	public Tho getTho() {
+		return Tho;
+	}
+	public void setTho(Tho tho) {
+		Tho = tho;
+	}
 	public long getIdPhieuDichVu() {
 		return IdPhieuDichVu;
+	}
+	public NhanVien getNhanVien() {
+		return nhanVien;
+	}
+	public void setNhanVien(NhanVien nhanVien) {
+		this.nhanVien = nhanVien;
 	}
 	public void setIdPhieuDichVu(long idPhieuDichVu) {
 		IdPhieuDichVu = idPhieuDichVu;

@@ -21,6 +21,7 @@ public class PhieuDichVuDSViewModel {
 	
 	private List<PhieuDichVu> listPhieuDichVu;
 	private PhieuDichVu selectedPDV;
+
 	private static final List<String> SEARCH_TYPES = new ArrayList<String>();
 	static {
 		
@@ -28,6 +29,7 @@ public class PhieuDichVuDSViewModel {
 		
 	}
 	public static String PDV_ID = "PDV_ID";
+	
 	public PhieuDichVu getSelectedPDV() {
 		return selectedPDV;
 	}
@@ -46,12 +48,13 @@ public class PhieuDichVuDSViewModel {
 	public void setListPhieuDichVu(List<PhieuDichVu> listPhieuDichVu) {
 		this.listPhieuDichVu = listPhieuDichVu;
 	}
-	public static List<String> getSearchTypes() {
+	public  List<String> getSearchTypes() {
 		return SEARCH_TYPES;
 	}
 	@Init
 	public void init() {
 		this.phieuDichVuService = (PhieuDichVuServiceImpl)SpringUtil.getBean("phieudichvu_service");
+		this.listPhieuDichVu = this.phieuDichVuService.getAll(PhieuDichVu.class);
 	}
 	@Command
 	@NotifyChange("listPhieuDichVu")

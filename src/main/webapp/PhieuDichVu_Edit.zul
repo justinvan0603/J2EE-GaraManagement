@@ -1,0 +1,92 @@
+<?page title="Cập nhật phiếu dịch vụ" contentType="text/html;charset=UTF-8"?>
+<zk>
+<include src="menu_bar.zul"></include>
+<window title="Cập nhật phiếu dịch vụ" border="normal" width="100%"
+		height="100%" apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('viewmodels.PhieuDichVuEditViewModel')">
+
+		<vlayout>
+			<groupbox>
+		
+				<hlayout style="text-align : left; padding : 4px;">
+
+					<vbox width="180px">
+						<label>Ngày lập</label>
+						<textbox readonly="true"
+							value="@load(vm.phieuDichVu.ngayLap)">
+						</textbox>
+					</vbox>
+					
+		
+					<vbox>
+					<label>Thợ:</label>
+					<label value="@load(vm.phieuDichVu.tho.name)"></label>
+					</vbox>
+				</hlayout>
+			</groupbox>
+
+			<window title="Nhập chi tiết" border="none">
+				<hlayout style="padding : 4px;">
+					<label>Phụ tùng</label>
+					
+					<combobox model="@load(vm.listPhuTung)" id="combobox_phutung" selectedItem="@load(vm.selectedPhuTung)"
+					onSelect="@command('onComboboxPhuTungChange',soluong = txtSoLuong.value, selectedPT =combobox_phutung.selectedItem.value)"
+					constraint="no empty" readonly="true">
+					<template name="model">
+						<comboitem label="${each.getTenPhuTung()}"  ></comboitem>
+					</template>
+				</combobox>
+					<label>Số lượng</label>
+					<textbox id="txtSoLuong" value="0" onChange="@command('ontxtSoLuongChanging',soluong = txtSoLuong.value)"></textbox>
+					<label>Đơn giá</label>
+					<textbox id="txtDonGia" value = "@load(vm.selectedPhuTung.donGiaXuat)" readonly= "true"></textbox>
+					
+					<label>Thành tiền</label>
+					<textbox id="txtThanhTien" readonly= "true" value ="@load(vm.thanhTien)" ></textbox>
+					<label>Bảo hành</label>
+					<textbox id="txtBaoHanh" readonly = "true" value = "@load(vm.selectedPhuTung.hanBaoHanh)"></textbox>
+					<button
+						onClick="@command('themChiTiet', soluong = txtSoLuong.value
+						 )">
+						Thêm
+					</button>
+				</hlayout>
+			</window>
+			<listbox height="200px" hflex="1" mold="paging"
+				model="@load(vm.setofChiTietPhieuDV)" pageSize="15"
+				width="100%">
+				<auxhead>
+					<auxheader colspan="3">
+						Danh sách chi tiết phiếu dịch vụ
+					</auxheader>
+				</auxhead>
+				<listhead>
+					<listheader label="Mã phụ tùng" />
+					<listheader label="Tên phụ tùng" />
+					<listheader label="Số lượng" />
+					<listheader label="Đơn giá" />
+					<listheader label="Thành tiền" />
+					<listheader label="Hạn bảo hành" />
+					<listheader label="Tác vụ" />
+				</listhead>
+				<template name="model" var="e">
+					<listitem>
+						<listcell label="@load(e.phuTung.maPhuTung)"></listcell>
+						<listcell label="@load(e.phuTung.tenPhuTung)"></listcell>
+						<listcell label="@load(e.soLuong)"></listcell>
+						<listcell label="@load(e.donGia)"></listcell>
+						<listcell label="@load(e.thanhTien)"></listcell>
+						<listcell label="@load(e.hanBaoHanh)"></listcell>
+						<listcell>
+							<button
+								onClick="@command('xoaChiTiet', maphutung = e.id)">
+								Xóa
+							</button>
+						</listcell>
+					</listitem>
+				</template>
+			</listbox>
+			<button onClick="@command('SavePhieuDichVu')">Lưu</button>
+		</vlayout>
+	</window>
+</zk>

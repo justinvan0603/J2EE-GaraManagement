@@ -1,9 +1,9 @@
-<?page title="Danh sách nhân viên" contentType="text/html;charset=UTF-8"?>
+<?page title="Danh sách phiếu dịch vụ" contentType="text/html;charset=UTF-8"?>
 <zk>
 <include src="menu_bar.zul"></include>
 <window title="Danh sách khách hàng" border="normal"
 		apply="org.zkoss.bind.BindComposer"
-		viewModel="@id('vm') @init('viewmodels.NhanVienDSViewModel')">
+		viewModel="@id('vm') @init('viewmodels.PhieuDichVuDSViewModel')">
 		<vlayout width="100%">
 		<hlayout style="text-align : left; padding : 4px;">
 				<label value="Tìm kiếm"></label>
@@ -20,44 +20,40 @@
 				</button>
 				|
 				<button id="addNew"
-					onClick="@command('addNewStaffRedirect')">
+					onClick="@command('ThemPhieuDichVu')">
 					Thêm mới
 				</button>
 			</hlayout>
 		<listbox hflex="1" mold="paging" pageSize="10"
-			model="@load(vm.listNhanVien)" selectedItem="@bind(vm.selectedNhanVien)" width="100%">
+			model="@load(vm.listPhieuDichVu)" selectedItem="@bind(vm.selectedPDV)" width="100%">
 			<auxhead>
-				<auxheader colspan="6" class="topic">Nhân viên</auxheader>
+				<auxheader colspan="6" class="topic">Phiếu dịch vụ</auxheader>
 			</auxhead>
 			
 			<listhead>
-				<listheader visible="false" label="Id" width="80px" />
-				<listheader label="Họ tên" width="120px"/>
-				<listheader label="Username" width="120px" />
-				<listheader label="Số điện thoại" width="120px" />
+				
+				<listheader label="Mã phiếu" width="120px"/>
+				<listheader label="Ngày lập" width="120px" />
+				<listheader label="Người lập" width="120px" />
+				<listheader label="Hạn chót thanh toán" width="120px" />
+				<listheader label="Số tiền còn lại" width="120px" />
 		
-				<listheader label="Giới tính" width="120px" />
+				<listheader label="Tổng tiền" width="120px" />
 			
 				<listheader label="Tác vụ" width="120px" />
 			</listhead>
 			<template name="model" var="e">
 				<listitem>
-					<listcell label="@load(e.maNV)"></listcell>
-					<listcell label="@load(e.hoTen)"></listcell>
-					<listcell label="@load(e.username)"></listcell>
-					<listcell label="@load(e.sdt)"></listcell>
-				
-					<zk if="${e.gioiTinh == true}">
-    					<listcell label="Nam"></listcell>
-					</zk>
-					<zk if="${e.gioiTinh == false}">
-    					<listcell label="Nữ"></listcell>
-					</zk>
-
 					
+					<listcell label="@load(e.maPhieuDichVu)"></listcell>
+					<listcell label="@load(e.ngayLap)"></listcell>
+					<listcell label="@load(e.nhanVien.hoTen)"></listcell>
+					<listcell label="@load(e.hanChotThanhToan)"></listcell>
+					<listcell label="@load(e.soTienConLai)"></listcell>	
+					<listcell label="@load(e.tongTien)"></listcell>					
 					<listcell>
 	
-						<button onClick="@command('editNhanVien',id = e.maNV)"
+						<button onClick="@command('editPhieuDichVu',id = e.idPhieuDichVu)"
 							> Sửa
 						</button>
 					</listcell>

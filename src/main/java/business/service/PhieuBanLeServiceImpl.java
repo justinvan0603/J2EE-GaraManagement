@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -65,7 +66,7 @@ public class PhieuBanLeServiceImpl implements GeneralService<PhieuBanLe> {
 		SessionFactory sessionFactory = this.phieuBanLeDaoImpl.getSessionFactory();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(PhieuBanLe.class);
 		
-		criteria.add(Restrictions.like("MaPhieuBanLe", "%" + maphieu + "%"));
+		criteria.add(Restrictions.like("MaPhieuBanLe",  maphieu , MatchMode.ANYWHERE));
 		return criteria.list();
 	}
 

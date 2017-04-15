@@ -6,7 +6,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -101,7 +101,7 @@ public class BangThamSoServiceImpl implements GeneralService<BangThamSo> {
 		// layer
 		SessionFactory sessionFactory = this.bangThamSoDaoImpl.getSessionFactory();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(BangThamSo.class);
-		criteria.add(Restrictions.like("NoiDung", "%" + name + "%"));
+		criteria.add(Restrictions.like("NoiDung", name, MatchMode.ANYWHERE));
 		return criteria.list();
 	}
 

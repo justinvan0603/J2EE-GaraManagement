@@ -65,6 +65,7 @@
 	<bean id="chitietphieubanle_service" class="business.service.ChiTietPhieuBanLeServiceImpl" />
 	<bean id="phieubaohanh_service" class="business.service.PhieuBaoHanhServiceImpl" />
 	<bean id="ct_phieubaohanh_service" class="business.service.CTPhieuBaoHanhServiceImpl" />
+	<bean id="chitietphieudichvu_service" class="business.service.ChiTietPhieuDichVuServiceImpl" />
 	<bean id="ct_phieudathang_service" class="business.service.ChiTietPhieuDatHangServiceImpl" />
 	<bean id="ct_phieunhaphang_service" class="business.service.ChiTietPhieuNhapHangServiceImpl" />
 </beans>

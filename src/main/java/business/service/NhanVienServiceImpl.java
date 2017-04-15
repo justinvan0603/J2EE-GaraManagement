@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -66,7 +67,7 @@ public class NhanVienServiceImpl implements GeneralService<NhanVien> {
 		// layer
 		SessionFactory sessionFactory = this.nhanVienDaoImpl.getSessionFactory();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(NhanVien.class);
-		criteria.add(Restrictions.like("HoTen", "%" + name + "%"));
+		criteria.add(Restrictions.like("HoTen", name,MatchMode.ANYWHERE));
 		return criteria.list();
 	}
 	@SuppressWarnings("unchecked")
@@ -75,7 +76,7 @@ public class NhanVienServiceImpl implements GeneralService<NhanVien> {
 		// layer
 		SessionFactory sessionFactory = this.nhanVienDaoImpl.getSessionFactory();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(NhanVien.class);
-		criteria.add(Restrictions.like("Sdt", "%" + phone + "%"));
+		criteria.add(Restrictions.like("Sdt", phone,MatchMode.ANYWHERE));
 		
 		
 		return criteria.list();
@@ -86,7 +87,7 @@ public class NhanVienServiceImpl implements GeneralService<NhanVien> {
 		// layer
 		SessionFactory sessionFactory = this.nhanVienDaoImpl.getSessionFactory();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(NhanVien.class);
-		criteria.add(Restrictions.like("Cmnd", "%" + CMND + "%"));
+		criteria.add(Restrictions.like("Cmnd",CMND,MatchMode.ANYWHERE));
 		
 		return criteria.list();
 	}
@@ -97,7 +98,7 @@ public class NhanVienServiceImpl implements GeneralService<NhanVien> {
 		SessionFactory sessionFactory = this.nhanVienDaoImpl.getSessionFactory();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(NhanVien.class);
 		
-		criteria.add(Restrictions.like("Diachi", "%" + Address + "%"));
+		criteria.add(Restrictions.like("Diachi", Address,MatchMode.ANYWHERE));
 		return criteria.list();
 	}
 	@SuppressWarnings("unchecked")
@@ -107,7 +108,7 @@ public class NhanVienServiceImpl implements GeneralService<NhanVien> {
 		SessionFactory sessionFactory = this.nhanVienDaoImpl.getSessionFactory();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(NhanVien.class);
 		
-		criteria.add(Restrictions.like("Username", "%" + Username + "%"));
+		criteria.add(Restrictions.like("Username",  Username,MatchMode.ANYWHERE ));
 		return criteria.list();
 	}
 }
