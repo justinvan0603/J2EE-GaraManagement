@@ -44,7 +44,13 @@
 						<listcell label="@load(e.maPhieuNhapHang)"></listcell>
 						<listcell label="@load(e.nhanVien.hoTen)"></listcell>
 						<listcell label="@load(e.shortDateNgayLap)"></listcell>
-						<listcell label="@load(e.phieuDatHang.maPhieuDat)"></listcell>
+						<zk if="${e.phieuDatHang == null}">
+    						<listcell label="Không đặt trước"></listcell>
+						</zk>
+						<zk if="${e.phieuDatHang != null}">
+	    					<listcell label="@load(e.phieuDatHang.maPhieuDat)"></listcell>
+						</zk>
+						
 						<listcell label="@load(e.nhaCungCap.tenNCC)"></listcell>
 						<listcell label="@load(e.tongTien)"></listcell>
 						<listcell>

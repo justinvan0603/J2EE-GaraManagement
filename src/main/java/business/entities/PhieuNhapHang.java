@@ -11,6 +11,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
 import utils.StringFormatUtil;
 
 @Entity
@@ -50,6 +53,7 @@ public class PhieuNhapHang {
 	
 	@ManyToOne
 	@JoinColumn(name = "IdPhieuDatHang", referencedColumnName = "Id_PhieuDatHang", insertable = false, updatable = false)
+	@NotFound(action = NotFoundAction.IGNORE)
 	private PhieuDatHang PhieuDatHang;
 
 	public long getIdPhieuNhapHang() {
