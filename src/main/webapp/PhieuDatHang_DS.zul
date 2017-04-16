@@ -56,6 +56,10 @@
 								image="/images/ic_delete_black_18dp_1x.png"
 								onClick="@command('deletePhieuDatHang' , phieudh_id = e.id_PhieuDatHang)">
 							</button>
+							<button
+								image="/images/ic_add.png"
+								onClick="@command('createPhieuNhapHang' , phieudh_id = e.id_PhieuDatHang)">
+							</button>
 						</listcell>
 					</listitem>
 				</template>

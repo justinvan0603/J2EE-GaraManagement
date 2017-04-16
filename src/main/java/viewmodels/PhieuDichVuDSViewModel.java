@@ -92,4 +92,12 @@ public class PhieuDichVuDSViewModel {
 	public void ThemPhieuDichVu() {
 		Executions.sendRedirect("./PhieuDichVu_Add.zul");
 	}
+	
+	@Command
+	public void createPhieuThu(@BindingParam("phieuthu_id") long id) {
+		// save session the selected id
+		Sessions.getCurrent().setAttribute(PhieuThuDSViewModel.PDH_ID, id);
+		Sessions.getCurrent().setAttribute(PhieuThuDSViewModel.PDH_TYPE, "pdv");
+		Executions.sendRedirect("./PhieuThu_Add.zul");
+	}
 }

@@ -10,8 +10,12 @@ import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.Messagebox;
 
 import business.entities.NhanVien;
+import business.entities.PhieuBanLe;
+import business.entities.PhieuDichVu;
 import business.entities.PhieuThu;
 import business.service.NhanVienServiceImpl;
+import business.service.PhieuBanLeServiceImpl;
+import business.service.PhieuDichVuServiceImpl;
 import business.service.PhieuThuServiceImpl;
 
 public class PhieuThuAddViewModel {
@@ -19,8 +23,8 @@ public class PhieuThuAddViewModel {
 	@WireVariable
 	private PhieuThuServiceImpl phieuThuService;
 	private NhanVienServiceImpl nhanVienService;
-//	private PhieuBanLeServiceImpl phieuBanLeService;
-//	private PhieuDichVuServiceImpl phieuDichVuService;
+	private PhieuBanLeServiceImpl phieuBanLeService;
+	private PhieuDichVuServiceImpl phieuDichVuService;
 	private double tongTien;
 	private double tienConLai;
 	private PhieuThu phieuThu;
@@ -31,26 +35,34 @@ public class PhieuThuAddViewModel {
 	public void init() {
 		this.phieuThuService = (PhieuThuServiceImpl) SpringUtil.getBean("phieuthu_service");
 		this.nhanVienService = (NhanVienServiceImpl) SpringUtil.getBean("nhanvien_service");
+		this.phieuBanLeService = (PhieuBanLeServiceImpl) SpringUtil.getBean("phieubanle_service");
+		this.phieuDichVuService = (PhieuDichVuServiceImpl) SpringUtil.getBean("phieudichvu_service");
 		
-		this.loaiPhieuCanThu = (String) Sessions.getCurrent().getAttribute("loai_phieu_can_thu");
-		this.maPhieuCanThu = ((Long) Sessions.getCurrent().getAttribute("id_phieu_can_thu")).longValue();
+		//this.loaiPhieuCanThu = (String) Sessions.getCurrent().getAttribute(PhieuThuDSViewModel.PDH_TYPE);
+		//this.maPhieuCanThu = ((Long) Sessions.getCurrent().getAttribute(PhieuThuDSViewModel.PDH_ID)).longValue();
 		//this.maNV = ((Long) Sessions.getCurrent().getAttribute("ma_nv")).longValue();
 		this.maNV = 1;
 		String noiDungThu = "Thu tiền phiếu ";
+		this.phieuThu = new PhieuThu();
+		loaiPhieuCanThu = "pdv";
+		maPhieuCanThu = 1;
 		
 		if (loaiPhieuCanThu.equals("pbl")){
 			this.phieuThu.setIdPhieuBanLe(maPhieuCanThu);
 			noiDungThu += "bán lẻ. Mã phiếu: ";
-			//get object PBL
-			//Assign tongTien + soTienConLai
+			PhieuBanLe pbl = this.phieuBanLeService.findById(maPhieuCanThu, PhieuBanLe.class);
+			this.setTongTien(pbl.getTongTien());
+			this.setTienConLai(pbl.getSoTienConLai());
+			noiDungThu += pbl.getMaPhieuBan();
 		} else {
 			this.phieuThu.setIdPhieuDichVu(maPhieuCanThu);
 			noiDungThu += "dịch vụ. Mã phiếu: ";
-			//get object PDV
-			//Assign tongTien + soTienConLai
+			PhieuDichVu pdv = this.phieuDichVuService.findById(maPhieuCanThu, PhieuDichVu.class);
+			this.setTongTien(pdv.getTongTien());
+			this.setTienConLai(pdv.getSoTienConLai());
+			noiDungThu += pdv.getMaPhieuDichVu();
 		}
-		noiDungThu += String.valueOf(maPhieuCanThu);
-		
+		phieuThu.setMaNV(maNV);
 		phieuThu.setNhanVien(nhanVienService.findById(maNV, NhanVien.class));
 		phieuThu.setNgayLap(Calendar.getInstance().getTime());
 		phieuThu.setNoiDung(noiDungThu);
@@ -59,14 +71,39 @@ public class PhieuThuAddViewModel {
 	
 	@Command
 	public void saveNewPhieuThu() {
-		
-		//update so tien con lai tren cac phieu tuong ung
-		if (this.phieuThuService.save(this.phieuThu)) {
-			Messagebox.show("Lưu thành công");
-			Executions.sendRedirect("./PhieuThu_DS.zul");
-		} else {
-			Messagebox.show("Đã có lỗi xảy ra", "Lỗi", Messagebox.OK, Messagebox.ERROR);
+		if (checkValueIsValid()){
+			if (this.phieuThuService.save(this.phieuThu)) {
+				if (loaiPhieuCanThu.equals("pbl")){
+					PhieuBanLe pbl = this.phieuBanLeService.findById(maPhieuCanThu, PhieuBanLe.class);
+					pbl.setSoTienConLai(pbl.getSoTienConLai() - phieuThu.getSoTien());
+					this.phieuBanLeService.update(pbl.getIdPhieuBanLe(), pbl);
+				} else {
+					PhieuDichVu pdv = this.phieuDichVuService.findById(maPhieuCanThu, PhieuDichVu.class);
+					pdv.setSoTienConLai(pdv.getSoTienConLai() - phieuThu.getSoTien());
+					this.phieuDichVuService.update(pdv.getIdPhieuDichVu(), pdv);
+				}
+				Messagebox.show("Lưu thành công");
+				Executions.sendRedirect("./PhieuThu_DS.zul");
+			} else {
+				Messagebox.show("Đã có lỗi xảy ra", "Lỗi", Messagebox.OK, Messagebox.ERROR);
+			}
 		}
+	}
+	
+	public boolean checkValueIsValid(){
+		if (this.phieuThu.getSoTien() > this.getTienConLai()){
+			Messagebox.show("Số tiền thu phải bé hơn hoặc bằng số tiền còn lại", "Lỗi", Messagebox.OK, Messagebox.ERROR);
+			return false;
+		} else if (this.phieuThu.getMaPhieuThu().isEmpty()){
+			Messagebox.show("Mã phiếu thu không được để trống", "Lỗi", Messagebox.OK, Messagebox.ERROR);
+			return false;
+		}
+		return true;
+	}
+	
+	@Command
+	public void thoat() {
+		Executions.sendRedirect("./PhieuThu_DS.zul");
 	}
 	
 	public double getTongTien() {
@@ -84,4 +121,14 @@ public class PhieuThuAddViewModel {
 	public void setTienConLai(double tienConLai) {
 		this.tienConLai = tienConLai;
 	}
+
+	public PhieuThu getPhieuThu() {
+		return phieuThu;
+	}
+
+	public void setPhieuThu(PhieuThu phieuThu) {
+		this.phieuThu = phieuThu;
+	}
+	
+	
 }

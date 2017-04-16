@@ -100,4 +100,9 @@ public class PhuTung implements Serializable {
 	public void setHanBaoHanh(int hanBaoHanh) {
 		HanBaoHanh = hanBaoHanh;
 	}
+	
+	public String getTenVaMaPT(){
+		return MaPhuTung + " - " + TenPhuTung;
+	}
+	
 }

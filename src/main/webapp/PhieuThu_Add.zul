@@ -1,45 +1,81 @@
-<?page title="Lập phiếu thu" contentType="text/html;charset=UTF-8"?>
+<?page title="Lập phiếu thu tiền" contentType="text/html;charset=UTF-8"?>
 <zk>
 	<include src="menu_bar.zul"></include>
-	<window title="Lập phiếu thu" border="normal"
-		apply="org.zkoss.bind.BindComposer"
+	<window title="Lập phiếu thu hàng" border="normal" width="100%"
+		height="550px" apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('viewmodels.PhieuThuAddViewModel')">
-		<hbox align="start" style="padding : 16px;">
-			<vbox style="padding : 16px;" xmlns:w="client">
-				<label>Tên</label>
-				<textbox id="name_textbox" width="400px"
-					constraint="no empty" maxlength="100">
-				</textbox>
-				<label>Địa chỉ</label>
-				<textbox id="address_textbox" width="400px"
-					constraint="no empty" maxlength="200">
-				</textbox>
-				<label>Điện thoại</label>
-				<textbox id="phone_textbox" width="400px"
-					constraint="no empty" maxlength="11">
-					<attribute w:name="doKeyPress_">
-						<![CDATA[
-							function(evt)
-							{
-								if ((evt.which < 48 || evt.which > 57) && evt.which != 8 && evt.which != 0)
-									evt.stop();
-							}
-						]]>
-					</attribute>
-				</textbox>
-				<label>Nhóm nhà cung cấp</label>
-				<combobox model="@load(vm.nhomNhaCungCap)" id="type_combobox"
-					constraint="no empty" readonly="true">
-					<template name="model">
-						<comboitem label="${each.getTenNhom()}"></comboitem>
-					</template>
-				</combobox>
-			<button
-				onClick="@command('saveNewNCC', name =  name_textbox.value , address = address_textbox.value , phone_number = phone_textbox.value, type = type_combobox.selectedItem.label)">
-				Lưu
-				</button>
-			</vbox>
-		</hbox>
+		<vlayout>
+			<groupbox>
+				<hlayout style="text-align : left; padding : 4px;">
+					<vbox width="300px">
+						<label>Mã phiếu thu</label>
+						<textbox
+							maxlength="20"
+							value="@load(vm.phieuThu.maPhieuThu) @save(vm.phieuThu.maPhieuThu, before = 'saveNewPhieuThu')"
+							width="200px">
+						</textbox>
+					</vbox>
+					<vbox width="300px">
+						<label>Nhân viên lập</label>
+						<textbox readonly="true"
+							value="@load(vm.phieuThu.nhanVien.hoTen)" width="200px">
+						</textbox>
+					</vbox>
+					<vbox width="300px">
+						<label>Ngày lập</label>
+						<textbox readonly="true"
+							value="@load(vm.phieuThu.shortNgayLap)" width="200px">
+						</textbox>
+					</vbox>
+				</hlayout>
+				<hlayout style="text-align : left; padding : 4px;">
+					<vbox width="300px">
+						<label>Nội dung thu</label>
+						<textbox
+							maxlength="20"
+							value="@load(vm.phieuThu.noiDung)"
+							width="200px"
+							rows="3" 
+							readonly="true">
+						</textbox>
+					</vbox>
+					<vbox width="300px">
+						<label>Trị giá phiếu cần thu</label>
+						<textbox readonly="true"
+							value="@load(vm.tongTien)" width="200px">
+						</textbox>
+					</vbox>
+					<vbox width="300px">
+						<label>Số tiền còn lại</label>
+						<textbox readonly="true"
+							value="@load(vm.tienConLai)" width="200px">
+						</textbox>
+					</vbox>
+				</hlayout>
+				<hlayout style="text-align : left; padding : 4px;"  xmlns:w="client">
+					<vbox width="300px">
+						<label>Số tiền thu</label>
+						<textbox
+							maxlength="20"
+							value="@load(vm.phieuThu.soTien) @save(vm.phieuThu.soTien, before = 'saveNewPhieuThu')"
+							width="200px">
+							<attribute w:name="doKeyPress_">
+							<![CDATA[
+								function(evt)
+								{
+									if ((evt.which < 48 || evt.which > 57) && evt.which != 8 && evt.which != 0)
+										evt.stop();
+								}
+							]]>
+						</attribute>
+						</textbox>
+					</vbox>
+				</hlayout>
+			</groupbox>
+			<hlayout style="padding: 4px">
+				<button onClick="@command('saveNewPhieuThu')">Lưu</button>
+				<button onClick="@command('thoat')">Huỷ</button>
+			</hlayout>	
+		</vlayout>
 	</window>
-
 </zk>

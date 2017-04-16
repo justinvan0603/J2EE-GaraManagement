@@ -136,6 +136,13 @@ public class PhieuDatHangDSViewModel {
 		Sessions.getCurrent().setAttribute(SELECTED_PDH_ID, id);
 		Executions.sendRedirect("./PhieuDatHang_Edit.zul");
 	}
+	
+	@Command
+	public void createPhieuNhapHang(@BindingParam("phieudh_id") long id) {
+		// save session the selected id
+		Sessions.getCurrent().setAttribute(SELECTED_PDH_ID, id);
+		Executions.sendRedirect("./PhieuNhapHang_Add_Ordered.zul");
+	}
 
 	public List<PhieuDatHang> getListOfPhieuDatHang() {
 		return listOfPhieuDatHang;

@@ -11,12 +11,18 @@ import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.Messagebox;
 
+import business.entities.PhieuBanLe;
+import business.entities.PhieuDichVu;
 import business.entities.PhieuThu;
+import business.service.PhieuBanLeServiceImpl;
+import business.service.PhieuDichVuServiceImpl;
 import business.service.PhieuThuServiceImpl;
 import utils.DateUtil;
 
 public class PhieuThuDSViewModel {
 
+	public static final String PDH_ID = "phieuthu_id";
+	public static final String PDH_TYPE = "phieuthu_type";
 	private static final String[] SEARCH_TYPES = new String[] {
 
 			"Tất cả", "Mã phiếu", "Ngày lập phiếu", "Nhân viên lập", "Nội dung" };
@@ -24,6 +30,8 @@ public class PhieuThuDSViewModel {
 	@WireVariable
 	private PhieuThuServiceImpl phieuThuService;
 	private List<PhieuThu> listOfPhieuThu;
+	private PhieuBanLeServiceImpl phieuBanLeService;
+	private PhieuDichVuServiceImpl phieuDichVuService;
 
 	@Init
 	public void init() {
@@ -36,7 +44,7 @@ public class PhieuThuDSViewModel {
 			throw new NullPointerException("GeneralService is NULL");
 		}
 	}
-	
+
 	@Command
 	@NotifyChange("listOfPhieuThu")
 	public void filterData(@BindingParam("search_string") String searchString,
@@ -83,18 +91,42 @@ public class PhieuThuDSViewModel {
 			break;
 		}
 	}
-	
+
 	@Command
 	@NotifyChange("listOfPhieuThu")
 	public void deletePhieuThu(@BindingParam("phieuthu_id") long id) {
-
-		 if (this.phieuThuService.delete(id, PhieuThu.class)) {
- 			this.listOfPhieuThu = this.phieuThuService.getAll(PhieuThu.class);
- 		} else {
- 			Messagebox.show("Lỗi khi xoá");
- 		}
+		
+		this.phieuBanLeService = (PhieuBanLeServiceImpl) SpringUtil.getBean("phieubanle_service");
+		this.phieuDichVuService = (PhieuDichVuServiceImpl) SpringUtil.getBean("phieudichvu_service");
+		
+		PhieuThu pt = this.phieuThuService.findById(id, PhieuThu.class);
+		double trigiaphieuthu = pt.getSoTien();
+		String loaiPhieuCanThu;
+		long maPhieuCanThu;
+		if (pt.getIdPhieuBanLe() != null){
+			loaiPhieuCanThu = "pbl";
+			maPhieuCanThu = pt.getIdPhieuBanLe();
+		} else {
+			loaiPhieuCanThu = "pdv";
+			maPhieuCanThu = pt.getIdPhieuDichVu();
+		}
+		if (this.phieuThuService.delete(id, PhieuThu.class)) {
+			
+			if (loaiPhieuCanThu.equals("pbl")) {
+				PhieuBanLe pbl = this.phieuBanLeService.findById(maPhieuCanThu, PhieuBanLe.class);
+				pbl.setSoTienConLai(pbl.getSoTienConLai() + pt.getSoTien());
+				this.phieuBanLeService.update(pbl.getIdPhieuBanLe(), pbl);
+			} else {
+				PhieuDichVu pdv = this.phieuDichVuService.findById(maPhieuCanThu, PhieuDichVu.class);
+				pdv.setSoTienConLai(pdv.getSoTienConLai() + pt.getSoTien());
+				this.phieuDichVuService.update(pdv.getIdPhieuDichVu(), pdv);
+			}
+			this.listOfPhieuThu = this.phieuThuService.getAll(PhieuThu.class);
+		} else {
+			Messagebox.show("Lỗi khi xoá");
+		}
 	}
-	
+
 	public String[] getSearchTypes() {
 		return SEARCH_TYPES;
 	}
@@ -114,6 +146,5 @@ public class PhieuThuDSViewModel {
 	public void setListOfPhieuThu(List<PhieuThu> listOfPhieuThu) {
 		this.listOfPhieuThu = listOfPhieuThu;
 	}
-	
-	
+
 }

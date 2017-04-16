@@ -1,12 +1,7 @@
 package viewmodels;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
-
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
@@ -16,31 +11,25 @@ import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.Messagebox;
 
-import business.entities.CT_PhieuDatHang;
 import business.entities.CT_PhieuNhapHang;
 import business.entities.HieuXe;
 import business.entities.NhaCungCap;
 import business.entities.NhanVien;
 import business.entities.NhomNhaCungCap;
-import business.entities.PhieuDatHang;
 import business.entities.PhieuNhapHang;
 import business.entities.PhuTung;
-import business.service.ChiTietPhieuDatHangServiceImpl;
 import business.service.ChiTietPhieuNhapHangServiceImpl;
 import business.service.HieuXeServiceImpl;
 import business.service.NhaCungCapServiceImpl;
 import business.service.NhanVienServiceImpl;
 import business.service.NhomNhaCungCapServiceImpl;
-import business.service.PhieuDatHangServiceImpl;
 import business.service.PhieuNhapHangServiceImpl;
 import business.service.PhuTungServiceImpl;
 
-public class PhieuNhapHangAddOrderedViewModel {
+public class PhieuNhapHangEditViewModel {
 
 	// services for interacting with persistence layer
-	private PhieuDatHangServiceImpl phieuDatHangServiceImpl;
 	private PhieuNhapHangServiceImpl phieuServiceImpl;
-	private ChiTietPhieuDatHangServiceImpl ctPhieuDatHangServiceImpl;
 	private ChiTietPhieuNhapHangServiceImpl ctPhieuServiceImpl;
 	private NhanVienServiceImpl nhanVienServiceImpl;
 	private HieuXeServiceImpl hieuXeServiceImpl;
@@ -55,22 +44,19 @@ public class PhieuNhapHangAddOrderedViewModel {
 	private List<NhomNhaCungCap> listOfNhomNCCs;
 
 	// entities to be saved
-	private PhieuDatHang phieuDatHang;
 	private PhieuNhapHang phieu;
-	private List<CT_PhieuDatHang> setOfCT_PhieuDatHangs; // use Set
-	private Set<CT_PhieuNhapHang> setOfCT_Phieus; // use Set
+	private List<CT_PhieuNhapHang> setOfCT_Phieus; // use Set
 	private PhuTung selectedPhuTung;
 	private NhaCungCap selectedNCC;
 	private NhomNhaCungCap selectedNhomNCC;
 	private Double thanhTien;
 	private Double tongTien;
 	private long maNV = 1;
+	private String maPhieuDat;
 
 	@Init
 	public void init() {
-		this.phieuDatHangServiceImpl = (PhieuDatHangServiceImpl) SpringUtil.getBean("phieudathang_service");
 		this.phieuServiceImpl = (PhieuNhapHangServiceImpl) SpringUtil.getBean("phieunhaphang_service");
-		this.ctPhieuDatHangServiceImpl = (ChiTietPhieuDatHangServiceImpl) SpringUtil.getBean("ct_phieudathang_service");
 		this.ctPhieuServiceImpl = (ChiTietPhieuNhapHangServiceImpl) SpringUtil.getBean("ct_phieunhaphang_service");
 		this.nhanVienServiceImpl = (NhanVienServiceImpl) SpringUtil.getBean("nhanvien_service");
 		this.hieuXeServiceImpl = (HieuXeServiceImpl) SpringUtil.getBean("hieuxe_service");
@@ -79,34 +65,14 @@ public class PhieuNhapHangAddOrderedViewModel {
 		this.nhaCungCapServiceImpl = (NhaCungCapServiceImpl) SpringUtil.getBean("nhacungcap_service");
 		// make sure services are valid
 		try {
-			long idPhieuDat = ((Long) Sessions.getCurrent().getAttribute(PhieuDatHangDSViewModel.SELECTED_PDH_ID)).longValue();
-			this.setPhieuDatHang(this.phieuDatHangServiceImpl.findById(idPhieuDat, PhieuDatHang.class));
-			this.phieu = new PhieuNhapHang();
-			this.phieu.setIdPhieuDatHang(this.phieuDatHang.getId_PhieuDatHang());
-			this.phieu.setTongTien(this.phieuDatHang.getTongTien());
-			this.phieu.setMaNhaCungCap(this.phieuDatHang.getMaNCC());
-			Date day = new Date();
-			this.phieu.setNgayLap(day);
+			long id = ((Long) Sessions.getCurrent().getAttribute(PhieuNhapHangDSViewModel.SELECTED_PNH_ID)).longValue();
+			this.phieu = this.phieuServiceImpl.findById(id, PhieuNhapHang.class);
+			this.maPhieuDat = this.phieu.getPhieuDatHang() == null ? "Không đặt trước" : this.phieu.getPhieuDatHang().getMaPhieuDat();
+			this.setTongTien(this.phieu.getTongTien());
 			this.phieu.setMaNV(maNV);
 			this.phieu.setNhanVien(this.nhanVienServiceImpl.findById(maNV, NhanVien.class));
-			this.setTongTien(this.phieuDatHang.getTongTien());
-			
-			this.setOfCT_PhieuDatHangs = new ArrayList<CT_PhieuDatHang>();
-			this.setOfCT_Phieus = new HashSet<CT_PhieuNhapHang>();
-			this.setSetOfCT_PhieuDatHangs(this.ctPhieuDatHangServiceImpl.getAllByPhieuDatHangId(idPhieuDat));
-			
-			for (Iterator<CT_PhieuDatHang> iterator = this.setOfCT_PhieuDatHangs.iterator(); iterator.hasNext();) {
-				CT_PhieuDatHang ct_phieuDatHang = iterator.next();
-				CT_PhieuNhapHang ct_phieu = new CT_PhieuNhapHang();
-				ct_phieu.setIdPhuTung(ct_phieuDatHang.getIdPhuTung());
-				ct_phieu.setSoLuong(ct_phieuDatHang.getSoLuong());
-				ct_phieu.setDonGia(ct_phieuDatHang.getDonGia());
-				ct_phieu.setThanhTien(ct_phieuDatHang.getThanhTien());
-				PhuTung pt = this.phuTungServiceImpl.findById(ct_phieuDatHang.getIdPhuTung(), PhuTung.class);
-				ct_phieu.setMaPT(pt.getMaPhuTung());
-				ct_phieu.setTenPT(pt.getTenPhuTung());
-				setOfCT_Phieus.add(ct_phieu);
-			}
+			this.setOfCT_Phieus = new ArrayList<CT_PhieuNhapHang>();
+			this.setSetOfCT_Phieus(this.ctPhieuServiceImpl.getAllByPhieuNhapHangId(id));
 			
 			this.listOfHieuXes = this.hieuXeServiceImpl.getAll(HieuXe.class);
 			this.listOfNhomNCCs = this.nhomNhaCungCapServiceImpl.getAll(NhomNhaCungCap.class);
@@ -121,28 +87,16 @@ public class PhieuNhapHangAddOrderedViewModel {
 	@NotifyChange({ "setOfCT_Phieus", "tongTien" })
 	public void themChiTiet(@BindingParam("id_pt") long mapt, @BindingParam("sl") int sl,
 			@BindingParam("dongia") double dongia, @BindingParam("thanhtien") double thanhtien) {
-		PhuTung pt = this.phuTungServiceImpl.findById(mapt, PhuTung.class);
 		CT_PhieuNhapHang ct_Phieu = new CT_PhieuNhapHang();
+		ct_Phieu.setIdPhieuNhapHang(this.phieu.getIdPhieuNhapHang());
 		ct_Phieu.setIdPhuTung(mapt);
 		ct_Phieu.setSoLuong(sl);
 		ct_Phieu.setDonGia(dongia);
 		ct_Phieu.setThanhTien(thanhtien);
-		ct_Phieu.setMaPT(pt.getMaPhuTung());
-		ct_Phieu.setTenPT(pt.getTenPhuTung());
-		if (this.setOfCT_Phieus.add(ct_Phieu)) {
-			this.tongTien += thanhTien;
-		}
-	}
-
-	@Command
-	@NotifyChange({ "setOfCT_Phieus", "tongTien" })
-	public void xoaChiTiet(@BindingParam("id_pt") long idpt) {
-		for (Iterator<CT_PhieuNhapHang> iterator = this.setOfCT_Phieus.iterator(); iterator.hasNext();) {
-			CT_PhieuNhapHang ct_Phieu = iterator.next();
-			if (ct_Phieu.getIdPhuTung() == idpt) {
-				iterator.remove();
-				tongTien -= ct_Phieu.getThanhTien();
-			}
+		if (this.ctPhieuServiceImpl.save(ct_Phieu)) {
+			this.tongTien += thanhtien;
+			this.setSetOfCT_Phieus(this.ctPhieuServiceImpl.getAllByPhieuNhapHangId(this.phieu.getIdPhieuNhapHang()));
+			Messagebox.show("Thêm chi tiết phiếu thành công", "Thông báo", Messagebox.OK, Messagebox.INFORMATION);
 		}
 	}
 
@@ -174,20 +128,8 @@ public class PhieuNhapHangAddOrderedViewModel {
 	public void luuPhieu() {
 		if (this.setOfCT_Phieus.size() > 0) {
 			this.phieu.setTongTien(tongTien);
-			if (this.phieuServiceImpl.save(this.phieu)) {
-				for (Iterator<CT_PhieuNhapHang> iterator = this.setOfCT_Phieus.iterator(); iterator.hasNext();) {
-					try {
-						CT_PhieuNhapHang ct_Phieu = iterator.next();
-						ct_Phieu.setIdPhieuNhapHang(this.phieu.getIdPhieuNhapHang());
-						// start to save detail
-						if (!this.ctPhieuServiceImpl.save(ct_Phieu)) {
-							Messagebox.show("Lưu lỗi", "Thông báo", Messagebox.RETRY, Messagebox.ERROR);
-						}
-					} catch (Exception e) {
-						e.printStackTrace();
-					}	
-				}
-				Messagebox.show("Lưu thành công", "Thông báo", Messagebox.OK, Messagebox.INFORMATION);
+			if (this.phieuServiceImpl.update(this.phieu.getIdPhieuNhapHang(),this.phieu)) {
+				Messagebox.show("Cập nhật thành công", "Thông báo", Messagebox.OK, Messagebox.INFORMATION);
 				Executions.sendRedirect("./PhieuNhapHang_DS.zul");
 			} else {
 				Messagebox.show("Lưu lỗi", "Thông báo", Messagebox.RETRY, Messagebox.ERROR);
@@ -266,36 +208,12 @@ public class PhieuNhapHangAddOrderedViewModel {
 		this.tongTien = tongTien;
 	}
 
-	public PhieuDatHang getPhieuDatHang() {
-		return phieuDatHang;
-	}
-
-	public void setPhieuDatHang(PhieuDatHang phieuDatHang) {
-		this.phieuDatHang = phieuDatHang;
-	}
-
 	public PhieuNhapHang getPhieu() {
 		return phieu;
 	}
 
 	public void setPhieu(PhieuNhapHang phieu) {
 		this.phieu = phieu;
-	}
-
-	public List<CT_PhieuDatHang> getSetOfCT_PhieuDatHangs() {
-		return setOfCT_PhieuDatHangs;
-	}
-
-	public void setSetOfCT_PhieuDatHangs(List<CT_PhieuDatHang> setOfCT_PhieuDatHangs) {
-		this.setOfCT_PhieuDatHangs = setOfCT_PhieuDatHangs;
-	}
-
-	public Set<CT_PhieuNhapHang> getSetOfCT_Phieus() {
-		return setOfCT_Phieus;
-	}
-
-	public void setSetOfCT_Phieus(Set<CT_PhieuNhapHang> setOfCT_Phieus) {
-		this.setOfCT_Phieus = setOfCT_Phieus;
 	}
 
 	public NhomNhaCungCap getSelectedNhomNCC() {
@@ -305,5 +223,23 @@ public class PhieuNhapHangAddOrderedViewModel {
 	public void setSelectedNhomNCC(NhomNhaCungCap selectedNhomNCC) {
 		this.selectedNhomNCC = selectedNhomNCC;
 	}
+
+	public List<CT_PhieuNhapHang> getSetOfCT_Phieus() {
+		return setOfCT_Phieus;
+	}
+
+	public void setSetOfCT_Phieus(List<CT_PhieuNhapHang> setOfCT_Phieus) {
+		this.setOfCT_Phieus = setOfCT_Phieus;
+	}
+
+	public String getMaPhieuDat() {
+		return maPhieuDat;
+	}
+
+	public void setMaPhieuDat(String maPhieuDat) {
+		this.maPhieuDat = maPhieuDat;
+	}
+
+	
 	
 }

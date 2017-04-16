@@ -19,7 +19,7 @@
 					onClick="@command('filterData', search_string=search_textbox.value , combobox_selected_index = search_type_combobox.selectedIndex )">
 					Tìm kiếm
 				</button>
-				|
+				
 				<button id="addNew"
 					onClick="@command('addNewPhieuNhapHangRedirect')">
 					Thêm mới
