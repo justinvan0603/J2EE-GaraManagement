@@ -25,10 +25,10 @@
 				model="@load(vm.listOfPhieuThu)" width="100%">
 				<listhead>
 					<listheader label="Id" width="80px" visible="false" />
-					<listheader label="Mã phiếu thu" />
+					<listheader label="Mã phiếu thu" width="100px" />
+					<listheader label="Nội dung thu" />
 					<listheader label="Ngày lập phiếu" />
 					<listheader label="Nhân viên lập" />
-					<listheader label="Nội dung thu" />
 					<listheader label="Số tiền" />
 					<listheader label="Tác vụ" width="150px" />
 				</listhead>
@@ -36,10 +36,10 @@
 					<listitem>
 						<listcell label="@load(e.idPhieuThuTien)" visible="false"></listcell>
 						<listcell label="@load(e.maPhieuThu)"></listcell>
+						<listcell label="@load(e.noiDung)"></listcell>
 						<listcell label="@load(e.shortNgayLap)"></listcell>
 						<listcell label="@load(e.nhanVien.hoTen)"></listcell>
-						<listcell label="@load(e.noiDung)"></listcell>
-						<listcell label="@load(e.soTien)"></listcell>
+						<listcell label="@load(e.soTienFormated)"></listcell>
 						<listcell>
 							<button
 								image="/images/ic_delete_black_18dp_1x.png"

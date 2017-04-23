@@ -83,6 +83,8 @@ public class PhuTungDaoImpl implements GeneralDao<PhuTung> {
 				phutung.setTenPhuTung(newInfor.getTenPhuTung());
 				phutung.setMaHieuXe(newInfor.getMaHieuXe());
 				phutung.setHanBaoHanh(newInfor.getHanBaoHanh());
+				phutung.setSoLuongTon(newInfor.getSoLuongTon());
+				phutung.setDonGiaXuat(newInfor.getDonGiaXuat());
 				session.saveOrUpdate(phutung);
 				isSuccess = true;
 				transaction.commit();

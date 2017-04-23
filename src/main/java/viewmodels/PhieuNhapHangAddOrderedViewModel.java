@@ -79,7 +79,8 @@ public class PhieuNhapHangAddOrderedViewModel {
 		this.nhaCungCapServiceImpl = (NhaCungCapServiceImpl) SpringUtil.getBean("nhacungcap_service");
 		// make sure services are valid
 		try {
-			long idPhieuDat = ((Long) Sessions.getCurrent().getAttribute(PhieuDatHangDSViewModel.SELECTED_PDH_ID)).longValue();
+			long idPhieuDat = ((Long) Sessions.getCurrent().getAttribute(PhieuDatHangDSViewModel.SELECTED_PDH_ID))
+					.longValue();
 			this.setPhieuDatHang(this.phieuDatHangServiceImpl.findById(idPhieuDat, PhieuDatHang.class));
 			this.phieu = new PhieuNhapHang();
 			this.phieu.setIdPhieuDatHang(this.phieuDatHang.getId_PhieuDatHang());
@@ -90,11 +91,11 @@ public class PhieuNhapHangAddOrderedViewModel {
 			this.phieu.setMaNV(maNV);
 			this.phieu.setNhanVien(this.nhanVienServiceImpl.findById(maNV, NhanVien.class));
 			this.setTongTien(this.phieuDatHang.getTongTien());
-			
+
 			this.setOfCT_PhieuDatHangs = new ArrayList<CT_PhieuDatHang>();
 			this.setOfCT_Phieus = new HashSet<CT_PhieuNhapHang>();
 			this.setSetOfCT_PhieuDatHangs(this.ctPhieuDatHangServiceImpl.getAllByPhieuDatHangId(idPhieuDat));
-			
+
 			for (Iterator<CT_PhieuDatHang> iterator = this.setOfCT_PhieuDatHangs.iterator(); iterator.hasNext();) {
 				CT_PhieuDatHang ct_phieuDatHang = iterator.next();
 				CT_PhieuNhapHang ct_phieu = new CT_PhieuNhapHang();
@@ -107,7 +108,7 @@ public class PhieuNhapHangAddOrderedViewModel {
 				ct_phieu.setTenPT(pt.getTenPhuTung());
 				setOfCT_Phieus.add(ct_phieu);
 			}
-			
+
 			this.listOfHieuXes = this.hieuXeServiceImpl.getAll(HieuXe.class);
 			this.listOfNhomNCCs = this.nhomNhaCungCapServiceImpl.getAll(NhomNhaCungCap.class);
 			this.setSelectedNCC(this.nhaCungCapServiceImpl.findById(phieu.getMaNhaCungCap(), NhaCungCap.class));
@@ -173,27 +174,37 @@ public class PhieuNhapHangAddOrderedViewModel {
 	@Command
 	public void luuPhieu() {
 		if (this.setOfCT_Phieus.size() > 0) {
-			this.phieu.setTongTien(tongTien);
-			if (this.phieuServiceImpl.save(this.phieu)) {
-				for (Iterator<CT_PhieuNhapHang> iterator = this.setOfCT_Phieus.iterator(); iterator.hasNext();) {
-					try {
+			try {
+				this.phieu.setTongTien(tongTien);
+				if (this.phieuServiceImpl.save(this.phieu)) {
+					for (Iterator<CT_PhieuNhapHang> iterator = this.setOfCT_Phieus.iterator(); iterator.hasNext();) {
 						CT_PhieuNhapHang ct_Phieu = iterator.next();
 						ct_Phieu.setIdPhieuNhapHang(this.phieu.getIdPhieuNhapHang());
 						// start to save detail
-						if (!this.ctPhieuServiceImpl.save(ct_Phieu)) {
-							Messagebox.show("Lưu lỗi", "Thông báo", Messagebox.RETRY, Messagebox.ERROR);
+						if (this.ctPhieuServiceImpl.save(ct_Phieu)) {
+							PhuTung pt = phuTungServiceImpl.findById(ct_Phieu.getIdPhuTung(), PhuTung.class);
+							double a = pt.getDonGiaXuat() * pt.getSoLuongTon()
+									+ ct_Phieu.getDonGia() * ct_Phieu.getSoLuong();
+							int b = pt.getSoLuongTon() + ct_Phieu.getSoLuong();
+							pt.setDonGiaXuat(a / b);
+							pt.setSoLuongTon(pt.getSoLuongTon() + ct_Phieu.getSoLuong());
+							phuTungServiceImpl.update(pt.getId(), pt);
+						} else {
+							Messagebox.show("Có lỗi xảy ra khi lưu chi tiết phiếu!", "Thông báo", Messagebox.RETRY,
+									Messagebox.ERROR);
+							break;
 						}
-					} catch (Exception e) {
-						e.printStackTrace();
-					}	
+					}
+					Messagebox.show("Lưu thành công", "Thông báo", Messagebox.OK, Messagebox.INFORMATION);
+					Executions.sendRedirect("./PhieuNhapHang_DS.zul");
 				}
-				Messagebox.show("Lưu thành công", "Thông báo", Messagebox.OK, Messagebox.INFORMATION);
-				Executions.sendRedirect("./PhieuNhapHang_DS.zul");
-			} else {
+			} catch (Exception e) {
+				e.printStackTrace();
 				Messagebox.show("Lưu lỗi", "Thông báo", Messagebox.RETRY, Messagebox.ERROR);
 			}
 		} else {
-			Messagebox.show("Mỗi phiếu phải có ít nhất một chi tiết phiếu.", "Thông báo", Messagebox.RETRY, Messagebox.ERROR);
+			Messagebox.show("Mỗi phiếu phải có ít nhất một chi tiết phiếu.", "Thông báo", Messagebox.RETRY,
+					Messagebox.ERROR);
 		}
 	}
 
@@ -305,5 +316,5 @@ public class PhieuNhapHangAddOrderedViewModel {
 	public void setSelectedNhomNCC(NhomNhaCungCap selectedNhomNCC) {
 		this.selectedNhomNCC = selectedNhomNCC;
 	}
-	
+
 }

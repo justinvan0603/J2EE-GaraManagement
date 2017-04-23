@@ -149,7 +149,7 @@ public class PhieuNhapHangAddViewModel {
 	public void onComboboxNCCChange(@BindingParam("ma_ncc") long ma_ncc) {
 		this.selectedNCC = this.nhaCungCapServiceImpl.findById(ma_ncc, NhaCungCap.class);
 	}
-	
+
 	@Command
 	public void luuPhieu() {
 		if (this.setOfCT_Phieus.size() > 0) {
@@ -161,12 +161,22 @@ public class PhieuNhapHangAddViewModel {
 						CT_PhieuNhapHang ct_Phieu = iterator.next();
 						ct_Phieu.setIdPhieuNhapHang(this.phieu.getIdPhieuNhapHang());
 						// start to save detail
-						if (!this.ctPhieuServiceImpl.save(ct_Phieu)) {
-							Messagebox.show("Lưu lỗi", "Thông báo", Messagebox.RETRY, Messagebox.ERROR);
+						if (this.ctPhieuServiceImpl.save(ct_Phieu)) {
+							PhuTung pt = phuTungServiceImpl.findById(ct_Phieu.getIdPhuTung(), PhuTung.class);
+							double a = pt.getDonGiaXuat() * pt.getSoLuongTon()
+									+ ct_Phieu.getDonGia() * ct_Phieu.getSoLuong();
+							int b = pt.getSoLuongTon() + ct_Phieu.getSoLuong();
+							pt.setDonGiaXuat(a / b);
+							pt.setSoLuongTon(pt.getSoLuongTon() + ct_Phieu.getSoLuong());
+							phuTungServiceImpl.update(pt.getId(), pt);
+						} else {
+							Messagebox.show("Có lỗi xảy ra khi lưu chi tiết phiếu!", "Thông báo", Messagebox.RETRY,
+									Messagebox.ERROR);
+							break;
 						}
 					} catch (Exception e) {
 						e.printStackTrace();
-					}	
+					}
 				}
 				Messagebox.show("Lưu thành công", "Thông báo", Messagebox.OK, Messagebox.INFORMATION);
 				Executions.sendRedirect("./PhieuNhapHang_DS.zul");
@@ -174,7 +184,8 @@ public class PhieuNhapHangAddViewModel {
 				Messagebox.show("Lưu lỗi", "Thông báo", Messagebox.RETRY, Messagebox.ERROR);
 			}
 		} else {
-			Messagebox.show("Mỗi phiếu phải có ít nhất một chi tiết phiếu.", "Thông báo", Messagebox.RETRY, Messagebox.ERROR);
+			Messagebox.show("Mỗi phiếu phải có ít nhất một chi tiết phiếu.", "Thông báo", Messagebox.RETRY,
+					Messagebox.ERROR);
 		}
 	}
 

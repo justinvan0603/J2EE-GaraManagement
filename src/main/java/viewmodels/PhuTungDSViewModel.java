@@ -80,12 +80,16 @@ public class PhuTungDSViewModel {
 	@Command
 	@NotifyChange("listOfPhuTung")
 	public void deletePhuTung(@BindingParam("phutung_id") long id) {
-
-		 if (this.phuTungService.delete(id, PhuTung.class)) {
- 			this.listOfPhuTung = this.phuTungService.getAll(PhuTung.class);
- 		} else {
- 			Messagebox.show("Lỗi khi xoá");
- 		}
+		try {
+			if (this.phuTungService.delete(id, PhuTung.class)) {
+	 			this.listOfPhuTung = this.phuTungService.getAll(PhuTung.class);
+			} else {
+				Messagebox.show("Không thể xoá phụ tùng đã từng sử dụng trên các phiếu!", "Thông báo", Messagebox.OK,
+						Messagebox.ERROR);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Command

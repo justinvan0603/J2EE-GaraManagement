@@ -32,7 +32,7 @@
 				selectedItem="@bind(vm.selectedNCC)">
 				<listhead>
 					<listheader label="Id" width="80px" visible="false" />
-					<listheader label="Họ tên" />
+					<listheader label="Tên" />
 					<listheader label="Số điện thoại" width="150px" />
 					<listheader label="Địa chỉ" />
 					<listheader label="Tên nhóm" width="150px" />

@@ -1,5 +1,7 @@
 package business.entities;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -133,5 +135,8 @@ public class PhieuThu {
 		return StringFormatUtil.shortDateTime(this.NgayLap);
 	}
 	
-	
+	public String getSoTienFormated(){
+		NumberFormat formatter = new DecimalFormat("##,###,###");  
+		return formatter.format(this.SoTien);
+	}
 }

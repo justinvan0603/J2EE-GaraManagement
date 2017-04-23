@@ -1,4 +1,4 @@
-<?page title="Danh sách nhà phụ tùng" contentType="text/html;charset=UTF-8"?>
+<?page title="Danh sách phụ tùng" contentType="text/html;charset=UTF-8"?>
 <zk>
 	<!-- import mutual menu bar -->
 	<include src="menu_bar.zul"></include>
@@ -32,13 +32,13 @@
 				selectedItem="@bind(vm.selectedPhuTung)">
 				<listhead>
 					<listheader label="Id" width="80px" visible="false" />
-					<listheader label="Mã phụ tùng" />
-					<listheader label="Tên phụ tùng" />
-					<listheader label="Hiệu xe" />
-					<listheader label="Số lượng tồn" />
-					<listheader label="Đơn giá xuất" />
-					<listheader label="Thời gian bảo hành (tháng)" />
-					<listheader label="Tác vụ" width="150px" />
+					<listheader label="Mã phụ tùng" width="100px" />
+					<listheader label="Tên phụ tùng"/>
+					<listheader label="Hiệu xe" sort="maHieuXe" />
+					<listheader label="Số lượng tồn" width="100px" />
+					<listheader label="Đơn giá xuất" width="100px" />
+					<listheader label="Thời gian bảo hành (tháng)" width="180px" />
+					<listheader label="Tác vụ" />
 				</listhead>
 				<template name="model" var="e">
 					<listitem>
@@ -47,7 +47,7 @@
 						<listcell label="@load(e.tenPhuTung)"></listcell>
 						<listcell label="@load(e.maHieuXe)"></listcell>
 						<listcell label="@load(e.soLuongTon)"></listcell>
-						<listcell label="@load(e.donGiaXuat)"></listcell>
+						<listcell label="@load(e.donGiaXuatFormated)"></listcell>
 						<listcell label="@load(e.hanBaoHanh)"></listcell>
 						<listcell>
 							<button tooltip="@load(e.id)"

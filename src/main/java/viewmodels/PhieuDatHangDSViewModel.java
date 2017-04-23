@@ -111,17 +111,21 @@ public class PhieuDatHangDSViewModel {
 	@Command
 	@NotifyChange("listOfPhieuDatHang")
 	public void deletePhieuDatHang(@BindingParam("phieudh_id") long id) {
-
-		List<CT_PhieuDatHang> listOfCT_PhieuDatHang = this.chiTietPhieuDatHangService
-				.getAllByPhieuDatHangId(id);
-		if (!listOfCT_PhieuDatHang.isEmpty()) {
-			for (CT_PhieuDatHang ct : listOfCT_PhieuDatHang) {
-				this.chiTietPhieuDatHangService.delete(ct.getId(),
-				CT_PhieuDatHang.class);
+		try {
+			List<CT_PhieuDatHang> listOfCT_PhieuDatHang = this.chiTietPhieuDatHangService
+					.getAllByPhieuDatHangId(id);
+			if (!listOfCT_PhieuDatHang.isEmpty()) {
+				for (CT_PhieuDatHang ct : listOfCT_PhieuDatHang) {
+					this.chiTietPhieuDatHangService.delete(ct.getId(),
+					CT_PhieuDatHang.class);
+				}
 			}
+			this.phieuDatHangService.delete(id, PhieuDatHang.class);
+			this.listOfPhieuDatHang = this.phieuDatHangService.getAll(PhieuDatHang.class);
+		} catch (Exception e) {
+			Messagebox.show("Có lỗi xảy ra khi xoá phiếu", "Thông báo", Messagebox.RETRY,
+					Messagebox.ERROR);
 		}
-		this.phieuDatHangService.delete(id, PhieuDatHang.class);
-		this.listOfPhieuDatHang = this.phieuDatHangService.getAll(PhieuDatHang.class);
 
 	}
 

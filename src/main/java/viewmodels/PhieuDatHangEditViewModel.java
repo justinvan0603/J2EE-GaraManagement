@@ -106,6 +106,8 @@ public class PhieuDatHangEditViewModel {
 			this.tongTien += thanhtien;
 			loadChiTietPhieu();
 			Messagebox.show("Thêm chi tiết phiếu thành công", "Thông báo", Messagebox.OK, Messagebox.INFORMATION);
+		} else {
+			Messagebox.show("Có lỗi khi lưu chi tiết phiếu", "Thông báo", Messagebox.OK, Messagebox.ERROR);
 		}
 	}
 

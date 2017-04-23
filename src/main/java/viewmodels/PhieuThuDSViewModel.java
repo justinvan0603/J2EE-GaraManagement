@@ -100,7 +100,6 @@ public class PhieuThuDSViewModel {
 		this.phieuDichVuService = (PhieuDichVuServiceImpl) SpringUtil.getBean("phieudichvu_service");
 		
 		PhieuThu pt = this.phieuThuService.findById(id, PhieuThu.class);
-		double trigiaphieuthu = pt.getSoTien();
 		String loaiPhieuCanThu;
 		long maPhieuCanThu;
 		if (pt.getIdPhieuBanLe() != null){

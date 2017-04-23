@@ -43,7 +43,7 @@ public class PhuTungEditViewModel {
 		// gender);
 		// make sure we have valid param
 		if (!mapt.isEmpty() && !tenpt.isEmpty() && !hieuxe.isEmpty() && !tgbh.isEmpty()) {
-			PhuTung pt = new PhuTung();
+			PhuTung pt = this.phuTungService.findById(id, PhuTung.class);
 			pt.setMaPhuTung(mapt);
 			pt.setTenPhuTung(tenpt);
 			pt.setMaHieuXe(hieuxe);

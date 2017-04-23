@@ -1,6 +1,8 @@
 package business.entities;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -103,6 +105,11 @@ public class PhuTung implements Serializable {
 	
 	public String getTenVaMaPT(){
 		return MaPhuTung + " - " + TenPhuTung;
+	}
+	
+	public String getDonGiaXuatFormated(){
+		NumberFormat formatter = new DecimalFormat("##,###,###");  
+		return formatter.format(this.DonGiaXuat);
 	}
 	
 }
