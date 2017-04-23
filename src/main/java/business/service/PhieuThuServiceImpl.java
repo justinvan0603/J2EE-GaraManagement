@@ -94,4 +94,32 @@ public class PhieuThuServiceImpl implements GeneralService<PhieuThu> {
 		}
 		return result;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<PhieuThu> findByIdPhieuCanThu(String loaiPhieu, long idPhieu) {
+		Session session = null;
+		Transaction transaction = null;
+		List<PhieuThu> result = null;
+		try {
+			session = this.phieuThuDaoImpl.getSessionFactory().openSession();
+			transaction = session.beginTransaction();
+			Criteria criteria = session.createCriteria(PhieuThu.class);
+			if (loaiPhieu == "pdv"){
+				criteria.add(Restrictions.like("IdPhieuDichVu", idPhieu));
+			} else {
+				criteria.add(Restrictions.like("IdPhieuBanLe", idPhieu));
+			}
+			result = criteria.list(); // get all records
+			transaction.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			result = null;
+		}
+		finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
+		return result;
+	}
 }
