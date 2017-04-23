@@ -121,7 +121,7 @@ public class PhieuTiepNhanServiceImpl implements GeneralService<PhieuTiepNhan> {
 			session = this.phieuTiepNhanDaoImpl.getSessionFactory().openSession();
 			transaction = session.beginTransaction();
 			Criteria criteria = session.createCriteria(PhieuTiepNhan.class);
-			criteria.createAlias("nhanVien", "staff"); // 
+			criteria.createAlias("nhanVien", "staff"); //
 			criteria.add(Restrictions.like("staff.HoTen", staffName, MatchMode.ANYWHERE));
 			results = criteria.list(); // get result
 			transaction.commit();

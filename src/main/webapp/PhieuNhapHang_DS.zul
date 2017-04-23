@@ -2,8 +2,8 @@
 <zk>
 	<!-- import mutual menu bar -->
 	<include src="menu_bar.zul"></include>
-	<window title="Danh sách phiếu nhập hàng" border="normal" height="100%"
-		apply="org.zkoss.bind.BindComposer"
+	<window title="Danh sách phiếu nhập hàng" border="normal"
+		height="100%" apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('viewmodels.PhieuNhapHangDSViewModel')">
 		<vlayout width="100%">
 			<hlayout style="text-align : left; padding : 4px;">
@@ -19,7 +19,7 @@
 					onClick="@command('filterData', search_string=search_textbox.value , combobox_selected_index = search_type_combobox.selectedIndex )">
 					Tìm kiếm
 				</button>
-				
+
 				<button id="addNew"
 					onClick="@command('addNewPhieuNhapHangRedirect')">
 					Thêm mới
@@ -40,23 +40,32 @@
 				</listhead>
 				<template name="model" var="e">
 					<listitem>
-						<listcell label="@load(e.idPhieuNhapHang)" visible="false"></listcell>
+						<listcell label="@load(e.idPhieuNhapHang)"
+							visible="false">
+						</listcell>
 						<listcell label="@load(e.maPhieuNhapHang)"></listcell>
 						<listcell label="@load(e.nhanVien.hoTen)"></listcell>
 						<listcell label="@load(e.shortDateNgayLap)"></listcell>
 						<zk if="${e.phieuDatHang == null}">
-    						<listcell label="Không đặt trước"></listcell>
+							<listcell label="Không đặt trước"></listcell>
 						</zk>
 						<zk if="${e.phieuDatHang != null}">
-	    					<listcell label="@load(e.phieuDatHang.maPhieuDat)"></listcell>
+							<listcell
+								label="@load(e.phieuDatHang.maPhieuDat)">
+							</listcell>
 						</zk>
-						
+
 						<listcell label="@load(e.nhaCungCap.tenNCC)"></listcell>
 						<listcell label="@load(e.tongTien)"></listcell>
 						<listcell>
 							<button tooltip="@load(e.idPhieuNhapHang)"
 								onClick="@command('editPhieuNhapHang', phieunh_id = e.idPhieuNhapHang)"
 								image="/images/ic_edit_black_18dp_1x.png">
+							</button>
+							<button if="${e.numberOfPhieuChi == 0}"
+								visible="true"
+								onClick="@command('lapPhieuChi', id_phieunhaphang = e.idPhieuNhapHang)">
+								Lập phiếu chi
 							</button>
 						</listcell>
 					</listitem>

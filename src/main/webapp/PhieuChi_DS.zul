@@ -1,0 +1,73 @@
+<?page title="Danh sách phiếu bán xe" contentType="text/html;charset=UTF-8"?>
+<?import  utils.StringFormatUtil ?>
+<zk>
+	<!-- import mutual menu bar -->
+	<include src="menu_bar.zul"></include>
+
+	<window title="Danh phiếu bán xe" border="normal" height="100%"
+		apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('viewmodels.PhieuChiDSViewModel')">
+		<vlayout width="100%">
+			<hlayout style="text-align : left; padding : 4px;">
+				<label value="Tìm kiếm"></label>
+				<combobox id="search_type_combobox" readonly="true"
+					model="@load(vm.searchTypes)">
+					<template name="model">
+						<comboitem label="@load(each)"></comboitem>
+					</template>
+				</combobox>
+				<textbox width="400px" id="search_textbox"></textbox>
+				<button id="searchButton"
+					onClick="@command('filterData', search_index = search_type_combobox.selectedIndex , search_string = search_textbox.text)"
+					image="/images/ic_search.png">
+					Tìm kiếm
+				</button>
+				|
+				<button image="/images/ic_add.png"
+					onClick="@command('themMoi')">
+					Thêm mới
+				</button>
+			</hlayout>
+			<!-- mechanic list area -->
+
+			<listbox hflex="1" mold="paging" pageSize="15"
+				model="@load(vm.listOfPhieuChis)" width="100%">
+				<auxhead>
+					<auxheader colspan="6">
+						Danh sách phiếu chi
+					</auxheader>
+				</auxhead>
+				<listhead>
+					<listheader label="Mã phiếu" width="100px" />
+					<listheader label="Ngày lập" />
+					<listheader label="Nhân viên" />
+					<listheader label="Nội dung" />
+					<listheader label="Trị giá" />
+					<listheader label="Thao tác" />
+				</listhead>
+				<template name="model" var="e">
+					<listitem>
+						<listcell label="@load(e.maPhieuChi)"></listcell>
+						<listcell label="@load(e.shortCreationDate)"></listcell>
+						<listcell label="@load(e.nhanVien.hoTen)"></listcell>
+						<listcell label="@load(e.noiDung)"></listcell>
+						<listcell label="@load(e.currencyString)"></listcell>
+						<listcell>
+							<hbox>
+								<button
+									onClick="@command('seePhieuChiDetail', selected_phieuchi_id = e.id)"
+									image="/images/ic_edit_black_18dp_1x.png">
+								</button>
+								<button
+									onClick="@command('xoaPhieuChi',selected_phieuchi_id= e.id)"
+									image="/images/ic_delete_black_18dp_1x.png">
+								</button>
+							</hbox>
+						</listcell>
+					</listitem>
+				</template>
+			</listbox>
+		</vlayout>
+
+	</window>
+</zk>

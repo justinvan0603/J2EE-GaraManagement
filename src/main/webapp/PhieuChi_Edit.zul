@@ -1,0 +1,49 @@
+<?page title="Phiếu chi" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<!-- import mutual menu bar -->
+	<include src="menu_bar.zul"></include>
+	<window title="Phiếu chi" border="normal" height="auto"
+		apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('viewmodels.PhieuChiEditViewModel')">
+		<hlayout style="margin: 32px;">
+			<groupbox>
+				<vlayout style="margin: 32px;">
+					<label>Mã phiếu</label>
+					<textbox readonly="true" id="textbox_maphieu"
+						width="250px" value="@load(vm.phieuChi.maPhieuChi)">
+					</textbox>
+					<label>Ngày lập</label>
+					<datebox id="datebox_ngaylap" readonly="true"
+						width="250px" buttonVisible="false"
+						value="@load(vm.phieuChi.ngayLap)">
+					</datebox>
+					<label>Nhân viên lập</label>
+					<textbox id="textbox_nhanvienlap" width="250px"
+						readonly="true" value="@load(vm.phieuChi.nhanVien.hoTen)">
+					</textbox>
+				</vlayout>
+			</groupbox>
+			<groupbox>
+				<vlayout style="margin: 32px;">
+					<label>Trị giá</label>
+					<doublebox constraint="no empty" id="textbox_trigia"
+						width="250px"
+						value="@save(vm.phieuChi.giaTri, before='luuPhieuChi') @load(vm.phieuChi.giaTri)">
+					</doublebox>
+					<label>Nội dung</label>
+					<textbox id="textbox_noidung" width="250px" rows="5"
+						value="@save(vm.phieuChi.noiDung, before='luuPhieuChi') @load(vm.phieuChi.noiDung)">
+					</textbox>
+					<label>Mã phiếu nhập hàng</label>
+					<intbox id="intbox_hanbaohanh" width="250px"
+						readonly="true"
+						value="@load(vm.phieuChi.phieuNhapHang.maPhieuNhapHang)">
+					</intbox>
+					<button onClick="@command('luuPhieuChi')">
+						Lưu
+					</button>
+				</vlayout>
+			</groupbox>
+		</hlayout>
+	</window>
+</zk>

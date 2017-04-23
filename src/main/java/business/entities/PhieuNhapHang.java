@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
@@ -36,21 +37,24 @@ public class PhieuNhapHang {
 
 	@Column(name = "MaNV")
 	private long MaNV;
-	
+
 	@Column(name = "TongTien")
 	private Double TongTien;
-	
+
 	@Column(name = "MaNhaCungCap")
 	private long MaNhaCungCap;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "MaNV", referencedColumnName = "MaNV", insertable = false, updatable = false)
 	private NhanVien NhanVien;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "MaNhaCungCap", referencedColumnName = "MaNCC", insertable = false, updatable = false)
 	private NhaCungCap NhaCungCap;
-	
+
+	@Formula("(select count(*) from phieuchi A where A.IdPhieuNhapHang = IdPhieuNhapHang )")
+	private int numberOfPhieuChi;
+
 	@ManyToOne
 	@JoinColumn(name = "IdPhieuDatHang", referencedColumnName = "Id_PhieuDatHang", insertable = false, updatable = false)
 	@NotFound(action = NotFoundAction.IGNORE)
@@ -135,8 +139,17 @@ public class PhieuNhapHang {
 	public void setPhieuDatHang(PhieuDatHang phieuDatHang) {
 		PhieuDatHang = phieuDatHang;
 	}
-	
-	public String getShortDateNgayLap()	{
+
+	public String getShortDateNgayLap() {
 		return StringFormatUtil.shortDateTime(NgayLap);
 	}
+
+	public int getNumberOfPhieuChi() {
+		return numberOfPhieuChi;
+	}
+
+	public void setNumberOfPhieuChi(int numberOfPhieuChi) {
+		this.numberOfPhieuChi = numberOfPhieuChi;
+	}
+
 }

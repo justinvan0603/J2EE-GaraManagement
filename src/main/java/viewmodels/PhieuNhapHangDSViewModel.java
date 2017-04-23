@@ -3,6 +3,8 @@ package viewmodels;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.criteria.CriteriaBuilder.In;
+
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
@@ -22,12 +24,11 @@ public class PhieuNhapHangDSViewModel {
 	public static final String SELECTED_PNH_ID = "selected_phieunhaphang_id";
 	private static final String[] SEARCH_TYPES = new String[] {
 
-			"Tất cả", "Mã phiếu", "Nhân viên lập", "Ngày lập phiếu", "Mã phiếu đặt",  "Tên nhà cung cấp" };
+			"Tất cả", "Mã phiếu", "Nhân viên lập", "Ngày lập phiếu", "Mã phiếu đặt", "Tên nhà cung cấp" };
 
 	@WireVariable
 	private PhieuNhapHangServiceImpl phieuNhapHangService;
 	private List<PhieuNhapHang> listOfPhieuNhapHang;
-	
 
 	@Init
 	public void init() {
@@ -40,7 +41,7 @@ public class PhieuNhapHangDSViewModel {
 			throw new NullPointerException("GeneralService is NULL");
 		}
 	}
-	
+
 	@Command
 	@NotifyChange("listOfPhieuNhapHang")
 	public void filterData(@BindingParam("search_string") String searchString,
@@ -52,13 +53,13 @@ public class PhieuNhapHangDSViewModel {
 		case 1: // search by id of receive header
 			if (!searchString.isEmpty()) {
 				this.listOfPhieuNhapHang.clear(); // clear all items
-				this.listOfPhieuNhapHang = this.phieuNhapHangService.find(searchString, null, null, null,null);
+				this.listOfPhieuNhapHang = this.phieuNhapHangService.find(searchString, null, null, null, null);
 			}
 			break;
 		case 2: //
 			if (!searchString.isEmpty()) {
 				this.listOfPhieuNhapHang.clear(); // clear all items
-				this.listOfPhieuNhapHang = this.phieuNhapHangService.find(null, searchString, null, null,null);
+				this.listOfPhieuNhapHang = this.phieuNhapHangService.find(null, searchString, null, null, null);
 			}
 			break;
 		case 3: //
@@ -74,32 +75,31 @@ public class PhieuNhapHangDSViewModel {
 							Messagebox.ERROR);
 				}
 				this.listOfPhieuNhapHang.clear(); // clear all items
-				this.listOfPhieuNhapHang = this.phieuNhapHangService.find(null,null , searchDate, null,null);
+				this.listOfPhieuNhapHang = this.phieuNhapHangService.find(null, null, searchDate, null, null);
 			}
 			break;
 		case 4: //
 			if (!searchString.isEmpty()) {
 				this.listOfPhieuNhapHang.clear(); // clear all items
-				this.listOfPhieuNhapHang = this.phieuNhapHangService.find(null, null, null, searchString,null);
+				this.listOfPhieuNhapHang = this.phieuNhapHangService.find(null, null, null, searchString, null);
 			}
 			break;
 		case 5: //
 			if (!searchString.isEmpty()) {
 				this.listOfPhieuNhapHang.clear(); // clear all items
-				this.listOfPhieuNhapHang = this.phieuNhapHangService.find(null, null, null, null,searchString);
+				this.listOfPhieuNhapHang = this.phieuNhapHangService.find(null, null, null, null, searchString);
 			}
 			break;
 		default:
 			break;
 		}
 	}
-	
-	
+
 	@Command
 	public void addNewPhieuNhapHangRedirect() {
 		Executions.sendRedirect("./PhieuNhapHang_Add.zul");
 	}
-	
+
 	@Command
 	public void editPhieuNhapHang(@BindingParam("phieunh_id") long id) {
 		// save session the selected id
@@ -107,11 +107,22 @@ public class PhieuNhapHangDSViewModel {
 		Executions.sendRedirect("./PhieuNhapHang_Edit.zul");
 	}
 
+	/**
+	 * Create new 'PhieuChi' for selected 'PhieuNhapHang'
+	 * 
+	 * @param id
+	 *            : id of selected 'PhieuNhapHang'
+	 */
+	@Command
+	public void lapPhieuChi(@BindingParam("id_phieunhaphang") Integer id) {
+		Sessions.getCurrent().setAttribute(SELECTED_PNH_ID, id);
+		Executions.sendRedirect("./PhieuChi_Add.zul");
+	}
 
 	public String[] getSearchTypes() {
 		return SEARCH_TYPES;
 	}
-	
+
 	public PhieuNhapHangServiceImpl getPhieuNhapHangService() {
 		return phieuNhapHangService;
 	}
