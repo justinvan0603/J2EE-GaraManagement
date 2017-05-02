@@ -28,16 +28,16 @@
 					<label>Trị giá</label>
 					<doublebox constraint="no empty" id="textbox_trigia"
 						width="250px"
-						value="@save(vm.phieuChi.giaTri, before='luuPhieuChi') @load(vm.phieuChi.giaTri , before='luuPhieuChi')">
+						value=" @load(vm.phieuChi.giaTri) @save(vm.phieuChi.giaTri, before='luuPhieuChi')">
 					</doublebox>
 					<label>Nội dung</label>
 					<textbox id="textbox_noidung" width="250px" rows="5"
-						value="@save(vm.phieuChi.noiDung, before='luuPhieuChi') @load(vm.phieuChi.noiDung, before='luuPhieuChi')">
+						value="@load(vm.phieuChi.noiDung) @save(vm.phieuChi.noiDung, before='luuPhieuChi')">
 					</textbox>
-					<label>Mã phiếu nhập hàng</label>
+					<label>Mã phiếu nhập hàng (Số)</label>
 					<intbox id="intbox_hanbaohanh" width="250px"
 						readonly="true"
-						value="@load(vm.phieuChi.phieuNhapHang.maPhieuNhapHang)  @load(vm.phieuChi.idPhieuNhapHang, before='luuPhieuChi')">
+						value="@load(vm.phieuChi.idPhieuNhapHang) @save(vm.phieuChi.idPhieuNhapHang, before='luuPhieuChi')">
 					</intbox>
 					<button onClick="@command('luuPhieuChi')">
 						Lưu

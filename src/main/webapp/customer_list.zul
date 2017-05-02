@@ -5,7 +5,7 @@
 		apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('viewmodels.CustomerViewModel')">
 		<vlayout width="100%">
-		<hlayout style="text-align : left; padding : 4px;">
+			<hlayout style="text-align : left; padding : 4px;">
 				<label value="Tìm kiếm"></label>
 				<combobox id="search_type_combobox"
 					model="@load(vm.searchTypes)">
@@ -24,44 +24,49 @@
 					Thêm mới
 				</button>
 			</hlayout>
-		<listbox hflex="1" mold="paging" pageSize="10"
-			model="@load(vm.customers)" selectedItem="@bind(vm.selectedCustomer)" width="100%">
-			<auxhead>
-				<auxheader colspan="6" class="topic">Khách hàng</auxheader>
-			</auxhead>
-			
-			<listhead>
-				<listheader visible="false" label="Id" width="80px" />
-				<listheader label="Họ tên" />
-				<listheader label="Số điện thoại" width="150px" />
-				<listheader label="CMND" />
-				<listheader label="Giới tính" width="150px" />
-				<listheader label="Tác vụ" width="150px" />
-			</listhead>
-			<template name="model" var="e">
-				<listitem>
-					<listcell label="@load(e.maKH)"></listcell>
-					<listcell label="@load(e.hoTen)"></listcell>
-					<listcell label="@load(e.sdt)"></listcell>
-					<listcell label="@load(e.cmnd)"></listcell>
-					<zk if="${e.gioiTinh == true}">
-    					<listcell label="Nam"></listcell>
-					</zk>
-					<zk if="${e.gioiTinh == false}">
-    					<listcell label="Nữ"></listcell>
-					</zk>
-					
-					<listcell>
-						<button onClick="@command('deleteCustomer',id = e.maKH)"
-							> Xóa
-						</button>
-						<button onClick="@command('editCustomer',id = e.maKH)"
-							> Sửa
-						</button>
-					</listcell>
-				</listitem>
-			</template>
-		</listbox>
+			<listbox hflex="1" mold="paging" pageSize="10"
+				model="@load(vm.customers)"
+				selectedItem="@bind(vm.selectedCustomer)" width="100%">
+				<auxhead>
+					<auxheader colspan="6" class="topic">
+						Khách hàng
+					</auxheader>
+				</auxhead>
+
+				<listhead>
+					<listheader visible="false" label="Id" width="80px" />
+					<listheader label="Họ tên" />
+					<listheader label="Số điện thoại" width="150px" />
+					<listheader label="CMND" />
+					<listheader label="Giới tính" width="150px" />
+					<listheader label="Tác vụ" width="150px" />
+				</listhead>
+				<template name="model" var="e">
+					<listitem>
+						<listcell label="@load(e.maKH)"></listcell>
+						<listcell label="@load(e.hoTen)"></listcell>
+						<listcell label="@load(e.sdt)"></listcell>
+						<listcell label="@load(e.cmnd)"></listcell>
+						<zk if="${e.gioiTinh == true}">
+							<listcell label="Nam"></listcell>
+						</zk>
+						<zk if="${e.gioiTinh == false}">
+							<listcell label="Nữ"></listcell>
+						</zk>
+
+						<listcell>
+							<button
+								onClick="@command('deleteCustomer',id = e.maKH)">
+								Xóa
+							</button>
+							<button
+								onClick="@command('editCustomer',id = e.maKH)">
+								Sửa
+							</button>
+						</listcell>
+					</listitem>
+				</template>
+			</listbox>
 		</vlayout>
 	</window>
 </zk>

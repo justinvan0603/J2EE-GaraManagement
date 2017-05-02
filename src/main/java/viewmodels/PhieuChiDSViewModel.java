@@ -61,7 +61,7 @@ public class PhieuChiDSViewModel {
 						.findByCreationDate(DateUtil.parseFromStringArray(searchString.trim().split("/")));
 			} catch (Exception e) {
 				// TODO: handle exception
-				Messagebox.show("Lỗi", "Vui lòng nhập đúng định dạng ngày. Ví dụ : 25/8/2016", Messagebox.OK,
+				Messagebox.show("Vui lòng nhập đúng định dạng ngày. Ví dụ : 25/8/2016", "Lỗi", Messagebox.OK,
 						Messagebox.ERROR);
 			}
 			break;

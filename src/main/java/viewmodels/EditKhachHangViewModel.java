@@ -28,38 +28,45 @@ public class EditKhachHangViewModel {
 	public CustomerServiceImpl getCustomerService() {
 		return customerService;
 	}
+
 	public void setCustomerService(CustomerServiceImpl customerService) {
 		this.customerService = customerService;
 	}
+
 	public static List<String> getGENDERS() {
 		return GENDERS;
 	}
+
 	public static void setGENDERS(List<String> gENDERS) {
 		GENDERS = gENDERS;
 	}
+
 	public Customer getCurrentCustomer() {
 		return currentCustomer;
 	}
+
 	public void setCurrentCustomer(Customer currentCustomer) {
 		this.currentCustomer = currentCustomer;
 	}
+
 	@Init
 	public void init() {
 		// get service bean from Spring
 		this.customerService = (CustomerServiceImpl) SpringUtil.getBean("customer_service");
-		String customerId = (String) Sessions.getCurrent().getAttribute(CustomerViewModel.SELECTED_CUSTOMER);
-		if(!customerId.isEmpty())
-		{
-			this.currentCustomer = this.customerService.findById(Long.parseLong(customerId), Customer.class);
+		Long customerId = (Long) Sessions.getCurrent().getAttribute(CustomerViewModel.SELECTED_CUSTOMER);
+		if (customerId != null) {
+			this.currentCustomer = this.customerService.findById(customerId, Customer.class);
 		}
 	}
+
 	public List<String> getGenders() {
 		return GENDERS;
 	}
+
 	@Command
-	public void updateCustomer(@BindingParam("name") Long id,@BindingParam("name") String name, @BindingParam("address") String address,
-			@BindingParam("phone_number") String phoneNumber, @BindingParam("cmnd") String cmnd,@BindingParam("gender") String gender)
-	{
+	public void updateCustomer(@BindingParam("name") Long id, @BindingParam("name") String name,
+			@BindingParam("address") String address, @BindingParam("phone_number") String phoneNumber,
+			@BindingParam("cmnd") String cmnd, @BindingParam("gender") String gender) {
 		if (!name.isEmpty() && !address.isEmpty() && !phoneNumber.isEmpty() && !gender.isEmpty() && !cmnd.isEmpty()) {
 			Customer customer = this.customerService.findById(id, Customer.class);
 			customer.setCmnd(cmnd);

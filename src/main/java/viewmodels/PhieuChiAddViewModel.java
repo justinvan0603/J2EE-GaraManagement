@@ -13,12 +13,15 @@ import org.zkoss.zul.Messagebox;
 
 import business.entities.NhanVien;
 import business.entities.PhieuChi;
+import business.entities.PhieuNhapHang;
 import business.service.NhanVienServiceImpl;
 import business.service.PhieuChiServiceImpl;
+import business.service.PhieuNhapHangServiceImpl;
 
 public class PhieuChiAddViewModel {
 	private PhieuChiServiceImpl phieuChiServiceImpl;
 	private NhanVienServiceImpl nhanVienServiceImpl;
+	private PhieuNhapHangServiceImpl phieuNhapHangServiceImpl;
 	private PhieuChi phieuChi;
 	private NhanVien staff;
 
@@ -26,16 +29,33 @@ public class PhieuChiAddViewModel {
 	public void init() {
 		this.phieuChiServiceImpl = (PhieuChiServiceImpl) SpringUtil.getBean("phieuchi_service");
 		this.nhanVienServiceImpl = (NhanVienServiceImpl) SpringUtil.getBean("nhanvien_service");
+		this.phieuNhapHangServiceImpl = (PhieuNhapHangServiceImpl) SpringUtil.getBean("phieunhaphang_service");
 
-		if (this.phieuChiServiceImpl != null && this.nhanVienServiceImpl != null) {
+		if (this.phieuChiServiceImpl != null && this.nhanVienServiceImpl != null
+				&& this.phieuNhapHangServiceImpl != null) {
 			// initialize view model's 'phieu chi'
 			this.phieuChi = new PhieuChi();
 			// get session from 'PhieuNhapHang_DS' view page if page is
 			// redirected from this page
 			Integer selectedPhieuNhapHangId = (Integer) Sessions.getCurrent()
 					.getAttribute(PhieuNhapHangDSViewModel.SELECTED_PNH_ID);
+			// make sure session value is valid
 			if (selectedPhieuNhapHangId != null) {
-				this.phieuChi.setIdPhieuNhapHang(selectedPhieuNhapHangId);
+				System.out.println("Session valid is VALID");
+				PhieuNhapHang phieuNhapHang = this.phieuNhapHangServiceImpl.findById(selectedPhieuNhapHangId,
+						PhieuNhapHang.class);
+				// set essential values if available
+				if (phieuNhapHang != null) {
+					System.out.println("Phieu nhap hang valid is VALID");
+					this.phieuChi.setIdPhieuNhapHang(selectedPhieuNhapHangId);
+					this.phieuChi.setGiaTri(phieuNhapHang.getTongTien()); // set
+																			// total
+																			// of
+																			// bill
+					this.phieuChi.setNoiDung(
+							"Phiếu chi cho phiếu nhập hàng, mã phiếu : " + phieuNhapHang.getMaPhieuNhapHang());
+				}
+
 			}
 			// initialize essential value
 			this.phieuChi.setNgayLap(new Date()); // creation date is today
@@ -55,7 +75,7 @@ public class PhieuChiAddViewModel {
 		if (this.phieuChiServiceImpl != null) {
 
 			if (this.phieuChiServiceImpl.save(this.phieuChi)) {
-				Messagebox.show("Thông báo", "Lưu thành công", Messagebox.OK, Messagebox.INFORMATION,
+				Messagebox.show("Lưu thành công", "Thông báo", Messagebox.OK, Messagebox.INFORMATION,
 						new EventListener<Event>() {
 
 							@Override
@@ -91,6 +111,5 @@ public class PhieuChiAddViewModel {
 	public void setStaff(NhanVien staff) {
 		this.staff = staff;
 	}
-	
-	
+
 }

@@ -1,53 +1,65 @@
 <?page title="new page title" contentType="text/html;charset=UTF-8"?>
 <zk>
 	<vlayout>
-		
+
 		<hlayout>
-		<image src="https://www.zkoss.org/zkdemo/widgets/input/wysiwyg_editor/img/zklogo2.png" width="50px" height="50px"/>
-		Phần mềm vip pro vl :))
+			<image
+				src="https://www.zkoss.org/zkdemo/widgets/input/wysiwyg_editor/img/zklogo2.png"
+				width="50px" height="50px" />
+			Phần mềm vip pro vl :))
 		</hlayout>
 		<menubar id="menubar" autodrop="true">
-		
-		<menuitem label="TRANG CHỦ" href="/PhuTung_DS.zul" />
-        <menuitem label="PHỤ TÙNG" href="/PhuTung_DS.zul" />
-        <menuitem label="XE" href="/Xe_DS.zul" />
-        <menuitem label="KHÁCH HÀNG" href="/PhuTung_DS.zul" />
-        <menuitem label="PHIẾU TIẾP NHẬN" href="/PhuTung_DS.zul" />
-        <menuitem label="PHIẾU DỊCH VỤ" href="/PhuTung_DS.zul" />       
-		<menuitem label="PHIẾU BÁN LẺ" href="/PhuTung_DS.zul" />
-		<menuitem label="PHIẾU BẢO HÀNH" href="/PhuTung_DS.zul" />
-		<menu label="THU | CHI">
-            <menupopup>
-                <menuitem label="Phiếu thu" href="/PhieuThu_DS.zul" />
-                <menuitem label="Phiếu chi" href="/PhuTung_DS.zul" />
-            </menupopup>
-        </menu>
-        <menu label="ĐẶT | NHẬP HÀNG">
-            <menupopup>
-                <menuitem label="Phiếu đặt hàng" href="/PhieuDatHang_DS.zul" />
-                <menuitem label="Phiếu nhập hàng" href="/PhieuNhapHang_DS.zul" />
-            </menupopup>
-        </menu>
-        <menu label="ĐỐI TÁC">
-            <menupopup>
-                <menuitem label="Thợ sửa chữa" href="/Tho_DS.zul" />
-                <menuitem label="Nhà cung cấp" href="/NhaCungCap_DS.zul" />
-            </menupopup>
-        </menu>
-        <menu label="BÁO CÁO">
-            <menupopup>
-                <menuitem label="Công nợ khách hàng" href="/PhuTung_DS.zul" />
-                <menuitem label="Tồn kho phụ tùng" href="/PhuTung_DS.zul" />
-                <menuitem label="Thu chi" href="/PhuTung_DS.zul" />
-                <menuitem label="Thống kê khách nợ quá hạn" href="/PhuTung_DS.zul" />
-            </menupopup>
-        </menu>
-        <menu label="THIẾT LẬP">
-            <menupopup>
-                <menuitem label="Tham số hệ thống" href="/PhuTung_DS.zul" />
-                <menuitem label="Thông tin người dùng" href="/PhuTung_DS.zul" />
-            </menupopup>
-        </menu>
-    </menubar>
+
+			<menuitem label="TRANG CHỦ" href="/PhuTung_DS.zul" />
+			<menuitem label="PHỤ TÙNG" href="/PhuTung_DS.zul" />
+			<menuitem label="XE" href="/Xe_DS.zul" />
+			<menuitem label="KHÁCH HÀNG" href="/customer_list.zul" />
+			<menuitem label="PHIẾU TIẾP NHẬN"
+				href="/PhieuTiepNhan_DS.zul" />
+			<menuitem label="PHIẾU DỊCH VỤ" href="/PhuTung_DS.zul" />
+			<menuitem label="PHIẾU BÁN LẺ" href="/PhuTung_DS.zul" />
+			<menuitem label="PHIẾU BẢO HÀNH"
+				href="/PhieuBaoHanh_DS.zul" />
+			<menu label="THU | CHI">
+				<menupopup>
+					<menuitem label="Phiếu thu" href="/PhieuThu_DS.zul" />
+					<menuitem label="Phiếu chi" href="/PhieuChi_DS.zul" />
+				</menupopup>
+			</menu>
+			<menu label="ĐẶT | NHẬP HÀNG">
+				<menupopup>
+					<menuitem label="Phiếu đặt hàng"
+						href="/PhieuDatHang_DS.zul" />
+					<menuitem label="Phiếu nhập hàng"
+						href="/PhieuNhapHang_DS.zul" />
+				</menupopup>
+			</menu>
+			<menu label="ĐỐI TÁC">
+				<menupopup>
+					<menuitem label="Thợ sửa chữa" href="/Tho_DS.zul" />
+					<menuitem label="Nhà cung cấp"
+						href="/NhaCungCap_DS.zul" />
+				</menupopup>
+			</menu>
+			<menu label="BÁO CÁO">
+				<menupopup>
+					<menuitem label="Công nợ khách hàng"
+						href="/PhuTung_DS.zul" />
+					<menuitem label="Tồn kho phụ tùng"
+						href="/PhuTung_DS.zul" />
+					<menuitem label="Thu chi" href="/PhuTung_DS.zul" />
+					<menuitem label="Thống kê khách nợ quá hạn"
+						href="/PhuTung_DS.zul" />
+				</menupopup>
+			</menu>
+			<menu label="THIẾT LẬP">
+				<menupopup>
+					<menuitem label="Tham số hệ thống"
+						href="/PhuTung_DS.zul" />
+					<menuitem label="Thông tin người dùng"
+						href="/PhuTung_DS.zul" />
+				</menupopup>
+			</menu>
+		</menubar>
 	</vlayout>
 </zk>
