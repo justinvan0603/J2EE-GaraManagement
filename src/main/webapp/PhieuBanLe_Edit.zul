@@ -1,39 +1,51 @@
-<?page title="Cập nhật phiếu dịch vụ" contentType="text/html;charset=UTF-8"?>
+<?page title="Nhập phiếu bán lẻ" contentType="text/html;charset=UTF-8"?>
 <zk>
 <include src="menu_bar.zul"></include>
-<window title="Cập nhật phiếu dịch vụ" border="normal" width="100%"
+<window title="Thêm phiếu phiếu bán lẻ" border="normal" width="100%"
 		height="100%" apply="org.zkoss.bind.BindComposer"
-		viewModel="@id('vm') @init('viewmodels.PhieuDichVuEditViewModel')">
+		viewModel="@id('vm') @init('viewmodels.PhieuBanLeEditViewModel')">
 
 		<vlayout>
 			<groupbox>
-		
+				<!-- general information -->
 				<hlayout style="text-align : left; padding : 4px;">
-					vbox width="180px">
+					<vbox width="180px">
 						<label>Mã số phiếu:</label>
-						<textbox id="txtMaSoPhieu" value = "@load(vm.phieuDichVu.maPhieuDichVu)"
+						<textbox id="txtMaSoPhieu" value="@bind(vm.phieuBanLe.maPhieuBan)"
 							>
 						</textbox>
 					</vbox>
 					<vbox width="180px">
 						<label>Ngày lập</label>
 						<textbox readonly="true"
-							value="@load(vm.phieuDichVu.ngayLap)">
+							value="@load(vm.phieuBanLe.ngayLap)">
 						</textbox>
 					</vbox>
-					
+
 		
 					<vbox>
-					<label>Thợ:</label>
-					<label value="@load(vm.phieuDichVu.tho.name)"></label>
+					<label>Khách hàng:</label>
+					<combobox model="@load(vm.listKhachHang)" id="combobox_khachhang" selectedItem="@bind(vm.selectedKhachHang)"				
+					constraint="no empty" readonly="true">
+					<template name="model">
+						<comboitem label="${each.getHoTen()}"  ></comboitem>
+					</template>
+				</combobox>
 					</vbox>
 				</hlayout>
 			</groupbox>
-
+			<!-- nhap thong tin chi tiet -->
 			<window title="Nhập chi tiết" border="none">
 				<hlayout style="padding : 4px;">
+				<label>Hiệu xe</label>
+					<combobox model="@load(vm.listHieuXe)" id="combobox_hieuxe" selectedItem="@load(vm.selectedHieuXe)"
+					onSelect="@command('onComboboxHieuXeChange', selectedHX =combobox_hieuxe.selectedItem.value)"
+					constraint="no empty" readonly="true">
+					<template name="model">
+						<comboitem label="${each.getMaHieuXe()}"  ></comboitem>
+					</template>
+				</combobox>
 					<label>Phụ tùng</label>
-					
 					<combobox model="@load(vm.listPhuTung)" id="combobox_phutung" selectedItem="@load(vm.selectedPhuTung)"
 					onSelect="@command('onComboboxPhuTungChange',soluong = txtSoLuong.value, selectedPT =combobox_phutung.selectedItem.value)"
 					constraint="no empty" readonly="true">
@@ -42,14 +54,14 @@
 					</template>
 				</combobox>
 					<label>Số lượng</label>
-					<textbox id="txtSoLuong" value="0" onChange="@command('ontxtSoLuongChanging',soluong = txtSoLuong.value)"></textbox>
+					<textbox id="txtSoLuong" width="50px"  value="0" onChange="@command('ontxtSoLuongChanging',soluong = txtSoLuong.value)"></textbox>
 					<label>Đơn giá</label>
 					<textbox id="txtDonGia" value = "@load(vm.selectedPhuTung.donGiaXuat)" readonly= "true"></textbox>
 					
 					<label>Thành tiền</label>
 					<textbox id="txtThanhTien" readonly= "true" value ="@load(vm.thanhTien)" ></textbox>
 					<label>Bảo hành</label>
-					<textbox id="txtBaoHanh" readonly = "true" value = "@load(vm.selectedPhuTung.hanBaoHanh)"></textbox>
+					<textbox width="50px" id="txtBaoHanh" readonly = "true" value = "@load(vm.selectedPhuTung.hanBaoHanh)"></textbox>
 					<button
 						onClick="@command('themChiTiet', soluong = txtSoLuong.value
 						 )">
@@ -58,7 +70,7 @@
 				</hlayout>
 			</window>
 			<listbox height="200px" hflex="1" mold="paging"
-				model="@load(vm.setofChiTietPhieuDV)" pageSize="15"
+				model="@load(vm.setOfChiTietPhieuBL)" pageSize="15"
 				width="100%">
 				<auxhead>
 					<auxheader colspan="3">
@@ -81,17 +93,17 @@
 						<listcell label="@load(e.soLuong)"></listcell>
 						<listcell label="@load(e.donGia)"></listcell>
 						<listcell label="@load(e.thanhTien)"></listcell>
-						<listcell label="@load(e.hanBaoHanh)"></listcell>
+						<listcell label="@load(e.thoiHanBaoHanh)"></listcell>
 						<listcell>
 							<button
-								onClick="@command('xoaChiTiet', machitiet = e.id)">
+								onClick="@command('xoaChiTiet', maphutung = e.maPhuTung)">
 								Xóa
 							</button>
 						</listcell>
 					</listitem>
 				</template>
 			</listbox>
-			<button onClick="@command('SavePhieuDichVu',mapdv = txtMaSoPhieu.value)">Lưu</button>
+			<button onClick="@command('SavePhieuDichVu',mapbl = txtMaSoPhieu.value)">Lưu</button>
 		</vlayout>
 	</window>
 </zk>

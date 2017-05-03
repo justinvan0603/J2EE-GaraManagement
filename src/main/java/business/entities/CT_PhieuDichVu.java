@@ -24,7 +24,7 @@ public class CT_PhieuDichVu {
 	@Column(name = "MaPhuTung")
 	private long MaPhuTung;
 	@Column(name = "SoLuong")
-	private long SoLuong;
+	private int SoLuong;
 	@ManyToOne
 	@JoinColumn(name = "MaPhuTung", referencedColumnName = "Id", insertable = false, updatable = false)
 	private PhuTung PhuTung;
@@ -119,11 +119,11 @@ public class CT_PhieuDichVu {
 		MaPhuTung = maPhuTung;
 	}
 
-	public long getSoLuong() {
+	public int getSoLuong() {
 		return SoLuong;
 	}
 
-	public void setSoLuong(long soLuong) {
+	public void setSoLuong(int soLuong) {
 		SoLuong = soLuong;
 	}
 

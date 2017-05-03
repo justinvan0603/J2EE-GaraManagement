@@ -22,6 +22,7 @@ import business.entities.PhuTung;
 import business.entities.Tho;
 import business.service.ChiTietPhieuDichVuServiceImpl;
 import business.service.PhieuDichVuServiceImpl;
+import business.service.PhieuThuServiceImpl;
 import business.service.PhuTungServiceImpl;
 import business.service.ThoServiceImpl;
 
@@ -30,6 +31,8 @@ import business.service.ThoServiceImpl;
 public class PhieuDichVuAddViewModel {
 	@WireVariable
 	private PhieuDichVuServiceImpl phieuDichVuServiceImpl;
+	@WireVariable
+	private PhieuThuServiceImpl phieuThuServiceIpml;
 	private List<PhuTung> listPhuTung;
 	private PhuTung selectedPhuTung;
 	private PhieuDichVu phieuDichVu;
@@ -129,6 +132,7 @@ public class PhieuDichVuAddViewModel {
 	@Init
 	public void init() {
 		//this.currentPhieuDichVu = new PhieuDichVu();
+		this.phieuThuServiceIpml = (PhieuThuServiceImpl) SpringUtil.getBean("phieuthu_service");
 		this.phieuDichVuServiceImpl = (PhieuDichVuServiceImpl) SpringUtil.getBean("phieudichvu_service");
 		this.chiTietPhieuDichVuServiceImpl = (ChiTietPhieuDichVuServiceImpl) SpringUtil.getBean("chitietphieudichvu_service");
 		this.setofChiTietPhieuDV = new HashSet<CT_PhieuDichVu>();
@@ -179,26 +183,39 @@ public class PhieuDichVuAddViewModel {
 			CT_PhieuDichVu ctPhieu = iterator.next();
 			if (ctPhieu.getMaPhuTung() == maPhuTung.intValue()) {
 				iterator.remove();
+				for(Iterator<PhuTung> i = this.listPhuTung.iterator(); i.hasNext();)
+				{
+				
+					PhuTung pt = i.next();
+					if(pt.getId() == ctPhieu.getMaPhuTung())
+					{
+						pt.setSoLuongTon(pt.getSoLuongTon() + ctPhieu.getSoLuong());
+						break;
+					}
+				}
 			}
 		}
 	}
 	@Command
 	@NotifyChange("setofChiTietPhieuDV")
 	public void themChiTiet(@BindingParam("soluong") int soLuong) {
-		CT_PhieuDichVu ctPhieu = new CT_PhieuDichVu();
-		
-//		ct_PhieuBaoHanh.setMaPhuTung(maPhuTung);
-//		ct_PhieuBaoHanh.setNgayHenTra(ngayHenTra);
-		
-		//ctPhieu.setMaPhuTung(this.selectedPhuTung.getId());
-		//ctPhieu.setDonGia(this.selectedPhuTung.getDonGiaXuat());
-		ctPhieu.setThanhTien(soLuong * this.selectedPhuTung.getDonGiaXuat());
-		ctPhieu.setDonGia(this.selectedPhuTung.getDonGiaXuat());
-		ctPhieu.setSoLuong(soLuong);
-		ctPhieu.setMaPT(this.selectedPhuTung.getMaPhuTung());
-		ctPhieu.setTenPT(this.selectedPhuTung.getTenPhuTung());
-		ctPhieu.setHanBaoHanh(this.selectedPhuTung.getHanBaoHanh());
-		this.setofChiTietPhieuDV.add(ctPhieu);
+		if(soLuong <= this.selectedPhuTung.getSoLuongTon())
+		{
+			CT_PhieuDichVu ctPhieu = new CT_PhieuDichVu();
+			this.selectedPhuTung.setSoLuongTon(this.selectedPhuTung.getSoLuongTon() - soLuong);
+			ctPhieu.setThanhTien(soLuong * this.selectedPhuTung.getDonGiaXuat());
+			ctPhieu.setDonGia(this.selectedPhuTung.getDonGiaXuat());
+			ctPhieu.setSoLuong(soLuong);
+			ctPhieu.setMaPT(this.selectedPhuTung.getMaPhuTung());
+			ctPhieu.setTenPT(this.selectedPhuTung.getTenPhuTung());
+			ctPhieu.setHanBaoHanh(this.selectedPhuTung.getHanBaoHanh());
+			this.setofChiTietPhieuDV.add(ctPhieu);
+		}
+		else
+		{
+			Messagebox.show("Số lượng nhập vượt quá số lượng tồn", "Lỗi", Messagebox.OK,
+					Messagebox.ERROR);
+		}
 	}
 	@Command
 	public void SavePhieuDichVu(@BindingParam("mapdv") String mapdv, @BindingParam("tiencong") double tiencong)
@@ -211,6 +228,7 @@ public class PhieuDichVuAddViewModel {
 			this.phieuDichVu.setMaTho(this.selectedTho.getId());
 			this.phieuDichVu.setNgayLap(new Date());
 			this.phieuDichVu.setMaNV(2);
+			
 			double tongchitiet = 0;
 			for(CT_PhieuDichVu i : this.setofChiTietPhieuDV)
 			{
@@ -225,8 +243,11 @@ public class PhieuDichVuAddViewModel {
 					//CT_PhieuDichVu ctphieu = i;
 					i.setIdPhieuDichVu(this.phieuDichVu.getIdPhieuDichVu());
 					this.chiTietPhieuDichVuServiceImpl.save(i);
+					PhuTung pt  = this.phuTungServiceImpl.findById(i.getMaPhuTung(), PhuTung.class);
+					pt.setSoLuongTon(pt.getSoLuongTon() - i.getSoLuong());
+					this.phuTungServiceImpl.update(pt.getId(), pt);
 				}
-				//Messagebox.show("Lưu Thành công");
+				Messagebox.show("Lưu Thành công");
 				Executions.sendRedirect("./PhieuDichVu_DS.zul");
 			} else {
 				Messagebox.show("Đã có lỗi xảy ra", "Lỗi", Messagebox.OK, Messagebox.ERROR);

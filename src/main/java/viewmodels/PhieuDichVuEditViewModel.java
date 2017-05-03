@@ -117,24 +117,33 @@ public class PhieuDichVuEditViewModel {
 	}
 	@NotifyChange("setofChiTietPhieuDV")
 	@Command
-	public void xoaChiTiet(@BindingParam("maphutung") Long maphutung)
+	public void xoaChiTiet(@BindingParam("machitiet") Long machitiet)
 	{
 		//Messagebox.show(maphutung.toString(), "Lỗi", Messagebox.OK, Messagebox.ERROR);
+		
 		if(this.setofChiTietPhieuDV.size() == 1)
 		{
 			Messagebox.show("Không thể xóa! Phải có ít nhất 1 chi tiết trong phiếu dịch vụ!", "Lỗi", Messagebox.OK, Messagebox.ERROR);
 			return;
 		}
 		//Messagebox.show(maphutung.toString(), "Lỗi", Messagebox.OK, Messagebox.ERROR);
-		if(this.chiTietPhieuDichVuServiceImpl.delete(maphutung, CT_PhieuDichVu.class))
+		if(this.chiTietPhieuDichVuServiceImpl.delete(machitiet, CT_PhieuDichVu.class))
 		{
+			CT_PhieuDichVu ctPhieu = null;
 			for (Iterator<CT_PhieuDichVu> iterator = this.setofChiTietPhieuDV.iterator(); iterator.hasNext();) {
-				CT_PhieuDichVu ctPhieu = iterator.next();
-				if (ctPhieu.getMaPhuTung() == maphutung) {
-					iterator.remove();
+				ctPhieu= iterator.next();
+				if (ctPhieu.getId() == machitiet) {
+					//iterator.remove();
+					PhuTung pt = this.phuTungServiceImpl.findById(ctPhieu.getMaPhuTung(), PhuTung.class);
+					pt.setSoLuongTon(pt.getSoLuongTon() + ctPhieu.getSoLuong());
+					this.phuTungServiceImpl.update(pt.getId(),pt);
 					break;
 				}
+				
 			}
+			this.listPhuTung.remove(ctPhieu);
+			
+			
 			Messagebox.show("Xóa thành công!", "Thông báo", Messagebox.OK, Messagebox.INFORMATION);
 		}
 		else
@@ -157,15 +166,23 @@ public class PhieuDichVuEditViewModel {
 		ctPhieu.setTenPT(this.selectedPhuTung.getTenPhuTung());
 		ctPhieu.setHanBaoHanh(this.selectedPhuTung.getHanBaoHanh());
 		ctPhieu.setMaPhuTung(this.selectedPhuTung.getId());
-		ctPhieu.setIdPhieuDichVu(1);
+		ctPhieu.setIdPhieuDichVu(this.phieuDichVu.getIdPhieuDichVu());
 		this.setofChiTietPhieuDV.add(ctPhieu);
 		this.setofChiTietPhieuDV = new HashSet<CT_PhieuDichVu>( this.chiTietPhieuDichVuServiceImpl.getByPhieuDichVuId(1));
 	}
 	@Command
-	public void SavePhieuDichVu()
+	public void SavePhieuDichVu(@BindingParam("mapdv") String mapdv)
 	{
 		
-		//Messagebox.show(this.setofChiTietPhieuDV.toString());
+		this.phieuDichVu.setMaPhieuDichVu(mapdv);
+		if(this.phieuDichVuServiceImpl.update(this.phieuDichVu.getIdPhieuDichVu(), this.phieuDichVu))
+		{
+			Messagebox.show("Cập nhật thành công!", "Thông báo", Messagebox.OK, Messagebox.INFORMATION);
+		}
+		else
+		{
+			Messagebox.show("Đã có lỗi xảy ra", "Lỗi", Messagebox.OK, Messagebox.ERROR);
+		}
 	}
 	@Command
 	@NotifyChange("thanhTien")

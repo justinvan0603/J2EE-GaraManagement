@@ -57,7 +57,7 @@ public class PhieuBanLeServiceImpl implements GeneralService<PhieuBanLe> {
 	@Override
 	public boolean save(PhieuBanLe newEntity) {
 		// TODO Auto-generated method stub
-		return this.save(newEntity);
+		return this.phieuBanLeDaoImpl.save(newEntity);
 	}
 	@SuppressWarnings("unchecked")
 	public List<PhieuBanLe> findByMaPhieu(String maphieu) {
@@ -66,7 +66,7 @@ public class PhieuBanLeServiceImpl implements GeneralService<PhieuBanLe> {
 		SessionFactory sessionFactory = this.phieuBanLeDaoImpl.getSessionFactory();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(PhieuBanLe.class);
 		
-		criteria.add(Restrictions.like("MaPhieuBanLe",  maphieu , MatchMode.ANYWHERE));
+		criteria.add(Restrictions.like("MaPhieuBan",  maphieu , MatchMode.ANYWHERE));
 		return criteria.list();
 	}
 

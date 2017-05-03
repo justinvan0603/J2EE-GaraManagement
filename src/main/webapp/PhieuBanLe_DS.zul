@@ -3,7 +3,7 @@
 <include src="menu_bar.zul"></include>
 <window title="Danh sách khách hàng" border="normal"
 		apply="org.zkoss.bind.BindComposer"
-		viewModel="@id('vm') @init('viewmodels.PhieuDichVuDSViewModel')">
+		viewModel="@id('vm') @init('viewmodels.PhieuBanLeDSViewModel')">
 		<vlayout width="100%">
 		<hlayout style="text-align : left; padding : 4px;">
 				<label value="Tìm kiếm"></label>
@@ -20,12 +20,12 @@
 				</button>
 				|
 				<button id="addNew"
-					onClick="@command('ThemPhieuDichVu')">
+					onClick="@command('ThemPhieuBanLe')">
 					Thêm mới
 				</button>
 			</hlayout>
 		<listbox hflex="1" mold="paging" pageSize="10"
-			model="@load(vm.listPhieuDichVu)" selectedItem="@bind(vm.selectedPDV)" width="100%">
+			model="@load(vm.listPhieuBanLe)" selectedItem="@bind(vm.selectedPhieuBanLe)" width="100%">
 			<auxhead>
 				<auxheader colspan="6" class="topic">Phiếu dịch vụ</auxheader>
 			</auxhead>
@@ -43,15 +43,19 @@
 			</listhead>
 			<template name="model" var="e">
 				<listitem>
-					<listcell label="@load(e.IdPhieuDichVu)"></listcell>
-					<listcell label="@load(e.MaPhieuDichVu)"></listcell>
-					<listcell label="@load(e.NgayLap)"></listcell>
-					<listcell label="@load(e.HanChotThanhToan)"></listcell>
-					<listcell label="@load(e.TongTien)"></listcell>					
+					<listcell label="@load(e.idPhieuBanLe)"></listcell>
+					<listcell label="@load(e.maPhieuBan)"></listcell>
+					<listcell label="@load(e.ngayLap)"></listcell>
+					<listcell label="@load(e.hanChotThanhToan)"></listcell>
+					<listcell label="@load(e.tongTien)"></listcell>
+					<listcell label="@load(e.soTienConLai)"></listcell>					
 					<listcell>
 	
-						<button onClick="@command('editPhieuDichVu',id = e.IdPhieuDichVu)"
+						<button onClick="@command('editPhieuBanLe',id =e.idPhieuBanLe)"
 							> Sửa
+						</button>
+						<button onClick="@command('deletePhieuBanLe',id =e.idPhieuBanLe)"
+							> Xóa
 						</button>
 					</listcell>
 				</listitem>

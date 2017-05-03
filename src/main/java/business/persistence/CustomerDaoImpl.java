@@ -61,6 +61,7 @@ public class CustomerDaoImpl implements GeneralDao<Customer> {
 				customer.setHoTen(newInfor.getHoTen());
 				customer.setGioiTinh(newInfor.getGioiTinh());
 				customer.setSdt(newInfor.getSdt());
+				customer.setSoTienNo(newInfor.getSoTienNo());
 				// start to update
 				session.saveOrUpdate(customer);
 			}
