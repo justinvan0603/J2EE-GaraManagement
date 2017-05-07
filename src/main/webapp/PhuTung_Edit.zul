@@ -21,8 +21,8 @@
 					value="@bind(vm.currentPhuTung.tenPhuTung)">
 				</textbox>
 				<label>Hiệu xe</label>
-				<combobox model="@load(vm.dsHieuXe)" id="hieuxe_combobox"
-					constraint="no empty" readonly="true"
+				<combobox model="@load(vm.dsHieuXe)"
+					id="hieuxe_combobox" constraint="no empty" readonly="true"
 					value="@bind(vm.currentPhuTung.maHieuXe)"
 					selectedItem="@bind(vm.currentPhuTung.maHieuXe)">
 					<template name="model">
@@ -34,18 +34,17 @@
 					constraint="no empty" maxlength="2"
 					value="@bind(vm.currentPhuTung.hanBaoHanh)">
 					<attribute w:name="doKeyPress_">
-						<![CDATA[
-							function(evt)
-							{
-								if ((evt.which < 48 || evt.which > 57) && evt.which != 8 && evt.which != 0)
-									evt.stop();
-							}
-						]]>
+						
+						<![CDATA[ function(evt) { if ((evt.which < 48 ||
+						evt.which > 57) && evt.which != 8 && evt.which
+						!= 0) evt.stop(); } ]]>
+						
 					</attribute>
 				</textbox>
-				<button
-				onClick="@command('updatePhuTung', id =  id_textbox.value, mapt =  mapt_textbox.value , tenpt = tenpt_textbox.value , hieuxe = hieuxe_combobox.selectedItem.label, tgbh = tgbh_textbox.value)">
-				Lưu
+				<button style="margin-top : 10px;"
+					image="/images/ic_done.png"
+					label="Cập nhật"
+					onClick="@command('updatePhuTung', id =  id_textbox.value, mapt =  mapt_textbox.value , tenpt = tenpt_textbox.value , hieuxe = hieuxe_combobox.selectedItem.label, tgbh = tgbh_textbox.value)">
 				</button>
 			</vbox>
 		</hbox>

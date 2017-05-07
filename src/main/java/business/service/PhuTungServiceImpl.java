@@ -91,4 +91,55 @@ public class PhuTungServiceImpl implements GeneralService<PhuTung> {
 		return result;
 	}
 
+	@Transactional
+	public boolean subSoLuongTonById(int idpt, int sl) {
+		Session session = null;
+		Transaction transaction = null;
+		boolean isSuccess = false;
+		try {
+			session = this.phuTungDaoImpl.getSessionFactory().openSession();
+			transaction = session.beginTransaction();
+			PhuTung phutung = (PhuTung) session.get(PhuTung.class, idpt);
+			if (phutung != null) {
+				phutung.setSoLuongTon(phutung.getSoLuongTon() - sl);
+				session.saveOrUpdate(phutung);
+				isSuccess = true;
+				transaction.commit();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			isSuccess = false;
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
+		return isSuccess;
+	}
+	
+	@Transactional
+	public boolean addSoLuongTonById(int idpt, int sl) {
+		Session session = null;
+		Transaction transaction = null;
+		boolean isSuccess = false;
+		try {
+			session = this.phuTungDaoImpl.getSessionFactory().openSession();
+			transaction = session.beginTransaction();
+			PhuTung phutung = (PhuTung) session.get(PhuTung.class, idpt);
+			if (phutung != null) {
+				phutung.setSoLuongTon(phutung.getSoLuongTon() + sl);
+				session.saveOrUpdate(phutung);
+				isSuccess = true;
+				transaction.commit();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			isSuccess = false;
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
+		return isSuccess;
+	}
 }

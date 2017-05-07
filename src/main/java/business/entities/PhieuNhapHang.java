@@ -1,5 +1,7 @@
 package business.entities;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -152,4 +154,8 @@ public class PhieuNhapHang {
 		this.numberOfPhieuChi = numberOfPhieuChi;
 	}
 
+	public String getTongTienFormated(){
+		NumberFormat formatter = new DecimalFormat("###,###,###");  
+		return formatter.format(this.TongTien);
+	}
 }

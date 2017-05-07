@@ -18,28 +18,26 @@
 				<textbox id="phone_textbox" width="400px"
 					constraint="no empty" maxlength="11">
 					<attribute w:name="doKeyPress_">
-						<![CDATA[
-							function(evt)
-							{
-								if ((evt.which < 48 || evt.which > 57) && evt.which != 8 && evt.which != 0)
-									evt.stop();
-							}
-						]]>
+						
+						<![CDATA[ function(evt) { if ((evt.which < 48 ||
+						evt.which > 57) && evt.which != 8 && evt.which
+						!= 0) evt.stop(); } ]]>
+						
 					</attribute>
 				</textbox>
 				<label>Nhóm nhà cung cấp</label>
-				<combobox model="@load(vm.nhomNhaCungCap)" id="type_combobox"
-					constraint="no empty" readonly="true">
+				<combobox model="@load(vm.nhomNhaCungCap)"
+					id="type_combobox" constraint="no empty" readonly="true">
 					<template name="model">
 						<comboitem label="${each.getTenNhom()}"></comboitem>
 					</template>
 				</combobox>
-			<button
-				onClick="@command('saveNewNCC', name =  name_textbox.value , address = address_textbox.value , phone_number = phone_textbox.value, type = type_combobox.selectedItem.label)">
-				Lưu
+				<button style="margin-top : 10px;"
+					image="/images/ic_done.png"
+					label="Lưu"
+					onClick="@command('saveNewNCC', name =  name_textbox.value , address = address_textbox.value , phone_number = phone_textbox.value, type = type_combobox.selectedItem.label)">
 				</button>
 			</vbox>
 		</hbox>
 	</window>
-
 </zk>

@@ -30,7 +30,7 @@
 					<vbox width="300px">
 						<label>Ngày hẹn giao</label>
 						<datebox id="datebox_ngaygiao" width="200px"
-							constraint="no empty, no past" 
+							constraint="no empty, no past"
 							value="@load(vm.phieu.ngayGiao) @save(vm.phieu.ngayGiao, before = 'luuPhieu')"
 							readonly="true" format="dd/MM/yyyy">
 						</datebox>
@@ -94,34 +94,10 @@
 						onChange="@command('onSlandDongiaChange',sl = textbox_soluong.value, dongia = textbox_dongia.value)"
 						width="40px" maxlength="3">
 						<attribute w:name="doKeyPress_">
-
-
-
-
-
-
-
-
-
-
-
-
 							
 							<![CDATA[ function(evt) { if ((evt.which <
 							48 || evt.which > 57) && evt.which != 8 &&
 							evt.which != 0) evt.stop(); } ]]>
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							
 						</attribute>
 					</textbox>
@@ -131,34 +107,10 @@
 						onChange="@command('onSlandDongiaChange',sl = textbox_soluong.value, dongia = textbox_dongia.value)"
 						width="100px" maxlength="8">
 						<attribute w:name="doKeyPress_">
-
-
-
-
-
-
-
-
-
-
-
-
 							
 							<![CDATA[ function(evt) { if ((evt.which <
 							48 || evt.which > 57) && evt.which != 8 &&
 							evt.which != 0) evt.stop(); } ]]>
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							
 						</attribute>
 					</textbox>
@@ -167,16 +119,17 @@
 						value="@load(vm.thanhTien)" width="150px">
 					</textbox>
 					<button
+						image="/images/ic_add.png" label="Thêm"
 						onClick="@command('themChiTiet', id_pt = combobox_phutung.selectedItem.value
 						 , sl = textbox_soluong.value, dongia = textbox_dongia.value, thanhtien = textbox_thanhtien.value)">
-						Thêm
 					</button>
 				</hlayout>
 			</window>
 			<listbox height="200px" hflex="1" mold="paging"
 				model="@load(vm.setOfCT_Phieus)" pageSize="15" width="100%">
 				<listhead>
-					<listheader label="Idct" width="100px" visible="false" />
+					<listheader label="Idct" width="100px"
+						visible="false" />
 					<listheader label="Mã phụ tùng" width="100px" />
 					<listheader label="Tên phụ tùng" />
 					<listheader label="Số lượng" />
@@ -194,8 +147,8 @@
 						<listcell label="@load(e.thanhTien)"></listcell>
 						<listcell>
 							<button
+								image="/images/ic_delete_black_18dp_1x.png" label="Xoá"
 								onClick="@command('xoaChiTiet', id_ct = e.id, thanhtien = e.thanhTien)">
-								Xóa
 							</button>
 						</listcell>
 					</listitem>
@@ -206,9 +159,10 @@
 				<label value="@load(vm.tongTien)"></label>
 			</hlayout>
 			<hlayout style="padding: 4px">
-				<button onClick="@command('luuPhieu')">Lưu</button>
-				<button onClick="@command('thoat')">Huỷ</button>
-			</hlayout>	
+				<button 
+					image="/images/ic_done.png" label="Lưu"
+					onClick="@command('luuPhieu')"></button>
+			</hlayout>
 		</vlayout>
 	</window>
 </zk>

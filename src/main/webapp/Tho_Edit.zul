@@ -24,18 +24,15 @@
 					constraint="no empty" maxlength="11"
 					value="@bind(vm.currentTho.phone)">
 					<attribute w:name="doKeyPress_">
-						<![CDATA[
-							function(evt)
-							{
-								if ((evt.which < 48 || evt.which > 57) && evt.which != 8 && evt.which != 0)
-									evt.stop();
-							}
-						]]>
+						
+						<![CDATA[ function(evt) { if ((evt.which < 48 ||
+						evt.which > 57) && evt.which != 8 && evt.which
+						!= 0) evt.stop(); } ]]>
+						
 					</attribute>
 				</textbox>
 				<label>Giới tính</label>
-				<combobox model="@load(vm.genders)" 
-					id="gender_combobox"
+				<combobox model="@load(vm.genders)" id="gender_combobox"
 					constraint="no empty" readonly="true"
 					value="@bind(vm.currentGender)"
 					selectedItem="@bind(vm.currentGender)">
@@ -43,9 +40,10 @@
 						<comboitem label="@load(each)"></comboitem>
 					</template>
 				</combobox>
-				<button
-				onClick="@command('updateTho', id =  id_textbox.value ,name =  name_textbox.value , address = address_textbox.value , phone_number = phone_textbox.value, gender = gender_combobox.selectedItem.label)">
-				Cập nhật
+				<button style="margin-top : 10px;"
+					image="/images/ic_done.png"
+					label="Cập nhật"
+					onClick="@command('updateTho', id =  id_textbox.value ,name =  name_textbox.value , address = address_textbox.value , phone_number = phone_textbox.value, gender = gender_combobox.selectedItem.label)">
 				</button>
 			</vbox>
 		</hbox>

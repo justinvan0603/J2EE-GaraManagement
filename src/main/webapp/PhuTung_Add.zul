@@ -15,8 +15,8 @@
 					constraint="no empty" maxlength="200">
 				</textbox>
 				<label>Hiệu xe</label>
-				<combobox model="@load(vm.dsHieuXe)" id="hieuxe_combobox"
-					constraint="no empty" readonly="true">
+				<combobox model="@load(vm.dsHieuXe)"
+					id="hieuxe_combobox" constraint="no empty" readonly="true">
 					<template name="model">
 						<comboitem label="${each.getMaHieuXe()}"></comboitem>
 					</template>
@@ -25,18 +25,17 @@
 				<textbox id="tgbh_textbox" width="400px"
 					constraint="no empty" maxlength="2">
 					<attribute w:name="doKeyPress_">
-						<![CDATA[
-							function(evt)
-							{
-								if ((evt.which < 48 || evt.which > 57) && evt.which != 8 && evt.which != 0)
-									evt.stop();
-							}
-						]]>
+						
+						<![CDATA[ function(evt) { if ((evt.which < 48 ||
+						evt.which > 57) && evt.which != 8 && evt.which
+						!= 0) evt.stop(); } ]]>
+						
 					</attribute>
 				</textbox>
-				<button
-				onClick="@command('saveNewPhuTung', mapt =  mapt_textbox.value , tenpt = tenpt_textbox.value , hieuxe = hieuxe_combobox.selectedItem.label, tgbh = tgbh_textbox.value)">
-				Lưu
+				<button style="margin-top : 10px;"
+					image="/images/ic_done.png"
+					label="Lưu"
+					onClick="@command('saveNewPhuTung', mapt =  mapt_textbox.value , tenpt = tenpt_textbox.value , hieuxe = hieuxe_combobox.selectedItem.label, tgbh = tgbh_textbox.value)">
 				</button>
 			</vbox>
 		</hbox>

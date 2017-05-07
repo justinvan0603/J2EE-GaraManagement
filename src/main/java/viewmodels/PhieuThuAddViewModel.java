@@ -1,5 +1,7 @@
 package viewmodels;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Calendar;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
@@ -108,6 +110,11 @@ public class PhieuThuAddViewModel {
 	public double getTongTien() {
 		return tongTien;
 	}
+	
+	public String getTongTienFormated() {
+		NumberFormat formatter = new DecimalFormat("##,###,###");  
+		return formatter.format(this.tongTien);
+	}
 
 	public void setTongTien(double tongTien) {
 		this.tongTien = tongTien;
@@ -115,6 +122,11 @@ public class PhieuThuAddViewModel {
 
 	public double getTienConLai() {
 		return tienConLai;
+	}
+	
+	public String getTienConLaiFormated() {
+		NumberFormat formatter = new DecimalFormat("##,###,###");  
+		return formatter.format(this.tienConLai);
 	}
 
 	public void setTienConLai(double tienConLai) {

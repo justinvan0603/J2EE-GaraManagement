@@ -16,11 +16,13 @@
 				</combobox>
 				<textbox width="400px" id="search_textbox"></textbox>
 				<button id="searchButton"
+					image="/images/ic_search.png"
 					onClick="@command('filterData', search_string=search_textbox.value , combobox_selected_index = search_type_combobox.selectedIndex )">
 					Tìm kiếm
 				</button>
 				|
 				<button id="addNew"
+					image="/images/ic_add.png"
 					onClick="@command('addNewPhieuDatHangRedirect')">
 					Thêm mới
 				</button>
@@ -30,13 +32,13 @@
 				model="@load(vm.listOfPhieuDatHang)" width="100%">
 				<listhead>
 					<listheader label="Id" width="80px" visible="false" />
-					<listheader label="Mã phiếu đặt" />
-					<listheader label="Nhân viên lập" />
-					<listheader label="Ngày đặt" />
-					<listheader label="Ngày hẹn giao" />
+					<listheader label="Mã phiếu đặt" width="100px"  />
+					<listheader label="Nhân viên lập" width="220px"  />
+					<listheader label="Ngày đặt" width="100px" />
+					<listheader label="Ngày hẹn giao" width="100px"/>
 					<listheader label="Nhà cung cấp" />
-					<listheader label="Số tiền" />
-					<listheader label="Tác vụ" width="150px" />
+					<listheader label="Số tiền" width="150px"  />
+					<listheader label="Tác vụ" width="350px" />
 				</listhead>
 				<template name="model" var="e">
 					<listitem>
@@ -46,18 +48,21 @@
 						<listcell label="@load(e.shortDateNgayDat)"></listcell>
 						<listcell label="@load(e.shortDateNgayGiao)"></listcell>
 						<listcell label="@load(e.nhaCungCap.tenNCC)"></listcell>
-						<listcell label="@load(e.tongTien)"></listcell>
+						<listcell label="@load(e.tongTienFormated)"></listcell>
 						<listcell>
 							<button tooltip="@load(e.id_PhieuDatHang)"
 								onClick="@command('editPhieuDatHang', phieudh_id = e.id_PhieuDatHang)"
+								label="Cập nhật"
 								image="/images/ic_edit_black_18dp_1x.png">
 							</button>
 							<button
 								image="/images/ic_delete_black_18dp_1x.png"
+								label="Xoá"
 								onClick="@command('deletePhieuDatHang' , phieudh_id = e.id_PhieuDatHang)">
 							</button>
 							<button
 								image="/images/ic_add.png"
+								label="Lập phiếu nhập hàng"
 								onClick="@command('createPhieuNhapHang' , phieudh_id = e.id_PhieuDatHang)">
 							</button>
 						</listcell>

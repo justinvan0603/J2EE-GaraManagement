@@ -16,6 +16,7 @@
 				</combobox>
 				<textbox width="400px" id="search_textbox"></textbox>
 				<button id="searchButton"
+					image="/images/ic_search.png"
 					onClick="@command('filterData', search_string=search_textbox.value , combobox_selected_index = search_type_combobox.selectedIndex )">
 					Tìm kiếm
 				</button>
@@ -27,10 +28,10 @@
 					<listheader label="Id" width="80px" visible="false" />
 					<listheader label="Mã phiếu thu" width="100px" />
 					<listheader label="Nội dung thu" />
-					<listheader label="Ngày lập phiếu" />
-					<listheader label="Nhân viên lập" />
-					<listheader label="Số tiền" />
-					<listheader label="Tác vụ" width="150px" />
+					<listheader label="Ngày lập phiếu" width="150px" />
+					<listheader label="Nhân viên lập" width="200px" />
+					<listheader label="Số tiền" width="200px" />
+					<listheader label="Tác vụ" width="100px" />
 				</listhead>
 				<template name="model" var="e">
 					<listitem>
@@ -43,6 +44,7 @@
 						<listcell>
 							<button
 								image="/images/ic_delete_black_18dp_1x.png"
+								label="Xoá"
 								onClick="@command('deletePhieuThu' , phieuthu_id = e.idPhieuThuTien)">
 							</button>
 						</listcell>

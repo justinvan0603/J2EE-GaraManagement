@@ -1,7 +1,7 @@
 <?page title="Lập phiếu thu tiền" contentType="text/html;charset=UTF-8"?>
 <zk>
 	<include src="menu_bar.zul"></include>
-	<window title="Lập phiếu thu hàng" border="normal" width="100%"
+	<window title="Lập phiếu thu tiền" border="normal" width="100%"
 		height="550px" apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('viewmodels.PhieuThuAddViewModel')">
 		<vlayout>
@@ -9,8 +9,7 @@
 				<hlayout style="text-align : left; padding : 4px;">
 					<vbox width="300px">
 						<label>Mã phiếu thu</label>
-						<textbox
-							maxlength="20"
+						<textbox maxlength="20"
 							value="@load(vm.phieuThu.maPhieuThu) @save(vm.phieuThu.maPhieuThu, before = 'saveNewPhieuThu')"
 							width="200px">
 						</textbox>
@@ -31,51 +30,46 @@
 				<hlayout style="text-align : left; padding : 4px;">
 					<vbox width="300px">
 						<label>Nội dung thu</label>
-						<textbox
-							maxlength="20"
-							value="@load(vm.phieuThu.noiDung)"
-							width="200px"
-							rows="3" 
-							readonly="true">
+						<textbox maxlength="20"
+							value="@load(vm.phieuThu.noiDung)" width="200px" rows="3">
 						</textbox>
 					</vbox>
 					<vbox width="300px">
 						<label>Trị giá phiếu cần thu</label>
 						<textbox readonly="true"
-							value="@load(vm.tongTien)" width="200px">
+							value="@load(vm.tongTienFormated)" width="200px">
 						</textbox>
 					</vbox>
 					<vbox width="300px">
 						<label>Số tiền còn lại</label>
 						<textbox readonly="true"
-							value="@load(vm.tienConLai)" width="200px">
+							value="@load(vm.tienConLaiFormated)" width="200px">
 						</textbox>
 					</vbox>
 				</hlayout>
-				<hlayout style="text-align : left; padding : 4px;"  xmlns:w="client">
+				<hlayout style="text-align : left; padding : 4px;"
+					xmlns:w="client">
 					<vbox width="300px">
 						<label>Số tiền thu</label>
-						<textbox
-							maxlength="20"
+						<textbox maxlength="20"
 							value="@load(vm.phieuThu.soTien) @save(vm.phieuThu.soTien, before = 'saveNewPhieuThu')"
 							width="200px">
 							<attribute w:name="doKeyPress_">
-							<![CDATA[
-								function(evt)
-								{
-									if ((evt.which < 48 || evt.which > 57) && evt.which != 8 && evt.which != 0)
-										evt.stop();
-								}
-							]]>
+								
+								<![CDATA[ function(evt) { if ((evt.which
+								< 48 || evt.which > 57) && evt.which !=
+								8 && evt.which != 0) evt.stop(); } ]]>
+								
 						</attribute>
 						</textbox>
 					</vbox>
 				</hlayout>
 			</groupbox>
 			<hlayout style="padding: 4px">
-				<button onClick="@command('saveNewPhieuThu')">Lưu</button>
-				<button onClick="@command('thoat')">Huỷ</button>
-			</hlayout>	
+				<button image="/images/ic_done.png" label="Lưu"
+					onClick="@command('saveNewPhieuThu')">
+				</button>
+			</hlayout>
 		</vlayout>
 	</window>
 </zk>

@@ -125,9 +125,9 @@
 						width="150px">
 					</textbox>
 					<button
+						image="/images/ic_add.png" label="Thêm"
 						onClick="@command('themChiTiet', id_pt = combobox_phutung.selectedItem.value
 						 , sl = textbox_soluong.value, dongia = textbox_dongia.value, thanhtien = textbox_thanhtien.value)">
-						Thêm
 					</button>
 				</hlayout>
 			</window>
@@ -151,8 +151,8 @@
 						<listcell label="@load(e.thanhTien)"></listcell>
 						<listcell>
 							<button
+								image="/images/ic_delete_black_18dp_1x.png" label="Xoá"
 								onClick="@command('xoaChiTiet', id_pt = e.idPhuTung)">
-								Xóa
 							</button>
 						</listcell>
 					</listitem>
@@ -163,8 +163,9 @@
 				<label value="@load(vm.tongTien)"></label>
 			</hlayout>
 			<hlayout style="padding: 4px">
-				<button onClick="@command('luuPhieu')">Lưu</button>
-				<button onClick="@command('thoat')">Huỷ</button>
+				<button 
+					image="/images/ic_done.png" label="Lưu"
+					onClick="@command('luuPhieu')"></button>
 			</hlayout>	
 		</vlayout>
 	</window>

@@ -16,11 +16,13 @@
 				</combobox>
 				<textbox width="400px" id="search_textbox"></textbox>
 				<button id="searchButton"
+					image="/images/ic_search.png"
 					onClick="@command('filterData', search_string=search_textbox.value , combobox_selected_index = search_type_combobox.selectedIndex )">
 					Tìm kiếm
 				</button>
 				|
 				<button id="addNew"
+					image="/images/ic_add.png"
 					onClick="@command('addNewPhuTungRedirect')">
 					Thêm mới
 				</button>
@@ -36,9 +38,9 @@
 					<listheader label="Tên phụ tùng"/>
 					<listheader label="Hiệu xe" sort="maHieuXe" />
 					<listheader label="Số lượng tồn" width="100px" />
-					<listheader label="Đơn giá xuất" width="100px" />
+					<listheader label="Đơn giá xuất" width="150px" />
 					<listheader label="Thời gian bảo hành (tháng)" width="180px" />
-					<listheader label="Tác vụ" />
+					<listheader label="Tác vụ" width="200px"/>
 				</listhead>
 				<template name="model" var="e">
 					<listitem>
@@ -52,10 +54,12 @@
 						<listcell>
 							<button tooltip="@load(e.id)"
 								onClick="@command('editPhuTung', phutung_id = e.id)"
+								label="Cập nhật"
 								image="/images/ic_edit_black_18dp_1x.png">
 							</button>
 							<button
 								image="/images/ic_delete_black_18dp_1x.png"
+								label="Xoá"
 								onClick="@command('deletePhuTung' , phutung_id = e.id)">
 							</button>
 						</listcell>
