@@ -54,13 +54,17 @@
 						<listcell label="@load(e.tongTien)"></listcell>
 						<listcell>
 
-							<button
+							<button label="Cập nhật"
+								image="/images/ic_edit_black_18dp_1x.png"
 								onClick="@command('editPhieuDichVu',id = e.idPhieuDichVu)">
-								Sửa
 							</button>
 							<button
+								image="/images/ic_delete_black_18dp_1x.png" label="Xoá"
 								onClick="@command('deletePhieuDichVu',id = e.idPhieuDichVu)">
-								Xóa
+							</button>
+							<button
+								image="/images/ic_add.png" label="Lập phiếu thu"
+								onClick="@command('createPhieuThu',phieuthu_id = e.idPhieuDichVu)">
 							</button>
 						</listcell>
 					</listitem>

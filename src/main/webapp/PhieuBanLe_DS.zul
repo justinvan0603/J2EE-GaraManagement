@@ -1,11 +1,11 @@
 <?page title="Danh sách phiếu bán lẻ" contentType="text/html;charset=UTF-8"?>
 <zk>
-<include src="menu_bar.zul"></include>
-<window title="Danh sách khách hàng" border="normal"
+	<include src="menu_bar.zul"></include>
+	<window title="Danh sách khách hàng" border="normal"
 		apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('viewmodels.PhieuBanLeDSViewModel')">
 		<vlayout width="100%">
-		<hlayout style="text-align : left; padding : 4px;">
+			<hlayout style="text-align : left; padding : 4px;">
 				<label value="Tìm kiếm"></label>
 				<combobox id="search_type_combobox"
 					model="@load(vm.searchTypes)">
@@ -24,43 +24,54 @@
 					Thêm mới
 				</button>
 			</hlayout>
-		<listbox hflex="1" mold="paging" pageSize="10"
-			model="@load(vm.listPhieuBanLe)" selectedItem="@bind(vm.selectedPhieuBanLe)" width="100%">
-			<auxhead>
-				<auxheader colspan="6" class="topic">Phiếu dịch vụ</auxheader>
-			</auxhead>
-			
-			<listhead>
-				<listheader visible="false" label="Id" width="80px" />
-				<listheader label="Mã phiếu" width="120px"/>
-				<listheader label="Ngày lập" width="120px" />
-				<listheader label="Hạn chót thanh toán" width="120px" />
-				<listheader label="Số tiền còn lại" width="120px" />
-		
-				<listheader label="Tổng tiền" width="120px" />
-			
-				<listheader label="Tác vụ" width="120px" />
-			</listhead>
-			<template name="model" var="e">
-				<listitem>
-					<listcell label="@load(e.idPhieuBanLe)"></listcell>
-					<listcell label="@load(e.maPhieuBan)"></listcell>
-					<listcell label="@load(e.ngayLap)"></listcell>
-					<listcell label="@load(e.hanChotThanhToan)"></listcell>
-					<listcell label="@load(e.tongTien)"></listcell>
-					<listcell label="@load(e.soTienConLai)"></listcell>					
-					<listcell>
-	
-						<button onClick="@command('editPhieuBanLe',id =e.idPhieuBanLe)"
-							> Sửa
-						</button>
-						<button onClick="@command('deletePhieuBanLe',id =e.idPhieuBanLe)"
-							> Xóa
-						</button>
-					</listcell>
-				</listitem>
-			</template>
-		</listbox>
+			<listbox hflex="1" mold="paging" pageSize="10"
+				model="@load(vm.listPhieuBanLe)"
+				selectedItem="@bind(vm.selectedPhieuBanLe)" width="100%">
+				<auxhead>
+					<auxheader colspan="6" class="topic">
+						Phiếu dịch vụ
+					</auxheader>
+				</auxhead>
+
+				<listhead>
+					<listheader visible="false" label="Id" width="80px" />
+					<listheader label="Mã phiếu" width="120px" />
+					<listheader label="Ngày lập" width="120px" />
+					<listheader label="Hạn chót thanh toán"
+						width="120px" />
+					<listheader label="Số tiền còn lại" width="120px" />
+
+					<listheader label="Tổng tiền" width="120px" />
+
+					<listheader label="Tác vụ" width="120px" />
+				</listhead>
+				<template name="model" var="e">
+					<listitem>
+						<listcell label="@load(e.idPhieuBanLe)"></listcell>
+						<listcell label="@load(e.maPhieuBan)"></listcell>
+						<listcell label="@load(e.ngayLap)"></listcell>
+						<listcell label="@load(e.hanChotThanhToan)"></listcell>
+						<listcell label="@load(e.tongTien)"></listcell>
+						<listcell label="@load(e.soTienConLai)"></listcell>
+						<listcell>
+
+							<button
+								label="Cập nhật"
+								image="/images/ic_edit_black_18dp_1x.png"
+								onClick="@command('editPhieuBanLe',id =e.idPhieuBanLe)">
+							</button>
+							<button
+								image="/images/ic_delete_black_18dp_1x.png" label="Xoá"
+								onClick="@command('deletePhieuBanLe',id =e.idPhieuBanLe)">
+							</button>
+							<button image="/images/ic_add.png"
+								label="Lập phiếu thu"
+								onClick="@command('createPhieuThu',phieuthu_id = e.idPhieuBanLe)">
+							</button>
+						</listcell>
+					</listitem>
+				</template>
+			</listbox>
 		</vlayout>
 	</window>
 </zk>

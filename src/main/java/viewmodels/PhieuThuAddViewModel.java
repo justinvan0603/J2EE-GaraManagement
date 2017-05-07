@@ -6,6 +6,7 @@ import java.util.Calendar;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.Messagebox;
@@ -39,13 +40,12 @@ public class PhieuThuAddViewModel {
 		this.phieuBanLeService = (PhieuBanLeServiceImpl) SpringUtil.getBean("phieubanle_service");
 		this.phieuDichVuService = (PhieuDichVuServiceImpl) SpringUtil.getBean("phieudichvu_service");
 		
-		//this.loaiPhieuCanThu = (String) Sessions.getCurrent().getAttribute(PhieuThuDSViewModel.PDH_TYPE);
-		//this.maPhieuCanThu = ((Long) Sessions.getCurrent().getAttribute(PhieuThuDSViewModel.PDH_ID)).longValue();
+		this.loaiPhieuCanThu = (String) Sessions.getCurrent().getAttribute(PhieuThuDSViewModel.PDH_TYPE);
+		this.maPhieuCanThu = ((Long) Sessions.getCurrent().getAttribute(PhieuThuDSViewModel.PDH_ID)).longValue();
 		//this.maNV = ((Long) Sessions.getCurrent().getAttribute("ma_nv")).longValue();
 		this.maNV = 1;
 		String noiDungThu = "Thu tiền phiếu ";
 		this.phieuThu = new PhieuThu();
-		loaiPhieuCanThu = "pdv";
 		maPhieuCanThu = 1;
 		
 		if (loaiPhieuCanThu.equals("pbl")){
