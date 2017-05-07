@@ -35,11 +35,11 @@
 
 				<listhead>
 					<listheader visible="false" label="Id" width="80px" />
-					<listheader label="Họ tên" />
-					<listheader label="Số điện thoại" width="150px" />
-					<listheader label="CMND" />
+					<listheader label="Họ tên" width="300px"/>
+					<listheader label="Số điện thoại" width="200px" />
+					<listheader label="CMND" width="200px"/>
 					<listheader label="Giới tính" width="150px" />
-					<listheader label="Tác vụ" width="150px" />
+					<listheader label="Tác vụ" width="200px" />
 				</listhead>
 				<template name="model" var="e">
 					<listitem>

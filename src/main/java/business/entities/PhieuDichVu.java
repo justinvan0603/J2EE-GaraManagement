@@ -1,5 +1,7 @@
 package business.entities;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -10,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import utils.StringFormatUtil;
 
 @Entity
 @Table(name = "phieudichvu")
@@ -116,6 +120,22 @@ public class PhieuDichVu {
 		MaNV = maNV;
 	}
 	
-	
-	
+	public String getShortNgayLap() {
+		return StringFormatUtil.shortDateTime(this.NgayLap);
+	}
+	public String getShortHanChotThanhToan() {
+		return StringFormatUtil.shortDateTime(this.HanChotThanhToan);
+	}
+	public String getTienCongFormated(){
+		NumberFormat formatter = new DecimalFormat("##,###,###");  
+		return formatter.format(this.TienCong);
+	}
+	public String getTongTienFormated(){
+		NumberFormat formatter = new DecimalFormat("##,###,###");  
+		return formatter.format(this.TongTien);
+	}
+	public String getSoTienConLaiFormated(){
+		NumberFormat formatter = new DecimalFormat("##,###,###");  
+		return formatter.format(this.SoTienConLai);
+	}
 }

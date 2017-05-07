@@ -25,7 +25,7 @@
 				model="@load(vm.listPhieuDichVu)"
 				selectedItem="@bind(vm.selectedPDV)" width="100%">
 				<auxhead>
-					<auxheader colspan="6" class="topic">
+					<auxheader colspan="5" class="topic">
 						Phiếu dịch vụ
 					</auxheader>
 				</auxhead>
@@ -33,25 +33,25 @@
 				<listhead>
 
 					<listheader label="Mã phiếu" width="120px" />
-					<listheader label="Ngày lập" width="120px" />
+					<listheader label="Ngày lập" width="160px" />
 					<listheader label="Người lập" width="120px" />
 					<listheader label="Hạn chót thanh toán"
-						width="120px" />
-					<listheader label="Số tiền còn lại" width="120px" />
+						width="160px" />
+					<listheader label="Số tiền còn lại" width="180px" />
 
-					<listheader label="Tổng tiền" width="120px" />
+					<listheader label="Tổng tiền" width="180px" />
 
-					<listheader label="Tác vụ" width="120px" />
+					<listheader label="Tác vụ"  />
 				</listhead>
 				<template name="model" var="e">
 					<listitem>
 
 						<listcell label="@load(e.maPhieuDichVu)"></listcell>
-						<listcell label="@load(e.ngayLap)"></listcell>
+						<listcell label="@load(e.shortNgayLap)"></listcell>
 						<listcell label="@load(e.nhanVien.hoTen)"></listcell>
-						<listcell label="@load(e.hanChotThanhToan)"></listcell>
-						<listcell label="@load(e.soTienConLai)"></listcell>
-						<listcell label="@load(e.tongTien)"></listcell>
+						<listcell label="@load(e.shortHanChotThanhToan)"></listcell>
+						<listcell label="@load(e.soTienConLaiFormated)"></listcell>
+						<listcell label="@load(e.tongTienFormated)"></listcell>
 						<listcell>
 
 							<button label="Cập nhật"

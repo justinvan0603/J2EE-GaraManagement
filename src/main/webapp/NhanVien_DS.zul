@@ -1,7 +1,7 @@
 <?page title="Danh sách nhân viên" contentType="text/html;charset=UTF-8"?>
 <zk>
 <include src="menu_bar.zul"></include>
-<window title="Danh sách khách hàng" border="normal"
+<window title="Danh sách nhân viên" border="normal"
 		apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('viewmodels.NhanVienDSViewModel')">
 		<vlayout width="100%">
@@ -32,13 +32,13 @@
 			
 			<listhead>
 				<listheader visible="false" label="Id" width="80px" />
-				<listheader label="Họ tên" width="120px"/>
-				<listheader label="Username" width="120px" />
-				<listheader label="Số điện thoại" width="120px" />
+				<listheader label="Họ tên" width="250px"/>
+				<listheader label="Username" width="200px" />
+				<listheader label="Số điện thoại" width="200px" />
 		
-				<listheader label="Giới tính" width="120px" />
+				<listheader label="Giới tính" width="200px" />
 			
-				<listheader label="Tác vụ" width="120px" />
+				<listheader label="Tác vụ" width="250px" />
 			</listhead>
 			<template name="model" var="e">
 				<listitem>

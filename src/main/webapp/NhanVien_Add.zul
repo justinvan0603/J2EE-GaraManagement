@@ -4,7 +4,7 @@
 <window title="Thông tin nhân viên" border="normal"
 		apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('viewmodels.NhanVienAddViewModel')">
-		<vlayout>
+		<vlayout >
 		<hbox pack="center">
 				<label>Username</label>
 				<textbox id="username_textbox" width="400px"

@@ -1,5 +1,7 @@
 package business.entities;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -8,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import utils.StringFormatUtil;
 
 @Entity
 @Table(name = "phieubanle")
@@ -79,6 +83,18 @@ public class PhieuBanLe {
 	public void setSoTienConLai(double soTienConLai) {
 		SoTienConLai = soTienConLai;
 	}
-	
-	
+	public String getShortNgayLap() {
+		return StringFormatUtil.shortDateTime(this.NgayLap);
+	}
+	public String getShortHanChotThanhToan() {
+		return StringFormatUtil.shortDateTime(this.HanChotThanhToan);
+	}
+	public String getTongTienFormated(){
+		NumberFormat formatter = new DecimalFormat("##,###,###");  
+		return formatter.format(this.TongTien);
+	}
+	public String getSoTienConLaiFormated(){
+		NumberFormat formatter = new DecimalFormat("##,###,###");  
+		return formatter.format(this.SoTienConLai);
+	}
 }

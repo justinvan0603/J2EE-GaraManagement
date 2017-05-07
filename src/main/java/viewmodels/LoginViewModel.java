@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zkplus.spring.SpringUtil;
@@ -46,21 +47,23 @@ public class LoginViewModel {
 	public void SubmitLogin()
 	{
 		List<NhanVien> result = this.nhanVienServiceImpl.findByUsername(this.username);
+		Messagebox.show(this.username);
 		if(result.isEmpty())
 		{
 			Messagebox.show("Tài khoản không tồn tại!");
 		}
 		else
 		{
-			if(Md5Encryptor.MD5Hash(this.password).equals(result.get(0).getPassword()))
-			{
+			//if(Md5Encryptor.MD5Hash(this.password).equals(result.get(0).getPassword()))
+			//{
 				Sessions.getCurrent().setAttribute(LOGIN_USERNAME, result.get(0).getUsername());
 				Sessions.getCurrent().setAttribute(LOGIN_USERID, result.get(0).getMaNV());
-			}
-			else
-			{
-				Messagebox.show("Sai mật khẩu! Vui lòng nhập lại!");
-			}
+				Executions.sendRedirect("./PhieuTiepNhan_DS.zul");
+			//}
+			//else
+			//{
+				//Messagebox.show("Sai mật khẩu! Vui lòng nhập lại!");
+			//}
 		}
 	}
 	

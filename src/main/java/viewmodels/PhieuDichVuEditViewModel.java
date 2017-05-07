@@ -133,6 +133,9 @@ public class PhieuDichVuEditViewModel {
 			for (Iterator<CT_PhieuDichVu> iterator = this.setofChiTietPhieuDV.iterator(); iterator.hasNext();) {
 				ctPhieu= iterator.next();
 				if (ctPhieu.getId() == machitiet) {
+					this.phieuDichVu.setTongTien(this.phieuDichVu.getTongTien() - ctPhieu.getThanhTien());
+					this.phieuDichVu.setSoTienConLai(this.phieuDichVu.getSoTienConLai() - ctPhieu.getThanhTien());
+					//this.phieuDichVuServiceImpl.update(this.phieuDichVu.getIdPhieuDichVu(), this.phieuDichVu);
 					//iterator.remove();
 					PhuTung pt = this.phuTungServiceImpl.findById(ctPhieu.getMaPhuTung(), PhuTung.class);
 					pt.setSoLuongTon(pt.getSoLuongTon() + ctPhieu.getSoLuong());
@@ -158,6 +161,7 @@ public class PhieuDichVuEditViewModel {
 		if(soLuong <= 0)
 		{
 			Messagebox.show("Số lượng không hợp lệ!", "Lỗi", Messagebox.OK, Messagebox.ERROR);
+			return;
 		}
 		ctPhieu.setThanhTien(soLuong * this.selectedPhuTung.getDonGiaXuat());
 		ctPhieu.setDonGia(this.selectedPhuTung.getDonGiaXuat());
@@ -167,6 +171,8 @@ public class PhieuDichVuEditViewModel {
 		ctPhieu.setHanBaoHanh(this.selectedPhuTung.getHanBaoHanh());
 		ctPhieu.setMaPhuTung(this.selectedPhuTung.getId());
 		ctPhieu.setIdPhieuDichVu(this.phieuDichVu.getIdPhieuDichVu());
+		this.phieuDichVu.setTongTien(this.phieuDichVu.getTongTien() - ctPhieu.getThanhTien());
+		this.phieuDichVu.setSoTienConLai(this.phieuDichVu.getSoTienConLai() - ctPhieu.getThanhTien());
 		this.setofChiTietPhieuDV.add(ctPhieu);
 		this.setofChiTietPhieuDV = new HashSet<CT_PhieuDichVu>( this.chiTietPhieuDichVuServiceImpl.getByPhieuDichVuId(1));
 	}

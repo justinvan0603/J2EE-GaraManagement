@@ -35,24 +35,24 @@
 
 				<listhead>
 					<listheader visible="false" label="Id" width="80px" />
-					<listheader label="Mã phiếu" width="120px" />
-					<listheader label="Ngày lập" width="120px" />
+					<listheader label="Mã phiếu" width="150px" />
+					<listheader label="Ngày lập" width="150px" />
 					<listheader label="Hạn chót thanh toán"
 						width="120px" />
-					<listheader label="Số tiền còn lại" width="120px" />
+					<listheader label="Số tiền còn lại" width="180px" />
 
-					<listheader label="Tổng tiền" width="120px" />
+					<listheader label="Tổng tiền" width="180px" />
 
-					<listheader label="Tác vụ" width="120px" />
+					<listheader label="Tác vụ" width="400px" />
 				</listhead>
 				<template name="model" var="e">
 					<listitem>
 						<listcell label="@load(e.idPhieuBanLe)"></listcell>
 						<listcell label="@load(e.maPhieuBan)"></listcell>
-						<listcell label="@load(e.ngayLap)"></listcell>
+						<listcell label="@load(e.shortNgayLap)"></listcell>
 						<listcell label="@load(e.hanChotThanhToan)"></listcell>
-						<listcell label="@load(e.tongTien)"></listcell>
-						<listcell label="@load(e.soTienConLai)"></listcell>
+						<listcell label="@load(e.tongTienFormated)"></listcell>
+						<listcell label="@load(e.soTienConLaiFormated)"></listcell>
 						<listcell>
 
 							<button

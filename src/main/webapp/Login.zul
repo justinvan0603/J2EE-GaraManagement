@@ -1,6 +1,25 @@
 <?page title="Đăng nhập" contentType="text/html;charset=UTF-8"?>
 <zk>
-<window title="Đăng nhập vào hệ thống" border="normal">
-
+<window title="Đăng nhập vào hệ thống" border="normal" apply="org.zkoss.bind.BindComposer"
+viewModel="@id('vm') @init('viewmodels.LoginViewModel')" width = "400px" height="200px" style ="margin-left:450px;margin-top:200px;">
+<vlayout >
+<hbox pack="center">
+				<label>Username</label>
+				<textbox id="username_textbox" width="200px" value = "@bind(vm.username)"
+					constraint="no empty">
+				</textbox>
+			</hbox>
+			<hbox pack="center">
+				<label>Password</label>
+				<textbox type="password" id="password_textbox" width="200px" value = "@bind(vm.password)"
+					constraint="no empty">
+				</textbox>
+			</hbox>
+			<button style="margin-left:100px;"
+				onClick="@command('SubmitLogin')">
+				Đăng nhập
+			</button>
+</vlayout>
+	
 </window>
 </zk>
