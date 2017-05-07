@@ -64,15 +64,18 @@
 								<button
 									onClick="@command('seePhieuTiepNhanDetail', phieutiepnhan_id = e.id)"
 									image="/images/ic_edit_black_18dp_1x.png">
+									Sửa
 								</button>
 								<button
-									if="${e.numberofServiceHeaders == 0}" visible="true">
+									if="${e.numberofServiceHeaders == 0}" visible="true"
+									onClick="@command('lapPhieuDichVu')">
 									Lập phiếu DV
 								</button>
 								<button
 									onClick="@command('deletePhieuTiepNhan', phieutiepnhan_id = e.id)"
 									if="${e.numberofServiceHeaders == 0}" visible="true"
 									image="/images/ic_delete_black_18dp_1x.png">
+									Xóa
 								</button>
 							</hbox>
 						</listcell>

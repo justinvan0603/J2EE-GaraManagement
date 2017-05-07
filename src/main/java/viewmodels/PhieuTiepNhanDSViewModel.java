@@ -64,6 +64,13 @@ public class PhieuTiepNhanDSViewModel {
 		Executions.sendRedirect("./PhieuTiepNhan_AddKhachQuen.zul");
 	}
 
+	@Command
+	public void lapPhieuDichVu(@BindingParam("phietiepnhan_id") Integer phieuTiepNhanId) {
+		// Send selected id into Session
+		Sessions.getCurrent().setAttribute(SELECTED_PHIEUTIEPNHAN_ID, phieuTiepNhanId);
+		Executions.sendRedirect("./PhieuDichVu_Add.zul");
+	}
+
 	/**
 	 * Handle when user filter data from search box
 	 * 
@@ -111,7 +118,8 @@ public class PhieuTiepNhanDSViewModel {
 				}
 				break;
 			case 4: // filter by staff name
-				this.listOfReceiveHeaders = this.phieuTiepNhanServiceImpl.filterByCreationStaffName(searchString.trim());
+				this.listOfReceiveHeaders = this.phieuTiepNhanServiceImpl
+						.filterByCreationStaffName(searchString.trim());
 				break;
 			default:
 				break;

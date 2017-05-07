@@ -16,42 +16,48 @@ import business.entities.BangThamSo;
 
 import business.service.BangThamSoServiceImpl;
 
-
 public class BangThamSoDSViewModel {
 	@WireVariable
 	private BangThamSoServiceImpl bangThamSoServiceImpl;
 	public static String SELECTED_THAMSO = "thamso_id";
 	private List<BangThamSo> listThamSo;
 	private BangThamSo selectedThamSo;
+
 	public BangThamSo getSelectedThamSo() {
 		return selectedThamSo;
 	}
+
 	public void setSelectedThamSo(BangThamSo selectedThamSo) {
 		this.selectedThamSo = selectedThamSo;
 	}
+
 	public List<BangThamSo> getListThamSo() {
 		return listThamSo;
 	}
+
 	public void setListThamSo(List<BangThamSo> listThamSo) {
 		this.listThamSo = listThamSo;
 	}
+
 	@Init
 	public void init() {
 		this.bangThamSoServiceImpl = (BangThamSoServiceImpl) SpringUtil.getBean("bangthamso_service");
 		this.listThamSo = this.bangThamSoServiceImpl.getAll(BangThamSo.class);
-		
-	}
-	private static final List<String> SEARCH_TYPES = new ArrayList<String>();
-	static {
-		
-		SEARCH_TYPES.add("Nội dung");
-		
 
 	}
+
+	private static final List<String> SEARCH_TYPES = new ArrayList<String>();
+	static {
+
+		SEARCH_TYPES.add("Nội dung");
+
+	}
+
 	// dung static nhe
-	public  List<String> getSearchTypes() {
+	public List<String> getSearchTypes() {
 		return SEARCH_TYPES;
 	}
+
 	public BangThamSoServiceImpl getBangThamSoServiceImpl() {
 		return bangThamSoServiceImpl;
 	}
@@ -59,12 +65,13 @@ public class BangThamSoDSViewModel {
 	public void setBangThamSoServiceImpl(BangThamSoServiceImpl bangThamSoServiceImpl) {
 		this.bangThamSoServiceImpl = bangThamSoServiceImpl;
 	}
-	@Command 
-	public void editThamSo(@BindingParam("id") String id)
-	{
+
+	@Command
+	public void editThamSo(@BindingParam("id") String id) {
 		Sessions.getCurrent().setAttribute(SELECTED_THAMSO, id);
 		Executions.sendRedirect("./BangThamSo_Edit.zul");
 	}
+
 	@Command
 	@NotifyChange("listNhanVien")
 	public void filterData(@BindingParam("search_string") String searchString,
@@ -72,7 +79,7 @@ public class BangThamSoDSViewModel {
 		// if search type is name
 		if (selectedIndex == 0) {
 			this.listThamSo = this.bangThamSoServiceImpl.findByName(searchString);
-			
+
 		}
 
 	}
