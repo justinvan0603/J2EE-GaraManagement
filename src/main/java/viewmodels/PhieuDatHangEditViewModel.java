@@ -24,6 +24,7 @@ import business.service.NhanVienServiceImpl;
 import business.service.NhomNhaCungCapServiceImpl;
 import business.service.PhieuDatHangServiceImpl;
 import business.service.PhuTungServiceImpl;
+import utils.SystemParam;
 
 public class PhieuDatHangEditViewModel {
 
@@ -94,6 +95,11 @@ public class PhieuDatHangEditViewModel {
 	@NotifyChange({ "setOfCT_Phieus", "tongTien" })
 	public void themChiTiet(@BindingParam("id_pt") long mapt, @BindingParam("sl") int sl,
 			@BindingParam("dongia") double dongia, @BindingParam("thanhtien") double thanhtien) {
+		int soluongdattoida = Integer.valueOf(SystemParam.getValueByKey("SoLuongDatToiDa"));
+		if (sl > soluongdattoida) {
+			Messagebox.show("Số lượng đặt phải bé hơn số lượng đặt tối đa: " + String.valueOf(soluongdattoida), "Lỗi", Messagebox.OK, Messagebox.ERROR);
+			return;
+		}
 		PhuTung pt = this.phuTungServiceImpl.findById(mapt, PhuTung.class);
 		CT_PhieuDatHang ct_Phieu = new CT_PhieuDatHang();
 		ct_Phieu.setIdPhieuDatHang(this.phieu.getId_PhieuDatHang());

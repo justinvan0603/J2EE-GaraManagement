@@ -12,9 +12,12 @@ import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.Messagebox;
 
+import business.entities.BangThamSo;
 import business.entities.PhieuTiepNhan;
+import business.service.BangThamSoServiceImpl;
 import business.service.PhieuTiepNhanServiceImpl;
 import utils.DateUtil;
+import utils.SystemParam;
 
 /**
  * View model for page receive_header_list
@@ -35,17 +38,28 @@ public class PhieuTiepNhanDSViewModel {
 
 	@WireVariable
 	private PhieuTiepNhanServiceImpl phieuTiepNhanServiceImpl;
+	private BangThamSoServiceImpl bangThamSoServiceImpl;
 	private List<PhieuTiepNhan> listOfReceiveHeaders;
 
 	@Init
 	public void init() {
 		// get service bean from Spring framework
 		this.phieuTiepNhanServiceImpl = (PhieuTiepNhanServiceImpl) SpringUtil.getBean("phieutiepnhan_service");
+		this.bangThamSoServiceImpl = (BangThamSoServiceImpl) SpringUtil.getBean("bangthamso_service");
+		
+		if (this.bangThamSoServiceImpl != null) {
+			SystemParam.listBTS = this.bangThamSoServiceImpl.getAll(BangThamSo.class);
+			System.out.println(SystemParam.listBTS.toString());
+		} else {
+			throw new NullPointerException("Receive Header Service is null");
+		}
+		
 		if (this.phieuTiepNhanServiceImpl != null) {
 			this.listOfReceiveHeaders = this.phieuTiepNhanServiceImpl.getAll(PhieuTiepNhan.class);
 		} else {
 			throw new NullPointerException("Receive Header Service is null");
 		}
+		
 	}
 
 	//

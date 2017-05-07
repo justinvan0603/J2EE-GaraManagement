@@ -19,6 +19,7 @@ import business.service.NhanVienServiceImpl;
 import business.service.PhieuBanLeServiceImpl;
 import business.service.PhieuDichVuServiceImpl;
 import business.service.PhieuThuServiceImpl;
+import utils.SystemParam;
 
 public class PhieuThuAddViewModel {
 
@@ -92,8 +93,13 @@ public class PhieuThuAddViewModel {
 	}
 	
 	public boolean checkValueIsValid(){
+		Double sotienthutoithieu = Double.valueOf(SystemParam.getValueByKey("SoTienThuToiThieu"));
+		
 		if (this.phieuThu.getSoTien() > this.getTienConLai()){
 			Messagebox.show("Số tiền thu phải bé hơn hoặc bằng số tiền còn lại", "Lỗi", Messagebox.OK, Messagebox.ERROR);
+			return false;
+		} else if (this.phieuThu.getSoTien() < sotienthutoithieu) {
+			Messagebox.show("Số tiền thu phải lớn hơn số tiền thu tối thiểu: " + sotienthutoithieu.toString(), "Lỗi", Messagebox.OK, Messagebox.ERROR);
 			return false;
 		} else if (this.phieuThu.getMaPhieuThu().isEmpty()){
 			Messagebox.show("Mã phiếu thu không được để trống", "Lỗi", Messagebox.OK, Messagebox.ERROR);
