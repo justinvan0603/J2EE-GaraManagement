@@ -246,7 +246,7 @@ public class PhieuBanLeEditViewModel {
 				//Customer target = this.customerServiceImpl.findById(this.selectedKhachHang.getMaKH(), Customer.class);
 				//target.setSoTienNo(target.getSoTienNo() + tongchitiet);
 				//this.customerServiceImpl.update(target.getMaKH(), target);
-				Messagebox.show("Lưu Thành công");
+				Messagebox.show("Cập nhật thành công");
 				Executions.sendRedirect("./PhieuBanLe_DS.zul");
 			}
 		}

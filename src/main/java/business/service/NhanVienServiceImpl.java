@@ -70,6 +70,7 @@ public class NhanVienServiceImpl implements GeneralService<NhanVien> {
 		criteria.add(Restrictions.like("HoTen", name,MatchMode.ANYWHERE));
 		return criteria.list();
 	}
+
 	@SuppressWarnings("unchecked")
 	public List<NhanVien> findByPhone(String phone) {
 		// get Session factory from DAO object to interact with persistence
