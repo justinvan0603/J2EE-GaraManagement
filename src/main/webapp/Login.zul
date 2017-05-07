@@ -1,17 +1,22 @@
 <?page title="Đăng nhập" contentType="text/html;charset=UTF-8"?>
 <zk>
-<window title="Đăng nhập vào hệ thống" border="normal" apply="org.zkoss.bind.BindComposer"
-viewModel="@id('vm') @init('viewmodels.LoginViewModel')" width = "400px" height="200px" style ="margin-left:450px;margin-top:200px;">
-<vlayout >
-<hbox pack="center">
+	<window title="Đăng nhập vào hệ thống quản lý GARA" border="normal"
+		apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('viewmodels.LoginViewModel')" width="400px"
+		height="200px" style="margin-left:450px;margin-top:200px;">
+		<vlayout style="margin : 32px;">
+			<hbox pack="center">
 				<label>Username</label>
-				<textbox id="username_textbox" width="200px" value = "@bind(vm.username)"
+				<textbox id="username_textbox" width="200px"
+					value="@bind(vm.username) @save(vm.username , before='SubmitLogin')"
 					constraint="no empty">
 				</textbox>
 			</hbox>
 			<hbox pack="center">
 				<label>Password</label>
-				<textbox type="password" id="password_textbox" width="200px" value = "@bind(vm.password)"
+				<textbox type="password" id="password_textbox"
+					width="200px"
+					value="@bind(vm.password)  @save(vm.password , before='SubmitLogin')"
 					constraint="no empty">
 				</textbox>
 			</hbox>
@@ -19,7 +24,7 @@ viewModel="@id('vm') @init('viewmodels.LoginViewModel')" width = "400px" height=
 				onClick="@command('SubmitLogin')">
 				Đăng nhập
 			</button>
-</vlayout>
-	
-</window>
+		</vlayout>
+
+	</window>
 </zk>

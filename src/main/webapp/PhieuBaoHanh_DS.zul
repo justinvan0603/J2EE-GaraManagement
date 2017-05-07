@@ -54,10 +54,12 @@
 								<button
 									onClick="@command('seePhieuBaoHanhDetail', selected_phieubaohanh_id = e.maPhieuBaoHanh)"
 									image="/images/ic_edit_black_18dp_1x.png">
+									Sửa
 								</button>
 								<button
 									onClick="@command('xoaPhieuBaoHanh', maphieubaohanh = e.maPhieuBaoHanh)"
 									image="/images/ic_delete_black_18dp_1x.png">
+									Xóa
 								</button>
 							</hbox>
 						</listcell>

@@ -193,7 +193,7 @@
 	</mime-mapping>
 	<!-- configure home page -->
 	<welcome-file-list>
-	<welcome-file>Login.zul</welcome-file>
+		<welcome-file>Login.zul</welcome-file>
 		<welcome-file>PhieuTiepNhan_DS.zul</welcome-file>
 		<welcome-file>index.zhtml</welcome-file>
 		<welcome-file>index.html</welcome-file>
