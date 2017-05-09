@@ -1,5 +1,8 @@
 package business.entities;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -95,5 +98,9 @@ public class Customer {
 		return "Customer [MaKH=" + MaKH + ", HoTen=" + HoTen + ", Cmnd=" + Cmnd + ", Sdt=" + Sdt + ", Diachi=" + Diachi
 				+ ", SoTienNo=" + SoTienNo + ", GioiTinh=" + GioiTinh + "]";
 	}
-
+	public String getSoTienNoFormated()
+	{
+		NumberFormat formatter = new DecimalFormat("##,###,###");  
+		return formatter.format(this.SoTienNo);
+	}
 }

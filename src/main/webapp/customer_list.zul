@@ -35,10 +35,11 @@
 
 				<listhead>
 					<listheader visible="false" label="Id" width="80px" />
-					<listheader label="Họ tên" width="300px"/>
+					<listheader label="Họ tên" width="200px"/>
 					<listheader label="Số điện thoại" width="200px" />
 					<listheader label="CMND" width="200px"/>
 					<listheader label="Giới tính" width="150px" />
+					<listheader label="Số tiền nợ" width="150px" />
 					<listheader label="Tác vụ" width="200px" />
 				</listhead>
 				<template name="model" var="e">
@@ -53,7 +54,7 @@
 						<zk if="${e.gioiTinh == false}">
 							<listcell label="Nữ"></listcell>
 						</zk>
-
+						<listcell label="@load(e.soTienNoFormated)"></listcell>
 						<listcell>
 							<button
 								onClick="@command('deleteCustomer',id = e.maKH)">
