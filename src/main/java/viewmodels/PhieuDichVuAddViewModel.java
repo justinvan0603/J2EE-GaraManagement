@@ -17,22 +17,42 @@ import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.Messagebox;
 
 import business.entities.CT_PhieuDichVu;
+import business.entities.HieuXe;
 import business.entities.PhieuDichVu;
+import business.entities.PhieuTiepNhan;
 import business.entities.PhuTung;
 import business.entities.Tho;
+import business.entities.Xe;
 import business.service.ChiTietPhieuDichVuServiceImpl;
+import business.service.HieuXeServiceImpl;
 import business.service.PhieuDichVuServiceImpl;
 import business.service.PhieuThuServiceImpl;
+import business.service.PhieuTiepNhanServiceImpl;
 import business.service.PhuTungServiceImpl;
 import business.service.ThoServiceImpl;
+import business.service.XeServiceImpl;
 
 public class PhieuDichVuAddViewModel {
 	@WireVariable
 	private PhieuDichVuServiceImpl phieuDichVuServiceImpl;
 	@WireVariable
 	private PhieuThuServiceImpl phieuThuServiceIpml;
+	@WireVariable
+	private PhieuTiepNhanServiceImpl phieuTiepNhanServiceImpl;
+	@WireVariable
+	private HieuXeServiceImpl hieuXeServiceImpl;
+	@WireVariable
+	private XeServiceImpl xeServiceImpl;
 	private List<PhuTung> listPhuTung;
 	private PhuTung selectedPhuTung;
+	public HieuXeServiceImpl getHieuXeServiceImpl() {
+		return hieuXeServiceImpl;
+	}
+
+	public void setHieuXeServiceImpl(HieuXeServiceImpl hieuXeServiceImpl) {
+		this.hieuXeServiceImpl = hieuXeServiceImpl;
+	}
+
 	private PhieuDichVu phieuDichVu;
 	private double DonGia;
 	private double thanhTien;
@@ -41,10 +61,34 @@ public class PhieuDichVuAddViewModel {
 	private ThoServiceImpl thoServiceImpl;
 	private List<Tho> listTho;
 	private Tho selectedTho;
+	public PhieuThuServiceImpl getPhieuThuServiceIpml() {
+		return phieuThuServiceIpml;
+	}
+
+	public void setPhieuThuServiceIpml(PhieuThuServiceImpl phieuThuServiceIpml) {
+		this.phieuThuServiceIpml = phieuThuServiceIpml;
+	}
+
+	public PhieuTiepNhanServiceImpl getPhieuTiepNhanServiceImpl() {
+		return phieuTiepNhanServiceImpl;
+	}
+
+	public void setPhieuTiepNhanServiceImpl(PhieuTiepNhanServiceImpl phieuTiepNhanServiceImpl) {
+		this.phieuTiepNhanServiceImpl = phieuTiepNhanServiceImpl;
+	}
+
 	private Set<CT_PhieuDichVu> setofChiTietPhieuDV;
 
 	public double getDonGia() {
 		return DonGia;
+	}
+
+	public XeServiceImpl getXeServiceImpl() {
+		return xeServiceImpl;
+	}
+
+	public void setXeServiceImpl(XeServiceImpl xeServiceImpl) {
+		this.xeServiceImpl = xeServiceImpl;
 	}
 
 	public void setDonGia(double donGia) {
@@ -148,7 +192,12 @@ public class PhieuDichVuAddViewModel {
 
 	@Init
 	public void init() {
+		Integer idPhieuTiepNhan = (Integer) Sessions.getCurrent()
+				.getAttribute(PhieuTiepNhanDSViewModel.SELECTED_PHIEUTIEPNHAN_ID);
+		this.hieuXeServiceImpl = (HieuXeServiceImpl) SpringUtil.getBean("hieuxe_service");
+		this.xeServiceImpl = (XeServiceImpl) SpringUtil.getBean("xe_service");
 		// this.currentPhieuDichVu = new PhieuDichVu();
+		this.phieuTiepNhanServiceImpl = (PhieuTiepNhanServiceImpl) SpringUtil.getBean("phieutiepnhan_service");
 		this.phieuThuServiceIpml = (PhieuThuServiceImpl) SpringUtil.getBean("phieuthu_service");
 		this.phieuDichVuServiceImpl = (PhieuDichVuServiceImpl) SpringUtil.getBean("phieudichvu_service");
 		this.chiTietPhieuDichVuServiceImpl = (ChiTietPhieuDichVuServiceImpl) SpringUtil
@@ -156,7 +205,10 @@ public class PhieuDichVuAddViewModel {
 		this.setofChiTietPhieuDV = new HashSet<CT_PhieuDichVu>();
 		this.thoServiceImpl = (ThoServiceImpl) SpringUtil.getBean("tho_service");
 		this.phuTungServiceImpl = (PhuTungServiceImpl) SpringUtil.getBean("phutung_service");
-
+		
+		PhieuTiepNhan ptn = this.phieuTiepNhanServiceImpl.findById(idPhieuTiepNhan, PhieuTiepNhan.class);
+		Xe xe = this.xeServiceImpl.findByLicensePlate(ptn.getLicensePlate());
+		//HieuXe hieuxe = this.hieuXeServiceImpl.findById(xe.getHieuXe(), HieuXe.class);
 		//
 		this.listPhuTung = this.phuTungServiceImpl.find(null, null, "Ford");
 		this.listTho = this.thoServiceImpl.getAll(Tho.class);
@@ -165,8 +217,7 @@ public class PhieuDichVuAddViewModel {
 		// Begin
 		// get id-phieutiepanh from Session, if this value is valid
 		// set for this.phieuDichVu
-		Integer idPhieuTiepNhan = (Integer) Sessions.getCurrent()
-				.getAttribute(PhieuTiepNhanDSViewModel.SELECTED_PHIEUTIEPNHAN_ID);
+		
 		if (idPhieuTiepNhan != null) {
 			this.phieuDichVu.setMaPhieuTiepNhan(idPhieuTiepNhan);
 		}

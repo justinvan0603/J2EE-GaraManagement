@@ -66,7 +66,7 @@ public class NhanVienAddViewModel {
 		if (!name.isEmpty() && !address.isEmpty() && !phoneNumber.isEmpty() && !gender.isEmpty()
 			&&	!username.isEmpty() && !password.isEmpty()) {
 			NhanVien nhanvien = new NhanVien();
-			
+			//Messagebox.show(username);
 			nhanvien.setMaNhomNguoiDung(permission.getMaNhomNguoiDung());
 			nhanvien.setUsername(username);
 			nhanvien.setPassword(Md5Encryptor.MD5Hash(password));

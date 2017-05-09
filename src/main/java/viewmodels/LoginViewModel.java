@@ -12,6 +12,7 @@ import org.zkoss.zul.Messagebox;
 
 import business.entities.NhanVien;
 import business.service.NhanVienServiceImpl;
+import utils.Md5Encryptor;
 
 public class LoginViewModel {
 	@WireVariable
@@ -56,20 +57,20 @@ public class LoginViewModel {
 	@Command
 	public void SubmitLogin() {
 		List<NhanVien> result = this.nhanVienServiceImpl.findByUsername(this.username);
-		Messagebox.show(this.username);
+		//Messagebox.show(this.username);
 		if (result.isEmpty()) {
 			Messagebox.show("Tài khoản không tồn tại!");
 		} else {
-			// if(Md5Encryptor.MD5Hash(this.password).equals(result.get(0).getPassword()))
-			// {
+			 if(Md5Encryptor.MD5Hash(this.password).equals(result.get(0).getPassword()))
+			 {
 			Sessions.getCurrent().setAttribute(LOGIN_USERNAME, result.get(0).getUsername());
 			Sessions.getCurrent().setAttribute(LOGIN_USERID, result.get(0).getMaNV());
 			Executions.sendRedirect("./PhieuTiepNhan_DS.zul");
-			// }
-			// else
-			// {
-			// Messagebox.show("Sai mật khẩu! Vui lòng nhập lại!");
-			// }
+			 }
+			 else
+			 {
+				 	Messagebox.show("Sai mật khẩu! Vui lòng nhập lại!");
+			 }
 		}
 	}
 
