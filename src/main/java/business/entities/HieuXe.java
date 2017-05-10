@@ -25,4 +25,9 @@ public class HieuXe {
 		MaHieuXe = maHieuXe;
 	}
 
+	@Override
+	public String toString() {
+		return "HieuXe [MaHieuXe=" + MaHieuXe + "]";
+	}
+
 }
