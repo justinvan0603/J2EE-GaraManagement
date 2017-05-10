@@ -288,6 +288,11 @@ public class PhieuDichVuAddViewModel {
 	@Command
 	@NotifyChange("setofChiTietPhieuDV")
 	public void themChiTiet(@BindingParam("soluong") int soLuong) {
+		if(soLuong <= 0)
+		{
+			Messagebox.show("Số lượng không hợp lệ!", "Lỗi", Messagebox.OK, Messagebox.ERROR);
+			return;
+		}
 		if (soLuong <= this.selectedPhuTung.getSoLuongTon()) {
 			CT_PhieuDichVu ctPhieu = new CT_PhieuDichVu();
 			this.selectedPhuTung.setSoLuongTon(this.selectedPhuTung.getSoLuongTon() - soLuong);

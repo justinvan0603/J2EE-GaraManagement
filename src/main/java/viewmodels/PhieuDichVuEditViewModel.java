@@ -10,7 +10,7 @@ import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
-
+import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.Messagebox;
@@ -91,8 +91,8 @@ public class PhieuDichVuEditViewModel {
 	}
 	@Init
 	public void init() {
-		//Long id = (Long) Sessions.getCurrent().getAttribute(PhieuDichVuDSViewModel.PDV_ID);
-		long id = 1;
+		Long id = (Long) Sessions.getCurrent().getAttribute(PhieuDichVuDSViewModel.PDV_ID);
+		//long id = 1;
 		//this.currentPhieuDichVu = new PhieuDichVu();
 		this.phieuDichVuServiceImpl = (PhieuDichVuServiceImpl) SpringUtil.getBean("phieudichvu_service");
 		this.chiTietPhieuDichVuServiceImpl = (ChiTietPhieuDichVuServiceImpl) SpringUtil.getBean("chitietphieudichvu_service");
@@ -163,6 +163,8 @@ public class PhieuDichVuEditViewModel {
 			Messagebox.show("Số lượng không hợp lệ!", "Lỗi", Messagebox.OK, Messagebox.ERROR);
 			return;
 		}
+		if (soLuong <= this.selectedPhuTung.getSoLuongTon()) {
+			
 		ctPhieu.setThanhTien(soLuong * this.selectedPhuTung.getDonGiaXuat());
 		ctPhieu.setDonGia(this.selectedPhuTung.getDonGiaXuat());
 		ctPhieu.setSoLuong(soLuong);
@@ -173,13 +175,20 @@ public class PhieuDichVuEditViewModel {
 		ctPhieu.setIdPhieuDichVu(this.phieuDichVu.getIdPhieuDichVu());
 		this.phieuDichVu.setTongTien(this.phieuDichVu.getTongTien() - ctPhieu.getThanhTien());
 		this.phieuDichVu.setSoTienConLai(this.phieuDichVu.getSoTienConLai() - ctPhieu.getThanhTien());
-		this.setofChiTietPhieuDV.add(ctPhieu);
+		this.setofChiTietPhieuDV.clear();
+		
 		this.setofChiTietPhieuDV = new HashSet<CT_PhieuDichVu>( this.chiTietPhieuDichVuServiceImpl.getByPhieuDichVuId(1));
+		}
+		else {
+			Messagebox.show("Số lượng nhập vượt quá số lượng tồn", "Lỗi", Messagebox.OK, Messagebox.ERROR);
+		}
 	}
 	@Command
-	public void SavePhieuDichVu(@BindingParam("mapdv") String mapdv)
+	public void SavePhieuDichVu(@BindingParam("mapdv") String mapdv,@BindingParam("tiencong") double tiencong)
 	{
-		
+		double chenhlech =   tiencong-this.phieuDichVu.getTienCong();
+		this.phieuDichVu.setTienCong(this.phieuDichVu.getTienCong() + chenhlech);
+		this.phieuDichVu.setTongTien(this.phieuDichVu.getTongTien() + chenhlech);
 		this.phieuDichVu.setMaPhieuDichVu(mapdv);
 		if(this.phieuDichVuServiceImpl.update(this.phieuDichVu.getIdPhieuDichVu(), this.phieuDichVu))
 		{

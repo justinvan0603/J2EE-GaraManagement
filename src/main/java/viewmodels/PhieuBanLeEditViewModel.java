@@ -7,11 +7,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.Messagebox;
@@ -138,7 +140,7 @@ public class PhieuBanLeEditViewModel {
 	private CustomerServiceImpl customerServiceImpl;
 	@Init
 	public void init() {
-		long id = 3;
+		long id = (Long)Sessions.getCurrent().getAttribute(PhieuBanLeDSViewModel.PBL_ID);
 		this.chiTietPhieuBanLeServiceImpl =(ChiTietPhieuBanLeServiceImpl) SpringUtil.getBean("chitietphieubanle_service");
 		this.phieuBanLeServiceImpl = (PhieuBanLeServiceImpl) SpringUtil.getBean("phieubanle_service");
 		this.phuTungServiceImpl = (PhuTungServiceImpl) SpringUtil.getBean("phutung_service");
@@ -193,6 +195,42 @@ public class PhieuBanLeEditViewModel {
 		this.setOfChiTietPhieuBL.remove(ctPhieu);
 	}
 	@Command
+	@NotifyChange("thanhTien")
+	public void ontxtSoLuongChanging(@BindingParam("soluong") Integer soluong)
+	{
+		//this.ThanhTien = 0;
+		this.setThanhTien((double)(soluong.intValue() * this.selectedPhuTung.getDonGiaXuat()));
+	}
+	@Command
+	@NotifyChange( {"thanhTien","selectedPhuTung" })
+	public void onComboboxPhuTungChange(@BindingParam("soluong") Integer soluong,@BindingParam("selectedPT")PhuTung item) {
+		//Messagebox.show(this.selectedPhuTung.getDonGiaXuat().toString(), "asd", Button.ABORT, null);
+		//if(soluong.toString() != null && !soluong.toString().isEmpty())
+		this.selectedPhuTung = item;
+		this.thanhTien = 0;
+		this.thanhTien = (double)(this.selectedPhuTung.getDonGiaXuat() * soluong.intValue());
+	     
+//		this.listOfPhuTungs = this.phuTungServiceImpl.find(null, null, maHieuXe);
+//		this.selectedPhutung = this.listOfPhuTungs.get(0);
+		
+	}
+	@Command
+	@NotifyChange( {"selectedHieuXe","listPhuTung" })
+	public void onComboboxHieuXeChange(@BindingParam("selectedHX")HieuXe item) {
+		
+		this.setSelectedHieuXe(item);
+		if(this.listPhuTung != null)
+			this.listPhuTung.clear();
+		this.setListPhuTung(this.phuTungServiceImpl.find(null,null,this.selectedHieuXe.getMaHieuXe()));
+		if(this.listPhuTung.size() >=1)
+			this.selectedPhuTung = this.listPhuTung.get(0);
+
+	     
+//		this.listOfPhuTungs = this.phuTungServiceImpl.find(null, null, maHieuXe);
+//		this.selectedPhutung = this.listOfPhuTungs.get(0);
+		
+	}
+	@Command
 	@NotifyChange("setOfChiTietPhieuBL")
 	public void themChiTiet(@BindingParam("soluong") int soLuong) {
 		if(soLuong <= this.selectedPhuTung.getSoLuongTon())
@@ -212,6 +250,8 @@ public class PhieuBanLeEditViewModel {
 			this.phieuBanLe.setTongTien(this.phieuBanLe.getTongTien() + ctPhieu.getThanhTien());
 			this.phieuBanLe.setSoTienConLai(this.phieuBanLe.getSoTienConLai() + ctPhieu.getThanhTien());
 			this.chiTietPhieuBanLeServiceImpl.save(ctPhieu);
+			this.setOfChiTietPhieuBL.clear();
+			this.setOfChiTietPhieuBL = new HashSet<CT_PhieuBanLe>(this.chiTietPhieuBanLeServiceImpl.getByIdPhieuBanLe(this.phieuBanLe.getIdPhieuBanLe(), CT_PhieuBanLe.class));
 		}
 		else
 		{

@@ -9,7 +9,7 @@
 			<groupbox>
 		
 				<hlayout style="text-align : left; padding : 4px;">
-					vbox width="180px">
+					<vbox width="180px">
 						<label>Mã số phiếu:</label>
 						<textbox id="txtMaSoPhieu" value = "@load(vm.phieuDichVu.maPhieuDichVu)"
 							>
@@ -26,6 +26,12 @@
 					<vbox>
 					<label>Thợ:</label>
 					<label value="@load(vm.phieuDichVu.tho.name)"></label>
+					</vbox>
+					<vbox width="180px">
+						<label>Tiền công:</label>
+						<textbox id="txtTienCong" value = "@load(vm.phieuDichVu.tienCong)"
+							>
+						</textbox>
 					</vbox>
 				</hlayout>
 			</groupbox>
@@ -91,7 +97,7 @@
 					</listitem>
 				</template>
 			</listbox>
-			<button onClick="@command('SavePhieuDichVu',mapdv = txtMaSoPhieu.value)">Lưu</button>
+			<button onClick="@command('SavePhieuDichVu',mapdv = txtMaSoPhieu.value,tiencong = txtTienCong.value)">Lưu</button>
 		</vlayout>
 	</window>
 </zk>
