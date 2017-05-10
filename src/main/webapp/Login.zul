@@ -1,30 +1,40 @@
 <?page title="Đăng nhập" contentType="text/html;charset=UTF-8"?>
 <zk>
-	<window title="Đăng nhập vào hệ thống quản lý GARA" border="normal"
+	<window title="Đăng nhập vào hệ thống quản lý Gara Ô-tô NTS" border="normal"
 		apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('viewmodels.LoginViewModel')" width="400px"
-		height="200px" style="margin-left:450px;margin-top:200px;">
-		<vlayout style="margin : 32px;">
-			<hbox pack="center">
-				<label>Username</label>
-				<textbox id="username_textbox" width="200px"
+		height="160px" style="margin-left:450px;margin-top:200px; text-align:center; font-size:30px;">
+		<grid>
+			<columns>
+				<column  width="120px"></column>
+				<column  width="220px"></column>
+			</columns>
+			<rows>
+				<row>
+				<cell><label>Tên đăng nhập:</label></cell>
+				<cell><textbox id="username_textbox" width="200px"
 					value="@bind(vm.username) @save(vm.username , before='SubmitLogin')"
 					constraint="no empty">
-				</textbox>
-			</hbox>
-			<hbox pack="center">
-				<label>Password</label>
-				<textbox type="password" id="password_textbox"
+				</textbox></cell>
+				</row>
+				<row>
+				<cell><label>Mật khẩu:</label></cell>
+				<cell><textbox type="password" id="password_textbox"
 					width="200px"
 					value="@bind(vm.password)  @save(vm.password , before='SubmitLogin')"
 					constraint="no empty">
-				</textbox>
-			</hbox>
-			<button style="margin-left:100px;"
+				</textbox></cell>
+				</row>
+				<row>
+				<cell></cell>
+				<cell><button style="margin-left:100px;"
 				onClick="@command('SubmitLogin')">
 				Đăng nhập
-			</button>
-		</vlayout>
+			</button></cell>
+				</row>
+			</rows>
+		</grid>
+		
 
 	</window>
 </zk>

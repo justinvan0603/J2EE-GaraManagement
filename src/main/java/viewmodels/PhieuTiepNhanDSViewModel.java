@@ -82,6 +82,7 @@ public class PhieuTiepNhanDSViewModel {
 	public void lapPhieuDichVu(@BindingParam("phietiepnhan_id") Integer phieuTiepNhanId) {
 		// Send selected id into Session
 		Sessions.getCurrent().setAttribute(SELECTED_PHIEUTIEPNHAN_ID, phieuTiepNhanId);
+		//Messagebox.show(Sessions.getCurrent().getAttribute(SELECTED_PHIEUTIEPNHAN_ID).toString());
 		Executions.sendRedirect("./PhieuDichVu_Add.zul");
 	}
 

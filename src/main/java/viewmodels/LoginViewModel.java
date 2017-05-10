@@ -65,6 +65,8 @@ public class LoginViewModel {
 			 {
 			Sessions.getCurrent().setAttribute(LOGIN_USERNAME, result.get(0).getUsername());
 			Sessions.getCurrent().setAttribute(LOGIN_USERID, result.get(0).getMaNV());
+			//Messagebox.show(Sessions.getCurrent().getAttribute(LOGIN_USERNAME).toString());
+			//Messagebox.show(Sessions.getCurrent().getAttribute(LOGIN_USERID).toString());
 			Executions.sendRedirect("./PhieuTiepNhan_DS.zul");
 			 }
 			 else

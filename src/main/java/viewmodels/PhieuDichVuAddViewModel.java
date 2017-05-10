@@ -207,13 +207,15 @@ public class PhieuDichVuAddViewModel {
 		this.phuTungServiceImpl = (PhuTungServiceImpl) SpringUtil.getBean("phutung_service");
 		
 		PhieuTiepNhan ptn = this.phieuTiepNhanServiceImpl.findById(idPhieuTiepNhan, PhieuTiepNhan.class);
+		
 		Xe xe = this.xeServiceImpl.findByLicensePlate(ptn.getLicensePlate());
-		//HieuXe hieuxe = this.hieuXeServiceImpl.findById(xe.getHieuXe(), HieuXe.class);
+		HieuXe hieuxe = this.hieuXeServiceImpl.findByIdString(xe.getHieuXeReference());
+		
 		//
-		this.listPhuTung = this.phuTungServiceImpl.find(null, null, "Ford");
+		this.listPhuTung = this.phuTungServiceImpl.find(null, null, hieuxe.getMaHieuXe());
 		this.listTho = this.thoServiceImpl.getAll(Tho.class);
 		this.phieuDichVu = new PhieuDichVu();
-
+		
 		// Begin
 		// get id-phieutiepanh from Session, if this value is valid
 		// set for this.phieuDichVu

@@ -68,7 +68,7 @@
 								</button>
 								<button
 									if="${e.numberofServiceHeaders == 0}" visible="true"
-									onClick="@command('lapPhieuDichVu')">
+									onClick="@command('lapPhieuDichVu',phietiepnhan_id = e.id)">
 									Lập phiếu DV
 								</button>
 								<button
