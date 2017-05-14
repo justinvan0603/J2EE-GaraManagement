@@ -14,8 +14,6 @@ import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.Messagebox;
 
 import business.entities.Xe;
-import business.persistence.HieuXeDaoImpl;
-import business.service.HieuXeServiceImpl;
 import business.service.XeServiceImpl;
 import utils.DateUtil;
 

@@ -71,7 +71,7 @@ public class LoginViewModel {
 			 }
 			 else
 			 {
-				 	Messagebox.show("Sai mật khẩu! Vui lòng nhập lại!");
+				 	Messagebox.show("Sai mật khẩu, vui lòng nhập lại!");
 			 }
 		}
 	}

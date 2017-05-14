@@ -87,7 +87,7 @@ public class ThoDSViewModel {
 		 if (this.thoService.delete(id, Tho.class)) {
  			this.listOfTho = this.thoService.getAll(Tho.class);
  		} else {
- 			Messagebox.show("Lỗi khi xoá");
+ 			Messagebox.show("Không thể xoá thợ đã có làm việc với cửa hàng", "Lỗi", Messagebox.OK, Messagebox.ERROR);
  		}
 	}
 	

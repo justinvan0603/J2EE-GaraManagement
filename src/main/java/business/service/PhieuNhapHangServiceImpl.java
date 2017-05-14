@@ -120,4 +120,28 @@ public class PhieuNhapHangServiceImpl implements GeneralService<PhieuNhapHang> {
 		}
 		return result;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<PhieuNhapHang> findByIdNCC(long id) {
+		Session session = null;
+		Transaction transaction = null;
+		List<PhieuNhapHang> result = null;
+		try {
+			session = this.phieuNhapHangDaoImpl.getSessionFactory().openSession();
+			transaction = session.beginTransaction();
+			Criteria criteria = session.createCriteria(PhieuNhapHang.class);
+			criteria.add(Restrictions.eq("MaNhaCungCap", id));
+			result = criteria.list();
+			transaction.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			result = null;
+		}
+		finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
+		return result;
+	}
 }

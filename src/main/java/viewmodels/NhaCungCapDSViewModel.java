@@ -14,6 +14,8 @@ import org.zkoss.zul.Messagebox;
 
 import business.entities.NhaCungCap;
 import business.service.NhaCungCapServiceImpl;
+import business.service.PhieuDatHangServiceImpl;
+import business.service.PhieuNhapHangServiceImpl;
 
 public class NhaCungCapDSViewModel {
 
@@ -22,25 +24,29 @@ public class NhaCungCapDSViewModel {
 	// array of search types string for this page
 	private static final String[] SEARCH_TYPES = new String[] {
 
-				"Tất cả", "Tên", "Số điện thoại", "Địa chỉ", "Tên nhóm" };
-	
+			"Tất cả", "Tên", "Số điện thoại", "Địa chỉ", "Tên nhóm" };
+
 	@WireVariable
 	private NhaCungCapServiceImpl nccService;
+	private PhieuDatHangServiceImpl pdhService;
+	private PhieuNhapHangServiceImpl pnhService;
 	private List<NhaCungCap> listOfNCC;
 	private NhaCungCap selectedNCC;
-	
+
 	@Init
 	public void init() {
 		// get bean from Spring, no need to create new object, Spring framework
 		// will manage this bean
 		this.nccService = (NhaCungCapServiceImpl) SpringUtil.getBean("nhacungcap_service");
+		this.pdhService = (PhieuDatHangServiceImpl) SpringUtil.getBean("phieudathang_service");
+		this.pnhService = (PhieuNhapHangServiceImpl) SpringUtil.getBean("phieunhaphang_service");
 		if (this.nccService != null) {
 			this.listOfNCC = this.nccService.getAll(NhaCungCap.class);
 		} else {
 			throw new NullPointerException("GeneralService is NULL");
 		}
 	}
-	
+
 	@Command
 	@NotifyChange("listOfNCC")
 	public void filterData(@BindingParam("search_string") String searchString,
@@ -52,19 +58,19 @@ public class NhaCungCapDSViewModel {
 		case 1: // search by id of receive header
 			if (!searchString.isEmpty()) {
 				this.listOfNCC.clear(); // clear all items
-				this.listOfNCC = this.nccService.find(searchString, null, null,null);
+				this.listOfNCC = this.nccService.find(searchString, null, null, null);
 			}
 			break;
 		case 2: //
 			if (!searchString.isEmpty()) {
 				this.listOfNCC.clear(); // clear all items
-				this.listOfNCC = this.nccService.find(null, searchString, null,null);
+				this.listOfNCC = this.nccService.find(null, searchString, null, null);
 			}
 			break;
 		case 3: //
 			if (!searchString.isEmpty()) {
 				this.listOfNCC.clear(); // clear all items
-				this.listOfNCC = this.nccService.find(null, null, searchString,null);
+				this.listOfNCC = this.nccService.find(null, null, searchString, null);
 			}
 			break;
 		case 4: //
@@ -77,7 +83,7 @@ public class NhaCungCapDSViewModel {
 			break;
 		}
 	}
-	
+
 	@Command
 	public void editNCC(@BindingParam("ncc_id") long id) {
 		// save session the selected id
@@ -88,14 +94,18 @@ public class NhaCungCapDSViewModel {
 	@Command
 	@NotifyChange("listOfNCC")
 	public void deleteNCC(@BindingParam("ncc_id") long id) {
-
-		 if (this.nccService.delete(id, NhaCungCap.class)) {
- 			this.listOfNCC = this.nccService.getAll(NhaCungCap.class);
- 		} else {
- 			Messagebox.show("Lỗi khi xoá");
- 		}
+		if (this.pdhService.findByIdNCC(id).size() == 0 && this.pnhService.findByIdNCC(id).size() == 0 ){
+			if (this.nccService.delete(id, NhaCungCap.class)) {
+				this.listOfNCC = this.nccService.getAll(NhaCungCap.class);
+			} else {
+				Messagebox.show("Lỗi khi xoá");
+			}
+		} else {
+			Messagebox.show("Không thể xoá nhà cung cấp đã có giao dịch với cửa hàng", "Lỗi", Messagebox.OK, Messagebox.ERROR);
+		}
+		
 	}
-	
+
 	@Command
 	public void addNewNCCRedirect() {
 		Executions.sendRedirect("./NhaCungCap_Add.zul");

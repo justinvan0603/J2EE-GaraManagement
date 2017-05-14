@@ -120,4 +120,28 @@ public class PhieuDatHangServiceImpl implements GeneralService<PhieuDatHang>{
 		}
 		return result;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<PhieuDatHang> findByIdNCC(long id) {
+		Session session = null;
+		Transaction transaction = null;
+		List<PhieuDatHang> result = null;
+		try {
+			session = this.phieuDatHangDaoImpl.getSessionFactory().openSession();
+			transaction = session.beginTransaction();
+			Criteria criteria = session.createCriteria(PhieuDatHang.class);
+			criteria.add(Restrictions.eq("MaNCC", id));
+			result = criteria.list();
+			transaction.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			result = null;
+		}
+		finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
+		return result;
+	}
 }
