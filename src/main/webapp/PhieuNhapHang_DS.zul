@@ -2,8 +2,8 @@
 <zk>
 	<!-- import mutual menu bar -->
 	<include src="menu_bar.zul"></include>
-	<window title="Danh sách phiếu nhập hàng" border="normal"
-		height="100%" apply="org.zkoss.bind.BindComposer"
+	<window title="Danh sách phiếu nhập hàng" border="normal" height="94%"
+		apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('viewmodels.PhieuNhapHangDSViewModel')">
 		<vlayout width="100%">
 			<hlayout style="text-align : left; padding : 4px;">

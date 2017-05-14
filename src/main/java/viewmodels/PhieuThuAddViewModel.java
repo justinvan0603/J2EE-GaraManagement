@@ -43,11 +43,9 @@ public class PhieuThuAddViewModel {
 		
 		this.loaiPhieuCanThu = (String) Sessions.getCurrent().getAttribute(PhieuThuDSViewModel.PDH_TYPE);
 		this.maPhieuCanThu = ((Long) Sessions.getCurrent().getAttribute(PhieuThuDSViewModel.PDH_ID)).longValue();
-		//this.maNV = ((Long) Sessions.getCurrent().getAttribute("ma_nv")).longValue();
-		this.maNV = 1;
+		this.maNV = ((Long) Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID)).longValue();
 		String noiDungThu = "Thu tiền phiếu ";
 		this.phieuThu = new PhieuThu();
-		maPhieuCanThu = 1;
 		
 		if (loaiPhieuCanThu.equals("pbl")){
 			this.phieuThu.setIdPhieuBanLe(maPhieuCanThu);

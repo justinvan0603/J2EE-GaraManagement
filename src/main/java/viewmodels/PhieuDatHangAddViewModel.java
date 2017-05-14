@@ -12,6 +12,7 @@ import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.Messagebox;
 
@@ -55,7 +56,7 @@ public class PhieuDatHangAddViewModel {
 	private NhaCungCap selectedNCC;
 	private Double thanhTien;
 	private Double tongTien;
-	private long maNV = 1;
+	private long maNV;
 
 	@Init
 	public void init() {
@@ -66,6 +67,7 @@ public class PhieuDatHangAddViewModel {
 		this.phuTungServiceImpl = (PhuTungServiceImpl) SpringUtil.getBean("phutung_service");
 		this.nhomNhaCungCapServiceImpl = (NhomNhaCungCapServiceImpl) SpringUtil.getBean("nhomncc_service");
 		this.nhaCungCapServiceImpl = (NhaCungCapServiceImpl) SpringUtil.getBean("nhacungcap_service");
+		this.maNV = ((Long) Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID)).longValue();
 		// make sure services are valid
 		if (this.phieuServiceImpl != null && this.ctPhieuServiceImpl != null && this.nhanVienServiceImpl != null) {
 			this.phieu = new PhieuDatHang();

@@ -2,7 +2,7 @@
 <zk>
 	<!-- import mutual menu bar -->
 	<include src="menu_bar.zul"></include>
-	<window title="Danh sách phiếu thu" border="normal" height="100%"
+	<window title="Danh sách phiếu thu" border="normal" height="94%"
 		apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('viewmodels.PhieuThuDSViewModel')">
 		<vlayout width="100%">

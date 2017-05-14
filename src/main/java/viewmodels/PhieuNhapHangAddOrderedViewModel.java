@@ -65,7 +65,7 @@ public class PhieuNhapHangAddOrderedViewModel {
 	private NhomNhaCungCap selectedNhomNCC;
 	private Double thanhTien;
 	private Double tongTien;
-	private long maNV = 1;
+	private long maNV;
 
 	@Init
 	public void init() {
@@ -82,6 +82,7 @@ public class PhieuNhapHangAddOrderedViewModel {
 		try {
 			long idPhieuDat = ((Long) Sessions.getCurrent().getAttribute(PhieuDatHangDSViewModel.SELECTED_PDH_ID))
 					.longValue();
+			this.maNV = ((Long) Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID)).longValue();
 			this.setPhieuDatHang(this.phieuDatHangServiceImpl.findById(idPhieuDat, PhieuDatHang.class));
 			this.phieu = new PhieuNhapHang();
 			this.phieu.setIdPhieuDatHang(this.phieuDatHang.getId_PhieuDatHang());

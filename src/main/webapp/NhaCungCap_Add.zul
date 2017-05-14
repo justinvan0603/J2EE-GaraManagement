@@ -1,7 +1,7 @@
 <?page title="Nhà cung cấp mới" contentType="text/html;charset=UTF-8"?>
 <zk>
 	<include src="menu_bar.zul"></include>
-	<window title="Thông tin nhà cung cấp mới" border="normal"
+	<window title="Thông tin nhà cung cấp mới" border="normal" height="94%"
 		apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('viewmodels.NhaCungCapAddViewModel')">
 		<hbox align="start" style="padding : 16px;">

@@ -4,7 +4,7 @@
 	<!-- import mutual menu bar -->
 	<include src="menu_bar.zul"></include>
 	<window title="Phiếu bảo hành mới" border="normal" width="100%"
-		height="100%" apply="org.zkoss.bind.BindComposer"
+		height="94%" apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('viewmodels.PhieuBaoHanhAddViewModel')">
 		<!-- thong tin phieu bao hanh moi -->
 		<vlayout>

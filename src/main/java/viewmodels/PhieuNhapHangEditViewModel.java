@@ -52,7 +52,7 @@ public class PhieuNhapHangEditViewModel {
 	private NhomNhaCungCap selectedNhomNCC;
 	private Double thanhTien;
 	private Double tongTien;
-	private long maNV = 1;
+	private long maNV;
 	private String maPhieuDat;
 
 	@Init
@@ -67,6 +67,7 @@ public class PhieuNhapHangEditViewModel {
 		// make sure services are valid
 		try {
 			long id = ((Long) Sessions.getCurrent().getAttribute(PhieuNhapHangDSViewModel.SELECTED_PNH_ID)).longValue();
+			this.maNV = ((Long) Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID)).longValue();
 			this.phieu = this.phieuServiceImpl.findById(id, PhieuNhapHang.class);
 			this.maPhieuDat = this.phieu.getPhieuDatHang() == null ? "Không đặt trước" : this.phieu.getPhieuDatHang().getMaPhieuDat();
 			this.setTongTien(this.phieu.getTongTien());

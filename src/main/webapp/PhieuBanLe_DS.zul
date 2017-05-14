@@ -4,7 +4,7 @@
 	<window title="Danh sách khách hàng" border="normal"
 		apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('viewmodels.PhieuBanLeDSViewModel')">
-		<vlayout width="100%">
+		<vlayout height="94%">
 			<hlayout style="text-align : left; padding : 4px;">
 				<label value="Tìm kiếm"></label>
 				<combobox id="search_type_combobox"

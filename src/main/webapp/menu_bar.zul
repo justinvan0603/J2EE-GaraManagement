@@ -2,22 +2,14 @@
 <zk>
 	<vlayout>
 
-		<hlayout>
-			<image
-				src="https://www.zkoss.org/zkdemo/widgets/input/wysiwyg_editor/img/zklogo2.png"
-				width="50px" height="50px" />
-			Sơn đẹp trai vờ lờ !!
-		</hlayout>
 		<menubar id="menubar" autodrop="true">
-
-			<menuitem label="TRANG CHỦ" href="/PhuTung_DS.zul" />
+			<menuitem label="TRANG CHỦ" href="/PhieuTiepNhan_DS.zul" />
 			<menuitem label="PHỤ TÙNG" href="/PhuTung_DS.zul" />
 			<menuitem label="XE" href="/Xe_DS.zul" />
-			<menuitem label="KHÁCH HÀNG" href="/customer_list.zul" />
 			<menuitem label="PHIẾU TIẾP NHẬN"
 				href="/PhieuTiepNhan_DS.zul" />
-			<menuitem label="PHIẾU DỊCH VỤ" href="/PhuTung_DS.zul" />
-			<menuitem label="PHIẾU BÁN LẺ" href="/PhuTung_DS.zul" />
+			<menuitem label="PHIẾU DỊCH VỤ" href="/PhieuDichVu_DS.zul" />
+			<menuitem label="PHIẾU BÁN LẺ" href="/PhieuBanLe_DS.zul" />
 			<menuitem label="PHIẾU BẢO HÀNH"
 				href="/PhieuBaoHanh_DS.zul" />
 			<menu label="THU | CHI">
@@ -39,6 +31,10 @@
 					<menuitem label="Thợ sửa chữa" href="/Tho_DS.zul" />
 					<menuitem label="Nhà cung cấp"
 						href="/NhaCungCap_DS.zul" />
+					<menuitem label="Khách hàng" 
+						href="/customer_list.zul" />
+					<menuitem label="Danh sách nhân viên" 
+						href="/NhanVien_DS.zul" />
 				</menupopup>
 			</menu>
 			<menu label="BÁO CÁO">
@@ -55,9 +51,9 @@
 			<menu label="THIẾT LẬP">
 				<menupopup>
 					<menuitem label="Tham số hệ thống"
-						href="/PhuTung_DS.zul" />
-					<menuitem label="Thông tin người dùng"
-						href="/PhuTung_DS.zul" />
+						href="/BangThamSo_DS.zul" />
+					<menuitem label="Thông tin người dùng" 
+						href="/NhanVien_DS.zul" />
 				</menupopup>
 			</menu>
 		</menubar>

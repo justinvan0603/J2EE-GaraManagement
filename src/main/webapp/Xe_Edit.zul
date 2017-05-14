@@ -1,7 +1,7 @@
 <?page title="Thông tin xe" contentType="text/html;charset=UTF-8"?>
 <zk>
 	<include src="menu_bar.zul"></include>
-	<window title="Thông tin xe" border="normal"
+	<window title="Thông tin xe" border="normal" height="94%"
 		apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('viewmodels.XeEditViewModel')">
 		<hbox align="start" style="padding : 16px;">
