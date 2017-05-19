@@ -112,19 +112,16 @@ public class PhieuDatHangDSViewModel {
 	@NotifyChange("listOfPhieuDatHang")
 	public void deletePhieuDatHang(@BindingParam("phieudh_id") long id) {
 		try {
-			List<CT_PhieuDatHang> listOfCT_PhieuDatHang = this.chiTietPhieuDatHangService
-					.getAllByPhieuDatHangId(id);
+			List<CT_PhieuDatHang> listOfCT_PhieuDatHang = this.chiTietPhieuDatHangService.getAllByPhieuDatHangId(id);
 			if (!listOfCT_PhieuDatHang.isEmpty()) {
 				for (CT_PhieuDatHang ct : listOfCT_PhieuDatHang) {
-					this.chiTietPhieuDatHangService.delete(ct.getId(),
-					CT_PhieuDatHang.class);
+					this.chiTietPhieuDatHangService.delete(ct.getId(), CT_PhieuDatHang.class);
 				}
 			}
 			this.phieuDatHangService.delete(id, PhieuDatHang.class);
 			this.listOfPhieuDatHang = this.phieuDatHangService.getAll(PhieuDatHang.class);
 		} catch (Exception e) {
-			Messagebox.show("Có lỗi xảy ra khi xoá phiếu", "Thông báo", Messagebox.RETRY,
-					Messagebox.ERROR);
+			Messagebox.show("Có lỗi xảy ra khi xoá phiếu", "Thông báo", Messagebox.RETRY, Messagebox.ERROR);
 		}
 
 	}
@@ -140,7 +137,7 @@ public class PhieuDatHangDSViewModel {
 		Sessions.getCurrent().setAttribute(SELECTED_PDH_ID, id);
 		Executions.sendRedirect("./PhieuDatHang_Edit.zul");
 	}
-	
+
 	@Command
 	public void createPhieuNhapHang(@BindingParam("phieudh_id") long id) {
 		// save session the selected id

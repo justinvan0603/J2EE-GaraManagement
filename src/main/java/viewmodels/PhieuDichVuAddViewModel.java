@@ -45,6 +45,7 @@ public class PhieuDichVuAddViewModel {
 	private XeServiceImpl xeServiceImpl;
 	private List<PhuTung> listPhuTung;
 	private PhuTung selectedPhuTung;
+
 	public HieuXeServiceImpl getHieuXeServiceImpl() {
 		return hieuXeServiceImpl;
 	}
@@ -61,6 +62,7 @@ public class PhieuDichVuAddViewModel {
 	private ThoServiceImpl thoServiceImpl;
 	private List<Tho> listTho;
 	private Tho selectedTho;
+
 	public PhieuThuServiceImpl getPhieuThuServiceIpml() {
 		return phieuThuServiceIpml;
 	}
@@ -205,21 +207,21 @@ public class PhieuDichVuAddViewModel {
 		this.setofChiTietPhieuDV = new HashSet<CT_PhieuDichVu>();
 		this.thoServiceImpl = (ThoServiceImpl) SpringUtil.getBean("tho_service");
 		this.phuTungServiceImpl = (PhuTungServiceImpl) SpringUtil.getBean("phutung_service");
-		
+
 		PhieuTiepNhan ptn = this.phieuTiepNhanServiceImpl.findById(idPhieuTiepNhan, PhieuTiepNhan.class);
-		
+
 		Xe xe = this.xeServiceImpl.findByLicensePlate(ptn.getLicensePlate());
 		HieuXe hieuxe = this.hieuXeServiceImpl.findByIdString(xe.getHieuXeReference());
-		
+
 		//
 		this.listPhuTung = this.phuTungServiceImpl.find(null, null, hieuxe.getMaHieuXe());
 		this.listTho = this.thoServiceImpl.getAll(Tho.class);
 		this.phieuDichVu = new PhieuDichVu();
-		
+
 		// Begin
 		// get id-phieutiepanh from Session, if this value is valid
 		// set for this.phieuDichVu
-		
+
 		if (idPhieuTiepNhan != null) {
 			this.phieuDichVu.setMaPhieuTiepNhan(idPhieuTiepNhan);
 		}
@@ -288,8 +290,7 @@ public class PhieuDichVuAddViewModel {
 	@Command
 	@NotifyChange("setofChiTietPhieuDV")
 	public void themChiTiet(@BindingParam("soluong") int soLuong) {
-		if(soLuong <= 0)
-		{
+		if (soLuong <= 0) {
 			Messagebox.show("Số lượng không hợp lệ!", "Lỗi", Messagebox.OK, Messagebox.ERROR);
 			return;
 		}

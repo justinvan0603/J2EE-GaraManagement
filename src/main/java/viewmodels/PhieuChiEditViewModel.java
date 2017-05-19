@@ -22,7 +22,12 @@ public class PhieuChiEditViewModel {
 		this.phieuChiServiceImpl = (PhieuChiServiceImpl) SpringUtil.getBean("phieuchi_service");
 		if (this.phieuChiServiceImpl != null) {
 			Integer selectedId = (Integer) Sessions.getCurrent().getAttribute(PhieuChiDSViewModel.SELECTED_PHIEUCHI_ID);
-			this.phieuChi = this.phieuChiServiceImpl.findById(selectedId, PhieuChi.class);
+			// make sure we have valid session value
+			if (selectedId == null) {
+				Executions.sendRedirect("./PhieuChi_DS.zul");
+			} else {
+				this.phieuChi = this.phieuChiServiceImpl.findById(selectedId, PhieuChi.class);
+			}
 		}
 	}
 
@@ -31,7 +36,7 @@ public class PhieuChiEditViewModel {
 		if (this.phieuChiServiceImpl != null) {
 
 			if (this.phieuChiServiceImpl.update(Long.valueOf(this.phieuChi.getId().toString()), this.phieuChi)) {
-				Messagebox.show("Thông báo", "Lưu thành công", Messagebox.OK, Messagebox.INFORMATION,
+				Messagebox.show("Lưu thành công", "Thông báo", Messagebox.OK, Messagebox.INFORMATION,
 						new EventListener<Event>() {
 
 							@Override

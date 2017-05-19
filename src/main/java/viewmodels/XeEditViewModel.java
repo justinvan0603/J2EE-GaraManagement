@@ -39,11 +39,16 @@ public class XeEditViewModel {
 		this.hieuXeServiceImpl = (HieuXeServiceImpl) SpringUtil.getBean("hieuxe_service");
 		// get selected vehicle id from list page
 		String vehicelId = (String) Sessions.getCurrent().getAttribute(XeDSViewModel.SELECTED_VEHICLE_ID);
-		// make sure this is a valid id
-		if (!vehicelId.isEmpty()) {
-			this.currentVehicle = this.xeServiceImpl.findByLicensePlate(vehicelId);
-			this.listOfHieuXe = this.hieuXeServiceImpl.getAll(HieuXe.class);
-			this.selectedHieuXe = this.currentVehicle.getHieuXe();
+		// make sure session value is valid
+		if (vehicelId == null) {
+			Executions.sendRedirect("./Xe_DS.zul");
+		} else {
+			// make sure this is a valid id
+			if (!vehicelId.isEmpty()) {
+				this.currentVehicle = this.xeServiceImpl.findByLicensePlate(vehicelId);
+				this.listOfHieuXe = this.hieuXeServiceImpl.getAll(HieuXe.class);
+				this.selectedHieuXe = this.currentVehicle.getHieuXe();
+			}
 		}
 	}
 

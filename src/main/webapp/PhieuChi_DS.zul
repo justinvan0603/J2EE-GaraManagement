@@ -47,10 +47,15 @@
 				</listhead>
 				<template name="model" var="e">
 					<listitem>
-						<listcell label="@load(e.maPhieuChi)"></listcell>
+						<listcell label="@load(e.maPhieuChi)">
+						</listcell>
 						<listcell label="@load(e.shortCreationDate)"></listcell>
 						<listcell label="@load(e.nhanVien.hoTen)"></listcell>
-						<listcell label="@load(e.noiDung)"></listcell>
+						<listcell>
+							<label multiline="true"
+								value="@load(e.noiDung)">
+							</label>
+						</listcell>
 						<listcell label="@load(e.currencyString)"></listcell>
 						<listcell>
 							<hbox>

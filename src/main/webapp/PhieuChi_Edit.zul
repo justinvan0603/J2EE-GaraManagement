@@ -35,10 +35,10 @@
 						value="@save(vm.phieuChi.noiDung, before='luuPhieuChi') @load(vm.phieuChi.noiDung)">
 					</textbox>
 					<label>Mã phiếu nhập hàng</label>
-					<intbox id="intbox_hanbaohanh" width="250px"
+					<textbox id="intbox_hanbaohanh" width="250px"
 						readonly="true"
 						value="@load(vm.phieuChi.phieuNhapHang.maPhieuNhapHang)">
-					</intbox>
+					</textbox>
 					<button onClick="@command('luuPhieuChi')">
 						Lưu
 					</button>

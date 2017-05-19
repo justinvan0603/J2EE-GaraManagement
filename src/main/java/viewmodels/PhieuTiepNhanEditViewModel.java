@@ -21,13 +21,18 @@ public class PhieuTiepNhanEditViewModel {
 		// get session values from zk container
 		Long id = (Long) Sessions.getCurrent().getAttribute(PhieuTiepNhanDSViewModel.SELECTED_PHIEUTIEPNHAN_ID);
 
-		this.phieuTiepNhanServiceImpl = (PhieuTiepNhanServiceImpl) SpringUtil.getBean("phieutiepnhan_service");
-		if (this.phieuTiepNhanServiceImpl != null) {
-			this.selectedPhieuTiepNhan = this.phieuTiepNhanServiceImpl.findById(id, PhieuTiepNhan.class);
+		// make sure Session is valid
+		if (id == null) {
+			// if Session is null, back to page of list
+			Executions.sendRedirect("./PhieuTiepNhan_DS.zul");
 		} else {
-			throw new NullPointerException("service for PhieuTiepNhanEditViewModel class is null");
+			this.phieuTiepNhanServiceImpl = (PhieuTiepNhanServiceImpl) SpringUtil.getBean("phieutiepnhan_service");
+			if (this.phieuTiepNhanServiceImpl != null) {
+				this.selectedPhieuTiepNhan = this.phieuTiepNhanServiceImpl.findById(id, PhieuTiepNhan.class);
+			} else {
+				throw new NullPointerException("service for PhieuTiepNhanEditViewModel class is null");
+			}
 		}
-		//
 
 	}
 

@@ -7,6 +7,7 @@ import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.Datebox;
@@ -31,14 +32,19 @@ public class PhieuBaoHanhEditViewModel {
 	public void init() {
 		// get parameter from application system
 		Long id = (Long) Sessions.getCurrent().getAttribute(PhieuBaoHanhDSViewModel.SELECTED_PHIEUBAOHANH_ID);
-		this.phieuBaoHanhServiceImpl = (PhieuBaoHanhServiceImpl) SpringUtil.getBean("phieubaohanh_service");
-		this.ct_PhieuBaoHanhServiceImpl = (CTPhieuBaoHanhServiceImpl) SpringUtil.getBean("ct_phieubaohanh_service");
-		if (this.phieuBaoHanhServiceImpl != null) {
-			this.selectedPhieuBaoHanh = this.phieuBaoHanhServiceImpl.findById(id, PhieuBaoHanh.class);
-			// make sure we have valid object
-			if (this.selectedPhieuBaoHanh != null) {
-				this.listOfCT_PhieuBaoHanhs = this.ct_PhieuBaoHanhServiceImpl
-						.getAllByPhieuBaoHanhId(this.selectedPhieuBaoHanh.getMaPhieuBaoHanh());
+		// if session value is invaid, back to list view page
+		if (id == null) {
+			Executions.sendRedirect("./PhieuBaoHanh_DS.zul");
+		} else {
+			this.phieuBaoHanhServiceImpl = (PhieuBaoHanhServiceImpl) SpringUtil.getBean("phieubaohanh_service");
+			this.ct_PhieuBaoHanhServiceImpl = (CTPhieuBaoHanhServiceImpl) SpringUtil.getBean("ct_phieubaohanh_service");
+			if (this.phieuBaoHanhServiceImpl != null) {
+				this.selectedPhieuBaoHanh = this.phieuBaoHanhServiceImpl.findById(id, PhieuBaoHanh.class);
+				// make sure we have valid object
+				if (this.selectedPhieuBaoHanh != null) {
+					this.listOfCT_PhieuBaoHanhs = this.ct_PhieuBaoHanhServiceImpl
+							.getAllByPhieuBaoHanhId(this.selectedPhieuBaoHanh.getMaPhieuBaoHanh());
+				}
 			}
 		}
 	}

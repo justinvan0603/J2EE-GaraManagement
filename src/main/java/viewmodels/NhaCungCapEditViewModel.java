@@ -23,7 +23,7 @@ public class NhaCungCapEditViewModel {
 	private NhomNhaCungCapServiceImpl nhomNCCService;
 	private List<NhomNhaCungCap> nhomNhaCungCap;
 	private NhaCungCap currentNCC;
-	
+
 	@Init
 	public void init() {
 		// get service bean from Spring
@@ -33,12 +33,13 @@ public class NhaCungCapEditViewModel {
 			this.setCurrentNCC(this.nccService.findById(id, NhaCungCap.class));
 		}
 		this.nhomNCCService = (NhomNhaCungCapServiceImpl) SpringUtil.getBean("nhomncc_service");
-		nhomNhaCungCap =  this.nhomNCCService.getAll(NhomNhaCungCap.class);
+		nhomNhaCungCap = this.nhomNCCService.getAll(NhomNhaCungCap.class);
 	}
-	
+
 	@Command
-	public void updateNCC(@BindingParam("id") long id,@BindingParam("name") String name, @BindingParam("address") String address,
-			@BindingParam("phone_number") String phoneNumber, @BindingParam("type") String type) {
+	public void updateNCC(@BindingParam("id") long id, @BindingParam("name") String name,
+			@BindingParam("address") String address, @BindingParam("phone_number") String phoneNumber,
+			@BindingParam("type") String type) {
 		// Messagebox.show(name + "-" + phoneNumber + "-" + address + "-" +
 		// gender);
 		// make sure we have valid param
@@ -49,7 +50,7 @@ public class NhaCungCapEditViewModel {
 			ncc.setSoDienThoai(phoneNumber);
 			ncc.setNhomNCC(type);
 			// start to save
-			if (this.nccService.update(id,ncc)) {
+			if (this.nccService.update(id, ncc)) {
 				Messagebox.show("Cập nhật thành công");
 				Executions.sendRedirect("./NhaCungCap_DS.zul");
 			} else {
