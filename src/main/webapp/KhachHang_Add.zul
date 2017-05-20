@@ -38,7 +38,7 @@
 					</template>
 				</combobox>
 			</hbox>
-			<button style="margin-left:90px;"
+			<button style="margin-left:90px;" image="/images/ic_done.png"
 				onClick="@command('SaveKhachHang', name =  name_textbox.value , address = address_textbox.value , phone_number = phone_textbox.value,cmnd = CMND_textbox.value, gender = gender_combobox.selectedItem.label)">
 				Lưu
 			</button>

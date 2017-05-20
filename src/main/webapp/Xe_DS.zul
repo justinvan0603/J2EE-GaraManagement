@@ -15,12 +15,12 @@
 					</template>
 				</combobox>
 				<textbox width="400px" id="search_textbox"></textbox>
-				<button id="searchButton"
+				<button id="searchButton" image="/images/ic_search.png"
 					onClick="@command('filterData', search_string=search_textbox.value , search_index = search_type_combobox.selectedIndex )">
 					Tìm kiếm
 				</button>
 				|
-				<button id="addNew"
+				<button id="addNew" image="/images/ic_add.png"
 					onClick="@command('addNewVehicle')">
 					Thêm mới
 				</button>
@@ -30,22 +30,17 @@
 			<listbox hflex="1" mold="paging" pageSize="10"
 				model="@load(vm.listOfVehicel)" width="100%"
 				selectedItem="@bind(vm.selectedXe)">
-				<auxhead>
-					<auxheader colspan="10" class="topic">
-						Danh sách xe
-					</auxheader>
-				</auxhead>
 				<listhead>
-					<listheader label="Biển số" width="120px" />
-					<listheader label="Khách hàng" />
-					<listheader label="Ngày tiếp nhận" />
-					<listheader label="Hiệu xe" />
+					<listheader label="Biển số" width="90px" />
+					<listheader label="Khách hàng" width="120px" />
+					<listheader label="Ngày tiếp nhận" width="110px" />
+					<listheader label="Hiệu xe" width="110px" />
 					<listheader label="Tình trạng" />
-					<listheader label="Hình thức" />
-					<listheader label="Số máy" />
-					<listheader label="Số khung" />
-					<listheader label="Số KM" />
-					<listheader label="Thao tác" />
+					<listheader label="Hình thức" width="110px" />
+					<listheader label="Số máy" width="80px" />
+					<listheader label="Số khung" width="80px" />
+					<listheader label="Số KM" width="90px" />
+					<listheader label="Thao tác" width="180px" />
 				</listhead>
 				<template name="model" var="e">
 					<listitem>
@@ -63,7 +58,7 @@
 							<button tooltip="@load(e.bienSoXe)"
 								onClick="@command('seeVehicleDetail', vehicle_id=e.bienSoXe)"
 								image="/images/ic_edit_black_18dp_1x.png">
-								Sửa
+								Cập nhật
 							</button>
 							<button
 								image="/images/ic_delete_black_18dp_1x.png"

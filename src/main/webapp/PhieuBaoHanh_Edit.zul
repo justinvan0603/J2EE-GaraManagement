@@ -75,7 +75,7 @@
 						</listcell>
 						<listcell>
 							<hbox>
-								<button
+								<button image="/images/ic_done.png"
 									onClick="@command('updateChiTietPhieuBaoHanh', id = e.id)">
 									Lưu
 								</button>

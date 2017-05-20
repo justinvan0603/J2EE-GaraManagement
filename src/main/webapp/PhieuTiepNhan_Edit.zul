@@ -37,7 +37,7 @@
 					value="@bind(vm.selectedPhieuTiepNhan.state) @save(vm.selectedPhieuTiepNhan.state, before='updatePhieuTiepNhan')"
 					rows="5" width="280px">
 				</textbox>
-				<button
+				<button image="/images/ic_done.png"
 					onClick="@command('updatePhieuTiepNhan', phieutiepnhan_id= vm.selectedPhieuTiepNhan.id)">
 					Cập nhật
 				</button>

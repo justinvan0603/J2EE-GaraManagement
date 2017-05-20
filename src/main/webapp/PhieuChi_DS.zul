@@ -16,7 +16,7 @@
 						<comboitem label="@load(each)"></comboitem>
 					</template>
 				</combobox>
-				<textbox width="400px" maxlength="100" id="search_textbox">
+				<textbox width="400px" maxlength="100" id="search_textbox"></textbox>
 				<button id="searchButton"
 					onClick="@command('filterData', search_index = search_type_combobox.selectedIndex , search_string = search_textbox.text)"
 					image="/images/ic_search.png">

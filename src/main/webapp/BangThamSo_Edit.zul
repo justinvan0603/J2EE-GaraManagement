@@ -17,7 +17,7 @@
 					constraint="no empty">
 				</textbox>
 			</hbox>
-			<button style="margin-left:105px;"
+			<button style="margin-left:105px;" image="/images/ic_done.png"
 				onClick="@command('updateThamSo')">
 				Lưu
 			</button>

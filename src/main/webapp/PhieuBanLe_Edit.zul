@@ -62,7 +62,7 @@
 					<textbox id="txtThanhTien" readonly= "true" value ="@load(vm.thanhTien)" ></textbox>
 					<label>Bảo hành</label>
 					<textbox width="50px" id="txtBaoHanh" readonly = "true" value = "@load(vm.selectedPhuTung.hanBaoHanh)"></textbox>
-					<button
+					<button image="/images/ic_add.png"
 						onClick="@command('themChiTiet', soluong = txtSoLuong.value
 						 )">
 						Thêm
@@ -95,7 +95,7 @@
 						<listcell label="@load(e.thanhTien)"></listcell>
 						<listcell label="@load(e.thoiHanBaoHanh)"></listcell>
 						<listcell>
-							<button
+							<button image="/images/ic_delete_black_18dp_1x.png"
 								onClick="@command('xoaChiTiet', maphutung = e.maPhuTung)">
 								Xóa
 							</button>
@@ -103,7 +103,7 @@
 					</listitem>
 				</template>
 			</listbox>
-			<button onClick="@command('SavePhieuDichVu',mapbl = txtMaSoPhieu.value)">Lưu</button>
+			<button image="/images/ic_done.png" onClick="@command('SavePhieuDichVu',mapbl = txtMaSoPhieu.value)">Lưu</button>
 		</vlayout>
 	</window>
 </zk>

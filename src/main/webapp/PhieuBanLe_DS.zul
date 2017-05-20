@@ -1,10 +1,10 @@
 <?page title="Danh sách phiếu bán lẻ" contentType="text/html;charset=UTF-8"?>
 <zk>
 	<include src="menu_bar.zul"></include>
-	<window title="Danh sách khách hàng" border="normal"
+	<window title="Danh sách phiếu bán lẻ" border="normal"
 		apply="org.zkoss.bind.BindComposer"
-		viewModel="@id('vm') @init('viewmodels.PhieuBanLeDSViewModel')">
-		<vlayout height="94%">
+		viewModel="@id('vm') @init('viewmodels.PhieuBanLeDSViewModel')" height="94%">
+		<vlayout >
 			<hlayout style="text-align : left; padding : 4px;">
 				<label value="Tìm kiếm"></label>
 				<combobox id="search_type_combobox"
@@ -14,12 +14,12 @@
 					</template>
 				</combobox>
 				<textbox width="400px" id="search_textbox"></textbox>
-				<button id="searchButton"
+				<button id="searchButton" image="/images/ic_search.png"
 					onClick="@command('filterData', search_string=search_textbox.value , combobox_selected_index = search_type_combobox.selectedIndex )">
 					Tìm kiếm
 				</button>
 				|
-				<button id="addNew"
+				<button id="addNew" image="/images/ic_add.png"
 					onClick="@command('ThemPhieuBanLe')">
 					Thêm mới
 				</button>
@@ -27,23 +27,16 @@
 			<listbox hflex="1" mold="paging" pageSize="10"
 				model="@load(vm.listPhieuBanLe)"
 				selectedItem="@bind(vm.selectedPhieuBanLe)" width="100%">
-				<auxhead>
-					<auxheader colspan="6" class="topic">
-						Phiếu dịch vụ
-					</auxheader>
-				</auxhead>
-
 				<listhead>
 					<listheader visible="false" label="Id" width="80px" />
 					<listheader label="Mã phiếu" width="150px" />
-					<listheader label="Ngày lập" width="150px" />
-					<listheader label="Hạn chót thanh toán"
-						width="120px" />
-					<listheader label="Số tiền còn lại" width="180px" />
+					<listheader label="Ngày lập"/>
+					<listheader label="Hạn chót thanh toán" />
+					<listheader label="Số tiền còn lại" />
 
 					<listheader label="Tổng tiền" width="180px" />
 
-					<listheader label="Tác vụ" width="400px" />
+					<listheader label="Tác vụ" width="320px" />
 				</listhead>
 				<template name="model" var="e">
 					<listitem>

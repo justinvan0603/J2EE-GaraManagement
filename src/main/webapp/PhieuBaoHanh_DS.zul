@@ -41,7 +41,7 @@
 					<listheader label="Ngày lập" />
 					<listheader label="Nhân viên" />
 					<listheader label="Tình trạng" />
-					<listheader label="Tác vụ" />
+					<listheader label="Tác vụ" width="200px"  />
 				</listhead>
 				<template name="model" var="e">
 					<listitem>
@@ -54,7 +54,7 @@
 								<button
 									onClick="@command('seePhieuBaoHanhDetail', selected_phieubaohanh_id = e.maPhieuBaoHanh)"
 									image="/images/ic_edit_black_18dp_1x.png">
-									Sửa
+									Cập nhật
 								</button>
 								<button
 									onClick="@command('xoaPhieuBaoHanh', maphieubaohanh = e.maPhieuBaoHanh)"

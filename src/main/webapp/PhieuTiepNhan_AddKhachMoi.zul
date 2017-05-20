@@ -91,7 +91,7 @@
 				<datebox constraint="no empty" id="datebox_ngaytraxe"
 					value="@save(vm.phieuTiepNhan.givebackDate)" width="250px">
 				</datebox>
-				<button onClick="@command('luuPhieuTiepNhan')">
+				<button image="/images/ic_done.png" onClick="@command('luuPhieuTiepNhan')">
 					Lưu
 				</button>
 			</vbox>

@@ -39,7 +39,7 @@
 						readonly="true"
 						value="@load(vm.phieuChi.idPhieuNhapHang) @save(vm.phieuChi.idPhieuNhapHang, before='luuPhieuChi')">
 					</intbox>
-					<button onClick="@command('luuPhieuChi')">
+					<button image="/images/ic_done.png" onClick="@command('luuPhieuChi')">
 						Lưu
 					</button>
 				</vlayout>

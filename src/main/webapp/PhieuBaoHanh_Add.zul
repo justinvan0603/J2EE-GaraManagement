@@ -54,7 +54,7 @@
 					</combobox>
 					<label>Ngày hẹn trả</label>
 					<datebox id="datebox_ngayhentra"></datebox>
-					<button
+					<button image="/images/ic_add.png"
 						onClick="@command('themChiTiet', maphutung = combobox_phutung.selectedItem.value
 						 , ngayhentra = datebox_ngayhentra.value)">
 						Thêm
@@ -87,7 +87,7 @@
 					</listitem>
 				</template>
 			</listbox>
-			<button onClick="@command('luuPhieuBaoHanh')">Lưu</button>
+			<button image="/images/ic_done.png" onClick="@command('luuPhieuBaoHanh')">Lưu</button>
 		</vlayout>
 	</window>
 </zk>

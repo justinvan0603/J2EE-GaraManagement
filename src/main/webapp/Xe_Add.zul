@@ -46,7 +46,7 @@
 				<label>Đời xe</label>
 				<intbox id="textbox_doixe" width="250px"></intbox>
 				<!-- update button -->
-				<button
+				<button image="/images/ic_done.png"
 					onClick="@command('saveNewCustomerVehicle', bien_so = textbox_biensoxe.text,ma_khachhang = combobox_khachhang.selectedItem.value,in_date = in_date_box.value, hieu_xe = cmbHieuXe.value,  
 					so_khung = textbox_sokhung.text, 
 					so_may = textbox_somay.text,

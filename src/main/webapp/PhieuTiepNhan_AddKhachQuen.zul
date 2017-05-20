@@ -47,7 +47,7 @@
 					value=" @save ( vm.phieuTiepNhan.state, before='luuPhieuTiepNhan')"
 					rows="5" width="250px">
 				</textbox>
-				<button onClick="@command('luuPhieuTiepNhan')">
+				<button image="/images/ic_done.png" onClick="@command('luuPhieuTiepNhan')">
 					Lưu
 				</button>
 			</vbox>

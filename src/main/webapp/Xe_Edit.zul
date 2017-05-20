@@ -54,7 +54,7 @@
 					value="@bind(vm.currentVehicle.doiXe)" width="250px">
 				</intbox>
 				<!-- update button -->
-				<button
+				<button image="/images/ic_done.png"
 					onClick="@command('updateVehicle', in_date = in_date_box.value , 
 					hieu_xe = cmbHieuXe.value,  so_khung = textbox_sokhung.text, 
 					so_may = textbox_somay.text, so_km = textbox_sokm.value, tinh_trang = textbox_tinhtrang.text,
