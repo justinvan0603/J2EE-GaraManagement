@@ -54,7 +54,7 @@
 						<listcell label="@load(e.inDateStringFormat)"></listcell>
 						<listcell label="@load(e.hieuXe.maHieuXe)"></listcell>
 						<listcell label="@load(e.tinhTrang)"></listcell>
-						<listcell label="@load(e.typeString)"</listcell>
+						<listcell label="@load(e.typeString)"></listcell>
 						<listcell label="@load(e.soMay)"></listcell>
 						<listcell label="@load(e.soKhung)"></listcell>
 						<listcell label="@load(e.soKM)"></listcell>
