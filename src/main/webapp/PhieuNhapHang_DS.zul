@@ -32,7 +32,7 @@
 				model="@load(vm.listOfPhieuNhapHang)" width="100%">
 				<listhead>
 					<listheader label="Id" width="80px" visible="false" />
-					<listheader label="Mã phiếu đặt" width="100px" />
+					<listheader label="Mã phiếu nhập" width="100px" />
 					<listheader label="Nhân viên lập" width="200px" />
 					<listheader label="Ngày lập phiếu" width="100px" />
 					<listheader label="Mã phiếu đặt" width="150px" />

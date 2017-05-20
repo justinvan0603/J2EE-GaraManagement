@@ -109,6 +109,13 @@ public class PhieuNhapHangEditViewModel {
 		ct_Phieu.setThanhTien(thanhtien);
 		if (this.ctPhieuServiceImpl.save(ct_Phieu)) {
 			this.tongTien += thanhtien;
+			PhuTung pt = phuTungServiceImpl.findById(ct_Phieu.getIdPhuTung(), PhuTung.class);
+			double a = pt.getDonGiaXuat() * pt.getSoLuongTon()
+					+ ct_Phieu.getDonGia() * ct_Phieu.getSoLuong();
+			int b = pt.getSoLuongTon() + ct_Phieu.getSoLuong();
+			pt.setDonGiaXuat(a / b);
+			pt.setSoLuongTon(pt.getSoLuongTon() + ct_Phieu.getSoLuong());
+			phuTungServiceImpl.update(pt.getId(), pt);
 			this.setSetOfCT_Phieus(this.ctPhieuServiceImpl.getAllByPhieuNhapHangId(this.phieu.getIdPhieuNhapHang()));
 			Messagebox.show("Thêm chi tiết phiếu thành công", "Thông báo", Messagebox.OK, Messagebox.INFORMATION);
 		}

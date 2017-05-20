@@ -99,7 +99,8 @@ public class PhieuNhapHangServiceImpl implements GeneralService<PhieuNhapHang> {
 			} else if (ngaylap != null){
 				criteria.add(Restrictions.eq("NgayLap", ngaylap));
 			} else if (maphieudat != null){
-				criteria.add(Restrictions.like("IdPhieuDatHang", maphieudat, MatchMode.ANYWHERE));
+				criteria.createAlias("PhieuDatHang", "PDH");
+				criteria.add(Restrictions.like("PDH.MaPhieuDat", maphieudat, MatchMode.ANYWHERE));
 			} else if (tennv != null){
 				criteria.createAlias("NhanVien", "staff"); // 
 				criteria.add(Restrictions.like("staff.HoTen", tennv, MatchMode.ANYWHERE));
