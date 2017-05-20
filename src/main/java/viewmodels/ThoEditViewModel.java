@@ -29,7 +29,13 @@ public class ThoEditViewModel {
 
 	@Init
 	public void init() {
-		// get service bean from Spring
+		
+		if((Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) == null) || Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERNAME) == null)
+		{
+			Messagebox.show("Vui lòng đăng nhập!");
+			Executions.sendRedirect("./Login.zul");
+		}
+		
 		this.thoService = (ThoServiceImpl) SpringUtil.getBean("tho_service");
 		long id = ((Long) Sessions.getCurrent().getAttribute(ThoDSViewModel.SELECTED_THO_ID)).longValue();
 		if (id != 0) {

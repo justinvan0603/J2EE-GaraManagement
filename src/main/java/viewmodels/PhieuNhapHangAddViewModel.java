@@ -60,6 +60,13 @@ public class PhieuNhapHangAddViewModel {
 
 	@Init
 	public void init() {
+		
+		if((Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) == null) || Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERNAME) == null)
+		{
+			Messagebox.show("Vui lòng đăng nhập!");
+			Executions.sendRedirect("./Login.zul");
+		}
+		
 		this.phieuServiceImpl = (PhieuNhapHangServiceImpl) SpringUtil.getBean("phieunhaphang_service");
 		this.ctPhieuServiceImpl = (ChiTietPhieuNhapHangServiceImpl) SpringUtil.getBean("ct_phieunhaphang_service");
 		this.nhanVienServiceImpl = (NhanVienServiceImpl) SpringUtil.getBean("nhanvien_service");

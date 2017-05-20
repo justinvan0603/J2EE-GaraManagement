@@ -6,6 +6,7 @@ import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.Messagebox;
@@ -24,7 +25,13 @@ public class NhaCungCapAddViewModel {
 	
 	@Init
 	public void init() {
-		// get service bean from Spring
+
+		if((Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) == null) || Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERNAME) == null)
+		{
+			Messagebox.show("Vui lòng đăng nhập!");
+			Executions.sendRedirect("./Login.zul");
+		}
+		
 		this.nccService = (NhaCungCapServiceImpl) SpringUtil.getBean("nhacungcap_service");
 		this.nhomNCCService = (NhomNhaCungCapServiceImpl) SpringUtil.getBean("nhomncc_service");
 		nhomNhaCungCap =  this.nhomNCCService.getAll(NhomNhaCungCap.class);

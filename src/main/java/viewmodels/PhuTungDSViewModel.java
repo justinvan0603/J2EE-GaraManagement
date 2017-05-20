@@ -29,8 +29,13 @@ public class PhuTungDSViewModel {
 	
 	@Init
 	public void init() {
-		// get bean from Spring, no need to create new object, Spring framework
-		// will manage this bean
+
+		if((Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) == null) || Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERNAME) == null)
+		{
+			Messagebox.show("Vui lòng đăng nhập!");
+			Executions.sendRedirect("./Login.zul");
+		}
+		
 		this.phuTungService = (PhuTungServiceImpl) SpringUtil.getBean("phutung_service");
 		if (this.phuTungService != null) {
 			this.listOfPhuTung = this.phuTungService.getAll(PhuTung.class);

@@ -55,6 +55,13 @@ public class PhieuDatHangEditViewModel {
 
 	@Init
 	public void init() {
+		
+		if((Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) == null) || Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERNAME) == null)
+		{
+			Messagebox.show("Vui lòng đăng nhập!");
+			Executions.sendRedirect("./Login.zul");
+		}
+		
 		idPhieu = ((Long) Sessions.getCurrent().getAttribute(PhieuDatHangDSViewModel.SELECTED_PDH_ID)).longValue();
 		this.phieuServiceImpl = (PhieuDatHangServiceImpl) SpringUtil.getBean("phieudathang_service");
 		this.ctPhieuServiceImpl = (ChiTietPhieuDatHangServiceImpl) SpringUtil.getBean("ct_phieudathang_service");

@@ -33,8 +33,13 @@ public class PhieuDatHangDSViewModel {
 
 	@Init
 	public void init() {
-		// get bean from Spring, no need to create new object, Spring framework
-		// will manage this bean
+
+		if((Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) == null) || Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERNAME) == null)
+		{
+			Messagebox.show("Vui lòng đăng nhập!");
+			Executions.sendRedirect("./Login.zul");
+		}
+		
 		this.phieuDatHangService = (PhieuDatHangServiceImpl) SpringUtil.getBean("phieudathang_service");
 		this.chiTietPhieuDatHangService = (ChiTietPhieuDatHangServiceImpl) SpringUtil
 				.getBean("ct_phieudathang_service");

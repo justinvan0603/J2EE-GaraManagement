@@ -31,6 +31,13 @@ public class PhieuChiDSViewModel {
 
 	@Init
 	public void init() {
+		
+		if((Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) == null) || Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERNAME) == null)
+		{
+			Messagebox.show("Vui lòng đăng nhập!");
+			Executions.sendRedirect("./Login.zul");
+		}
+		
 		this.phieuChiServiceImpl = (PhieuChiServiceImpl) SpringUtil.getBean("phieuchi_service");
 		if (this.phieuChiServiceImpl != null) {
 			this.listOfPhieuChis = this.phieuChiServiceImpl.getAll(PhieuChi.class);

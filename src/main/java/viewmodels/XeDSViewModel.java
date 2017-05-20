@@ -38,6 +38,13 @@ public class XeDSViewModel {
 
 	@Init
 	public void init() {
+		
+		if((Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) == null) || Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERNAME) == null)
+		{
+			Messagebox.show("Vui lòng đăng nhập!");
+			Executions.sendRedirect("./Login.zul");
+		}
+		
 		this.xeServiceImpl = (XeServiceImpl) SpringUtil.getBean("xe_service");
 		if (this.xeServiceImpl != null) {
 			// be default, load all entities from table

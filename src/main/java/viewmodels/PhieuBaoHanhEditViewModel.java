@@ -30,6 +30,13 @@ public class PhieuBaoHanhEditViewModel {
 
 	@Init
 	public void init() {
+		
+		if((Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) == null) || Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERNAME) == null)
+		{
+			Messagebox.show("Vui lòng đăng nhập!");
+			Executions.sendRedirect("./Login.zul");
+		}
+		
 		// get parameter from application system
 		Long id = (Long) Sessions.getCurrent().getAttribute(PhieuBaoHanhDSViewModel.SELECTED_PHIEUBAOHANH_ID);
 		// if session value is invaid, back to list view page

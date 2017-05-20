@@ -36,6 +36,13 @@ public class PhieuThuAddViewModel {
 	private long maNV;
 	@Init
 	public void init() {
+		
+		if((Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) == null) || Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERNAME) == null)
+		{
+			Messagebox.show("Vui lòng đăng nhập!");
+			Executions.sendRedirect("./Login.zul");
+		}
+		
 		this.phieuThuService = (PhieuThuServiceImpl) SpringUtil.getBean("phieuthu_service");
 		this.nhanVienService = (NhanVienServiceImpl) SpringUtil.getBean("nhanvien_service");
 		this.phieuBanLeService = (PhieuBanLeServiceImpl) SpringUtil.getBean("phieubanle_service");

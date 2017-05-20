@@ -35,6 +35,12 @@ public class XeEditViewModel {
 	@Init
 	public void init() {
 
+		if((Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) == null) || Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERNAME) == null)
+		{
+			Messagebox.show("Vui lòng đăng nhập!");
+			Executions.sendRedirect("./Login.zul");
+		}
+		
 		this.xeServiceImpl = (XeServiceImpl) SpringUtil.getBean("xe_service");
 		this.hieuXeServiceImpl = (HieuXeServiceImpl) SpringUtil.getBean("hieuxe_service");
 		// get selected vehicle id from list page

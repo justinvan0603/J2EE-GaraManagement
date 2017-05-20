@@ -26,7 +26,13 @@ public class NhaCungCapEditViewModel {
 
 	@Init
 	public void init() {
-		// get service bean from Spring
+
+		if((Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) == null) || Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERNAME) == null)
+		{
+			Messagebox.show("Vui lòng đăng nhập!");
+			Executions.sendRedirect("./Login.zul");
+		}
+		
 		this.nccService = (NhaCungCapServiceImpl) SpringUtil.getBean("nhacungcap_service");
 		long id = ((Long) Sessions.getCurrent().getAttribute(NhaCungCapDSViewModel.SELECTED_NCC_ID)).longValue();
 		if (id != 0) {

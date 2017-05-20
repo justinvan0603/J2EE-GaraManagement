@@ -35,8 +35,13 @@ public class NhaCungCapDSViewModel {
 
 	@Init
 	public void init() {
-		// get bean from Spring, no need to create new object, Spring framework
-		// will manage this bean
+
+		if((Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) == null) || Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERNAME) == null)
+		{
+			Messagebox.show("Vui lòng đăng nhập!");
+			Executions.sendRedirect("./Login.zul");
+		}
+		
 		this.nccService = (NhaCungCapServiceImpl) SpringUtil.getBean("nhacungcap_service");
 		this.pdhService = (PhieuDatHangServiceImpl) SpringUtil.getBean("phieudathang_service");
 		this.pnhService = (PhieuNhapHangServiceImpl) SpringUtil.getBean("phieunhaphang_service");

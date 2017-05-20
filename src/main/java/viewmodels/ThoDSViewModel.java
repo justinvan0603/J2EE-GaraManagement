@@ -31,8 +31,13 @@ public class ThoDSViewModel {
 	
 	@Init
 	public void init() {
-		// get bean from Spring, no need to create new object, Spring framework
-		// will manage this bean
+
+		if((Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) == null) || Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERNAME) == null)
+		{
+			Messagebox.show("Vui lòng đăng nhập!");
+			Executions.sendRedirect("./Login.zul");
+		}
+		
 		this.thoService = (ThoServiceImpl) SpringUtil.getBean("tho_service");
 		if (this.thoService != null) {
 			this.listOfTho = this.thoService.getAll(Tho.class);

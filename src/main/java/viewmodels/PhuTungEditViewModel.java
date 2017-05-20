@@ -26,7 +26,13 @@ public class PhuTungEditViewModel {
 	
 	@Init
 	public void init() {
-		// get service bean from Spring
+
+		if((Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) == null) || Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERNAME) == null)
+		{
+			Messagebox.show("Vui lòng đăng nhập!");
+			Executions.sendRedirect("./Login.zul");
+		}
+		
 		this.phuTungService = (PhuTungServiceImpl) SpringUtil.getBean("phutung_service");
 		long id = ((Long) Sessions.getCurrent().getAttribute(PhuTungDSViewModel.SELECTED_PT_ID)).longValue();
 		if (id != 0) {

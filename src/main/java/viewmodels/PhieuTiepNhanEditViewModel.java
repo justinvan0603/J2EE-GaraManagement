@@ -18,7 +18,13 @@ public class PhieuTiepNhanEditViewModel {
 
 	@Init
 	public void init() {
-		// get session values from zk container
+
+		if((Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) == null) || Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERNAME) == null)
+		{
+			Messagebox.show("Vui lòng đăng nhập!");
+			Executions.sendRedirect("./Login.zul");
+		}
+		
 		Long id = (Long) Sessions.getCurrent().getAttribute(PhieuTiepNhanDSViewModel.SELECTED_PHIEUTIEPNHAN_ID);
 
 		// make sure Session is valid
