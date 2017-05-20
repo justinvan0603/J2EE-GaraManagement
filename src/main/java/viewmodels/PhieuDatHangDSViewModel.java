@@ -74,16 +74,18 @@ public class PhieuDatHangDSViewModel {
 			if (!searchString.isEmpty()) {
 				Date searchDate = null;
 				try {
+//					String[] dateSplit = searchString.split("/");
+//					searchDate = DateUtil.parseFromStringArray(dateSplit);
+//					//this.listOfPhieuDatHang.clear(); // clear all items
+//					System.out.println(searchDate);
 					String[] dateSplit = searchString.split("/");
-					searchDate = DateUtil.parseFromStringArray(dateSplit);
-					System.out.println(searchString);
+					System.out.println(DateUtil.parseFromStringArray(dateSplit));
+					this.listOfPhieuDatHang = this.phieuDatHangService.find(null, null, DateUtil.parseFromStringArray(dateSplit), null, null);
 				} catch (Exception e) {
 					// TODO: handle exception
 					Messagebox.show("Vui lòng nhập định dạng ngày với format 'dd/MM/yyyy'", "Lỗi", Messagebox.OK,
 							Messagebox.ERROR);
 				}
-				this.listOfPhieuDatHang.clear(); // clear all items
-				this.listOfPhieuDatHang = this.phieuDatHangService.find(null, null, searchDate, null, null);
 			}
 			break;
 		case 4: //
@@ -92,7 +94,7 @@ public class PhieuDatHangDSViewModel {
 				try {
 					String[] dateSplit = searchString.split("/");
 					searchDate = DateUtil.parseFromStringArray(dateSplit);
-					System.out.println(searchString);
+					System.out.println(DateUtil.parseFromStringArray(dateSplit));
 				} catch (Exception e) {
 					// TODO: handle exception
 					Messagebox.show("Vui lòng nhập định dạng ngày với format 'dd/MM/yyyy'", "Lỗi", Messagebox.OK,

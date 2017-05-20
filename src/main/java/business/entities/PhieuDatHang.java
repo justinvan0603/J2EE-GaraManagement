@@ -12,13 +12,15 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import utils.StringFormatUtil;
 
 @Entity
 @Table(name = "phieudathang")
 public class PhieuDatHang {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "Id_PhieuDatHang")
@@ -28,28 +30,30 @@ public class PhieuDatHang {
 	private String MaPhieuDat;
 
 	@Column(name = "NgayDat")
+	@Temporal(TemporalType.DATE)
 	private Date NgayDat;
 
 	@Column(name = "NgayGiao")
+	@Temporal(TemporalType.DATE)
 	private Date NgayGiao;
 
 	@Column(name = "MaNV")
 	private long MaNV;
-	
+
 	@Column(name = "TongTien")
 	private Double TongTien;
-	
+
 	@Column(name = "MaNCC")
 	private long MaNCC;
 
 	@ManyToOne
 	@JoinColumn(name = "MaNV", referencedColumnName = "MaNV", insertable = false, updatable = false)
 	private NhanVien NhanVien;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "MaNCC", referencedColumnName = "MaNCC", insertable = false, updatable = false)
 	private NhaCungCap NhaCungCap;
-	
+
 	public long getId_PhieuDatHang() {
 		return Id_PhieuDatHang;
 	}
@@ -121,26 +125,26 @@ public class PhieuDatHang {
 	public void setNhaCungCap(NhaCungCap nhaCungCap) {
 		NhaCungCap = nhaCungCap;
 	}
-	
-	public String getShortDateNgayDat()	{
+
+	public String getShortDateNgayDat() {
 		return StringFormatUtil.shortDateTime(NgayDat);
 	}
-	
-	public String getShortDateNgayGiao()	{
+
+	public String getShortDateNgayGiao() {
 		return StringFormatUtil.shortDateTime(NgayGiao);
 	}
-	
-	public void AddTongTien(Double tien){
+
+	public void AddTongTien(Double tien) {
 		this.TongTien += tien;
 	}
-	
-	public void SubTongTien(Double tien){
+
+	public void SubTongTien(Double tien) {
 		this.TongTien -= tien;
 	}
-	
-	public String getTongTienFormated(){
-		NumberFormat formatter = new DecimalFormat("###,###,###");  
+
+	public String getTongTienFormated() {
+		NumberFormat formatter = new DecimalFormat("###,###,###");
 		return formatter.format(this.TongTien);
 	}
-	
+
 }

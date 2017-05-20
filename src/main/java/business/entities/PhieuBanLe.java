@@ -10,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import utils.StringFormatUtil;
 
@@ -23,8 +25,10 @@ public class PhieuBanLe {
 	@Column(name = "MaPhieuBan")
 	private String MaPhieuBan;
 	@Column(name = "NgayLap")
+	@Temporal(TemporalType.DATE)
 	private Date NgayLap;
 	@Column(name = "HanChotThanhToan")
+	@Temporal(TemporalType.DATE)
 	private Date HanChotThanhToan;
 	@Column(name = "MaKH")
 	private long MaKH;

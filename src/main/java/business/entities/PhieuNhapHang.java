@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.NotFound;
@@ -35,6 +37,7 @@ public class PhieuNhapHang {
 	private long IdPhieuDatHang;
 
 	@Column(name = "NgayLap")
+	@Temporal(TemporalType.DATE)
 	private Date NgayLap;
 
 	@Column(name = "MaNV")
