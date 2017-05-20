@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import business.entities.BangThamSo;
-
+import business.entities.Xe;
 import business.persistence.GeneralDao;
 
 @Service
@@ -67,6 +67,12 @@ public class BangThamSoServiceImpl implements GeneralService<BangThamSo> {
 		// TODO Auto-generated method stub
 		return this.bangThamSoDaoImpl.getAll(entityClass);
 	}
+	@Override
+	@Transactional
+	public boolean update(Long id, BangThamSo newInfor) {
+		// TODO Auto-generated method stub
+		return this.bangThamSoDaoImpl.update(id, newInfor);
+	}
 
 	@Override
 	@Transactional
@@ -75,11 +81,30 @@ public class BangThamSoServiceImpl implements GeneralService<BangThamSo> {
 		return null;
 	}
 
-	@Override
+	
 	@Transactional
-	public boolean update(Long id, BangThamSo newInfor) {
+	public boolean update(String id, BangThamSo newInfor) {
 		// TODO Auto-generated method stub
-		return this.bangThamSoDaoImpl.update(id, newInfor);
+		Session session = null;
+		Transaction transaction = null;
+		boolean isSuccess = false;
+		try {
+			session = this.bangThamSoDaoImpl.getSessionFactory().openSession();
+			transaction = session.beginTransaction();
+			session.saveOrUpdate(newInfor);
+			transaction.commit();
+			isSuccess = true;
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			isSuccess = false;
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
+		return isSuccess;
 	}
 
 	@Override

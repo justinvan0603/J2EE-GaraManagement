@@ -53,9 +53,10 @@
 					<menuitem label="Tham số hệ thống"
 						href="/BangThamSo_DS.zul" />
 					<menuitem label="Thông tin người dùng" 
-						href="/NhanVien_DS.zul" />
+						href="/ThongTin.zul" />
 				</menupopup>
 			</menu>
+		<menuitem label="Đăng xuất"  href="/Login.zul" />
 		</menubar>
 	</vlayout>
 </zk>

@@ -1,17 +1,10 @@
-<?page title="Nhập nhân viên" contentType="text/html;charset=UTF-8"?>
+<?page title="Thông tin nhân viên" contentType="text/html;charset=UTF-8"?>
 <zk>
-<include src="menu_bar.zul"></include>
 <window title="Thông tin nhân viên" border="normal" height="94%"
 		apply="org.zkoss.bind.BindComposer"
-		viewModel="@id('vm') @init('viewmodels.NhanVienEditViewModel')">
+		viewModel="@id('vm') @init('viewmodels.ThongTinViewModel')">
 		<vlayout>
 		<hbox pack="center">
-				<label>Username</label>
-				<textbox style="margin-left:28px;" id="username_textbox" width="400px" readonly="true"
-					constraint="no empty" value="@bind(vm.currentNhanVien.username)">
-				</textbox>
-			</hbox>
-			<hbox pack="center">
 				<label>Password</label>
 				<textbox style="margin-left:30px;" type="password" id="password_textbox" width="400px" value="@bind(vm.currentNhanVien.password)"
 					constraint="no empty">
@@ -19,7 +12,7 @@
 			</hbox>
 			<hbox pack="center">
 				<label>Họ tên</label>
-				<textbox style="margin-left:47px;" id="name_textbox" width="400px" value="@bind(vm.currentNhanVien.hoTen)"
+				<textbox style="margin-left:48px;" id="name_textbox" width="400px" value="@bind(vm.currentNhanVien.hoTen)"
 					constraint="no empty">
 				</textbox>
 			</hbox>
@@ -31,19 +24,9 @@
 			</hbox>
 			<hbox pack="center">
 				<label>Điện thoại</label>
-				<textbox style="margin-left:26px;" id="phone_textbox" width="400px" value="@bind(vm.currentNhanVien.sdt)"
+				<textbox style="margin-left:27px;" id="phone_textbox" width="400px" value="@bind(vm.currentNhanVien.sdt)"
 					constraint="no empty">
 				</textbox>
-			</hbox>
-			<hbox pack="center">
-				<label>Quyền hạn:</label>
-				<combobox style="margin-left:19px;" model="@load(vm.listNhomNguoiDung)" id="permission_combobox"
-					constraint="no empty" readonly="true" value="@bind(vm.selectedNhomNguoiDung.tenNhom)"
-					selectedItem="@bind(vm.selectedNhomNguoiDung)">
-					<template name="model">
-						<comboitem label="${each.getTenNhom()}"></comboitem>
-					</template>
-				</combobox>
 			</hbox>
 			<hbox pack="center">
 				<label>Giới tính</label>
@@ -54,11 +37,12 @@
 					</template>
 				</combobox>
 			</hbox>
+			</vlayout>
+			<hbox pack="center">
 			<button style="margin-left:90px;"
 				onClick="@command('EditNhanVien', name =  name_textbox.value , address = address_textbox.value , phone_number = phone_textbox.value,cmnd = CMND_textbox.value, gender = gender_combobox.selectedItem.label, permission = permission_combobox.selectedItem.value, username = username_textbox, password = password_textbox)">
 				Lưu
 			</button>
-		</vlayout>
-
+			</hbox>
 </window>
 </zk>

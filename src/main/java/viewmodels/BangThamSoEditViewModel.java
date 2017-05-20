@@ -1,5 +1,6 @@
 package viewmodels;
 
+import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
@@ -44,6 +45,27 @@ public class BangThamSoEditViewModel {
 		String thamsoId = (String) Sessions.getCurrent().getAttribute(BangThamSoDSViewModel.SELECTED_THAMSO);
 		this.currentThamSo = this.bangThamSoService.findByIdThamSoString(thamsoId, BangThamSo.class);
 
+	}
+	@Command
+	public void updateThamSo()
+	{
+		if(!this.currentThamSo.getGiaTri().isEmpty() && !this.currentThamSo.getNoiDung().isEmpty())
+		{
+			if(this.bangThamSoService.update(this.currentThamSo.getTenThamSo(), this.currentThamSo))
+			{
+				Messagebox.show("Cập nhật thành công");
+			}
+			else
+			{
+				Messagebox.show("Đã có lỗi xảy ra!", "Lỗi", Messagebox.OK,
+						Messagebox.ERROR);
+			}
+		}
+		else
+		{
+			Messagebox.show("Vui lòng nhập đầy đủ thông tin!", "Lỗi", Messagebox.OK,
+					Messagebox.ERROR);
+		}
 	}
 
 }

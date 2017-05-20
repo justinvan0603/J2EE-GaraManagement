@@ -7,37 +7,37 @@
 		<vlayout >
 		<hbox pack="center">
 				<label>Username</label>
-				<textbox id="username_textbox" width="400px"
+				<textbox style="margin-left:28px;" id="username_textbox" width="400px"
 					constraint="no empty">
 				</textbox>
 			</hbox>
 			<hbox pack="center">
 				<label>Password</label>
-				<textbox type="password" id="password_textbox" width="400px"
+				<textbox style="margin-left:30px;" type="password" id="password_textbox" width="400px"
 					constraint="no empty">
 				</textbox>
 			</hbox>
 			<hbox pack="center">
 				<label>Họ tên</label>
-				<textbox id="name_textbox" width="400px"
+				<textbox style="margin-left:47px;" id="name_textbox" width="400px"
 					constraint="no empty">
 				</textbox>
 			</hbox>
 			<hbox pack="center">
 				<label>Địa chỉ</label>
-				<textbox id="address_textbox" width="400px"
+				<textbox  style="margin-left:45px;" id="address_textbox" width="400px"
 					constraint="no empty">
 				</textbox>
 			</hbox>
 			<hbox pack="center">
 				<label>Điện thoại</label>
-				<textbox id="phone_textbox" width="400px"
+				<textbox style="margin-left:26px;" id="phone_textbox" width="400px"
 					constraint="no empty">
 				</textbox>
 			</hbox>
 			<hbox pack="center">
 				<label>Quyền hạn:</label>
-				<combobox model="@load(vm.listNhomNguoiDung)" id="permission_combobox"
+				<combobox style="margin-left:19px;" model="@load(vm.listNhomNguoiDung)" id="permission_combobox"
 					constraint="no empty" readonly="true">
 					<template name="model">
 						<comboitem label="${each.getTenNhom()}"  ></comboitem>
@@ -46,14 +46,14 @@
 			</hbox>
 			<hbox pack="center">
 				<label>Giới tính</label>
-				<combobox model="@load(vm.genders)" id="gender_combobox"
+				<combobox style="margin-left:37px;" model="@load(vm.genders)" id="gender_combobox"
 					constraint="no empty" readonly="true">
 					<template name="model">
 						<comboitem label="@load(each)"  ></comboitem>
 					</template>
 				</combobox>
 			</hbox>
-			<button
+			<button  style="margin-left:90px;"
 				onClick="@command('SaveNhanVien', name =  name_textbox.value , address = address_textbox.value , phone_number = phone_textbox.value,cmnd = CMND_textbox.value, gender = gender_combobox.selectedItem.label, permission = permission_combobox.selectedItem.value, username = username_textbox.value, password = password_textbox.value)">
 				Lưu
 			</button>

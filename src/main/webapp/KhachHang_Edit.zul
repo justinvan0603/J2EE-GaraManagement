@@ -7,38 +7,38 @@
 		<vlayout>
 			<hbox pack="center">
 				<label>Họ tên</label>
-				<textbox id="name_textbox" width="400px"
+				<textbox style="margin-left:40px;" id="name_textbox" width="400px"
 					constraint="no empty" value="@bind(vm.currentCustomer.hoTen)">
 				</textbox>
 			</hbox>
 			<hbox pack="center">
 				<label>Địa chỉ</label>
-				<textbox id="address_textbox" width="400px" value="@bind(vm.currentCustomer.diachi)"
+				<textbox style="margin-left:38px;" id="address_textbox" width="400px" value="@bind(vm.currentCustomer.diachi)"
 					constraint="no empty">
 				</textbox>
 			</hbox>
 			<hbox pack="center">
 				<label>Điện thoại</label>
-				<textbox id="phone_textbox" width="400px" value="@bind(vm.currentCustomer.sdt)"
+				<textbox style="margin-left:19px;" id="phone_textbox" width="400px" value="@bind(vm.currentCustomer.sdt)"
 					constraint="no empty">
 				</textbox>
 			</hbox>
 			<hbox pack="center">
 				<label>CMND:</label>
-				<textbox id="CMND_textbox" width="400px" value="@bind(vm.currentCustomer.cmnd)"
+				<textbox style="margin-left:36px;" id="CMND_textbox" width="400px" value="@bind(vm.currentCustomer.cmnd)"
 					constraint="no empty">
 				</textbox>
 			</hbox>
 			<hbox pack="center">
 				<label>Giới tính</label>
-				<combobox model="@load(vm.genders)" id="gender_combobox"
+				<combobox style="margin-left:30px;" model="@load(vm.genders)" id="gender_combobox"
 					constraint="no empty" readonly="true">
 					<template name="model">
 						<comboitem label="@load(each)"></comboitem>
 					</template>
 				</combobox>
 			</hbox>
-			<button
+			<button style="margin-left:90px;"
 				onClick="@command('updateCustomer',id = vm.currentCustomer.maKH, name =  name_textbox.value , address = address_textbox.value , phone_number = phone_textbox.value,cmnd = CMND_textbox.value, gender = gender_combobox.selectedItem.label)">
 				Lưu
 			</button>

@@ -1,0 +1,40 @@
+<?page title="Đổi mật khẩu" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<window title="Thay đổi mật khẩu" border="normal"
+		apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('viewmodels.MatKhauEditViewModel')"  style="text-align:center; font-size:30px;" 
+		width="350px"
+		height="170px"
+		mode="overlapped" position="center,center">
+		<vlayout>
+			<vbox>
+			<hlayout>
+				<label width="150px">Mật khẩu hiện tại:</label>
+				<textbox id="username_textbox" width="200px"
+					value="@bind(vm.currentPassword) @save(vm.username , before='SubmitLogin')"
+					constraint="no empty">
+				</textbox>
+			</hlayout>
+			</vbox>
+			<vbox>
+			<hlayout>
+				<label width="150px">Mật khẩu mới:</label>
+				<textbox type="password" id="password_textbox"
+					width="200px"
+					value="@bind(vm.newPassword)  @save(vm.password , before='SubmitLogin')"
+					constraint="no empty"
+					style="margin-left:19px"
+					>
+				</textbox>
+			</hlayout>
+				
+			</vbox>
+			<vbox>
+				<button style="margin-left:120px;"
+				onClick="@command('SavePassword')">
+				Lưu
+			</button>
+			</vbox>
+		</vlayout>
+	</window>
+</zk>

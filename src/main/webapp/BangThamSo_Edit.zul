@@ -3,35 +3,22 @@
 <include src="menu_bar.zul"></include>
 <window title="Thông tin khách hàng" border="normal" height="94%"
 		apply="org.zkoss.bind.BindComposer"
-		viewModel="@id('vm') @init('viewmodels.EditKhachHangViewModel')">
+		viewModel="@id('vm') @init('viewmodels.BangThamSoEditViewModel')">
 		<vlayout>
 			<hbox pack="center">
-				<label>Họ tên</label>
-				<textbox id="name_textbox" width="400px"
-					constraint="no empty" value="@bind(vm.currentCustomer.hoTen)">
+				<label>Mô tả tham số</label>
+				<textbox style="margin-left:28px;" id="name_textbox" width="400px"
+					constraint="no empty" value="@bind(vm.currentThamSo.noiDung)">
 				</textbox>
 			</hbox>
 			<hbox pack="center">
-				<label>Địa chỉ</label>
-				<textbox id="address_textbox" width="400px" value="@bind(vm.currentCustomer.diachi)"
+				<label>Giá trị</label>
+				<textbox style="margin-left:71px;" id="address_textbox" width="400px" value="@bind(vm.currentThamSo.giaTri)"
 					constraint="no empty">
 				</textbox>
 			</hbox>
-			<hbox pack="center">
-				<label>Điện thoại</label>
-				<textbox id="phone_textbox" width="400px" value="@bind(vm.currentCustomer.sdt)"
-					constraint="no empty">
-				</textbox>
-			</hbox>
-			<hbox pack="center">
-				<label>CMND:</label>
-				<textbox id="CMND_textbox" width="400px" value="@bind(vm.currentCustomer.cmnd)"
-					constraint="no empty">
-				</textbox>
-			</hbox>
-
-			<button
-				onClick="@command('updateThamSo',id = vm.currentCustomer.maKH, name =  name_textbox.value , address = address_textbox.value , phone_number = phone_textbox.value,cmnd = CMND_textbox.value, gender = gender_combobox.selectedItem.label)">
+			<button style="margin-left:105px;"
+				onClick="@command('updateThamSo')">
 				Lưu
 			</button>
 		</vlayout>
