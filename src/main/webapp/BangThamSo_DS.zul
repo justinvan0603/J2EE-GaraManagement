@@ -29,9 +29,9 @@
 			
 			<listhead>
 				
-				<listheader label="Tên tham số" width="150px"/>
+				<listheader label="Tên tham số" width="200px"/>
 				
-				<listheader label="Nội dung" width="150px"/>
+				<listheader label="Nội dung" width="300px"/>
 				<listheader label="Giá trị" width="150px" />
 				<listheader label="Tác vụ" width="150px" />
 			</listhead>

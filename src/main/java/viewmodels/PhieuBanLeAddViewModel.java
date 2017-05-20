@@ -1,5 +1,6 @@
 package viewmodels;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -11,6 +12,7 @@ import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.Messagebox;
@@ -29,6 +31,7 @@ import business.service.HieuXeServiceImpl;
 import business.service.PhieuBanLeServiceImpl;
 
 import business.service.PhuTungServiceImpl;
+import utils.SystemParam;
 
 
 public class PhieuBanLeAddViewModel {
@@ -145,7 +148,11 @@ public class PhieuBanLeAddViewModel {
 	}
 	@Init
 	public void init() {
-
+		if((Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) == null) || Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERNAME) == null)
+		{
+			Messagebox.show("Vui lòng đăng nhập!");
+			Executions.sendRedirect("./Login.zul");
+		}
 		this.chiTietPhieuBanLeServiceImpl =(ChiTietPhieuBanLeServiceImpl) SpringUtil.getBean("chitietphieubanle_service");
 		this.phieuBanLeServiceImpl = (PhieuBanLeServiceImpl) SpringUtil.getBean("phieubanle_service");
 		this.phuTungServiceImpl = (PhuTungServiceImpl) SpringUtil.getBean("phutung_service");
@@ -154,6 +161,15 @@ public class PhieuBanLeAddViewModel {
 		this.listHieuXe = this.hieuXeServiceImpl.getAll(HieuXe.class);
 		this.phieuBanLe = new PhieuBanLe();
 		this.phieuBanLe.setNgayLap(new Date());
+		
+		Long nhanVienID = (Long)Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID);
+		this.phieuBanLe.setMaNV(nhanVienID);
+		Date day = new Date();
+		Calendar c = Calendar.getInstance();
+		c.setTime(day);
+		c.add(Calendar.DATE, Integer.valueOf(SystemParam.getValueByKey("HanChotPhieuBanLe")));
+		day = c.getTime();
+		this.phieuBanLe.setHanChotThanhToan(day);
 		this.listKhachHang = this.customerServiceImpl.getAll(Customer.class);
 		this.setThanhTien(0);
 		this.setOfChiTietPhieuBL = new  HashSet<CT_PhieuBanLe>();

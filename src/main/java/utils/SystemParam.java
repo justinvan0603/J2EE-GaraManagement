@@ -7,6 +7,7 @@ import business.entities.BangThamSo;;
 
 public class SystemParam {
 	public static List<BangThamSo> listBTS = new ArrayList<BangThamSo>() ;
+
 	public static String getValueByKey(String key){
 		for (Iterator<BangThamSo> iterator = listBTS.iterator(); iterator.hasNext();) {
 			BangThamSo bts = iterator.next();
@@ -15,5 +16,13 @@ public class SystemParam {
 			}
 		}
 		return null;
+	}
+
+	public static List<BangThamSo> getListBTS() {
+		return listBTS;
+	}
+
+	public static void setListBTS(List<BangThamSo> listBTS) {
+		SystemParam.listBTS = listBTS;
 	}
 }

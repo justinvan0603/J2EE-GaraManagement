@@ -140,6 +140,11 @@ public class PhieuBanLeEditViewModel {
 	private CustomerServiceImpl customerServiceImpl;
 	@Init
 	public void init() {
+		if((Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) == null) || Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERNAME) == null)
+		{
+			Messagebox.show("Vui lòng đăng nhập!");
+			Executions.sendRedirect("./Login.zul");
+		}
 		long id = (Long)Sessions.getCurrent().getAttribute(PhieuBanLeDSViewModel.PBL_ID);
 		this.chiTietPhieuBanLeServiceImpl =(ChiTietPhieuBanLeServiceImpl) SpringUtil.getBean("chitietphieubanle_service");
 		this.phieuBanLeServiceImpl = (PhieuBanLeServiceImpl) SpringUtil.getBean("phieubanle_service");

@@ -10,13 +10,26 @@ import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.Messagebox;
 
+import business.entities.BangThamSo;
 import business.entities.NhanVien;
+import business.service.BangThamSoServiceImpl;
 import business.service.NhanVienServiceImpl;
 import utils.Md5Encryptor;
+import utils.SystemParam;
 
 public class LoginViewModel {
 	@WireVariable
 	private NhanVienServiceImpl nhanVienServiceImpl;
+	@WireVariable
+	private BangThamSoServiceImpl bangThamSoServiceImpl;
+	
+	public BangThamSoServiceImpl getBangThamSoServiceImpl() {
+		return bangThamSoServiceImpl;
+	}
+
+	public void setBangThamSoServiceImpl(BangThamSoServiceImpl bangThamSoServiceImpl) {
+		this.bangThamSoServiceImpl = bangThamSoServiceImpl;
+	}
 
 	private String username;
 	private String password;
@@ -50,8 +63,11 @@ public class LoginViewModel {
 
 	@Init
 	public void init() {
+		Sessions.getCurrent().setAttribute(LOGIN_USERNAME, null);
+		 Sessions.getCurrent().setAttribute(LOGIN_USERID, null);
 		this.nhanVienServiceImpl = (NhanVienServiceImpl) SpringUtil.getBean("nhanvien_service");
-
+		this.bangThamSoServiceImpl = (BangThamSoServiceImpl) SpringUtil.getBean("bangthamso_service");
+		
 	}
 
 	@Command
@@ -60,14 +76,15 @@ public class LoginViewModel {
 		//Messagebox.show(this.username);
 		if (result.isEmpty()) {
 			Messagebox.show("Tài khoản không tồn tại!");
-		} else {
+		} 
+		else 
+		{
 			 if(Md5Encryptor.MD5Hash(this.password).equals(result.get(0).getPassword()))
 			 {
-			Sessions.getCurrent().setAttribute(LOGIN_USERNAME, result.get(0).getUsername());
-			Sessions.getCurrent().setAttribute(LOGIN_USERID, result.get(0).getMaNV());
-			//Messagebox.show(Sessions.getCurrent().getAttribute(LOGIN_USERNAME).toString());
-			//Messagebox.show(Sessions.getCurrent().getAttribute(LOGIN_USERID).toString());
-			Executions.sendRedirect("./PhieuTiepNhan_DS.zul");
+				 Sessions.getCurrent().setAttribute(LOGIN_USERNAME, result.get(0).getUsername());
+				 Sessions.getCurrent().setAttribute(LOGIN_USERID, result.get(0).getMaNV());
+				 SystemParam.setListBTS(this.bangThamSoServiceImpl.getAll(BangThamSo.class));
+				 Executions.sendRedirect("./PhieuTiepNhan_DS.zul");
 			 }
 			 else
 			 {

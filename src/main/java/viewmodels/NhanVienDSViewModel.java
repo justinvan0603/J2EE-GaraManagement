@@ -11,7 +11,7 @@ import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zkplus.spring.SpringUtil;
-
+import org.zkoss.zul.Messagebox;
 
 import business.entities.NhanVien;
 import business.entities.NhomNguoiDung;
@@ -63,6 +63,11 @@ public class NhanVienDSViewModel {
 	}
 	@Init
 	public void init() {
+		if((Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) == null) || Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERNAME) == null)
+		{
+			Messagebox.show("Vui lòng đăng nhập!");
+			Executions.sendRedirect("./Login.zul");
+		}
 		this.nhanVienService = (NhanVienServiceImpl) SpringUtil.getBean("nhanvien_service");
 		this.nhomNguoiDungService = (NhomNguoiDungServiceImpl) SpringUtil.getBean("nhomnguoidung_service");
 		this.listNhanVien = this.nhanVienService.getAll(NhanVien.class);

@@ -1,5 +1,6 @@
 package viewmodels;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -31,6 +32,7 @@ import business.service.PhieuTiepNhanServiceImpl;
 import business.service.PhuTungServiceImpl;
 import business.service.ThoServiceImpl;
 import business.service.XeServiceImpl;
+import utils.SystemParam;
 
 public class PhieuDichVuAddViewModel {
 	@WireVariable
@@ -194,6 +196,11 @@ public class PhieuDichVuAddViewModel {
 
 	@Init
 	public void init() {
+		if((Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) == null) || Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERNAME) == null)
+		{
+			Messagebox.show("Vui lòng đăng nhập!");
+			Executions.sendRedirect("./Login.zul");
+		}
 		Integer idPhieuTiepNhan = (Integer) Sessions.getCurrent()
 				.getAttribute(PhieuTiepNhanDSViewModel.SELECTED_PHIEUTIEPNHAN_ID);
 		this.hieuXeServiceImpl = (HieuXeServiceImpl) SpringUtil.getBean("hieuxe_service");
@@ -226,8 +233,15 @@ public class PhieuDichVuAddViewModel {
 			this.phieuDichVu.setMaPhieuTiepNhan(idPhieuTiepNhan);
 		}
 		// end get value from Session
-
+		Long nhanVienID = (Long)Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID);
+		this.phieuDichVu.setMaNV(nhanVienID);
 		this.phieuDichVu.setNgayLap(new Date());
+		Date day = new Date();
+		Calendar c = Calendar.getInstance();
+		c.setTime(day);
+		c.add(Calendar.DATE, Integer.valueOf(SystemParam.getValueByKey("HanChotPhieuDichVu")));
+		day = c.getTime();
+		this.phieuDichVu.setHanChotThanhToan(day);
 		// this.selectedPhuTung = new PhuTung();
 		this.setThanhTien(0);
 		// if(this.listPhuTung != null)

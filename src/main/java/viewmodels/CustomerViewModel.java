@@ -38,6 +38,11 @@ public class CustomerViewModel {
 	}
 	@Init
 	public void init() {
+		if((Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) == null) || Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERNAME) == null)
+		{
+			Messagebox.show("Vui lòng đăng nhập!");
+			Executions.sendRedirect("./Login.zul");
+		}
 		this.customerService = (CustomerServiceImpl) SpringUtil.getBean("customer_service");
 		this.customers = this.customerService.getAll(Customer.class);
 	}

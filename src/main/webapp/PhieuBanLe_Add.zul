@@ -21,7 +21,12 @@
 							value="@load(vm.phieuBanLe.ngayLap)">
 						</textbox>
 					</vbox>
-
+					<vbox width="180px">
+						<label>Hạn chót thanh toán</label>
+						<textbox readonly="true"
+							value="@load(vm.phieuBanLe.hanChotThanhToan)">
+						</textbox>
+					</vbox>
 		
 					<vbox>
 					<label>Khách hàng:</label>

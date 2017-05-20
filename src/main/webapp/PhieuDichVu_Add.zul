@@ -22,6 +22,12 @@
 						</textbox>
 					</vbox>
 					<vbox width="180px">
+						<label>Hạn chót thanh toán</label>
+						<textbox readonly="true"
+							value="@load(vm.phieuDichVu.hanChotThanhToan)">
+						</textbox>
+					</vbox>
+					<vbox width="180px">
 						<label>Tiền công:</label>
 						<textbox id="txtTienCong"
 							>

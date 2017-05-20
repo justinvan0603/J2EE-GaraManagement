@@ -51,6 +51,11 @@ public class EditKhachHangViewModel {
 
 	@Init
 	public void init() {
+		if((Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) == null) || Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERNAME) == null)
+		{
+			Messagebox.show("Vui lòng đăng nhập!");
+			Executions.sendRedirect("./Login.zul");
+		}
 		// get service bean from Spring
 		this.customerService = (CustomerServiceImpl) SpringUtil.getBean("customer_service");
 		Long customerId = (Long) Sessions.getCurrent().getAttribute(CustomerViewModel.SELECTED_CUSTOMER);
