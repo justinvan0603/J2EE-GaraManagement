@@ -332,7 +332,7 @@ public class PhieuDichVuAddViewModel {
 			this.phieuDichVu.setTienCong(tiencong);
 			this.phieuDichVu.setMaTho(this.selectedTho.getId());
 			this.phieuDichVu.setNgayLap(new Date());
-			this.phieuDichVu.setMaNV(2); // TEST
+			//this.phieuDichVu.setMaNV(2); // TEST
 
 			double tongchitiet = 0;
 			for (CT_PhieuDichVu i : this.setofChiTietPhieuDV) {

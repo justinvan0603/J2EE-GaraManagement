@@ -243,7 +243,7 @@ public class PhieuBanLeAddViewModel {
 			this.phieuBanLe.setMaPhieuBan(mapbl);
 			this.phieuBanLe.setNgayLap(new Date());
 			this.phieuBanLe.setMaKH(this.selectedKhachHang.getMaKH());
-			this.phieuBanLe.setMaNV(2);
+			//this.phieuBanLe.setMaNV(2);
 			double tongchitiet = 0;
 			for(CT_PhieuBanLe i : this.setOfChiTietPhieuBL)
 			{
