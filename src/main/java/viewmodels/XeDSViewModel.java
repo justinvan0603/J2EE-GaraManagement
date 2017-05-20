@@ -9,6 +9,8 @@ import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.Messagebox;
@@ -38,13 +40,13 @@ public class XeDSViewModel {
 
 	@Init
 	public void init() {
-		
-		if((Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) == null) || Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERNAME) == null)
-		{
+
+		if ((Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) == null)
+				|| Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERNAME) == null) {
 			Messagebox.show("Vui lòng đăng nhập!");
 			Executions.sendRedirect("./Login.zul");
 		}
-		
+
 		this.xeServiceImpl = (XeServiceImpl) SpringUtil.getBean("xe_service");
 		if (this.xeServiceImpl != null) {
 			// be default, load all entities from table
@@ -105,12 +107,32 @@ public class XeDSViewModel {
 
 	@Command
 	@NotifyChange("listOfVehicel")
-	public void deleteVehicle(@BindingParam("vehicle_id") String bienSoXe) {
-		if (this.xeServiceImpl.delete(bienSoXe)) {
-			this.listOfVehicel = this.xeServiceImpl.getAll(Xe.class);
-		} else {
-			Messagebox.show("Lỗi khi xoá");
-		}
+	public void deleteVehicle(@BindingParam("vehicle_id") final String bienSoXe) {
+
+		// show confirmed messagebox to make sure deletion task again
+		Messagebox.show("Bạn có chắc muốn xóa dữ liệu đã chọn ? ", "Thông báo", Messagebox.OK | Messagebox.CANCEL,
+				Messagebox.QUESTION, new EventListener<Event>() {
+
+					@Override
+					public void onEvent(Event event) throws Exception {
+						// TODO Auto-generated method stub
+						Integer value = ((Integer) event.getData()).intValue();
+						switch (value) {
+						case Messagebox.OK:
+							if (xeServiceImpl.delete(bienSoXe)) {
+								listOfVehicel = xeServiceImpl.getAll(Xe.class);
+								Executions.sendRedirect("./Xe_DS.zul");
+							} else {
+								Messagebox.show("Không thể xóa, dữ liệu xe này có trong các phiếu khác.", "Lỗi",
+										Messagebox.RETRY, Messagebox.ERROR);
+							}
+							break;
+
+						default:
+							break;
+						}
+					}
+				});
 	}
 
 	@Command

@@ -8,6 +8,8 @@ import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.Messagebox;
@@ -30,13 +32,13 @@ public class PhieuBaoHanhDSViewModel {
 
 	@Init
 	public void init() {
-		
-		if((Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) == null) || Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERNAME) == null)
-		{
+
+		if ((Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) == null)
+				|| Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERNAME) == null) {
 			Messagebox.show("Vui lòng đăng nhập!");
 			Executions.sendRedirect("./Login.zul");
 		}
-		
+
 		this.phieuBaoHanhServiceImpl = (PhieuBaoHanhServiceImpl) SpringUtil.getBean("phieubaohanh_service");
 		this.ctPhieuBaoHanhServiceImpl = (CTPhieuBaoHanhServiceImpl) SpringUtil.getBean("ct_phieubaohanh_service");
 		if (this.phieuBaoHanhServiceImpl != null) {
@@ -99,18 +101,38 @@ public class PhieuBaoHanhDSViewModel {
 
 	@Command
 	@NotifyChange("listOfPhieuBaoHanhs")
-	public void xoaPhieuBaoHanh(@BindingParam("maphieubaohanh") Long id) {
-		// delete detail
-		List<CT_PhieuBaoHanh> listOfCT_PhieuBaoHanh = this.ctPhieuBaoHanhServiceImpl
-				.getAllByPhieuBaoHanhId(id.intValue());
-		if (!listOfCT_PhieuBaoHanh.isEmpty()) {
-			for (CT_PhieuBaoHanh ct_PhieuBaoHanh : listOfCT_PhieuBaoHanh) {
-				this.ctPhieuBaoHanhServiceImpl.delete(Long.valueOf(ct_PhieuBaoHanh.getId().toString()),
-						CT_PhieuBaoHanh.class);
-			}
-		}
-		this.phieuBaoHanhServiceImpl.delete(id, PhieuBaoHanh.class);
-		this.listOfPhieuBaoHanhs = this.phieuBaoHanhServiceImpl.getAll(PhieuBaoHanh.class);
+	public void xoaPhieuBaoHanh(@BindingParam("maphieubaohanh") final Long id) {
+
+		// show confirmed messagebox to make sure deletion task again
+		Messagebox.show("Bạn có chắc muốn xóa dữ liệu đã chọn ? ", "Thông báo", Messagebox.OK | Messagebox.CANCEL,
+				Messagebox.QUESTION, new EventListener<Event>() {
+
+					@Override
+					public void onEvent(Event event) throws Exception {
+						// TODO Auto-generated method stub
+						Integer value = ((Integer) event.getData()).intValue();
+						switch (value) {
+						case Messagebox.OK:
+							// delete detail
+							List<CT_PhieuBaoHanh> listOfCT_PhieuBaoHanh = ctPhieuBaoHanhServiceImpl
+									.getAllByPhieuBaoHanhId(id.intValue());
+							if (listOfCT_PhieuBaoHanh != null && !listOfCT_PhieuBaoHanh.isEmpty()) {
+								for (CT_PhieuBaoHanh ct_PhieuBaoHanh : listOfCT_PhieuBaoHanh) {
+									ctPhieuBaoHanhServiceImpl.delete(Long.valueOf(ct_PhieuBaoHanh.getId().toString()),
+											CT_PhieuBaoHanh.class);
+								}
+							}
+							phieuBaoHanhServiceImpl.delete(id, PhieuBaoHanh.class);
+							// this.listOfPhieuBaoHanhs =
+							// this.phieuBaoHanhServiceImpl.getAll(PhieuBaoHanh.class);
+							Executions.sendRedirect("./PhieuBaoHanh_DS.zul");
+							break;
+
+						default:
+							break;
+						}
+					}
+				});
 
 	}
 

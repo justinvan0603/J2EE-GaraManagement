@@ -8,6 +8,8 @@ import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.Messagebox;
 
@@ -31,13 +33,13 @@ public class PhieuChiDSViewModel {
 
 	@Init
 	public void init() {
-		
-		if((Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) == null) || Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERNAME) == null)
-		{
+
+		if ((Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) == null)
+				|| Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERNAME) == null) {
 			Messagebox.show("Vui lòng đăng nhập!");
 			Executions.sendRedirect("./Login.zul");
 		}
-		
+
 		this.phieuChiServiceImpl = (PhieuChiServiceImpl) SpringUtil.getBean("phieuchi_service");
 		if (this.phieuChiServiceImpl != null) {
 			this.listOfPhieuChis = this.phieuChiServiceImpl.getAll(PhieuChi.class);
@@ -93,7 +95,26 @@ public class PhieuChiDSViewModel {
 	}
 
 	@Command
-	public void xoaPhieuChi(@BindingParam("selected_phieuchi_id") Integer id) {
+	public void xoaPhieuChi(@BindingParam("selected_phieuchi_id") final Long id) {
+
+		// show confirmed messagebox to make sure deletion task again
+		Messagebox.show("Bạn có chắc muốn xóa dữ liệu đã chọn ? ", "Thông báo", Messagebox.OK | Messagebox.CANCEL,
+				Messagebox.QUESTION, new EventListener<Event>() {
+
+					@Override
+					public void onEvent(Event event) throws Exception {
+						// TODO Auto-generated method stub
+						Integer value = ((Integer) event.getData()).intValue();
+						switch (value) {
+						case Messagebox.OK:
+							phieuChiServiceImpl.delete(id, PhieuChi.class);
+							Executions.sendRedirect("./PhieuChi_DS.zul");
+							break;
+						default:
+							break;
+						}
+					}
+				});
 
 	}
 

@@ -8,6 +8,8 @@ import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.Messagebox;
@@ -44,28 +46,28 @@ public class PhieuTiepNhanDSViewModel {
 	@Init
 	public void init() {
 		// get service bean from Spring framework
-		if((Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) == null) || Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERNAME) == null)
-		{
+		if ((Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) == null)
+				|| Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERNAME) == null) {
 			Messagebox.show("Vui lòng đăng nhập!");
 			Executions.sendRedirect("./Login.zul");
 		}
-		
+
 		this.phieuTiepNhanServiceImpl = (PhieuTiepNhanServiceImpl) SpringUtil.getBean("phieutiepnhan_service");
 		this.bangThamSoServiceImpl = (BangThamSoServiceImpl) SpringUtil.getBean("bangthamso_service");
-		
+
 		if (this.bangThamSoServiceImpl != null) {
 			SystemParam.listBTS = this.bangThamSoServiceImpl.getAll(BangThamSo.class);
 			System.out.println(SystemParam.listBTS.toString());
 		} else {
 			throw new NullPointerException("Receive Header Service is null");
 		}
-		
+
 		if (this.phieuTiepNhanServiceImpl != null) {
 			this.listOfReceiveHeaders = this.phieuTiepNhanServiceImpl.getAll(PhieuTiepNhan.class);
 		} else {
 			throw new NullPointerException("Receive Header Service is null");
 		}
-		
+
 	}
 
 	//
@@ -88,7 +90,7 @@ public class PhieuTiepNhanDSViewModel {
 	public void lapPhieuDichVu(@BindingParam("phietiepnhan_id") Integer phieuTiepNhanId) {
 		// Send selected id into Session
 		Sessions.getCurrent().setAttribute(SELECTED_PHIEUTIEPNHAN_ID, phieuTiepNhanId);
-		//Messagebox.show(Sessions.getCurrent().getAttribute(SELECTED_PHIEUTIEPNHAN_ID).toString());
+		// Messagebox.show(Sessions.getCurrent().getAttribute(SELECTED_PHIEUTIEPNHAN_ID).toString());
 		Executions.sendRedirect("./PhieuDichVu_Add.zul");
 	}
 
@@ -159,10 +161,28 @@ public class PhieuTiepNhanDSViewModel {
 	 */
 	@Command
 	@NotifyChange("listOfReceiveHeaders")
-	public void deletePhieuTiepNhan(@BindingParam("phieutiepnhan_id") Long id) {
-		this.phieuTiepNhanServiceImpl.delete(id, PhieuTiepNhan.class);
-		// refresh data
-		this.listOfReceiveHeaders = this.phieuTiepNhanServiceImpl.getAll(PhieuTiepNhan.class);
+	public void deletePhieuTiepNhan(@BindingParam("phieutiepnhan_id") final Long id) {
+		// show confirmed messagebox to make sure deletion task again
+		Messagebox.show("Bạn có chắc muốn xóa dữ liệu đã chọn ? ", "Thông báo", Messagebox.OK | Messagebox.CANCEL,
+				Messagebox.QUESTION, new EventListener<Event>() {
+
+					@Override
+					public void onEvent(Event event) throws Exception {
+						// TODO Auto-generated method stub
+						Integer value = ((Integer) event.getData()).intValue();
+						switch (value) {
+						case Messagebox.OK:
+							phieuTiepNhanServiceImpl.delete(id, PhieuTiepNhan.class);
+							// refresh data
+							// reload page
+							Executions.sendRedirect("./PhieuTiepNhan_DS.zul");
+							break;
+
+						default:
+							break;
+						}
+					}
+				});
 	}
 
 	/**

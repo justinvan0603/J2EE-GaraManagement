@@ -57,6 +57,11 @@ public class Xe {
 	@Column(name = "HieuXe")
 	private String hieuXeReference;
 
+	// relationship entities
+	@ManyToOne
+	@JoinColumn(name = "MaKH", referencedColumnName = "MaKH", insertable = false, updatable = false)
+	private Customer customer; // owner of this car
+
 	// default constructor is required
 	public Xe() {
 		// TODO Auto-generated constructor stub
@@ -155,12 +160,24 @@ public class Xe {
 		this.hieuXe = hieuXe;
 	}
 
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+
 	/**
 	 * Get type of vehicle in {@link String}
 	 * 
 	 * @return
 	 */
 	public String getTypeString() {
+		// make sure value is valid
+		if (this.hinhThuc == null) {
+			return "Xe Gara";
+		}
 		return this.hinhThuc == true ? "Xe Gara" : "Xe sửa";
 	}
 

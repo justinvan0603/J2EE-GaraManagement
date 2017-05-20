@@ -35,12 +35,12 @@ public class XeEditViewModel {
 	@Init
 	public void init() {
 
-		if((Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) == null) || Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERNAME) == null)
-		{
+		if ((Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) == null)
+				|| Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERNAME) == null) {
 			Messagebox.show("Vui lòng đăng nhập!");
 			Executions.sendRedirect("./Login.zul");
 		}
-		
+
 		this.xeServiceImpl = (XeServiceImpl) SpringUtil.getBean("xe_service");
 		this.hieuXeServiceImpl = (HieuXeServiceImpl) SpringUtil.getBean("hieuxe_service");
 		// get selected vehicle id from list page
@@ -74,16 +74,15 @@ public class XeEditViewModel {
 			@BindingParam("so_km") int soKm, @BindingParam("tinh_trang") String tinhTrang,
 			@BindingParam("doi_xe") String doiXe) {
 		// hold these information into temporary variable
-		Xe temp = new Xe();
-		temp.setNgayTiepNhan(inDate);
-		temp.setHieuXeReference(maHieuXe);
-		temp.setHieuXe(this.currentVehicle.getHieuXe());
-		temp.setSoKhung(soKhung);
-		temp.setSoMay(soMay);
-		temp.setSoKM(soKm);
-		temp.setTinhTrang(tinhTrang);
-		temp.setDoiXe(doiXe);
-		if (this.xeServiceImpl.update(this.currentVehicle.getBienSoXe(), temp)) {
+		this.currentVehicle.setNgayTiepNhan(inDate);
+		this.currentVehicle.setHieuXeReference(maHieuXe);
+		this.currentVehicle.setHieuXe(this.currentVehicle.getHieuXe());
+		this.currentVehicle.setSoKhung(soKhung);
+		this.currentVehicle.setSoMay(soMay);
+		this.currentVehicle.setSoKM(soKm);
+		this.currentVehicle.setTinhTrang(tinhTrang);
+		this.currentVehicle.setDoiXe(doiXe);
+		if (this.xeServiceImpl.update(this.currentVehicle.getBienSoXe(), this.currentVehicle)) {
 			Messagebox.show("Thành công");
 			Executions.sendRedirect("./Xe_DS.zul"); // redirect to list page
 		} else {

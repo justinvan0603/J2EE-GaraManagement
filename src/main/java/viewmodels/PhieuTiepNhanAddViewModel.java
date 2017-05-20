@@ -52,12 +52,12 @@ public class PhieuTiepNhanAddViewModel {
 	@Init
 	public void init() {
 		// get parameter from session
-		if((Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) == null) || Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERNAME) == null)
-		{
+		if ((Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) == null)
+				|| Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERNAME) == null) {
 			Messagebox.show("Vui lòng đăng nhập!");
 			Executions.sendRedirect("./Login.zul");
 		}
-		
+
 		this.type = (String) Sessions.getCurrent().getAttribute(PhieuTiepNhanDSViewModel.ADD_NEW_TYPE);
 
 		this.customerServiceImpl = (CustomerServiceImpl) SpringUtil.getBean("customer_service");
@@ -135,12 +135,12 @@ public class PhieuTiepNhanAddViewModel {
 			this.customer.setSoTienNo(0.0D);
 			if (this.customerServiceImpl.save(this.customer)) {
 				// lay id cua khach hang
-				Long lastCustomerId = this.customerServiceImpl.getLastedId();
+				// Long lastCustomerId = this.customerServiceImpl.getLastedId();
 				// cap nhat ma khach hang cho xe
-				this.xe.setMaKH((Integer.valueOf(lastCustomerId.intValue())));
+				this.xe.setMaKH(Integer.parseInt(this.customer.getMaKH() + ""));
 
 				if (this.xeServiceImpl.save(this.xe)) {
-					this.phieuTiepNhan.setCustomerId(lastCustomerId);
+					this.phieuTiepNhan.setCustomerId(this.customer.getMaKH());
 					this.phieuTiepNhan.setStaffId(1); // TEST CUSTOMER ID
 					if (this.phieuTiepNhanServiceImpl.save(this.phieuTiepNhan)) {
 						Messagebox.show("Lưu thành công");

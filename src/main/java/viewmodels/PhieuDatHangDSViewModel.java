@@ -34,12 +34,12 @@ public class PhieuDatHangDSViewModel {
 	@Init
 	public void init() {
 
-		if((Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) == null) || Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERNAME) == null)
-		{
+		if ((Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) == null)
+				|| Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERNAME) == null) {
 			Messagebox.show("Vui lòng đăng nhập!");
 			Executions.sendRedirect("./Login.zul");
 		}
-		
+
 		this.phieuDatHangService = (PhieuDatHangServiceImpl) SpringUtil.getBean("phieudathang_service");
 		this.chiTietPhieuDatHangService = (ChiTietPhieuDatHangServiceImpl) SpringUtil
 				.getBean("ct_phieudathang_service");
@@ -74,13 +74,14 @@ public class PhieuDatHangDSViewModel {
 			if (!searchString.isEmpty()) {
 				Date searchDate = null;
 				try {
-//					String[] dateSplit = searchString.split("/");
-//					searchDate = DateUtil.parseFromStringArray(dateSplit);
-//					//this.listOfPhieuDatHang.clear(); // clear all items
-//					System.out.println(searchDate);
+					// String[] dateSplit = searchString.split("/");
+					// searchDate = DateUtil.parseFromStringArray(dateSplit);
+					// //this.listOfPhieuDatHang.clear(); // clear all items
+					// System.out.println(searchDate);
 					String[] dateSplit = searchString.split("/");
 					System.out.println(DateUtil.parseFromStringArray(dateSplit));
-					this.listOfPhieuDatHang = this.phieuDatHangService.find(null, null, DateUtil.parseFromStringArray(dateSplit), null, null);
+					this.listOfPhieuDatHang = this.phieuDatHangService.find(null, null,
+							DateUtil.parseFromStringArray(dateSplit), null, null);
 				} catch (Exception e) {
 					// TODO: handle exception
 					Messagebox.show("Vui lòng nhập định dạng ngày với format 'dd/MM/yyyy'", "Lỗi", Messagebox.OK,

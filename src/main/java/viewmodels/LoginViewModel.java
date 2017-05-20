@@ -22,7 +22,7 @@ public class LoginViewModel {
 	private NhanVienServiceImpl nhanVienServiceImpl;
 	@WireVariable
 	private BangThamSoServiceImpl bangThamSoServiceImpl;
-	
+
 	public BangThamSoServiceImpl getBangThamSoServiceImpl() {
 		return bangThamSoServiceImpl;
 	}
@@ -64,32 +64,27 @@ public class LoginViewModel {
 	@Init
 	public void init() {
 		Sessions.getCurrent().setAttribute(LOGIN_USERNAME, null);
-		 Sessions.getCurrent().setAttribute(LOGIN_USERID, null);
+		Sessions.getCurrent().setAttribute(LOGIN_USERID, null);
 		this.nhanVienServiceImpl = (NhanVienServiceImpl) SpringUtil.getBean("nhanvien_service");
 		this.bangThamSoServiceImpl = (BangThamSoServiceImpl) SpringUtil.getBean("bangthamso_service");
-		
+
 	}
 
 	@Command
 	public void SubmitLogin() {
 		List<NhanVien> result = this.nhanVienServiceImpl.findByUsername(this.username);
-		//Messagebox.show(this.username);
+		// Messagebox.show(this.username);
 		if (result.isEmpty()) {
 			Messagebox.show("Tài khoản không tồn tại!");
-		} 
-		else 
-		{
-			 if(Md5Encryptor.MD5Hash(this.password).equals(result.get(0).getPassword()))
-			 {
-				 Sessions.getCurrent().setAttribute(LOGIN_USERNAME, result.get(0).getUsername());
-				 Sessions.getCurrent().setAttribute(LOGIN_USERID, result.get(0).getMaNV());
-				 SystemParam.setListBTS(this.bangThamSoServiceImpl.getAll(BangThamSo.class));
-				 Executions.sendRedirect("./PhieuTiepNhan_DS.zul");
-			 }
-			 else
-			 {
-				 	Messagebox.show("Sai mật khẩu, vui lòng nhập lại!");
-			 }
+		} else {
+			if (Md5Encryptor.MD5Hash(this.password).equals(result.get(0).getPassword())) {
+				Sessions.getCurrent().setAttribute(LOGIN_USERNAME, result.get(0).getUsername());
+				Sessions.getCurrent().setAttribute(LOGIN_USERID, result.get(0).getMaNV());
+				SystemParam.setListBTS(this.bangThamSoServiceImpl.getAll(BangThamSo.class));
+				Executions.sendRedirect("./PhieuTiepNhan_DS.zul");
+			} else {
+				Messagebox.show("Sai mật khẩu, vui lòng nhập lại!");
+			}
 		}
 	}
 

@@ -27,13 +27,13 @@ public class PhieuChiAddViewModel {
 
 	@Init
 	public void init() {
-		
-		if((Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) == null) || Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERNAME) == null)
-		{
+
+		if ((Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) == null)
+				|| Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERNAME) == null) {
 			Messagebox.show("Vui lòng đăng nhập!");
 			Executions.sendRedirect("./Login.zul");
 		}
-		
+
 		this.phieuChiServiceImpl = (PhieuChiServiceImpl) SpringUtil.getBean("phieuchi_service");
 		this.nhanVienServiceImpl = (NhanVienServiceImpl) SpringUtil.getBean("nhanvien_service");
 		this.phieuNhapHangServiceImpl = (PhieuNhapHangServiceImpl) SpringUtil.getBean("phieunhaphang_service");
@@ -69,8 +69,7 @@ public class PhieuChiAddViewModel {
 			this.phieuChi.setMaPhieuChi(System.currentTimeMillis() + ""); // random
 
 			// get current signed in staff
-			this.staff = this.nhanVienServiceImpl.findById(1L, NhanVien.class);
-			this.phieuChi.setMaNV(1); // TEST
+			this.phieuChi.setMaNV((Integer) Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID)); // TEST
 
 		} else {
 			throw new NullPointerException("Service for PhieuChiAddViewModel is null");

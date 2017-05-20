@@ -11,7 +11,7 @@
 					width="250px" readonly="true">
 				</textbox>
 				<label>Khách hàng</label>
-				<textbox value="@bind(vm.currentVehicle.maKH)"
+				<textbox value="@bind(vm.currentVehicle.customer.hoTen)"
 					width="250px" readonly="true">
 				</textbox>
 				<label>Ngày tiếp nhận</label>

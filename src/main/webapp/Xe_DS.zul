@@ -2,7 +2,7 @@
 <zk>
 	<!-- import mutual menu bar -->
 	<include src="menu_bar.zul"></include>
-	<window title="Danh sách thợ" border="normal" height="94%"
+	<window title="Danh sách xe" border="normal" height="100%"
 		apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('viewmodels.XeDSViewModel')">
 		<vlayout width="100%">
@@ -32,29 +32,29 @@
 				selectedItem="@bind(vm.selectedXe)">
 				<auxhead>
 					<auxheader colspan="10" class="topic">
-						Thợ
+						Danh sách xe
 					</auxheader>
 				</auxhead>
 				<listhead>
-					<listheader label="Biển số" width="150px" />
+					<listheader label="Biển số" width="120px" />
 					<listheader label="Khách hàng" />
-					<listheader label="Ngày tiếp nhận" width="150px" />
+					<listheader label="Ngày tiếp nhận" />
 					<listheader label="Hiệu xe" />
 					<listheader label="Tình trạng" />
-					<listheader label="Hình thức" width="150px" />
-					<listheader label="Số máy" width="150px" />
-					<listheader label="Số khung" width="150px" />
-					<listheader label="Số KM" width="150px" />
-					<listheader label="Thao tác" width="150px" />
+					<listheader label="Hình thức" />
+					<listheader label="Số máy" />
+					<listheader label="Số khung" />
+					<listheader label="Số KM" />
+					<listheader label="Thao tác" />
 				</listhead>
 				<template name="model" var="e">
 					<listitem>
 						<listcell label="@load(e.bienSoXe)"></listcell>
-						<listcell label="@load(e.maKH)"></listcell>
+						<listcell label="@load(e.customer.hoTen)"></listcell>
 						<listcell label="@load(e.inDateStringFormat)"></listcell>
 						<listcell label="@load(e.hieuXe.maHieuXe)"></listcell>
 						<listcell label="@load(e.tinhTrang)"></listcell>
-						<listcell label="@load(e.typeString)"></listcell>
+						<listcell label="@load(e.typeString)"</listcell>
 						<listcell label="@load(e.soMay)"></listcell>
 						<listcell label="@load(e.soKhung)"></listcell>
 						<listcell label="@load(e.soKM)"></listcell>
@@ -63,10 +63,12 @@
 							<button tooltip="@load(e.bienSoXe)"
 								onClick="@command('seeVehicleDetail', vehicle_id=e.bienSoXe)"
 								image="/images/ic_edit_black_18dp_1x.png">
+								Sửa
 							</button>
 							<button
 								image="/images/ic_delete_black_18dp_1x.png"
 								onClick="@command('deleteVehicle' , vehicle_id = e.bienSoXe)">
+								Xóa
 							</button>
 						</listcell>
 					</listitem>
