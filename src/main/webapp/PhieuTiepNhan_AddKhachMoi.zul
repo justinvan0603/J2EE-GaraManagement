@@ -86,12 +86,12 @@
 				</intbox>
 				<!-- update button -->
 			</vbox>
-			<vbox>
+			<vbox style="padding : 16px;">
 				<label>Ngày trả</label>
 				<datebox constraint="no empty" id="datebox_ngaytraxe"
 					value="@save(vm.phieuTiepNhan.givebackDate)" width="250px">
 				</datebox>
-				<button image="/images/ic_done.png" onClick="@command('luuPhieuTiepNhan')">
+				<button style="margin-top: 10px;" image="/images/ic_done.png" onClick="@command('luuPhieuTiepNhan')">
 					Lưu
 				</button>
 			</vbox>

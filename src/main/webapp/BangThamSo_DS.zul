@@ -25,7 +25,7 @@
 			
 			<listhead>
 				
-				<listheader label="Tên tham số" width="200px"/>
+				<listheader label="Tên tham số" visible="false" width="200px"/>
 				
 				<listheader label="Nội dung"/>
 				<listheader label="Giá trị" width="150px" />

@@ -23,7 +23,7 @@
 					</vbox>
 					
 		
-					<vbox>
+					<vbox width="180px">
 					<label>Thợ:</label>
 					<label value="@load(vm.phieuDichVu.tho.name)"></label>
 					</vbox>
@@ -37,7 +37,7 @@
 			</groupbox>
 
 			<window title="Nhập chi tiết" border="none">
-				<hlayout style="padding : 4px;">
+				<hlayout style="padding : 4px;" xmlns:w="client">
 					<label>Phụ tùng</label>
 					
 					<combobox model="@load(vm.listPhuTung)" id="combobox_phutung" selectedItem="@load(vm.selectedPhuTung)"
@@ -48,7 +48,17 @@
 					</template>
 				</combobox>
 					<label>Số lượng</label>
-					<textbox id="txtSoLuong" value="0" onChange="@command('ontxtSoLuongChanging',soluong = txtSoLuong.value)"></textbox>
+					<textbox maxlength="3" id="txtSoLuong" value="0" onChange="@command('ontxtSoLuongChanging',soluong = txtSoLuong.value)">
+						<attribute w:name="doKeyPress_">
+							<![CDATA[
+								function(evt)
+								{
+									if ((evt.which < 48 || evt.which > 57) && evt.which != 8 && evt.which != 0)
+										evt.stop();
+								}
+							]]>
+						</attribute>
+					</textbox>
 					<label>Đơn giá</label>
 					<textbox id="txtDonGia" value = "@load(vm.selectedPhuTung.donGiaXuat)" readonly= "true"></textbox>
 					
@@ -66,11 +76,6 @@
 			<listbox height="200px" hflex="1" mold="paging"
 				model="@load(vm.setofChiTietPhieuDV)" pageSize="15"
 				width="100%">
-				<auxhead>
-					<auxheader colspan="3">
-						Danh sách chi tiết phiếu dịch vụ
-					</auxheader>
-				</auxhead>
 				<listhead>
 					<listheader label="Mã phụ tùng" />
 					<listheader label="Tên phụ tùng" />

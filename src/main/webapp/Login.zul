@@ -8,7 +8,7 @@
 		mode="overlapped" position="center,center">
 		<vlayout>
 			<vbox>
-			<hlayout>
+			<hlayout style="margin-left:10px">
 				<label width="150px">Tên đăng nhập:</label>
 				<textbox id="username_textbox" width="200px"
 					value="@bind(vm.username) @save(vm.username , before='SubmitLogin')"
@@ -17,7 +17,7 @@
 			</hlayout>
 			</vbox>
 			<vbox>
-			<hlayout>
+			<hlayout style="margin-left:10px">
 				<label width="150px">Mật khẩu:</label>
 				<textbox type="password" id="password_textbox"
 					width="200px"
@@ -30,7 +30,7 @@
 				
 			</vbox>
 			<vbox>
-				<button style="margin-left:90px;"
+				<button style="margin-left:110px;"
 				onClick="@command('SubmitLogin')">
 				Đăng nhập
 			</button>

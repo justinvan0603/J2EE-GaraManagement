@@ -45,7 +45,7 @@
 						href="/ThongTin.zul" />
 				</menupopup>
 			</menu>
-		<menuitem style="margin-left:230px" label="Đăng xuất"  href="/Login.zul" />
+		<menuitem style="margin-left:200px" label="Đăng xuất"  href="/Login.zul" />
 		</menubar>
 	</vlayout>
 </zk>
