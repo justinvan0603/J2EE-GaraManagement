@@ -54,6 +54,7 @@ public class BangThamSoEditViewModel {
 			if(this.bangThamSoService.update(this.currentThamSo.getTenThamSo(), this.currentThamSo))
 			{
 				Messagebox.show("Cập nhật thành công");
+				Executions.sendRedirect("./BangThamSo_DS.zul");
 			}
 			else
 			{
