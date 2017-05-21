@@ -26,8 +26,8 @@ public class ThongTinViewModel {
 	public void init() 
 	{
 		this.nhanVienServiceImpl = (NhanVienServiceImpl) SpringUtil.getBean("nhanvien_service");
-		//Long nhanVienID = (Long)Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID);
-		this.currentNhanVien = this.nhanVienServiceImpl.findById(3, NhanVien.class);
+		Long nhanVienID = (Long)Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID);
+		this.currentNhanVien = this.nhanVienServiceImpl.findById(nhanVienID, NhanVien.class);
 		
 	}
 

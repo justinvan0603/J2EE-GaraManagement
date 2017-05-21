@@ -49,13 +49,13 @@ public class PhieuBanLeServiceImpl implements GeneralService<PhieuBanLe> {
 	@Override
 	public boolean update(Long id, PhieuBanLe newInfor) {
 		// TODO Auto-generated method stub
-		return this.update(id, newInfor);
+		return this.phieuBanLeDaoImpl.update(id, newInfor);
 	}
 
 	@Override
 	public boolean delete(Long id, Class<PhieuBanLe> entity) {
 		// TODO Auto-generated method stub
-		return this.delete(id, entity);
+		return this.phieuBanLeDaoImpl.delete(id, entity);
 	}
 
 	@Override

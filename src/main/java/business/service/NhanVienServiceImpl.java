@@ -39,7 +39,7 @@ public class NhanVienServiceImpl implements GeneralService<NhanVien> {
 	@Override
 	public boolean update(Long id, NhanVien newInfor) {
 		// TODO Auto-generated method stub
-		return this.update(id, newInfor);
+		return this.nhanVienDaoImpl.update(id, newInfor);
 	}
 
 	@Override
