@@ -1,13 +1,18 @@
 package business.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 
 import business.entities.PhieuDichVu;
 import business.persistence.GeneralDao;
@@ -70,5 +75,28 @@ public class PhieuDichVuServiceImpl implements GeneralService<PhieuDichVu> {
 		criteria.add(Restrictions.like("MaPhieuDichVu",  maphieu,MatchMode.ANYWHERE));
 		return criteria.list();
 	}
-
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
+	public List<PhieuDichVu> filterByCreationDate(Date value) {
+		Session session = null;
+		Transaction transaction = null;
+		List<PhieuDichVu> result = null;
+		try {
+			session = this.phieuDichVuDaoImpl.getSessionFactory().openSession();
+			transaction = session.beginTransaction();
+			Criteria criteria = session.createCriteria(PhieuDichVu.class);
+			criteria.add(Restrictions.eq("NgayLap", value));
+			result = criteria.list(); // get all records
+			transaction.commit();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			result = null;
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
+		return result;
+	}
 }

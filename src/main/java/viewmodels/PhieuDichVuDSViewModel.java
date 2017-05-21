@@ -21,6 +21,7 @@ import business.service.ChiTietPhieuDichVuServiceImpl;
 import business.service.PhieuDichVuServiceImpl;
 import business.service.PhieuThuServiceImpl;
 import business.service.PhuTungServiceImpl;
+import utils.DateUtil;
 
 public class PhieuDichVuDSViewModel {
 	@WireVariable
@@ -37,6 +38,7 @@ public class PhieuDichVuDSViewModel {
 	static {
 		
 		SEARCH_TYPES.add("Mã phiếu");
+		SEARCH_TYPES.add("Ngày lập");
 		
 	}
 	public static String PDV_ID = "PDV_ID";
@@ -83,6 +85,10 @@ public class PhieuDichVuDSViewModel {
 		if (selectedIndex == 0) {
 			this.listPhieuDichVu = this.phieuDichVuService.findByMaPhieu(searchString);
 			
+		}
+		if(selectedIndex == 1)
+		{
+			this.listPhieuDichVu = this.phieuDichVuService.filterByCreationDate(DateUtil.parseFromStringArray(searchString.split("/")));
 		}
 //		if (selectedIndex == 1) {
 //			this.listNhanVien = this.nhanVienService.findByPhone(searchString);

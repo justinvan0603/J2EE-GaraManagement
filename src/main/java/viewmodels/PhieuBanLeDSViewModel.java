@@ -16,6 +16,7 @@ import org.zkoss.zul.Messagebox;
 import business.entities.PhieuBanLe;
 import business.service.PhieuBanLeServiceImpl;
 import business.service.PhieuThuServiceImpl;
+import utils.DateUtil;
 
 public class PhieuBanLeDSViewModel {
 	@WireVariable
@@ -60,6 +61,7 @@ public class PhieuBanLeDSViewModel {
 	static {
 		
 		SEARCH_TYPES.add("Mã phiếu");
+		SEARCH_TYPES.add("Ngày lập");
 		
 	}
 	public  List<String> getSearchTypes() {
@@ -84,6 +86,10 @@ public class PhieuBanLeDSViewModel {
 		if (selectedIndex == 0) {
 			this.listPhieuBanLe = this.phieuBanLeServiceImpl.findByMaPhieu(searchString);
 			
+		}
+		if(selectedIndex == 1)
+		{
+			this.listPhieuBanLe = this.phieuBanLeServiceImpl.filterByCreationDate(DateUtil.parseFromStringArray(searchString.split("/")));
 		}
 
 	}
