@@ -227,6 +227,7 @@ public class PhieuBanLeAddViewModel {
 			ctPhieu.setMaPT(this.selectedPhuTung.getMaPhuTung());
 			ctPhieu.setMaPhuTung(this.selectedPhuTung.getId());
 			this.setOfChiTietPhieuBL.add(ctPhieu);
+			
 		}
 		else
 		{
@@ -258,6 +259,9 @@ public class PhieuBanLeAddViewModel {
 				{
 					i.setIdPhieuBanLe(this.phieuBanLe.getIdPhieuBanLe());
 					this.chiTietPhieuBanLeServiceImpl.save(i);
+					PhuTung pt = this.phuTungServiceImpl.findById(i.getMaPhuTung(), PhuTung.class);
+					pt.setSoLuongTon(pt.getSoLuongTon() - i.getSoLuong());
+					this.phuTungServiceImpl.update(pt.getId(), pt);
 				}
 				Customer target = this.customerServiceImpl.findById(this.selectedKhachHang.getMaKH(), Customer.class);
 				target.setSoTienNo(target.getSoTienNo() + tongchitiet);
