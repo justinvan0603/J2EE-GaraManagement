@@ -17,15 +17,26 @@ import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.Messagebox;
 
 import business.entities.CT_PhieuDichVu;
+import business.entities.HieuXe;
 import business.entities.PhieuDichVu;
+import business.entities.PhieuTiepNhan;
 import business.entities.PhuTung;
-
+import business.entities.Xe;
 import business.service.ChiTietPhieuDichVuServiceImpl;
+import business.service.HieuXeServiceImpl;
 import business.service.PhieuDichVuServiceImpl;
+import business.service.PhieuTiepNhanServiceImpl;
 import business.service.PhuTungServiceImpl;
+import business.service.XeServiceImpl;
 
 
 public class PhieuDichVuEditViewModel {
+	@WireVariable
+	private HieuXeServiceImpl hieuXeServiceImpl;
+	@WireVariable
+	private XeServiceImpl xeServiceImpl;
+	@WireVariable
+	private PhieuTiepNhanServiceImpl phieuTiepNhanServiceImpl;
 	@WireVariable
 	private PhieuDichVuServiceImpl phieuDichVuServiceImpl;
 	private List<PhuTung> listPhuTung;
@@ -98,18 +109,22 @@ public class PhieuDichVuEditViewModel {
 			Executions.sendRedirect("./Login.zul");
 		}
 		Long id = (Long) Sessions.getCurrent().getAttribute(PhieuDichVuDSViewModel.PDV_ID);
-		//long id = 1;
-		//this.currentPhieuDichVu = new PhieuDichVu();
+		this.phieuTiepNhanServiceImpl = (PhieuTiepNhanServiceImpl) SpringUtil.getBean("phieutiepnhan_service");
+		this.hieuXeServiceImpl = (HieuXeServiceImpl) SpringUtil.getBean("hieuxe_service");
+		this.xeServiceImpl = (XeServiceImpl) SpringUtil.getBean("xe_service");
+		
+		
 		this.phieuDichVuServiceImpl = (PhieuDichVuServiceImpl) SpringUtil.getBean("phieudichvu_service");
-		this.chiTietPhieuDichVuServiceImpl = (ChiTietPhieuDichVuServiceImpl) SpringUtil.getBean("chitietphieudichvu_service");
-		//this.setofChiTietPhieuDV = new HashSet<CT_PhieuDichVu>();
-		//this.thoServiceImpl = (ThoServiceImpl) SpringUtil.getBean("tho_service");
-		this.phuTungServiceImpl = (PhuTungServiceImpl) SpringUtil.getBean("phutung_service");
-		this.listPhuTung = this.phuTungServiceImpl.find(null, null, "Ford");
-		//this.listTho = this.thoServiceImpl.getAll(Tho.class);
-		//this.phieuDichVu = new PhieuDichVu();
-		//this.phieuDichVu.setNgayLap(new Date());
 		this.phieuDichVu = this.phieuDichVuServiceImpl.findById(id, PhieuDichVu.class);
+		this.chiTietPhieuDichVuServiceImpl = (ChiTietPhieuDichVuServiceImpl) SpringUtil.getBean("chitietphieudichvu_service");
+		PhieuTiepNhan ptn = this.phieuTiepNhanServiceImpl.findById(this.phieuDichVu.getMaPhieuTiepNhan(), PhieuTiepNhan.class);
+		
+		Xe xe = this.xeServiceImpl.findByLicensePlate(ptn.getLicensePlate());
+		HieuXe hieuxe = this.hieuXeServiceImpl.findByIdString(xe.getHieuXeReference());
+		this.phuTungServiceImpl = (PhuTungServiceImpl) SpringUtil.getBean("phutung_service");
+		this.listPhuTung = this.phuTungServiceImpl.find(null, null, hieuxe.getMaHieuXe());
+
+		
 		//this.selectedPhuTung = new PhuTung();
 		this.setThanhTien(0);
 //		if(this.listPhuTung != null)
@@ -150,7 +165,7 @@ public class PhieuDichVuEditViewModel {
 				}
 				
 			}
-			this.listPhuTung.remove(ctPhieu);
+			this.setofChiTietPhieuDV.remove(ctPhieu);
 			
 			
 			Messagebox.show("Xóa thành công!", "Thông báo", Messagebox.OK, Messagebox.INFORMATION);
@@ -179,11 +194,12 @@ public class PhieuDichVuEditViewModel {
 		ctPhieu.setHanBaoHanh(this.selectedPhuTung.getHanBaoHanh());
 		ctPhieu.setMaPhuTung(this.selectedPhuTung.getId());
 		ctPhieu.setIdPhieuDichVu(this.phieuDichVu.getIdPhieuDichVu());
-		this.phieuDichVu.setTongTien(this.phieuDichVu.getTongTien() - ctPhieu.getThanhTien());
-		this.phieuDichVu.setSoTienConLai(this.phieuDichVu.getSoTienConLai() - ctPhieu.getThanhTien());
+		this.phieuDichVu.setTongTien(this.phieuDichVu.getTongTien() + ctPhieu.getThanhTien());
+		this.phieuDichVu.setSoTienConLai(this.phieuDichVu.getSoTienConLai() + ctPhieu.getThanhTien());
 		this.setofChiTietPhieuDV.clear();
+		this.chiTietPhieuDichVuServiceImpl.save(ctPhieu);
+		this.setofChiTietPhieuDV = new HashSet<CT_PhieuDichVu>( this.chiTietPhieuDichVuServiceImpl.getByPhieuDichVuId(this.phieuDichVu.getIdPhieuDichVu()));
 		
-		this.setofChiTietPhieuDV = new HashSet<CT_PhieuDichVu>( this.chiTietPhieuDichVuServiceImpl.getByPhieuDichVuId(1));
 		}
 		else {
 			Messagebox.show("Số lượng nhập vượt quá số lượng tồn", "Lỗi", Messagebox.OK, Messagebox.ERROR);

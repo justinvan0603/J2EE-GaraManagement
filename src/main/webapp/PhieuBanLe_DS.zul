@@ -58,7 +58,7 @@
 								onClick="@command('deletePhieuBanLe',id =e.idPhieuBanLe, makh = e.maKH, tongtien = e.tongTien)">
 							</button>
 							<button image="/images/ic_add.png"
-								label="Lập phiếu thu"
+								label="Lập phiếu thu" if="${e.soTienConLai > 0}" visible="true"
 								onClick="@command('createPhieuThu',phieuthu_id = e.idPhieuBanLe)">
 							</button>
 						</listcell>
