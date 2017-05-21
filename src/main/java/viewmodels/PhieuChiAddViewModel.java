@@ -69,7 +69,8 @@ public class PhieuChiAddViewModel {
 			this.phieuChi.setMaPhieuChi(System.currentTimeMillis() + ""); // random
 
 			// get current signed in staff
-			this.phieuChi.setMaNV((Integer) Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID)); // TEST
+			this.phieuChi
+					.setMaNV(Integer.parseInt(Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) + "")); // TEST
 
 		} else {
 			throw new NullPointerException("Service for PhieuChiAddViewModel is null");

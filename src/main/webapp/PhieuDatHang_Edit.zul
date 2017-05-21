@@ -94,10 +94,16 @@
 						onChange="@command('onSlandDongiaChange',sl = textbox_soluong.value, dongia = textbox_dongia.value)"
 						width="40px" maxlength="3">
 						<attribute w:name="doKeyPress_">
+
+
+
 							
 							<![CDATA[ function(evt) { if ((evt.which <
 							48 || evt.which > 57) && evt.which != 8 &&
 							evt.which != 0) evt.stop(); } ]]>
+							
+							
+							
 							
 						</attribute>
 					</textbox>
@@ -107,10 +113,16 @@
 						onChange="@command('onSlandDongiaChange',sl = textbox_soluong.value, dongia = textbox_dongia.value)"
 						width="100px" maxlength="8">
 						<attribute w:name="doKeyPress_">
+
+
+
 							
 							<![CDATA[ function(evt) { if ((evt.which <
 							48 || evt.which > 57) && evt.which != 8 &&
 							evt.which != 0) evt.stop(); } ]]>
+							
+							
+							
 							
 						</attribute>
 					</textbox>
@@ -118,8 +130,7 @@
 					<textbox id="textbox_thanhtien" readonly="true"
 						value="@load(vm.thanhTien)" width="150px">
 					</textbox>
-					<button
-						image="/images/ic_add.png" label="Thêm"
+					<button image="/images/ic_add.png" label="Thêm"
 						onClick="@command('themChiTiet', id_pt = combobox_phutung.selectedItem.value
 						 , sl = textbox_soluong.value, dongia = textbox_dongia.value, thanhtien = textbox_thanhtien.value)">
 					</button>
@@ -144,7 +155,7 @@
 						<listcell label="@load(e.phuTung.tenPhuTung)"></listcell>
 						<listcell label="@load(e.soLuong)"></listcell>
 						<listcell label="@load(e.donGia)"></listcell>
-						<listcell label="@load(e.thanhTien)"></listcell>
+						<listcell label="@load(e.thanhTienString)"></listcell>
 						<listcell>
 							<button
 								image="/images/ic_delete_black_18dp_1x.png" label="Xoá"
@@ -156,12 +167,12 @@
 			</listbox>
 			<hlayout>
 				<label width="50px">Tổng tiền:</label>
-				<label value="@load(vm.tongTien)"></label>
+				<label value="@load(vm.tongTienString)"></label>
 			</hlayout>
 			<hlayout style="padding: 4px">
-				<button 
-					image="/images/ic_done.png" label="Lưu"
-					onClick="@command('luuPhieu')"></button>
+				<button image="/images/ic_done.png" label="Lưu"
+					onClick="@command('luuPhieu')">
+				</button>
 			</hlayout>
 		</vlayout>
 	</window>

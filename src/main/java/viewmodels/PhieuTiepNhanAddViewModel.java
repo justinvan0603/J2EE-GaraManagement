@@ -141,17 +141,26 @@ public class PhieuTiepNhanAddViewModel {
 
 				if (this.xeServiceImpl.save(this.xe)) {
 					this.phieuTiepNhan.setCustomerId(this.customer.getMaKH());
-					this.phieuTiepNhan.setStaffId(1); // TEST CUSTOMER ID
+					this.phieuTiepNhan.setStaffId(
+							Integer.parseInt(Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) + "")); // current
+																														// signed
+																														// in
+																														// staff
+
 					if (this.phieuTiepNhanServiceImpl.save(this.phieuTiepNhan)) {
-						Messagebox.show("Lưu thành công");
+						Messagebox.show("Lưu thành công", "Thông báo", Messagebox.OK, Messagebox.INFORMATION);
 						Executions.sendRedirect("./PhieuTiepNhan_DS.zul");
 					}
 				}
 			}
 		} else if (this.type.equals(PhieuTiepNhanDSViewModel.FROM_FREQUENTER)) {
-			this.phieuTiepNhan.setStaffId(1); // TEST CUSTOMER ID
+			this.phieuTiepNhan
+					.setStaffId(Integer.parseInt(Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) + "")); // current
+																															// signed
+																															// in
+																															// staff
 			if (this.phieuTiepNhanServiceImpl.save(this.phieuTiepNhan)) {
-				Messagebox.show("Lưu thành công");
+				Messagebox.show("Lưu thành công", "Thông báo", Messagebox.OK, Messagebox.INFORMATION);
 				Executions.sendRedirect("./PhieuTiepNhan_DS.zul");
 			}
 		}

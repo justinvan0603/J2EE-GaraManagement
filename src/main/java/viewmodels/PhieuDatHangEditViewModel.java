@@ -24,6 +24,7 @@ import business.service.NhanVienServiceImpl;
 import business.service.NhomNhaCungCapServiceImpl;
 import business.service.PhieuDatHangServiceImpl;
 import business.service.PhuTungServiceImpl;
+import utils.StringFormatUtil;
 import utils.SystemParam;
 
 public class PhieuDatHangEditViewModel {
@@ -55,13 +56,13 @@ public class PhieuDatHangEditViewModel {
 
 	@Init
 	public void init() {
-		
-		if((Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) == null) || Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERNAME) == null)
-		{
+
+		if ((Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) == null)
+				|| Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERNAME) == null) {
 			Messagebox.show("Vui lòng đăng nhập!");
 			Executions.sendRedirect("./Login.zul");
 		}
-		
+
 		idPhieu = ((Long) Sessions.getCurrent().getAttribute(PhieuDatHangDSViewModel.SELECTED_PDH_ID)).longValue();
 		this.phieuServiceImpl = (PhieuDatHangServiceImpl) SpringUtil.getBean("phieudathang_service");
 		this.ctPhieuServiceImpl = (ChiTietPhieuDatHangServiceImpl) SpringUtil.getBean("ct_phieudathang_service");
@@ -78,7 +79,8 @@ public class PhieuDatHangEditViewModel {
 			this.listOfNhomNCCs = this.nhomNhaCungCapServiceImpl.getAll(NhomNhaCungCap.class);
 			this.setSelectedNCC(this.nhaCungCapServiceImpl.findById(phieu.getMaNCC(), NhaCungCap.class));
 			this.setSelectedNhomNCC(this.nhomNhaCungCapServiceImpl.find(selectedNCC.getNhomNCC()));
-			this.listOfNhaCungCaps = this.nhaCungCapServiceImpl.find(null, null, null,this.selectedNhomNCC.getTenNhom());
+			this.listOfNhaCungCaps = this.nhaCungCapServiceImpl.find(null, null, null,
+					this.selectedNhomNCC.getTenNhom());
 			loadChiTietPhieu();
 		} else {
 			if (this.phieuServiceImpl == null) {
@@ -104,7 +106,8 @@ public class PhieuDatHangEditViewModel {
 			@BindingParam("dongia") double dongia, @BindingParam("thanhtien") double thanhtien) {
 		int soluongdattoida = Integer.valueOf(SystemParam.getValueByKey("SoLuongDatToiDa"));
 		if (sl > soluongdattoida) {
-			Messagebox.show("Số lượng đặt phải bé hơn số lượng đặt tối đa: " + String.valueOf(soluongdattoida), "Lỗi", Messagebox.OK, Messagebox.ERROR);
+			Messagebox.show("Số lượng đặt phải bé hơn số lượng đặt tối đa: " + String.valueOf(soluongdattoida), "Lỗi",
+					Messagebox.OK, Messagebox.ERROR);
 			return;
 		}
 		PhuTung pt = this.phuTungServiceImpl.findById(mapt, PhuTung.class);
@@ -128,16 +131,17 @@ public class PhieuDatHangEditViewModel {
 	@Command
 	@NotifyChange({ "setOfCT_Phieus", "tongTien" })
 	public void xoaChiTiet(@BindingParam("id_ct") long idct, @BindingParam("thanhtien") double thanhtien) {
-		if (this.setOfCT_Phieus.size() > 1){
+		if (this.setOfCT_Phieus.size() > 1) {
 			if (this.ctPhieuServiceImpl.delete(idct, CT_PhieuDatHang.class)) {
 				this.tongTien -= thanhtien;
 				loadChiTietPhieu();
 				Messagebox.show("Xoá chi tiết phiếu thành công", "Thông báo", Messagebox.OK, Messagebox.INFORMATION);
 			}
 		} else {
-			Messagebox.show("Mỗi phiếu phải có ít nhất một chi tiết phiếu.", "Thông báo", Messagebox.RETRY, Messagebox.ERROR);
+			Messagebox.show("Mỗi phiếu phải có ít nhất một chi tiết phiếu.", "Thông báo", Messagebox.RETRY,
+					Messagebox.ERROR);
 		}
-		
+
 	}
 
 	@Command
@@ -191,7 +195,8 @@ public class PhieuDatHangEditViewModel {
 				Messagebox.show("Lưu lỗi", "Thông báo", Messagebox.RETRY, Messagebox.ERROR);
 			}
 		} else {
-			Messagebox.show("Mỗi phiếu phải có ít nhất một chi tiết phiếu.", "Thông báo", Messagebox.RETRY, Messagebox.ERROR);
+			Messagebox.show("Mỗi phiếu phải có ít nhất một chi tiết phiếu.", "Thông báo", Messagebox.RETRY,
+					Messagebox.ERROR);
 		}
 	}
 
@@ -286,6 +291,10 @@ public class PhieuDatHangEditViewModel {
 
 	public void setTongTien(Double tongTien) {
 		this.tongTien = tongTien;
+	}
+
+	public String getTongTienString() {
+		return StringFormatUtil.toCurrencyString(this.tongTien);
 	}
 
 }

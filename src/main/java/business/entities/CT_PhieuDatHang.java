@@ -10,10 +10,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import utils.StringFormatUtil;
+
 @Entity
 @Table(name = "ct_phieudathang")
 public class CT_PhieuDatHang {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "Id")
@@ -30,16 +32,16 @@ public class CT_PhieuDatHang {
 
 	@Column(name = "DonGia")
 	private Double DonGia;
-	
+
 	@Column(name = "ThanhTien")
 	private Double ThanhTien;
-	
+
 	@Transient
 	private String TenPT;
-	
+
 	@Transient
 	private String MaPT;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "MaPhuTung", referencedColumnName = "Id", insertable = false, updatable = false)
 	private PhuTung PhuTung;
@@ -100,6 +102,10 @@ public class CT_PhieuDatHang {
 		PhuTung = phuTung;
 	}
 
+	public String getThanhTienString() {
+		return StringFormatUtil.toCurrencyString(this.ThanhTien);
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -141,5 +147,4 @@ public class CT_PhieuDatHang {
 		MaPT = maPT;
 	}
 
-	
 }

@@ -17,7 +17,6 @@ import org.zkoss.zul.Messagebox;
 
 import business.entities.CT_PhieuBaoHanh;
 import business.entities.HieuXe;
-import business.entities.NhanVien;
 import business.entities.PhieuBaoHanh;
 import business.entities.PhuTung;
 import business.service.CTPhieuBaoHanhServiceImpl;
@@ -52,13 +51,13 @@ public class PhieuBaoHanhAddViewModel {
 
 	@Init
 	public void init() {
-		
-		if((Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) == null) || Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERNAME) == null)
-		{
+
+		if ((Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) == null)
+				|| Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERNAME) == null) {
 			Messagebox.show("Vui lòng đăng nhập!");
 			Executions.sendRedirect("./Login.zul");
 		}
-		
+
 		this.phieuBaoHanhServiceImpl = (PhieuBaoHanhServiceImpl) SpringUtil.getBean("phieubaohanh_service");
 		this.ctPhieuBaoHanhDaoImpl = (CTPhieuBaoHanhServiceImpl) SpringUtil.getBean("ct_phieubaohanh_service");
 		this.nhanVienServiceImpl = (NhanVienServiceImpl) SpringUtil.getBean("nhanvien_service");
@@ -71,8 +70,12 @@ public class PhieuBaoHanhAddViewModel {
 			this.phieuBaoHanh = new PhieuBaoHanh();
 			// set some default values
 			this.phieuBaoHanh.setNgayLap(new Date());
-			this.phieuBaoHanh.setMaNhanVien(1); // TEST
-			this.phieuBaoHanh.setNhanVien(this.nhanVienServiceImpl.findById(1L, NhanVien.class)); // TEST
+			this.phieuBaoHanh.setMaNhanVien(
+					Integer.parseInt(Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) + "")); // current
+																												// signed
+																												// in
+																												// staff
+
 			this.phieuBaoHanh.setTinhTrang("Đang trong tình trạng bảo hành");
 
 			// load list to view
@@ -118,7 +121,11 @@ public class PhieuBaoHanhAddViewModel {
 	@NotifyChange({ "listOfPhuTungs", "selectedPhutung" })
 	public void onComboboxHieuXeChange(@BindingParam("ma_hieuxe") String maHieuXe) {
 		this.listOfPhuTungs = this.phuTungServiceImpl.find(null, null, maHieuXe);
-		this.selectedPhutung = this.listOfPhuTungs.get(0);
+		if (this.listOfPhuTungs != null && !this.listOfPhuTungs.isEmpty()) {
+			this.selectedPhutung = this.listOfPhuTungs.get(0);
+		} else {
+			this.selectedPhutung = new PhuTung();
+		}
 	}
 
 	@Command

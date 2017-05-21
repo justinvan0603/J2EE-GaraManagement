@@ -9,8 +9,7 @@
 				<hlayout style="text-align : left; padding : 4px;">
 					<vbox width="300px">
 						<label>Mã phiếu đặt</label>
-						<textbox
-							maxlength="20"
+						<textbox maxlength="20"
 							value="@load(vm.phieu.maPhieuDat) @save(vm.phieu.maPhieuDat, before = 'luuPhieu')"
 							width="200px">
 						</textbox>
@@ -23,8 +22,8 @@
 					</vbox>
 					<vbox width="300px">
 						<label>Ngày lập</label>
-						<datebox id="datebox_ngaylap" width="200px" buttonVisible="false"
-							value="@load(vm.phieu.ngayDat)"
+						<datebox id="datebox_ngaylap" width="200px"
+							buttonVisible="false" value="@load(vm.phieu.ngayDat)"
 							readonly="true" format="dd/MM/yyyy">
 						</datebox>
 					</vbox>
@@ -65,7 +64,7 @@
 			</groupbox>
 			<!-- nhap thong tin chi tiet -->
 			<window title="Nhập chi tiết" border="none">
-				<hlayout style="padding : 4px;"  xmlns:w="client">
+				<hlayout style="padding : 4px;" xmlns:w="client">
 					<label>Hiệu xe</label>
 					<combobox id="cmbHieuXe" width="120px"
 						onSelect="@command('onComboboxHieuXeChange', ma_hieuxe = self.selectedItem.value)"
@@ -86,54 +85,50 @@
 						</template>
 					</combobox>
 					<label>Lượng tồn:</label>
-					<textbox readonly="true" 
-						value="@load(vm.selectedPhuTung.soLuongTon)"
-						width="40px">
+					<textbox readonly="true"
+						value="@load(vm.selectedPhuTung.soLuongTon)" width="40px">
 					</textbox>
 					<label>Số lượng:</label>
-					<textbox id="textbox_soluong" 
+					<textbox id="textbox_soluong"
 						onChange="@command('onSlandDongiaChange',sl = textbox_soluong.value, dongia = textbox_dongia.value)"
 						width="40px" maxlength="3">
 						<attribute w:name="doKeyPress_">
-							<![CDATA[
-								function(evt)
-								{
-									if ((evt.which < 48 || evt.which > 57) && evt.which != 8 && evt.which != 0)
-										evt.stop();
-								}
-							]]>
+
+							
+							<![CDATA[ function(evt) { if ((evt.which <
+							48 || evt.which > 57) && evt.which != 8 &&
+							evt.which != 0) evt.stop(); } ]]>
+							
+							
 						</attribute>
 					</textbox>
 					<label>Đơn giá:</label>
-					<textbox id="textbox_dongia" 
+					<textbox id="textbox_dongia"
 						value="@load(vm.selectedPhuTung.donGiaXuat)"
 						onChange="@command('onSlandDongiaChange',sl = textbox_soluong.value, dongia = textbox_dongia.value)"
 						width="100px" maxlength="8">
 						<attribute w:name="doKeyPress_">
-							<![CDATA[
-								function(evt)
-								{
-									if ((evt.which < 48 || evt.which > 57) && evt.which != 8 && evt.which != 0)
-										evt.stop();
-								}
-							]]>
+
+							
+							<![CDATA[ function(evt) { if ((evt.which <
+							48 || evt.which > 57) && evt.which != 8 &&
+							evt.which != 0) evt.stop(); } ]]>
+							
+							
 						</attribute>
 					</textbox>
 					<label>Thành tiền:</label>
 					<textbox id="textbox_thanhtien" readonly="true"
-						value="@load(vm.thanhTien)"
-						width="150px">
+						value="@load(vm.thanhTien)" width="150px">
 					</textbox>
-					<button
-						image="/images/ic_add.png" label="Thêm"
+					<button image="/images/ic_add.png" label="Thêm"
 						onClick="@command('themChiTiet', id_pt = combobox_phutung.selectedItem.value
 						 , sl = textbox_soluong.value, dongia = textbox_dongia.value, thanhtien = textbox_thanhtien.value)">
 					</button>
 				</hlayout>
 			</window>
 			<listbox height="200px" hflex="1" mold="paging"
-				model="@load(vm.setOfCT_Phieus)" pageSize="15"
-				width="100%">
+				model="@load(vm.setOfCT_Phieus)" pageSize="15" width="100%">
 				<listhead>
 					<listheader label="Mã phụ tùng" width="100px" />
 					<listheader label="Tên phụ tùng" />
@@ -148,7 +143,7 @@
 						<listcell label="@load(e.tenPT)"></listcell>
 						<listcell label="@load(e.soLuong)"></listcell>
 						<listcell label="@load(e.donGia)"></listcell>
-						<listcell label="@load(e.thanhTien)"></listcell>
+						<listcell label="@load(e.thanhTienString)"></listcell>
 						<listcell>
 							<button
 								image="/images/ic_delete_black_18dp_1x.png" label="Xoá"
@@ -159,14 +154,14 @@
 				</template>
 			</listbox>
 			<hlayout>
-				<label width="50px">Tổng tiền:</label> 
-				<label value="@load(vm.tongTien)"></label>
+				<label width="50px">Tổng tiền:</label>
+				<label value="@load(vm.tongTienString)"></label>
 			</hlayout>
 			<hlayout style="padding: 4px">
-				<button 
-					image="/images/ic_done.png" label="Lưu"
-					onClick="@command('luuPhieu')"></button>
-			</hlayout>	
+				<button image="/images/ic_done.png" label="Lưu"
+					onClick="@command('luuPhieu')">
+				</button>
+			</hlayout>
 		</vlayout>
 	</window>
 </zk>

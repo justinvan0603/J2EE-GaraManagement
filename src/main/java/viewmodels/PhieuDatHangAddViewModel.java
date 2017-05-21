@@ -30,6 +30,7 @@ import business.service.NhanVienServiceImpl;
 import business.service.NhomNhaCungCapServiceImpl;
 import business.service.PhieuDatHangServiceImpl;
 import business.service.PhuTungServiceImpl;
+import utils.StringFormatUtil;
 import utils.SystemParam;
 
 public class PhieuDatHangAddViewModel {
@@ -56,17 +57,18 @@ public class PhieuDatHangAddViewModel {
 	private NhaCungCap selectedNCC;
 	private Double thanhTien;
 	private Double tongTien;
+
 	private long maNV;
 
 	@Init
 	public void init() {
-		
-		if((Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) == null) || Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERNAME) == null)
-		{
+
+		if ((Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) == null)
+				|| Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERNAME) == null) {
 			Messagebox.show("Vui lòng đăng nhập!");
 			Executions.sendRedirect("./Login.zul");
 		}
-		
+
 		this.phieuServiceImpl = (PhieuDatHangServiceImpl) SpringUtil.getBean("phieudathang_service");
 		this.ctPhieuServiceImpl = (ChiTietPhieuDatHangServiceImpl) SpringUtil.getBean("ct_phieudathang_service");
 		this.nhanVienServiceImpl = (NhanVienServiceImpl) SpringUtil.getBean("nhanvien_service");
@@ -88,12 +90,12 @@ public class PhieuDatHangAddViewModel {
 			day = c.getTime();
 			this.phieu.setNgayGiao(day);
 			this.tongTien = 0.0;
-			
+
 			this.listOfHieuXes = this.hieuXeServiceImpl.getAll(HieuXe.class);
 			this.listOfNhomNCCs = this.nhomNhaCungCapServiceImpl.getAll(NhomNhaCungCap.class);
 
 			this.setOfCT_Phieus = new HashSet<CT_PhieuDatHang>();
-			
+
 		} else {
 			if (this.phieuServiceImpl == null) {
 				throw new NullPointerException("Service 'PhieuDatHang' is null");
@@ -113,7 +115,8 @@ public class PhieuDatHangAddViewModel {
 			@BindingParam("dongia") double dongia, @BindingParam("thanhtien") double thanhtien) {
 		int soluongdattoida = Integer.valueOf(SystemParam.getValueByKey("SoLuongDatToiDa"));
 		if (sl > soluongdattoida) {
-			Messagebox.show("Số lượng đặt phải bé hơn số lượng đặt tối đa: " + String.valueOf(soluongdattoida), "Lỗi", Messagebox.OK, Messagebox.ERROR);
+			Messagebox.show("Số lượng đặt phải bé hơn số lượng đặt tối đa: " + String.valueOf(soluongdattoida), "Lỗi",
+					Messagebox.OK, Messagebox.ERROR);
 			return;
 		}
 		PhuTung pt = this.phuTungServiceImpl.findById(mapt, PhuTung.class);
@@ -200,7 +203,8 @@ public class PhieuDatHangAddViewModel {
 				Messagebox.show("Lưu lỗi", "Thông báo", Messagebox.RETRY, Messagebox.ERROR);
 			}
 		} else {
-			Messagebox.show("Mỗi phiếu phải có ít nhất một chi tiết phiếu.", "Thông báo", Messagebox.RETRY, Messagebox.ERROR);
+			Messagebox.show("Mỗi phiếu phải có ít nhất một chi tiết phiếu.", "Thông báo", Messagebox.RETRY,
+					Messagebox.ERROR);
 		}
 	}
 
@@ -287,6 +291,10 @@ public class PhieuDatHangAddViewModel {
 
 	public void setTongTien(Double tongTien) {
 		this.tongTien = tongTien;
+	}
+
+	public String getTongTienString() {
+		return StringFormatUtil.toCurrencyString(this.tongTien);
 	}
 
 }

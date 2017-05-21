@@ -29,6 +29,7 @@ import business.service.NhanVienServiceImpl;
 import business.service.NhomNhaCungCapServiceImpl;
 import business.service.PhieuNhapHangServiceImpl;
 import business.service.PhuTungServiceImpl;
+import utils.StringFormatUtil;
 import utils.SystemParam;
 
 public class PhieuNhapHangAddViewModel {
@@ -60,13 +61,13 @@ public class PhieuNhapHangAddViewModel {
 
 	@Init
 	public void init() {
-		
-		if((Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) == null) || Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERNAME) == null)
-		{
+
+		if ((Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) == null)
+				|| Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERNAME) == null) {
 			Messagebox.show("Vui lòng đăng nhập!");
 			Executions.sendRedirect("./Login.zul");
 		}
-		
+
 		this.phieuServiceImpl = (PhieuNhapHangServiceImpl) SpringUtil.getBean("phieunhaphang_service");
 		this.ctPhieuServiceImpl = (ChiTietPhieuNhapHangServiceImpl) SpringUtil.getBean("ct_phieunhaphang_service");
 		this.nhanVienServiceImpl = (NhanVienServiceImpl) SpringUtil.getBean("nhanvien_service");
@@ -98,7 +99,8 @@ public class PhieuNhapHangAddViewModel {
 			@BindingParam("dongia") double dongia, @BindingParam("thanhtien") double thanhtien) {
 		int soluongnhaptoida = Integer.valueOf(SystemParam.getValueByKey("SoLuongNhapHangToiDa"));
 		if (sl > soluongnhaptoida) {
-			Messagebox.show("Số lượng nhập phải bé hơn số lượng nhập tối đa: " + String.valueOf(soluongnhaptoida), "Lỗi", Messagebox.OK, Messagebox.ERROR);
+			Messagebox.show("Số lượng nhập phải bé hơn số lượng nhập tối đa: " + String.valueOf(soluongnhaptoida),
+					"Lỗi", Messagebox.OK, Messagebox.ERROR);
 			return;
 		}
 		PhuTung pt = this.phuTungServiceImpl.findById(mapt, PhuTung.class);
@@ -295,5 +297,9 @@ public class PhieuNhapHangAddViewModel {
 
 	public void setSelectedNhomNCC(NhomNhaCungCap selectedNhomNCC) {
 		this.selectedNhomNCC = selectedNhomNCC;
+	}
+
+	public String getTongTienString() {
+		return StringFormatUtil.toCurrencyString(this.tongTien);
 	}
 }
