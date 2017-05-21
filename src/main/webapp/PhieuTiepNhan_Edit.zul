@@ -1,5 +1,6 @@
 <?page title="Cập nhật thông tin phiếu tiếp nhận" contentType="text/html;charset=UTF-8"?>
 <zk>
+	<include src="menu_bar.zul"></include>
 	<window title="Cập nhật thông tin phiếu tiếp nhận" border="normal" height="94%"
 		apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('viewmodels.PhieuTiepNhanEditViewModel')">
