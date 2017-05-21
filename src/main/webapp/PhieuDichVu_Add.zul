@@ -18,13 +18,13 @@
 					<vbox width="180px">
 						<label>Ngày lập</label>
 						<textbox readonly="true"
-							value="@load(vm.phieuDichVu.ngayLap)">
+							value="@load(vm.phieuDichVu.shortNgayLap)">
 						</textbox>
 					</vbox>
 					<vbox width="180px">
 						<label>Hạn chót thanh toán</label>
 						<textbox readonly="true"
-							value="@load(vm.phieuDichVu.hanChotThanhToan)">
+							value="@load(vm.phieuDichVu.shortHanChotThanhToan)">
 						</textbox>
 					</vbox>
 					<vbox width="180px">

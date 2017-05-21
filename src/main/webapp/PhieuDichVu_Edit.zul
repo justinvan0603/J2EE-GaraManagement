@@ -18,7 +18,7 @@
 					<vbox width="180px">
 						<label>Ngày lập</label>
 						<textbox readonly="true"
-							value="@load(vm.phieuDichVu.ngayLap)">
+							value="@load(vm.phieuDichVu.shortNgayLap)">
 						</textbox>
 					</vbox>
 					
