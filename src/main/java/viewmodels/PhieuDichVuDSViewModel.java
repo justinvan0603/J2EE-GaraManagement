@@ -15,11 +15,15 @@ import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.Messagebox;
 
 import business.entities.CT_PhieuDichVu;
+import business.entities.Customer;
 import business.entities.PhieuDichVu;
+import business.entities.PhieuTiepNhan;
 import business.entities.PhuTung;
 import business.service.ChiTietPhieuDichVuServiceImpl;
+import business.service.CustomerServiceImpl;
 import business.service.PhieuDichVuServiceImpl;
 import business.service.PhieuThuServiceImpl;
+import business.service.PhieuTiepNhanServiceImpl;
 import business.service.PhuTungServiceImpl;
 import utils.DateUtil;
 
@@ -34,6 +38,10 @@ public class PhieuDichVuDSViewModel {
 	private ChiTietPhieuDichVuServiceImpl chiTietPhieuDichVuServiceImpl;
 	@WireVariable
 	private PhuTungServiceImpl phuTungServiceImpl;
+	@WireVariable
+	private CustomerServiceImpl customerServiceImpl;
+	@WireVariable
+	private PhieuTiepNhanServiceImpl phieuTiepNhanServiceImpl;
 	private static final List<String> SEARCH_TYPES = new ArrayList<String>();
 	static {
 		
@@ -76,6 +84,8 @@ public class PhieuDichVuDSViewModel {
 		this.phieuThuServiceImpl = (PhieuThuServiceImpl)SpringUtil.getBean("phieuthu_service");
 		this.phieuDichVuService = (PhieuDichVuServiceImpl)SpringUtil.getBean("phieudichvu_service");
 		this.listPhieuDichVu = this.phieuDichVuService.getAll(PhieuDichVu.class);
+		this.customerServiceImpl = (CustomerServiceImpl) SpringUtil.getBean("customer_service");
+		this.phieuTiepNhanServiceImpl = (PhieuTiepNhanServiceImpl) SpringUtil.getBean("phieutiepnhan_service");
 	}
 	@Command
 	@NotifyChange("listPhieuDichVu")
@@ -123,12 +133,16 @@ public class PhieuDichVuDSViewModel {
 	
 	@Command 
 	@NotifyChange("listPhieuDichVu")
-	public void deletePhieuDichVu(@BindingParam("id") Long id)
+	public void deletePhieuDichVu(@BindingParam("id") Long id,@BindingParam("ptn") Long ptn,@BindingParam("tongtien") Long tongtien)
 	{
 		if(this.phieuThuServiceImpl.findByIdPhieuCanThu("pdv", id).size() == 0)
 		{
 			if(this.phieuDichVuService.delete(id, PhieuDichVu.class))
 			{
+				PhieuTiepNhan phieutiepnhan = this.phieuTiepNhanServiceImpl.findById(ptn, PhieuTiepNhan.class);
+				Customer kh = this.customerServiceImpl.findById(phieutiepnhan.getCustomerId(), Customer.class);
+				kh.setSoTienNo(kh.getSoTienNo() - tongtien);
+				this.customerServiceImpl.update(kh.getMaKH(), kh);
 				this.listPhieuDichVu.clear();
 				this.setListPhieuDichVu( this.phieuDichVuService.getAll(PhieuDichVu.class));
 			

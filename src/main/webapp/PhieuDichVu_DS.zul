@@ -51,7 +51,7 @@
 							</button>
 							<button
 								image="/images/ic_delete_black_18dp_1x.png" label="Xoá"
-								onClick="@command('deletePhieuDichVu',id = e.idPhieuDichVu)">
+								onClick="@command('deletePhieuDichVu',id = e.idPhieuDichVu,ptn = e.maPhieuTiepNhan, tongtien = e.tongTien)">
 							</button>
 							<button
 								image="/images/ic_add.png" label="Lập phiếu thu"

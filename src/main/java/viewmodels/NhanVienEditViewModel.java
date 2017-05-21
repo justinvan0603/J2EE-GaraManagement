@@ -24,7 +24,14 @@ public class NhanVienEditViewModel {
 	private NhanVienServiceImpl nhanVienService;
 	private NhomNguoiDungServiceImpl nhomNguoiDungService;
 	private List<NhomNguoiDung> listNhomNguoiDung;
-	
+	private String currentGender;
+	public String getCurrentGender() {
+		return currentGender;
+	}
+	public void setCurrentGender(String currentGender) {
+		this.currentGender = currentGender;
+	}
+
 	private NhanVien currentNhanVien;
 	private NhomNguoiDung selectedNhomNguoiDung;
 	
@@ -85,7 +92,7 @@ public class NhanVienEditViewModel {
 			this.currentNhanVien = this.nhanVienService.findById(nhanvienId, NhanVien.class);
 		//}
 		this.selectedNhomNguoiDung = this.nhomNguoiDungService.findById(currentNhanVien.getMaNhomNguoiDung(), NhomNguoiDung.class);
-		
+		this.currentGender = this.currentNhanVien.getGioiTinh() ? "Nam": "Nữ";
 	}
 	@Command
 	public void EditNhanVien(@BindingParam("name") String name, @BindingParam("address") String address,

@@ -19,6 +19,15 @@ public class EditKhachHangViewModel {
 	@WireVariable
 	private CustomerServiceImpl customerService;
 	private static List<String> GENDERS = new ArrayList<String>();
+	private String currentGender;
+	public String getCurrentGender() {
+		return currentGender;
+	}
+
+	public void setCurrentGender(String currentGender) {
+		this.currentGender = currentGender;
+	}
+
 	static {
 		GENDERS.add("Nam");
 		GENDERS.add("Nữ");
@@ -61,6 +70,7 @@ public class EditKhachHangViewModel {
 		Long customerId = (Long) Sessions.getCurrent().getAttribute(CustomerViewModel.SELECTED_CUSTOMER);
 		if (customerId != null) {
 			this.currentCustomer = this.customerService.findById(customerId, Customer.class);
+			this.currentGender = this.currentCustomer.getGioiTinh() == true? "Nam" : "Nữ";
 		}
 	}
 
@@ -69,7 +79,7 @@ public class EditKhachHangViewModel {
 	}
 
 	@Command
-	public void updateCustomer(@BindingParam("name") Long id, @BindingParam("name") String name,
+	public void updateCustomer(@BindingParam("id") Long id, @BindingParam("name") String name,
 			@BindingParam("address") String address, @BindingParam("phone_number") String phoneNumber,
 			@BindingParam("cmnd") String cmnd, @BindingParam("gender") String gender) {
 		if (!name.isEmpty() && !address.isEmpty() && !phoneNumber.isEmpty() && !gender.isEmpty() && !cmnd.isEmpty()) {

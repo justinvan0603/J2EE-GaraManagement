@@ -13,7 +13,9 @@ import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.Messagebox;
 
+import business.entities.Customer;
 import business.entities.PhieuBanLe;
+import business.service.CustomerServiceImpl;
 import business.service.PhieuBanLeServiceImpl;
 import business.service.PhieuThuServiceImpl;
 import utils.DateUtil;
@@ -26,6 +28,8 @@ public class PhieuBanLeDSViewModel {
 	private PhieuBanLe selectedPhieuBanLe;
 	private List<PhieuBanLe> listPhieuBanLe;
 	public static String PBL_ID = "PBL_ID";
+	@WireVariable
+	private CustomerServiceImpl customerServiceImpl;
 	public PhieuBanLeServiceImpl getPhieuBanLeServiceImpl() {
 		return phieuBanLeServiceImpl;
 	}
@@ -77,6 +81,7 @@ public class PhieuBanLeDSViewModel {
 		this.phieuThuServiceImpl = (PhieuThuServiceImpl) SpringUtil.getBean("phieuthu_service");
 		this.phieuBanLeServiceImpl = (PhieuBanLeServiceImpl) SpringUtil.getBean("phieubanle_service");
 		this.listPhieuBanLe =  this.phieuBanLeServiceImpl.getAll(PhieuBanLe.class);
+		this.customerServiceImpl = (CustomerServiceImpl) SpringUtil.getBean("customer_service");
 	}
 	@Command
 	@NotifyChange("listPhieuDichVu")
@@ -110,12 +115,15 @@ public class PhieuBanLeDSViewModel {
 	}
 	@Command 
 	@NotifyChange("listPhieuBanLe")
-	public void deletePhieuBanLe(@BindingParam("id") Long id)
+	public void deletePhieuBanLe(@BindingParam("id") Long id,@BindingParam("makh") Long makh,@BindingParam("tongtien") double tongtien)
 	{
 		if(this.phieuThuServiceImpl.findByIdPhieuCanThu("pbl", id).isEmpty())
 		{
 			if(this.phieuBanLeServiceImpl.delete(id, PhieuBanLe.class))
 			{
+				Customer kh = this.customerServiceImpl.findById(makh, Customer.class);
+				kh.setSoTienNo(kh.getSoTienNo() - tongtien);
+				this.customerServiceImpl.update(kh.getMaKH(), kh);
 				this.listPhieuBanLe.clear();
 				this.setListPhieuBanLe(this.phieuBanLeServiceImpl.getAll(PhieuBanLe.class));
 			}
