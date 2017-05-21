@@ -8,6 +8,8 @@ import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.Messagebox;
@@ -98,17 +100,33 @@ public class NhaCungCapDSViewModel {
 
 	@Command
 	@NotifyChange("listOfNCC")
-	public void deleteNCC(@BindingParam("ncc_id") long id) {
-		if (this.pdhService.findByIdNCC(id).size() == 0 && this.pnhService.findByIdNCC(id).size() == 0 ){
-			if (this.nccService.delete(id, NhaCungCap.class)) {
-				this.listOfNCC = this.nccService.getAll(NhaCungCap.class);
-			} else {
-				Messagebox.show("Lỗi khi xoá");
-			}
-		} else {
-			Messagebox.show("Không thể xoá nhà cung cấp đã có giao dịch với cửa hàng", "Lỗi", Messagebox.OK, Messagebox.ERROR);
-		}
-		
+	public void deleteNCC(@BindingParam("ncc_id") final long id) {
+		Messagebox.show("Bạn có chắc muốn xóa dữ liệu đã chọn ? ", "Thông báo", Messagebox.OK | Messagebox.CANCEL,
+				Messagebox.QUESTION, new EventListener<Event>() {
+
+					@Override
+					public void onEvent(Event event) throws Exception {
+						// TODO Auto-generated method stub
+						Integer value = ((Integer) event.getData()).intValue();
+						switch (value) {
+						case Messagebox.OK:
+							if (pdhService.findByIdNCC(id).size() == 0 && pnhService.findByIdNCC(id).size() == 0 ){
+								if (nccService.delete(id, NhaCungCap.class)) {
+									listOfNCC = nccService.getAll(NhaCungCap.class);
+								} else {
+									Messagebox.show("Lỗi khi xoá");
+								}
+							} else {
+								Messagebox.show("Không thể xoá nhà cung cấp đã có giao dịch với cửa hàng", "Lỗi", Messagebox.OK, Messagebox.ERROR);
+							}
+							Executions.sendRedirect("./NhaCungCap_DS.zul");
+							break;
+
+						default:
+							break;
+						}
+					}
+				});
 	}
 
 	@Command

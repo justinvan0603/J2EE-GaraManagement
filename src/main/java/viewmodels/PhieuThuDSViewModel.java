@@ -9,6 +9,8 @@ import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.Messagebox;
@@ -101,36 +103,52 @@ public class PhieuThuDSViewModel {
 
 	@Command
 	@NotifyChange("listOfPhieuThu")
-	public void deletePhieuThu(@BindingParam("phieuthu_id") long id) {
-		
-		this.phieuBanLeService = (PhieuBanLeServiceImpl) SpringUtil.getBean("phieubanle_service");
-		this.phieuDichVuService = (PhieuDichVuServiceImpl) SpringUtil.getBean("phieudichvu_service");
-		
-		PhieuThu pt = this.phieuThuService.findById(id, PhieuThu.class);
-		String loaiPhieuCanThu;
-		long maPhieuCanThu;
-		if (pt.getIdPhieuBanLe() != null){
-			loaiPhieuCanThu = "pbl";
-			maPhieuCanThu = pt.getIdPhieuBanLe();
-		} else {
-			loaiPhieuCanThu = "pdv";
-			maPhieuCanThu = pt.getIdPhieuDichVu();
-		}
-		if (this.phieuThuService.delete(id, PhieuThu.class)) {
-			
-			if (loaiPhieuCanThu.equals("pbl")) {
-				PhieuBanLe pbl = this.phieuBanLeService.findById(maPhieuCanThu, PhieuBanLe.class);
-				pbl.setSoTienConLai(pbl.getSoTienConLai() + pt.getSoTien());
-				this.phieuBanLeService.update(pbl.getIdPhieuBanLe(), pbl);
-			} else {
-				PhieuDichVu pdv = this.phieuDichVuService.findById(maPhieuCanThu, PhieuDichVu.class);
-				pdv.setSoTienConLai(pdv.getSoTienConLai() + pt.getSoTien());
-				this.phieuDichVuService.update(pdv.getIdPhieuDichVu(), pdv);
-			}
-			this.listOfPhieuThu = this.phieuThuService.getAll(PhieuThu.class);
-		} else {
-			Messagebox.show("Lỗi khi xoá");
-		}
+	public void deletePhieuThu(@BindingParam("phieuthu_id") final long id) {
+		Messagebox.show("Bạn có chắc muốn xóa dữ liệu đã chọn ? ", "Thông báo", Messagebox.OK | Messagebox.CANCEL,
+				Messagebox.QUESTION, new EventListener<Event>() {
+
+					@Override
+					public void onEvent(Event event) throws Exception {
+						// TODO Auto-generated method stub
+						Integer value = ((Integer) event.getData()).intValue();
+						switch (value) {
+						case Messagebox.OK:
+							phieuBanLeService = (PhieuBanLeServiceImpl) SpringUtil.getBean("phieubanle_service");
+							phieuDichVuService = (PhieuDichVuServiceImpl) SpringUtil.getBean("phieudichvu_service");
+							
+							PhieuThu pt = phieuThuService.findById(id, PhieuThu.class);
+							String loaiPhieuCanThu;
+							long maPhieuCanThu;
+							if (pt.getIdPhieuBanLe() != null){
+								loaiPhieuCanThu = "pbl";
+								maPhieuCanThu = pt.getIdPhieuBanLe();
+							} else {
+								loaiPhieuCanThu = "pdv";
+								maPhieuCanThu = pt.getIdPhieuDichVu();
+							}
+							if (phieuThuService.delete(id, PhieuThu.class)) {
+								
+								if (loaiPhieuCanThu.equals("pbl")) {
+									PhieuBanLe pbl = phieuBanLeService.findById(maPhieuCanThu, PhieuBanLe.class);
+									pbl.setSoTienConLai(pbl.getSoTienConLai() + pt.getSoTien());
+									phieuBanLeService.update(pbl.getIdPhieuBanLe(), pbl);
+								} else {
+									PhieuDichVu pdv = phieuDichVuService.findById(maPhieuCanThu, PhieuDichVu.class);
+									pdv.setSoTienConLai(pdv.getSoTienConLai() + pt.getSoTien());
+									phieuDichVuService.update(pdv.getIdPhieuDichVu(), pdv);
+								}
+								listOfPhieuThu = phieuThuService.getAll(PhieuThu.class);
+							} else {
+								Messagebox.show("Lỗi khi xoá");
+							}
+							Executions.sendRedirect("./PhieuThu_DS.zul");
+							break;
+
+						default:
+							break;
+						}
+					}
+				});
 	}
 
 	public String[] getSearchTypes() {

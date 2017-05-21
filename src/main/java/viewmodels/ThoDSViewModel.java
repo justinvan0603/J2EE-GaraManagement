@@ -8,6 +8,8 @@ import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.Messagebox;
@@ -87,30 +89,31 @@ public class ThoDSViewModel {
 
 	@Command
 	@NotifyChange("listOfTho")
-	public void deleteTho(@BindingParam("tho_id") long id) {
+	public void deleteTho(@BindingParam("tho_id") final long id) {
+		Messagebox.show("Bạn có chắc muốn xóa dữ liệu đã chọn ? ", "Thông báo", Messagebox.OK | Messagebox.CANCEL,
+				Messagebox.QUESTION, new EventListener<Event>() {
 
-		 if (this.thoService.delete(id, Tho.class)) {
- 			this.listOfTho = this.thoService.getAll(Tho.class);
- 		} else {
- 			Messagebox.show("Không thể xoá thợ đã có làm việc với cửa hàng", "Lỗi", Messagebox.OK, Messagebox.ERROR);
- 		}
+					@Override
+					public void onEvent(Event event) throws Exception {
+						// TODO Auto-generated method stub
+						Integer value = ((Integer) event.getData()).intValue();
+						switch (value) {
+						case Messagebox.OK:
+							if (thoService.delete(id, Tho.class)) {
+					 			listOfTho = thoService.getAll(Tho.class);
+					 		} else {
+					 			Messagebox.show("Không thể xoá thợ đã có làm việc với cửa hàng", "Lỗi", Messagebox.OK, Messagebox.ERROR);
+					 		}
+							Executions.sendRedirect("./Tho_DS.zul");
+							break;
+
+						default:
+							break;
+						}
+					}
+				});
 	}
 	
-//	@Command
-//	@NotifyChange("listOfTho")
-//	public void confirmDeleteTho(@BindingParam("tho_id") final long id) {
-//
-//		 Messagebox.show("Bạn có chắc chắn muốn xoá?", "Thông báo", Messagebox.YES | Messagebox.NO, 
-//			        Messagebox.QUESTION, new EventListener<Event>() {
-//			            @Override
-//			            public void onEvent(final Event evt) throws InterruptedException {
-//			                if (Messagebox.ON_YES.equals(evt.getName())) {
-//			                    deleteTho(id);
-//			                }
-//			            }
-//			        }
-//			    );
-//	}
 	
 	@Command
 	public void addNewThoRedirect() {

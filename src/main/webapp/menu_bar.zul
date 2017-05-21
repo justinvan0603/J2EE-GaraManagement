@@ -37,17 +37,6 @@
 						href="/NhanVien_DS.zul" />
 				</menupopup>
 			</menu>
-			<menu label="BÁO CÁO">
-				<menupopup>
-					<menuitem label="Công nợ khách hàng"
-						href="/PhuTung_DS.zul" />
-					<menuitem label="Tồn kho phụ tùng"
-						href="/PhuTung_DS.zul" />
-					<menuitem label="Thu chi" href="/PhuTung_DS.zul" />
-					<menuitem label="Thống kê khách nợ quá hạn"
-						href="/PhuTung_DS.zul" />
-				</menupopup>
-			</menu>
 			<menu label="THIẾT LẬP">
 				<menupopup>
 					<menuitem label="Tham số hệ thống"
@@ -56,7 +45,7 @@
 						href="/ThongTin.zul" />
 				</menupopup>
 			</menu>
-		<menuitem label="Đăng xuất"  href="/Login.zul" />
+		<menuitem style="margin-left:230px" label="Đăng xuất"  href="/Login.zul" />
 		</menubar>
 	</vlayout>
 </zk>

@@ -9,6 +9,8 @@ import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.Messagebox;
@@ -72,12 +74,7 @@ public class PhieuDatHangDSViewModel {
 			break;
 		case 3: //
 			if (!searchString.isEmpty()) {
-				Date searchDate = null;
 				try {
-					// String[] dateSplit = searchString.split("/");
-					// searchDate = DateUtil.parseFromStringArray(dateSplit);
-					// //this.listOfPhieuDatHang.clear(); // clear all items
-					// System.out.println(searchDate);
 					String[] dateSplit = searchString.split("/");
 					System.out.println(DateUtil.parseFromStringArray(dateSplit));
 					this.listOfPhieuDatHang = this.phieuDatHangService.find(null, null,
@@ -118,20 +115,36 @@ public class PhieuDatHangDSViewModel {
 
 	@Command
 	@NotifyChange("listOfPhieuDatHang")
-	public void deletePhieuDatHang(@BindingParam("phieudh_id") long id) {
-		try {
-			List<CT_PhieuDatHang> listOfCT_PhieuDatHang = this.chiTietPhieuDatHangService.getAllByPhieuDatHangId(id);
-			if (!listOfCT_PhieuDatHang.isEmpty()) {
-				for (CT_PhieuDatHang ct : listOfCT_PhieuDatHang) {
-					this.chiTietPhieuDatHangService.delete(ct.getId(), CT_PhieuDatHang.class);
-				}
-			}
-			this.phieuDatHangService.delete(id, PhieuDatHang.class);
-			this.listOfPhieuDatHang = this.phieuDatHangService.getAll(PhieuDatHang.class);
-		} catch (Exception e) {
-			Messagebox.show("Có lỗi xảy ra khi xoá phiếu", "Thông báo", Messagebox.RETRY, Messagebox.ERROR);
-		}
+	public void deletePhieuDatHang(@BindingParam("phieudh_id") final long id) {
+		Messagebox.show("Bạn có chắc muốn xóa dữ liệu đã chọn ? ", "Thông báo", Messagebox.OK | Messagebox.CANCEL,
+				Messagebox.QUESTION, new EventListener<Event>() {
 
+					@Override
+					public void onEvent(Event event) throws Exception {
+						// TODO Auto-generated method stub
+						Integer value = ((Integer) event.getData()).intValue();
+						switch (value) {
+						case Messagebox.OK:
+							try {
+								List<CT_PhieuDatHang> listOfCT_PhieuDatHang = chiTietPhieuDatHangService.getAllByPhieuDatHangId(id);
+								if (!listOfCT_PhieuDatHang.isEmpty()) {
+									for (CT_PhieuDatHang ct : listOfCT_PhieuDatHang) {
+										chiTietPhieuDatHangService.delete(ct.getId(), CT_PhieuDatHang.class);
+									}
+								}
+								phieuDatHangService.delete(id, PhieuDatHang.class);
+								listOfPhieuDatHang = phieuDatHangService.getAll(PhieuDatHang.class);
+							} catch (Exception e) {
+								Messagebox.show("Có lỗi xảy ra khi xoá phiếu", "Thông báo", Messagebox.RETRY, Messagebox.ERROR);
+							}
+							Executions.sendRedirect("./PhieuDatHang_DS.zul");
+							break;
+
+						default:
+							break;
+						}
+					}
+				});
 	}
 
 	@Command

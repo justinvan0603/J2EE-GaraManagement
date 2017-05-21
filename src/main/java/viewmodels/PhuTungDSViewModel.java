@@ -8,6 +8,8 @@ import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.Messagebox;
@@ -84,17 +86,36 @@ public class PhuTungDSViewModel {
 
 	@Command
 	@NotifyChange("listOfPhuTung")
-	public void deletePhuTung(@BindingParam("phutung_id") long id) {
-		try {
-			if (this.phuTungService.delete(id, PhuTung.class)) {
-	 			this.listOfPhuTung = this.phuTungService.getAll(PhuTung.class);
-			} else {
-				Messagebox.show("Không thể xoá phụ tùng đã từng sử dụng trên các phiếu!", "Thông báo", Messagebox.OK,
-						Messagebox.ERROR);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public void deletePhuTung(@BindingParam("phutung_id") final long id) {
+		Messagebox.show("Bạn có chắc muốn xóa dữ liệu đã chọn ? ", "Thông báo", Messagebox.OK | Messagebox.CANCEL,
+				Messagebox.QUESTION, new EventListener<Event>() {
+
+					@Override
+					public void onEvent(Event event) throws Exception {
+						// TODO Auto-generated method stub
+						Integer value = ((Integer) event.getData()).intValue();
+						switch (value) {
+						case Messagebox.OK:
+							try {
+								if (phuTungService.delete(id, PhuTung.class)) {
+						 			listOfPhuTung = phuTungService.getAll(PhuTung.class);
+								} else {
+									Messagebox.show("Không thể xoá phụ tùng đã từng sử dụng trên các phiếu!", "Thông báo", Messagebox.OK,
+											Messagebox.ERROR);
+								}
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+							Executions.sendRedirect("./PhuTung_DS.zul");
+							break;
+
+						default:
+							break;
+						}
+					}
+				});
+		
+		
 	}
 	
 	@Command
