@@ -294,6 +294,12 @@ public class PhieuBanLeEditViewModel {
 				Messagebox.show("Cập nhật thành công");
 				Executions.sendRedirect("./PhieuBanLe_DS.zul");
 			}
+			else
+			{
+				Messagebox.show("Đã có lỗi xảy ra!", "Lỗi", Messagebox.OK,
+						Messagebox.ERROR);
+			}
+			
 		}
 		else
 		{

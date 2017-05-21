@@ -77,7 +77,26 @@ public class PhieuBanLeDaoImpl implements GeneralDao<PhieuBanLe> {
 	@Override
 	public boolean update(Long id, PhieuBanLe newInfor) {
 		// TODO Auto-generated method stub
-		return false;
+		Session session = null;
+		Transaction transaction = null;
+		boolean isSuccess = false;
+		try
+		{
+			session.saveOrUpdate(newInfor);
+			isSuccess = true;
+			transaction.commit();
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+			isSuccess = false;
+		}
+		finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
+		return isSuccess;
 	}
 
 	@Override
