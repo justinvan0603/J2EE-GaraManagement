@@ -199,7 +199,8 @@ public class PhieuDichVuEditViewModel {
 		this.setofChiTietPhieuDV.clear();
 		this.chiTietPhieuDichVuServiceImpl.save(ctPhieu);
 		this.setofChiTietPhieuDV = new HashSet<CT_PhieuDichVu>( this.chiTietPhieuDichVuServiceImpl.getByPhieuDichVuId(this.phieuDichVu.getIdPhieuDichVu()));
-		
+		this.selectedPhuTung.setSoLuongTon(this.selectedPhuTung.getSoLuongTon() - soLuong);
+		this.phuTungServiceImpl.update(this.selectedPhuTung.getId(), this.selectedPhuTung);
 		}
 		else {
 			Messagebox.show("Số lượng nhập vượt quá số lượng tồn", "Lỗi", Messagebox.OK, Messagebox.ERROR);
