@@ -225,6 +225,7 @@ public class PhieuBanLeAddViewModel {
 			ctPhieu.setThanhTien(soLuong * this.selectedPhuTung.getDonGiaXuat());
 			ctPhieu.setTenPT(this.selectedPhuTung.getTenPhuTung());
 			ctPhieu.setMaPT(this.selectedPhuTung.getMaPhuTung());
+			ctPhieu.setMaPhuTung(this.selectedPhuTung.getId());
 			this.setOfChiTietPhieuBL.add(ctPhieu);
 		}
 		else

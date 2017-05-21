@@ -312,6 +312,7 @@ public class PhieuDichVuAddViewModel {
 			CT_PhieuDichVu ctPhieu = new CT_PhieuDichVu();
 			this.selectedPhuTung.setSoLuongTon(this.selectedPhuTung.getSoLuongTon() - soLuong);
 			ctPhieu.setThanhTien(soLuong * this.selectedPhuTung.getDonGiaXuat());
+			ctPhieu.setMaPhuTung(this.selectedPhuTung.getId());
 			ctPhieu.setDonGia(this.selectedPhuTung.getDonGiaXuat());
 			ctPhieu.setSoLuong(soLuong);
 			ctPhieu.setMaPT(this.selectedPhuTung.getMaPhuTung());
@@ -347,6 +348,7 @@ public class PhieuDichVuAddViewModel {
 					i.setIdPhieuDichVu(this.phieuDichVu.getIdPhieuDichVu());
 					this.chiTietPhieuDichVuServiceImpl.save(i);
 					PhuTung pt = this.phuTungServiceImpl.findById(i.getMaPhuTung(), PhuTung.class);
+					//Messagebox.show(String.valueOf(pt.getSoLuongTon()));
 					pt.setSoLuongTon(pt.getSoLuongTon() - i.getSoLuong());
 					this.phuTungServiceImpl.update(pt.getId(), pt);
 				}
