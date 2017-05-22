@@ -125,6 +125,7 @@ public class NhanVienDaoImpl implements GeneralDao<NhanVien> {
 				session.delete(nhanvien);
 			}
 			transaction.commit();
+			isSuccess = true;
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();

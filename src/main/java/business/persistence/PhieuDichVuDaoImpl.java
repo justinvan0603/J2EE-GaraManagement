@@ -123,6 +123,7 @@ public class PhieuDichVuDaoImpl implements GeneralDao<PhieuDichVu> {
 				session.delete(pdv);
 			}
 			transaction.commit();
+			isSuccess = true;
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
