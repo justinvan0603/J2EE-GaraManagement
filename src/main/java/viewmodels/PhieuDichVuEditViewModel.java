@@ -17,12 +17,14 @@ import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.Messagebox;
 
 import business.entities.CT_PhieuDichVu;
+import business.entities.Customer;
 import business.entities.HieuXe;
 import business.entities.PhieuDichVu;
 import business.entities.PhieuTiepNhan;
 import business.entities.PhuTung;
 import business.entities.Xe;
 import business.service.ChiTietPhieuDichVuServiceImpl;
+import business.service.CustomerServiceImpl;
 import business.service.HieuXeServiceImpl;
 import business.service.PhieuDichVuServiceImpl;
 import business.service.PhieuTiepNhanServiceImpl;
@@ -39,6 +41,8 @@ public class PhieuDichVuEditViewModel {
 	private PhieuTiepNhanServiceImpl phieuTiepNhanServiceImpl;
 	@WireVariable
 	private PhieuDichVuServiceImpl phieuDichVuServiceImpl;
+	@WireVariable
+	private CustomerServiceImpl customerServiceImpl;
 	private List<PhuTung> listPhuTung;
 	private PhuTung selectedPhuTung;
 	private PhieuDichVu phieuDichVu;
@@ -47,6 +51,8 @@ public class PhieuDichVuEditViewModel {
 	private PhuTungServiceImpl phuTungServiceImpl;
 	private ChiTietPhieuDichVuServiceImpl chiTietPhieuDichVuServiceImpl;
 	private Set<CT_PhieuDichVu> setofChiTietPhieuDV;
+	private PhieuTiepNhan currentPhieuTiepNhan;
+	private Customer currentKhachHang;
 	public Set<CT_PhieuDichVu> getSetofChiTietPhieuDV() {
 		return setofChiTietPhieuDV;
 	}
@@ -113,12 +119,13 @@ public class PhieuDichVuEditViewModel {
 		this.hieuXeServiceImpl = (HieuXeServiceImpl) SpringUtil.getBean("hieuxe_service");
 		this.xeServiceImpl = (XeServiceImpl) SpringUtil.getBean("xe_service");
 		
-		
+		this.customerServiceImpl = (CustomerServiceImpl) SpringUtil.getBean("customer_service");
 		this.phieuDichVuServiceImpl = (PhieuDichVuServiceImpl) SpringUtil.getBean("phieudichvu_service");
 		this.phieuDichVu = this.phieuDichVuServiceImpl.findById(id, PhieuDichVu.class);
 		this.chiTietPhieuDichVuServiceImpl = (ChiTietPhieuDichVuServiceImpl) SpringUtil.getBean("chitietphieudichvu_service");
 		PhieuTiepNhan ptn = this.phieuTiepNhanServiceImpl.findById(this.phieuDichVu.getMaPhieuTiepNhan(), PhieuTiepNhan.class);
-		
+		this.setCurrentPhieuTiepNhan(ptn);
+		this.currentKhachHang = this.customerServiceImpl.findById(ptn.getCustomerId(), Customer.class);
 		Xe xe = this.xeServiceImpl.findByLicensePlate(ptn.getLicensePlate());
 		HieuXe hieuxe = this.hieuXeServiceImpl.findByIdString(xe.getHieuXeReference());
 		this.phuTungServiceImpl = (PhuTungServiceImpl) SpringUtil.getBean("phutung_service");
@@ -135,6 +142,12 @@ public class PhieuDichVuEditViewModel {
 		this.setofChiTietPhieuDV = new HashSet<CT_PhieuDichVu>( this.chiTietPhieuDichVuServiceImpl.getByPhieuDichVuId(id));
 
 		
+	}
+	public PhieuTiepNhan getCurrentPhieuTiepNhan() {
+		return currentPhieuTiepNhan;
+	}
+	public void setCurrentPhieuTiepNhan(PhieuTiepNhan currentPhieuTiepNhan) {
+		this.currentPhieuTiepNhan = currentPhieuTiepNhan;
 	}
 	@NotifyChange("setofChiTietPhieuDV")
 	@Command
@@ -161,6 +174,8 @@ public class PhieuDichVuEditViewModel {
 					PhuTung pt = this.phuTungServiceImpl.findById(ctPhieu.getMaPhuTung(), PhuTung.class);
 					pt.setSoLuongTon(pt.getSoLuongTon() + ctPhieu.getSoLuong());
 					this.phuTungServiceImpl.update(pt.getId(),pt);
+					this.currentKhachHang.setSoTienNo(this.currentKhachHang.getSoTienNo() - ctPhieu.getThanhTien());
+					this.customerServiceImpl.update(this.currentKhachHang.getMaKH(), this.currentKhachHang);
 					break;
 				}
 				
@@ -200,7 +215,9 @@ public class PhieuDichVuEditViewModel {
 		this.chiTietPhieuDichVuServiceImpl.save(ctPhieu);
 		this.setofChiTietPhieuDV = new HashSet<CT_PhieuDichVu>( this.chiTietPhieuDichVuServiceImpl.getByPhieuDichVuId(this.phieuDichVu.getIdPhieuDichVu()));
 		this.selectedPhuTung.setSoLuongTon(this.selectedPhuTung.getSoLuongTon() - soLuong);
+		this.currentKhachHang.setSoTienNo(this.currentKhachHang.getSoTienNo() + ctPhieu.getThanhTien());
 		this.phuTungServiceImpl.update(this.selectedPhuTung.getId(), this.selectedPhuTung);
+		this.customerServiceImpl.update(this.currentKhachHang.getMaKH(), this.currentKhachHang);
 		}
 		else {
 			Messagebox.show("Số lượng nhập vượt quá số lượng tồn", "Lỗi", Messagebox.OK, Messagebox.ERROR);

@@ -18,6 +18,7 @@ import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.Messagebox;
 
 import business.entities.CT_PhieuDichVu;
+import business.entities.Customer;
 import business.entities.HieuXe;
 import business.entities.PhieuDichVu;
 import business.entities.PhieuTiepNhan;
@@ -25,6 +26,7 @@ import business.entities.PhuTung;
 import business.entities.Tho;
 import business.entities.Xe;
 import business.service.ChiTietPhieuDichVuServiceImpl;
+import business.service.CustomerServiceImpl;
 import business.service.HieuXeServiceImpl;
 import business.service.PhieuDichVuServiceImpl;
 import business.service.PhieuThuServiceImpl;
@@ -45,9 +47,12 @@ public class PhieuDichVuAddViewModel {
 	private HieuXeServiceImpl hieuXeServiceImpl;
 	@WireVariable
 	private XeServiceImpl xeServiceImpl;
+
+	@WireVariable
+	private CustomerServiceImpl customerServiceImpl;
 	private List<PhuTung> listPhuTung;
 	private PhuTung selectedPhuTung;
-
+	private Customer currentKhachHang;
 	public HieuXeServiceImpl getHieuXeServiceImpl() {
 		return hieuXeServiceImpl;
 	}
@@ -214,12 +219,12 @@ public class PhieuDichVuAddViewModel {
 		this.setofChiTietPhieuDV = new HashSet<CT_PhieuDichVu>();
 		this.thoServiceImpl = (ThoServiceImpl) SpringUtil.getBean("tho_service");
 		this.phuTungServiceImpl = (PhuTungServiceImpl) SpringUtil.getBean("phutung_service");
-
+		this.customerServiceImpl = (CustomerServiceImpl) SpringUtil.getBean("customer_service");
 		PhieuTiepNhan ptn = this.phieuTiepNhanServiceImpl.findById(idPhieuTiepNhan, PhieuTiepNhan.class);
-
+		
 		Xe xe = this.xeServiceImpl.findByLicensePlate(ptn.getLicensePlate());
 		HieuXe hieuxe = this.hieuXeServiceImpl.findByIdString(xe.getHieuXeReference());
-
+		this.currentKhachHang = this.customerServiceImpl.findById(ptn.getCustomerId(), Customer.class);
 		//
 		this.listPhuTung = this.phuTungServiceImpl.find(null, null, hieuxe.getMaHieuXe());
 		this.listTho = this.thoServiceImpl.getAll(Tho.class);
@@ -352,6 +357,8 @@ public class PhieuDichVuAddViewModel {
 					pt.setSoLuongTon(pt.getSoLuongTon() - i.getSoLuong());
 					this.phuTungServiceImpl.update(pt.getId(), pt);
 				}
+				this.currentKhachHang.setSoTienNo(this.phieuDichVu.getTongTien());
+				this.customerServiceImpl.update(this.currentKhachHang.getMaKH(), this.currentKhachHang);
 				Messagebox.show("Lưu Thành công");
 				Executions.sendRedirect("./PhieuDichVu_DS.zul");
 			} else {

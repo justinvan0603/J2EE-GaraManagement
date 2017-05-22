@@ -181,6 +181,7 @@ public class PhieuBanLeEditViewModel {
 				this.chiTietPhieuBanLeServiceImpl.delete(ctPhieu.getId(), CT_PhieuBanLe.class);
 				this.phieuBanLe.setTongTien(this.phieuBanLe.getTongTien() - ctPhieu.getThanhTien());
 				this.phieuBanLe.setSoTienConLai(this.phieuBanLe.getSoTienConLai() - ctPhieu.getThanhTien());
+				this.selectedKhachHang.setSoTienNo(this.selectedKhachHang.getSoTienNo() - (ctPhieu.getThanhTien()));
 				//iterator.remove();
 				for(Iterator<PhuTung> i = this.listPhuTung.iterator(); i.hasNext();)
 				{
@@ -191,6 +192,7 @@ public class PhieuBanLeEditViewModel {
 						PhuTung target = this.phuTungServiceImpl.findById(ctPhieu.getMaPhuTung(), PhuTung.class);
 						target.setSoLuongTon(target.getSoLuongTon() + ctPhieu.getSoLuong());
 						this.phuTungServiceImpl.update(target.getId(), target);
+						
 						break;
 					}
 				}
@@ -242,6 +244,8 @@ public class PhieuBanLeEditViewModel {
 		if(soLuong <= this.selectedPhuTung.getSoLuongTon())
 		{
 			this.selectedPhuTung.setSoLuongTon(this.selectedPhuTung.getSoLuongTon()-soLuong);
+			this.selectedKhachHang.setSoTienNo(this.selectedKhachHang.getSoTienNo() + (soLuong * this.selectedPhuTung.getDonGiaXuat()));
+			this.customerServiceImpl.update(this.selectedKhachHang.getMaKH(), this.selectedKhachHang);
 			this.phuTungServiceImpl.update(this.selectedPhuTung.getId(), this.selectedPhuTung);
 			CT_PhieuBanLe ctPhieu  = new CT_PhieuBanLe();
 			ctPhieu.setIdPhieuBanLe(this.phieuBanLe.getIdPhieuBanLe());
