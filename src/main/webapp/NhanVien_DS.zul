@@ -60,6 +60,10 @@
 						<button image="/images/ic_edit_black_18dp_1x.png" onClick="@command('editNhanVien',id = e.maNV)"
 							> Cập nhật
 						</button>
+						<button
+								image="/images/ic_delete_black_18dp_1x.png" label="Xoá"
+								onClick="@command('deleteNhanVien',id = e.maNV)">
+							</button>
 					</listcell>
 				</listitem>
 			</template>

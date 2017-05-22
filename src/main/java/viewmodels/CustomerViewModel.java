@@ -9,6 +9,8 @@ import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.Messagebox;
@@ -22,6 +24,7 @@ public class CustomerViewModel {
 	private List<Customer> customers;
 	private Customer selectedCustomer;
 	public static String SELECTED_CUSTOMER = "Id";
+	private Integer dialogResult;
 	public Customer getSelectedCustomer() {
 		return selectedCustomer;
 	}
@@ -92,17 +95,37 @@ public class CustomerViewModel {
 	}
 	@Command
 	@NotifyChange("customers")
-	public void deleteCustomer(@BindingParam("id") Long id)
+	public void deleteCustomer(@BindingParam("id") final Long id)
 	{
-		boolean result =this.customerService.delete(id, Customer.class);
-		if(result == true)
-		{
-			this.customers = this.customerService.getAll(Customer.class);
-			Messagebox.show("Xóa thành công");
-		}
-		else
-		{
-			Messagebox.show("Có lỗi xảy ra vui lòng thử lại sau");
-		}
+		Messagebox.show("Bạn có chắc muốn xóa dữ liệu đã chọn ? ", "Thông báo", Messagebox.OK | Messagebox.CANCEL,
+				Messagebox.QUESTION, new EventListener<Event>() {
+
+					@Override
+					public void onEvent(Event event) throws Exception {
+						dialogResult =  ((Integer) event.getData()).intValue();
+						switch(dialogResult)
+						{
+							case Messagebox.OK:
+							{
+								boolean result =customerService.delete(id, Customer.class);
+								if(result == true)
+								{
+									customers = customerService.getAll(Customer.class);
+									Messagebox.show("Xóa thành công");
+								}
+								else
+								{
+									Messagebox.show("Có lỗi xảy ra vui lòng thử lại sau");
+								}
+								break;
+							}
+						}
+					}
+			});
+//			if(dialogResult != Messagebox.OK)
+//			{
+//				return;
+//			}
+		
 	}
 }

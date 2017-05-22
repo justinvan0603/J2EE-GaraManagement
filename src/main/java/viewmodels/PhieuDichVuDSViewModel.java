@@ -10,6 +10,8 @@ import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.Messagebox;
@@ -42,6 +44,14 @@ public class PhieuDichVuDSViewModel {
 	private CustomerServiceImpl customerServiceImpl;
 	@WireVariable
 	private PhieuTiepNhanServiceImpl phieuTiepNhanServiceImpl;
+	private Integer dialogResult;
+	public Integer getDialogResult() {
+		return dialogResult;
+	}
+	public void setDialogResult(Integer dialogResult) {
+		this.dialogResult = dialogResult;
+	}
+
 	private static final List<String> SEARCH_TYPES = new ArrayList<String>();
 	static {
 		
@@ -133,43 +143,60 @@ public class PhieuDichVuDSViewModel {
 	
 	@Command 
 	@NotifyChange("listPhieuDichVu")
-	public void deletePhieuDichVu(@BindingParam("id") Long id,@BindingParam("ptn") Long ptn,@BindingParam("tongtien") Long tongtien)
+	public void deletePhieuDichVu(@BindingParam("id")final Long id,@BindingParam("ptn") final Long ptn,@BindingParam("tongtien") final Long tongtien)
 	{
-		if(this.phieuThuServiceImpl.findByIdPhieuCanThu("pdv", id).size() == 0)
-		{
-			if(this.phieuDichVuService.delete(id, PhieuDichVu.class))
-			{
-				PhieuTiepNhan phieutiepnhan = this.phieuTiepNhanServiceImpl.findById(ptn, PhieuTiepNhan.class);
-				Customer kh = this.customerServiceImpl.findById(phieutiepnhan.getCustomerId(), Customer.class);
-				kh.setSoTienNo(kh.getSoTienNo() - tongtien);
-				this.customerServiceImpl.update(kh.getMaKH(), kh);
-				this.listPhieuDichVu.clear();
-				this.setListPhieuDichVu( this.phieuDichVuService.getAll(PhieuDichVu.class));
-			
-				List<CT_PhieuDichVu> listCt = this.chiTietPhieuDichVuServiceImpl.getByPhieuDichVuId(id);
-				if(!listCt.isEmpty())
-				{ 
-					for(Iterator<CT_PhieuDichVu> i = listCt.iterator(); i.hasNext();)
+		Messagebox.show("Bạn có chắc muốn xóa dữ liệu đã chọn ? ", "Thông báo", Messagebox.OK | Messagebox.CANCEL,
+			Messagebox.QUESTION, new EventListener<Event>() {
+
+				@Override
+				public void onEvent(Event event) throws Exception {
+					dialogResult =  ((Integer) event.getData()).intValue();
+					switch(dialogResult)
 					{
-						CT_PhieuDichVu ctPhieu = i.next();
-						PhuTung pt = this.phuTungServiceImpl.findById(ctPhieu.getMaPhuTung(), PhuTung.class);
-						pt.setSoLuongTon(pt.getSoLuongTon() + ctPhieu.getSoLuong());
-						this.phuTungServiceImpl.update(pt.getId(), pt);
-						this.chiTietPhieuDichVuServiceImpl.delete((long)ctPhieu.getId(), CT_PhieuDichVu.class);
+						case Messagebox.OK:
+						{
+							if(phieuThuServiceImpl.findByIdPhieuCanThu("pdv", id).size() == 0)
+							{
+								if(phieuDichVuService.delete(id, PhieuDichVu.class))
+								{
+									PhieuTiepNhan phieutiepnhan = phieuTiepNhanServiceImpl.findById(ptn, PhieuTiepNhan.class);
+									Customer kh = customerServiceImpl.findById(phieutiepnhan.getCustomerId(), Customer.class);
+									kh.setSoTienNo(kh.getSoTienNo() - tongtien);
+									customerServiceImpl.update(kh.getMaKH(), kh);
+									listPhieuDichVu.clear();
+									setListPhieuDichVu( phieuDichVuService.getAll(PhieuDichVu.class));
+								
+									List<CT_PhieuDichVu> listCt = chiTietPhieuDichVuServiceImpl.getByPhieuDichVuId(id);
+									if(!listCt.isEmpty())
+									{ 
+										for(Iterator<CT_PhieuDichVu> i = listCt.iterator(); i.hasNext();)
+										{
+											CT_PhieuDichVu ctPhieu = i.next();
+											PhuTung pt = phuTungServiceImpl.findById(ctPhieu.getMaPhuTung(), PhuTung.class);
+											pt.setSoLuongTon(pt.getSoLuongTon() + ctPhieu.getSoLuong());
+											phuTungServiceImpl.update(pt.getId(), pt);
+											chiTietPhieuDichVuServiceImpl.delete((long)ctPhieu.getId(), CT_PhieuDichVu.class);
+										}
+									}
+								}
+								else
+									
+								{
+									Messagebox.show("Đã có lỗi xảy ra! Vui lòng thử lại sau!", "Lỗi", Messagebox.OK, Messagebox.ERROR);
+								}
+									
+							}
+							else
+							{
+								Messagebox.show("Không thể xóa phiếu đã lập phiếu thu", "Lỗi", Messagebox.OK, Messagebox.ERROR);
+							}
+							break;
+						}
 					}
 				}
-			}
-			else
-				
-			{
-				Messagebox.show("Đã có lỗi xảy ra! Vui lòng thử lại sau!", "Lỗi", Messagebox.OK, Messagebox.ERROR);
-			}
-				
-		}
-		else
-		{
-			Messagebox.show("Không thể xóa phiếu đã lập phiếu thu", "Lỗi", Messagebox.OK, Messagebox.ERROR);
-		}
+		});
+
+		
 	}
 	@Command
 	public void ThemPhieuDichVu() {

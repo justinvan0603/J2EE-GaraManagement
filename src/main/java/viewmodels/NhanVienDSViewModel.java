@@ -9,6 +9,8 @@ import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.Messagebox;
@@ -26,6 +28,7 @@ public class NhanVienDSViewModel {
 	private List<NhanVien> listNhanVien;
 	private List<NhomNguoiDung> listNhomNguoiDung;
 	
+	private Integer dialogResult;
 
 	
 
@@ -106,6 +109,30 @@ public class NhanVienDSViewModel {
 	{
 		Sessions.getCurrent().setAttribute(SELECTED_STAFF, id);
 		Executions.sendRedirect("./NhanVien_Edit.zul");
+	}
+	@Command
+	public void deleteNhanVien(@BindingParam("id") Long id)
+	{
+		Messagebox.show("Bạn có chắc muốn xóa dữ liệu đã chọn ? ", "Thông báo", Messagebox.OK | Messagebox.CANCEL,
+				Messagebox.QUESTION, new EventListener<Event>() {
+
+					@Override
+					public void onEvent(Event event) throws Exception {
+						dialogResult =  ((Integer) event.getData()).intValue();
+					}
+			});
+			if(dialogResult == Messagebox.CANCEL)
+			{
+				return;
+			}
+			if(this.nhanVienService.delete(id, NhanVien.class))
+			{
+				Messagebox.show("Xóa thành công!");
+			}
+			else
+			{
+				Messagebox.show("Không thể xóa nhân viên!");
+			}
 	}
 	@Command
 	@NotifyChange("listNhanVien")

@@ -9,6 +9,8 @@ import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.Messagebox;
@@ -30,6 +32,7 @@ public class PhieuBanLeDSViewModel {
 	public static String PBL_ID = "PBL_ID";
 	@WireVariable
 	private CustomerServiceImpl customerServiceImpl;
+	private Integer dialogResult;
 	public PhieuBanLeServiceImpl getPhieuBanLeServiceImpl() {
 		return phieuBanLeServiceImpl;
 	}
@@ -115,29 +118,51 @@ public class PhieuBanLeDSViewModel {
 	}
 	@Command 
 	@NotifyChange("listPhieuBanLe")
-	public void deletePhieuBanLe(@BindingParam("id") Long id,@BindingParam("makh") Long makh,@BindingParam("tongtien") double tongtien)
+	public void deletePhieuBanLe(@BindingParam("id") final Long id,@BindingParam("makh") final Long makh,@BindingParam("tongtien") final double tongtien)
 	{
-		if(this.phieuThuServiceImpl.findByIdPhieuCanThu("pbl", id).isEmpty())
-		{
-			if(this.phieuBanLeServiceImpl.delete(id, PhieuBanLe.class))
-			{
-				Customer kh = this.customerServiceImpl.findById(makh, Customer.class);
-				kh.setSoTienNo(kh.getSoTienNo() - tongtien);
-				this.customerServiceImpl.update(kh.getMaKH(), kh);
-				this.listPhieuBanLe.clear();
-				this.setListPhieuBanLe(this.phieuBanLeServiceImpl.getAll(PhieuBanLe.class));
-			}
-			else
-			{
-				Messagebox.show("Đã có lỗi xảy ra!", "Lỗi", Messagebox.OK,
-						Messagebox.ERROR);
-			}
-		}
-		else
-		{
-			Messagebox.show("Không thể xóa khi đã lập phiếu thu!", "Lỗi", Messagebox.OK,
-					Messagebox.ERROR);
-		}
+		Messagebox.show("Bạn có chắc muốn xóa dữ liệu đã chọn ? ", "Thông báo", Messagebox.OK | Messagebox.CANCEL,
+				Messagebox.QUESTION, new EventListener<Event>() {
+
+					
+
+					@Override
+					public void onEvent(Event event) throws Exception {
+						dialogResult =  ((Integer) event.getData()).intValue();
+						switch(dialogResult)
+						{
+							case Messagebox.OK:
+							{
+								if(phieuThuServiceImpl.findByIdPhieuCanThu("pbl", id).isEmpty())
+								{
+									if(phieuBanLeServiceImpl.delete(id, PhieuBanLe.class))
+									{
+										Customer kh = customerServiceImpl.findById(makh, Customer.class);
+										kh.setSoTienNo(kh.getSoTienNo() - tongtien);
+										customerServiceImpl.update(kh.getMaKH(), kh);
+										listPhieuBanLe.clear();
+										setListPhieuBanLe(phieuBanLeServiceImpl.getAll(PhieuBanLe.class));
+									}
+									else
+									{
+										Messagebox.show("Đã có lỗi xảy ra!", "Lỗi", Messagebox.OK,
+												Messagebox.ERROR);
+									}
+								}
+								else
+								{
+									Messagebox.show("Không thể xóa khi đã lập phiếu thu!", "Lỗi", Messagebox.OK,
+											Messagebox.ERROR);
+								}
+								break;
+							}
+						}
+					}
+			});
+//			if(dialogResult != Messagebox.OK)
+//			{
+//				return;
+//			}
+		
 		
 	}
 	@Command
