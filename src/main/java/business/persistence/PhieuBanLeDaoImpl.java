@@ -82,6 +82,8 @@ public class PhieuBanLeDaoImpl implements GeneralDao<PhieuBanLe> {
 		boolean isSuccess = false;
 		try
 		{
+			session = this.sessionFactory.openSession();
+			transaction = session.beginTransaction();
 			session.saveOrUpdate(newInfor);
 			isSuccess = true;
 			transaction.commit();
@@ -113,6 +115,7 @@ public class PhieuBanLeDaoImpl implements GeneralDao<PhieuBanLe> {
 				session.delete(pbl);
 			}
 			transaction.commit();
+			isSuccess =true;
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();

@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import business.entities.CT_PhieuBanLe;
-import business.entities.PhieuBanLe;
 
 
 @Repository
@@ -92,11 +91,12 @@ public class ChiTietPhieuBanLeDaoImpl implements GeneralDao<CT_PhieuBanLe> {
 		try {
 			session = this.sessionFactory.openSession();
 			transaction = session.beginTransaction();
-			PhieuBanLe pbl = (PhieuBanLe) session.get(entity, id);
+			CT_PhieuBanLe pbl = (CT_PhieuBanLe) session.get(entity, id);
 			if (pbl != null) {
 				session.delete(pbl);
 			}
 			transaction.commit();
+			isSuccess=  true;
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();

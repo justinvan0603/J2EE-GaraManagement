@@ -158,6 +158,7 @@ public class PhieuBanLeEditViewModel {
 		//this.phieuBanLe.setNgayLap(new Date());
 		this.listKhachHang = this.customerServiceImpl.getAll(Customer.class);
 		this.setThanhTien(0);
+		this.listPhuTung = this.phuTungServiceImpl.getAll(PhuTung.class);
 		this.setOfChiTietPhieuBL = new  HashSet<CT_PhieuBanLe>(this.chiTietPhieuBanLeServiceImpl.getByIdPhieuBanLe(id, CT_PhieuBanLe.class));
 		for(Iterator<Customer> i = this.listKhachHang.iterator(); i.hasNext();)
 		{
@@ -171,7 +172,7 @@ public class PhieuBanLeEditViewModel {
 		//this.selectedKhachHang = this.listKhachHang.get(0);
 	}
 	@Command
-	@NotifyChange("setofChiTietPhieuDV")
+	@NotifyChange("setOfChiTietPhieuBL")
 	public void xoaChiTiet(@BindingParam("maphutung") Integer maPhuTung) {
 		CT_PhieuBanLe ctPhieu = null;
 		for (Iterator<CT_PhieuBanLe> iterator = this.setOfChiTietPhieuBL.iterator(); iterator.hasNext();) {
@@ -271,6 +272,7 @@ public class PhieuBanLeEditViewModel {
 		{
 			//Messagebox.show(this.selectedKhachHang.getHoTen());
 			this.phieuBanLe.setMaPhieuBan(mapbl);
+			
 			//this.phieuBanLe.setNgayLap(new Date());
 			//this.phieuBanLe.setMaKH(this.selectedKhachHang.getMaKH());
 			//this.phieuBanLe.setMaNV(2);
@@ -281,16 +283,10 @@ public class PhieuBanLeEditViewModel {
 			//}
 			//this.phieuBanLe.setTongTien(tongchitiet);
 			//this.phieuBanLe.setSoTienConLai(tongchitiet);
+			//Messagebox.show(this.phieuBanLe.getMaPhieuBan());
 			if(this.phieuBanLeServiceImpl.update(this.phieuBanLe.getIdPhieuBanLe(), this.phieuBanLe))
 			{
-//				for(CT_PhieuBanLe i : this.setOfChiTietPhieuBL)
-//				{
-//					i.setIdPhieuBanLe(this.phieuBanLe.getIdPhieuBanLe());
-//					this.chiTietPhieuBanLeServiceImpl.save(i);
-//				}
-				//Customer target = this.customerServiceImpl.findById(this.selectedKhachHang.getMaKH(), Customer.class);
-				//target.setSoTienNo(target.getSoTienNo() + tongchitiet);
-				//this.customerServiceImpl.update(target.getMaKH(), target);
+
 				Messagebox.show("Cập nhật thành công");
 				Executions.sendRedirect("./PhieuBanLe_DS.zul");
 			}
