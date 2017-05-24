@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -49,7 +50,15 @@ public class PhieuDichVu {
 	@ManyToOne
 	@JoinColumn(name = "MaTho", referencedColumnName = "MaTho", insertable = false, updatable = false)
 	private Tho Tho;
-	
+	@OneToOne
+	@JoinColumn(name = "MaPhieuTiepNhan", unique=true, referencedColumnName = "MaPhieuTiepNhan", insertable = false, updatable = false)
+	private PhieuTiepNhan PhieuTiepNhan;
+	public PhieuTiepNhan getPhieuTiepNhan() {
+		return PhieuTiepNhan;
+	}
+	public void setPhieuTiepNhan(PhieuTiepNhan phieuTiepNhan) {
+		PhieuTiepNhan = phieuTiepNhan;
+	}
 	public double getTienCong() {
 		return TienCong;
 	}
