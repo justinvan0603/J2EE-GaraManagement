@@ -182,6 +182,7 @@ public class PhieuBanLeEditViewModel {
 				this.phieuBanLe.setTongTien(this.phieuBanLe.getTongTien() - ctPhieu.getThanhTien());
 				this.phieuBanLe.setSoTienConLai(this.phieuBanLe.getSoTienConLai() - ctPhieu.getThanhTien());
 				this.selectedKhachHang.setSoTienNo(this.selectedKhachHang.getSoTienNo() - (ctPhieu.getThanhTien()));
+				this.customerServiceImpl.update(this.selectedKhachHang.getMaKH(), this.selectedKhachHang);
 				//iterator.remove();
 				for(Iterator<PhuTung> i = this.listPhuTung.iterator(); i.hasNext();)
 				{

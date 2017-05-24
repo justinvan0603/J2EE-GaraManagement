@@ -32,8 +32,9 @@
 					<listheader label="Mã phiếu" width="150px" />
 					<listheader label="Ngày lập"/>
 					<listheader label="Hạn chót thanh toán" />
+					<listheader label="Khách hàng" />
 					<listheader label="Số tiền còn lại" />
-
+					
 					<listheader label="Tổng tiền" width="180px" />
 
 					<listheader label="Tác vụ" width="320px" />
@@ -44,6 +45,7 @@
 						<listcell label="@load(e.maPhieuBan)"></listcell>
 						<listcell label="@load(e.shortNgayLap)"></listcell>
 						<listcell label="@load(e.hanChotThanhToan)"></listcell>
+						<listcell label="@load(e.khachHang.hoTen)"></listcell>
 						<listcell label="@load(e.tongTienFormated)"></listcell>
 						<listcell label="@load(e.soTienConLaiFormated)"></listcell>
 						<listcell>

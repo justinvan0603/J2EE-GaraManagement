@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -38,7 +40,15 @@ public class PhieuBanLe {
 	private double TongTien;
 	@Column(name = "SoTienConLai")
 	private double SoTienConLai;
-	
+	@ManyToOne
+	@JoinColumn(name = "MaKH", referencedColumnName = "MaKH", insertable = false, updatable = false)
+	private Customer KhachHang;
+	public Customer getKhachHang() {
+		return KhachHang;
+	}
+	public void setKhachHang(Customer khachHang) {
+		KhachHang = khachHang;
+	}
 	public long getIdPhieuBanLe() {
 		return IdPhieuBanLe;
 	}

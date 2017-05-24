@@ -28,6 +28,7 @@
 
 					<listheader label="Mã phiếu" width="120px" />
 					<listheader label="Ngày lập" width="160px" />
+					
 					<listheader label="Người lập"  />
 					<listheader label="Hạn chót thanh toán" width="160px" />
 					<listheader label="Số tiền còn lại" width="180px" />
