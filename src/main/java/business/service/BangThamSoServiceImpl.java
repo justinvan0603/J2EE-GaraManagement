@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import business.entities.BangThamSo;
-import business.entities.Xe;
+
 import business.persistence.GeneralDao;
 
 @Service

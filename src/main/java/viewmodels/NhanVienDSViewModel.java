@@ -111,7 +111,7 @@ public class NhanVienDSViewModel {
 		Executions.sendRedirect("./NhanVien_Edit.zul");
 	}
 	@Command
-	public void deleteNhanVien(@BindingParam("id") Long id)
+	public void deleteNhanVien(@BindingParam("id")final Long id)
 	{
 		Messagebox.show("Bạn có chắc muốn xóa dữ liệu đã chọn ? ", "Thông báo", Messagebox.OK | Messagebox.CANCEL,
 				Messagebox.QUESTION, new EventListener<Event>() {
@@ -119,20 +119,29 @@ public class NhanVienDSViewModel {
 					@Override
 					public void onEvent(Event event) throws Exception {
 						dialogResult =  ((Integer) event.getData()).intValue();
+						switch(dialogResult)
+						{
+							case Messagebox.OK:
+							{
+								if(nhanVienService.delete(id, NhanVien.class))
+								{
+									Messagebox.show("Xóa thành công!");
+								}
+								else
+								{
+									Messagebox.show("Không thể xóa nhân viên!");
+								}
+								break;
+							}
+						}
+						
 					}
 			});
-			if(dialogResult == Messagebox.CANCEL)
-			{
-				return;
-			}
-			if(this.nhanVienService.delete(id, NhanVien.class))
-			{
-				Messagebox.show("Xóa thành công!");
-			}
-			else
-			{
-				Messagebox.show("Không thể xóa nhân viên!");
-			}
+//			if(dialogResult == Messagebox.CANCEL)
+//			{
+//				return;
+//			}
+			
 	}
 	@Command
 	@NotifyChange("listNhanVien")
