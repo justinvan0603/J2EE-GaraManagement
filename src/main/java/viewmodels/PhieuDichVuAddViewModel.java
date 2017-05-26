@@ -53,6 +53,7 @@ public class PhieuDichVuAddViewModel {
 	private List<PhuTung> listPhuTung;
 	private PhuTung selectedPhuTung;
 	private Customer currentKhachHang;
+
 	public HieuXeServiceImpl getHieuXeServiceImpl() {
 		return hieuXeServiceImpl;
 	}
@@ -201,8 +202,8 @@ public class PhieuDichVuAddViewModel {
 
 	@Init
 	public void init() {
-		if((Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) == null) || Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERNAME) == null)
-		{
+		if ((Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) == null)
+				|| Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERNAME) == null) {
 			Messagebox.show("Vui lòng đăng nhập!");
 			Executions.sendRedirect("./Login.zul");
 		}
@@ -221,7 +222,7 @@ public class PhieuDichVuAddViewModel {
 		this.phuTungServiceImpl = (PhuTungServiceImpl) SpringUtil.getBean("phutung_service");
 		this.customerServiceImpl = (CustomerServiceImpl) SpringUtil.getBean("customer_service");
 		PhieuTiepNhan ptn = this.phieuTiepNhanServiceImpl.findById(idPhieuTiepNhan, PhieuTiepNhan.class);
-		
+
 		Xe xe = this.xeServiceImpl.findByLicensePlate(ptn.getLicensePlate());
 		HieuXe hieuxe = this.hieuXeServiceImpl.findByIdString(xe.getHieuXeReference());
 		this.currentKhachHang = this.customerServiceImpl.findById(ptn.getCustomerId(), Customer.class);
@@ -238,7 +239,7 @@ public class PhieuDichVuAddViewModel {
 			this.phieuDichVu.setMaPhieuTiepNhan(idPhieuTiepNhan);
 		}
 		// end get value from Session
-		Long nhanVienID = (Long)Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID);
+		Long nhanVienID = (Long) Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID);
 		this.phieuDichVu.setMaNV(nhanVienID);
 		this.phieuDichVu.setNgayLap(new Date());
 		Date day = new Date();
@@ -249,8 +250,9 @@ public class PhieuDichVuAddViewModel {
 		this.phieuDichVu.setHanChotThanhToan(day);
 		// this.selectedPhuTung = new PhuTung();
 		this.setThanhTien(0);
-		// if(this.listPhuTung != null)
+		// if (this.listPhuTung != null && !this.listPhuTung.isEmpty()) {
 		this.selectedPhuTung = this.listPhuTung.get(0);
+		// }
 		this.selectedTho = this.listTho.get(0);
 		this.thanhTien = this.selectedPhuTung.getDonGiaXuat();
 	}
@@ -338,7 +340,7 @@ public class PhieuDichVuAddViewModel {
 			this.phieuDichVu.setTienCong(tiencong);
 			this.phieuDichVu.setMaTho(this.selectedTho.getId());
 			this.phieuDichVu.setNgayLap(new Date());
-			//this.phieuDichVu.setMaNV(2); // TEST
+			// this.phieuDichVu.setMaNV(2); // TEST
 
 			double tongchitiet = 0;
 			for (CT_PhieuDichVu i : this.setofChiTietPhieuDV) {
@@ -353,7 +355,7 @@ public class PhieuDichVuAddViewModel {
 					i.setIdPhieuDichVu(this.phieuDichVu.getIdPhieuDichVu());
 					this.chiTietPhieuDichVuServiceImpl.save(i);
 					PhuTung pt = this.phuTungServiceImpl.findById(i.getMaPhuTung(), PhuTung.class);
-					//Messagebox.show(String.valueOf(pt.getSoLuongTon()));
+					// Messagebox.show(String.valueOf(pt.getSoLuongTon()));
 					pt.setSoLuongTon(pt.getSoLuongTon() - i.getSoLuong());
 					this.phuTungServiceImpl.update(pt.getId(), pt);
 				}

@@ -98,9 +98,14 @@ public class Customer {
 		return "Customer [MaKH=" + MaKH + ", HoTen=" + HoTen + ", Cmnd=" + Cmnd + ", Sdt=" + Sdt + ", Diachi=" + Diachi
 				+ ", SoTienNo=" + SoTienNo + ", GioiTinh=" + GioiTinh + "]";
 	}
-	public String getSoTienNoFormated()
-	{
-		NumberFormat formatter = new DecimalFormat("##,###,###");  
-		return formatter.format(this.SoTienNo);
+
+	public String getSoTienNoFormated() {
+		NumberFormat formatter = new DecimalFormat("##,###,###");
+		if (this.SoTienNo != null) {
+
+			return formatter.format(this.SoTienNo);
+		} else {
+			return formatter.format(0.0D);
+		}
 	}
 }

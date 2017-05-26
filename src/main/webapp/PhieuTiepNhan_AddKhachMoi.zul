@@ -1,8 +1,8 @@
 <?page title="Phiếu tiếp nhận mới" contentType="text/html;charset=UTF-8"?>
 <zk>
 	<include src="menu_bar.zul"></include>
-	<window title="Phiếu tiếp nhận mới" border="normal" height="94%"
-		apply="org.zkoss.bind.BindComposer"
+	<window title="Phiếu tiếp nhận mới" border="normal" height="100%"
+		width="100%" apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('viewmodels.PhieuTiepNhanAddViewModel')">
 		<hlayout style="padding : 16px;">
 			<!-- Customer information box -->
@@ -25,10 +25,25 @@
 					rows="3" width="250px">
 				</textbox>
 				<label>Số điện thoại</label>
-				<intbox constraint="no empty" id="textbox_sdt"
+				<textbox xmlns:w="client" constraint="no empty"
+					id="textbox_sdt"
 					value="@save(vm.customer.sdt, before='luuPhieuTiepNhan')"
 					width="250px">
-				</intbox>
+					<attribute w:name="doKeyDown_">
+
+						
+						<![CDATA[ function (evt) { var keyCode =
+						event.keyCode; if( keyCode == 8 || keyCode == 13
+						|| keyCode == 16 || (keyCode >= 35 && keyCode <=
+						40) || keyCode == 46) { this.$doKeyDown_(evt); }
+						else if ( !evt.shiftKey && (keyCode >= 48 &&
+						keyCode <= 57) || (keyCode >= 96 && keyCode <=
+						105)) { this.$doKeyDown_(evt); } else {
+						evt.stop(); return; } } ]]>
+						
+						
+					</attribute>
+				</textbox>
 				<label>Số CMND</label>
 				<intbox constraint="no empty" id="textbox_cmnd"
 					value="@save(vm.customer.cmnd, before='luuPhieuTiepNhan')"
@@ -47,7 +62,7 @@
 			<vbox style="padding : 16px;">
 				<label>Biển số xe</label>
 				<textbox constraint="no empty" id="textbox_biensoxe"
-					value="@save(vm.phieuTiepNhan.licensePlate, before='luuPhieuTiepNhan') @save(vm.xe.bienSoXe, before='luuPhieuTiepNhan') "
+					value="@save(vm.xe.bienSoXe, before='luuPhieuTiepNhan')"
 					width="250px">
 				</textbox>
 				<label>Hiệu xe</label>
@@ -76,8 +91,8 @@
 				</intbox>
 				<label>Tình trạng</label>
 				<textbox id="textbox_tinhtrang"
-					value=" @save( vm.xe.tinhTrang, before='luuPhieuTiepNhan')"
-					rows="5" width="250px">
+					value="@save( vm.xe.tinhTrang, before='luuPhieuTiepNhan')" rows="5"
+					width="250px">
 				</textbox>
 				<label>Đời xe</label>
 				<intbox id="textbox_doixe"
@@ -86,12 +101,13 @@
 				</intbox>
 				<!-- update button -->
 			</vbox>
-			<vbox style="padding : 16px;">
+			<vbox>
 				<label>Ngày trả</label>
 				<datebox constraint="no empty" id="datebox_ngaytraxe"
 					value="@save(vm.phieuTiepNhan.givebackDate)" width="250px">
 				</datebox>
-				<button style="margin-top: 10px;" image="/images/ic_done.png" onClick="@command('luuPhieuTiepNhan')">
+				<button image="/images/ic_done.png"
+					onClick="@command('luuPhieuTiepNhan')">
 					Lưu
 				</button>
 			</vbox>

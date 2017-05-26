@@ -21,14 +21,13 @@ public class ThongTinViewModel {
 	@WireVariable
 	private NhanVienServiceImpl nhanVienServiceImpl;
 	private NhanVien currentNhanVien;
-	
+
 	@Init
-	public void init() 
-	{
+	public void init() {
 		this.nhanVienServiceImpl = (NhanVienServiceImpl) SpringUtil.getBean("nhanvien_service");
-		Long nhanVienID = (Long)Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID);
+		Long nhanVienID = (Long) Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID);
 		this.currentNhanVien = this.nhanVienServiceImpl.findById(nhanVienID, NhanVien.class);
-		
+
 	}
 
 	public NhanVienServiceImpl getNhanVienServiceImpl() {
@@ -46,23 +45,26 @@ public class ThongTinViewModel {
 	public void setCurrentNhanVien(NhanVien currentNhanVien) {
 		this.currentNhanVien = currentNhanVien;
 	}
+
 	private static List<String> GENDERS = new ArrayList<String>();
 	static {
 		GENDERS.add("Nam");
 		GENDERS.add("Nữ");
 	}
+
 	public List<String> getGenders() {
 		return GENDERS;
 	}
+
 	@Command
 	public void EditNhanVien(@BindingParam("name") String name, @BindingParam("address") String address,
 			@BindingParam("phone_number") String phoneNumber, @BindingParam("gender") String gender,
-			@BindingParam("permission") NhomNguoiDung permission, @BindingParam("username") String username, @BindingParam("password") String password)
-	{
-		if (!name.isEmpty() && !address.isEmpty() && !phoneNumber.isEmpty() && !gender.isEmpty()
-			&&	!username.isEmpty() && !password.isEmpty()) {
+			@BindingParam("permission") NhomNguoiDung permission, @BindingParam("username") String username,
+			@BindingParam("password") String password) {
+		if (!name.isEmpty() && !address.isEmpty() && !phoneNumber.isEmpty() && !gender.isEmpty() && !username.isEmpty()
+				&& !password.isEmpty()) {
 			NhanVien nhanvien = new NhanVien();
-			
+
 			nhanvien.setMaNhomNguoiDung(permission.getMaNhomNguoiDung());
 			nhanvien.setUsername(username);
 			nhanvien.setPassword(Md5Encryptor.MD5Hash(password));
@@ -76,12 +78,9 @@ public class ThongTinViewModel {
 			} else {
 				Messagebox.show("Đã có lỗi xảy ra", "Lỗi", Messagebox.OK, Messagebox.ERROR);
 			}
-			
-		}
-		else
-		{
-			Messagebox.show("Vui lòng nhập đầy đủ thông tin!", "Lỗi", Messagebox.OK,
-					Messagebox.ERROR);
+
+		} else {
+			Messagebox.show("Vui lòng nhập đầy đủ thông tin!", "Lỗi", Messagebox.OK, Messagebox.ERROR);
 		}
 	}
 }

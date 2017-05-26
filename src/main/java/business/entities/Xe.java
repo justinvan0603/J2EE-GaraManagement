@@ -67,7 +67,7 @@ public class Xe {
 		// TODO Auto-generated constructor stub
 	}
 
-	// relatioships
+	// relationships
 	@ManyToOne
 	@JoinColumn(name = "HieuXe", insertable = false, updatable = false)
 	private HieuXe hieuXe;

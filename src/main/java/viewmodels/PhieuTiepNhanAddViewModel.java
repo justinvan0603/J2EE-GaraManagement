@@ -73,6 +73,7 @@ public class PhieuTiepNhanAddViewModel {
 				this.phieuTiepNhan = new PhieuTiepNhan();
 				this.xe = new Xe();
 				if (this.hieuXeServiceImpl != null) {
+					// get all of hieuxe
 					this.listOfHieuXes = this.hieuXeServiceImpl.getAll(HieuXe.class);
 				}
 
@@ -138,14 +139,19 @@ public class PhieuTiepNhanAddViewModel {
 				// Long lastCustomerId = this.customerServiceImpl.getLastedId();
 				// cap nhat ma khach hang cho xe
 				this.xe.setMaKH(Integer.parseInt(this.customer.getMaKH() + ""));
+				this.xe.setHinhThuc(false); //
 
 				if (this.xeServiceImpl.save(this.xe)) {
+					this.phieuTiepNhan.setLicensePlate(this.xe.getBienSoXe());
 					this.phieuTiepNhan.setCustomerId(this.customer.getMaKH());
 					this.phieuTiepNhan.setStaffId(
 							Integer.parseInt(Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) + "")); // current
 																														// signed
 																														// in
 																														// staff
+					this.phieuTiepNhan.setState(this.xe.getTinhTrang()); // status
+																			// of
+																			// voucher
 
 					if (this.phieuTiepNhanServiceImpl.save(this.phieuTiepNhan)) {
 						Messagebox.show("Lưu thành công", "Thông báo", Messagebox.OK, Messagebox.INFORMATION);
