@@ -320,6 +320,11 @@ public class PhieuDichVuAddViewModel {
 	@Command
 	@NotifyChange("setofChiTietPhieuDV")
 	public void themChiTiet(@BindingParam("soluong") String soLuong) {
+		if(this.selectedPhuTung == null)
+		{
+			Messagebox.show("Vui lòng chọn phụ tùng!", "Lỗi", Messagebox.OK, Messagebox.ERROR);
+			return;
+		}
 		if(soLuong.isEmpty() || soLuong == null)
 		{
 			Messagebox.show("Số lượng không hợp lệ!", "Lỗi", Messagebox.OK, Messagebox.ERROR);

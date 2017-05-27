@@ -242,6 +242,16 @@ public class PhieuBanLeEditViewModel {
 	@Command
 	@NotifyChange("setOfChiTietPhieuBL")
 	public void themChiTiet(@BindingParam("soluong") String soLuong) {
+		if(this.selectedPhuTung == null)
+		{
+			Messagebox.show("Vui lòng chọn phụ tùng!", "Lỗi", Messagebox.OK, Messagebox.ERROR);
+			return;
+		}
+		if(this.selectedHieuXe == null)
+		{
+			Messagebox.show("Vui lòng chọn hiệu xe !", "Lỗi", Messagebox.OK, Messagebox.ERROR);
+			return;
+		}
 		if(soLuong.isEmpty() || soLuong == null)
 		{
 			Messagebox.show("Nhập sai số lượng! Vui lòng nhập lại!", "Lỗi", Messagebox.OK,
