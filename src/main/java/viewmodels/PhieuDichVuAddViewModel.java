@@ -334,7 +334,7 @@ public class PhieuDichVuAddViewModel {
 
 	@Command
 	public void SavePhieuDichVu(@BindingParam("mapdv") String mapdv, @BindingParam("tiencong") double tiencong) {
-		if (!mapdv.isEmpty() && tiencong >= 0) {
+		if (!mapdv.isEmpty() && tiencong >= 0 && this.setofChiTietPhieuDV.size() >0) {
 			// PhieuDichVu phieudichvu = new PhieuDichVu();
 
 			this.phieuDichVu.setMaPhieuDichVu(mapdv);

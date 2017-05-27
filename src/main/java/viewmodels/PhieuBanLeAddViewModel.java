@@ -239,7 +239,7 @@ public class PhieuBanLeAddViewModel {
 	@Command
 	public void SavePhieuDichVu(@BindingParam("mapbl") String mapbl)
 	{
-		if (!mapbl.isEmpty() && this.selectedKhachHang != null)
+		if (!mapbl.isEmpty() && this.selectedKhachHang != null && this.setOfChiTietPhieuBL.size() >0)
 		{
 			//Messagebox.show(this.selectedKhachHang.getHoTen());
 			this.phieuBanLe.setMaPhieuBan(mapbl);

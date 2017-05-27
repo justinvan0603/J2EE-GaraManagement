@@ -31,8 +31,22 @@
 			</hbox>
 			<hbox pack="center">
 				<label>Điện thoại</label>
-				<textbox style="margin-left:26px;" id="phone_textbox" width="400px" value="@bind(vm.currentNhanVien.sdt)"
+				<textbox xmlns:w="client" style="margin-left:26px;" id="phone_textbox" width="400px" value="@bind(vm.currentNhanVien.sdt)"
 					constraint="no empty">
+					<attribute w:name="doKeyDown_">
+
+						
+						<![CDATA[ function (evt) { var keyCode =
+						event.keyCode; if( keyCode == 8 || keyCode == 13
+						|| keyCode == 16 || (keyCode >= 35 && keyCode <=
+						40) || keyCode == 46) { this.$doKeyDown_(evt); }
+						else if ( !evt.shiftKey && (keyCode >= 48 &&
+						keyCode <= 57) || (keyCode >= 96 && keyCode <=
+						105)) { this.$doKeyDown_(evt); } else {
+						evt.stop(); return; } } ]]>
+						
+						
+					</attribute>
 				</textbox>
 			</hbox>
 			<hbox pack="center">
