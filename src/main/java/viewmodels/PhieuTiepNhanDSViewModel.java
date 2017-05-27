@@ -111,16 +111,16 @@ public class PhieuTiepNhanDSViewModel {
 			case 0: // search by id of receive header
 
 				this.listOfReceiveHeaders.clear(); // clear all items
-				PhieuTiepNhan header = this.phieuTiepNhanServiceImpl.findById(Long.parseLong(searchString),
+				PhieuTiepNhan header = this.phieuTiepNhanServiceImpl.findById(Long.parseLong(searchString.trim()),
 						PhieuTiepNhan.class);
 				this.listOfReceiveHeaders.add(header);
 				break;
 			case 1: // search by license plate
-				this.listOfReceiveHeaders = this.phieuTiepNhanServiceImpl.findByLicensePlate(searchString);
+				this.listOfReceiveHeaders = this.phieuTiepNhanServiceImpl.findByLicensePlate(searchString.trim());
 				break;
 			case 2: // search by creation date
 				try {
-					String[] dateSplit = searchString.split("/");
+					String[] dateSplit = searchString.trim().split("/");
 					this.listOfReceiveHeaders = this.phieuTiepNhanServiceImpl.findByDate("creationDate",
 							DateUtil.parseFromStringArray(dateSplit));
 				} catch (Exception e) {
@@ -131,7 +131,7 @@ public class PhieuTiepNhanDSViewModel {
 				break;
 			case 3:
 				try {
-					String[] dateSplit = searchString.split("/");
+					String[] dateSplit = searchString.trim().split("/");
 					this.listOfReceiveHeaders = this.phieuTiepNhanServiceImpl.findByDate("givebackDate",
 							DateUtil.parseFromStringArray(dateSplit));
 				} catch (Exception e) {

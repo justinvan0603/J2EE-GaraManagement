@@ -17,6 +17,7 @@ import org.zkoss.zul.Messagebox;
 
 import business.entities.CT_PhieuBaoHanh;
 import business.entities.HieuXe;
+import business.entities.NhanVien;
 import business.entities.PhieuBaoHanh;
 import business.entities.PhuTung;
 import business.service.CTPhieuBaoHanhServiceImpl;
@@ -48,6 +49,9 @@ public class PhieuBaoHanhAddViewModel {
 	// entities to be saved
 	private PhieuBaoHanh phieuBaoHanh;
 	private Set<CT_PhieuBaoHanh> setOfCT_PhieuBaoHanhs; // use Set
+
+	// additional displayed fields
+	private String currentSignedStaffName;
 
 	@Init
 	public void init() {
@@ -83,6 +87,12 @@ public class PhieuBaoHanhAddViewModel {
 
 			// initialize list
 			this.setOfCT_PhieuBaoHanhs = new HashSet<CT_PhieuBaoHanh>(); //
+
+			// get name of current signed in staff for displaying on view
+			this.currentSignedStaffName = this.nhanVienServiceImpl
+					.findById(Long.parseLong(Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) + ""),
+							NhanVien.class)
+					.getHoTen();
 		} else {
 			if (this.phieuBaoHanhServiceImpl == null) {
 				throw new NullPointerException("Service 'Phieu Bao Hanh' is null");
@@ -190,5 +200,15 @@ public class PhieuBaoHanhAddViewModel {
 	public void setSelectedPhutung(PhuTung selectedPhutung) {
 		this.selectedPhutung = selectedPhutung;
 	}
+
+	public String getCurrentSignedStaffName() {
+		return currentSignedStaffName;
+	}
+
+	public void setCurrentSignedStaffName(String currentSignedStaffName) {
+		this.currentSignedStaffName = currentSignedStaffName;
+	}
+	
+	
 
 }

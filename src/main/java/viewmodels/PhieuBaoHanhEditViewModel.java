@@ -30,13 +30,13 @@ public class PhieuBaoHanhEditViewModel {
 
 	@Init
 	public void init() {
-		
-		if((Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) == null) || Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERNAME) == null)
-		{
+
+		if ((Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) == null)
+				|| Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERNAME) == null) {
 			Messagebox.show("Vui lòng đăng nhập!");
 			Executions.sendRedirect("./Login.zul");
 		}
-		
+
 		// get parameter from application system
 		Long id = (Long) Sessions.getCurrent().getAttribute(PhieuBaoHanhDSViewModel.SELECTED_PHIEUBAOHANH_ID);
 		// if session value is invaid, back to list view page
@@ -71,6 +71,19 @@ public class PhieuBaoHanhEditViewModel {
 	@NotifyChange("listOfCT_PhieuBaoHanhs")
 	public void updateChiTietPhieuBaoHanh(@BindingParam("id") Long id) {
 		CT_PhieuBaoHanh ct_PhieuBaoHanh = this.ct_PhieuBaoHanhServiceImpl.findById(id, CT_PhieuBaoHanh.class);
+		// get old information of selected detail of maintenance bill
+		Date oldPlanedGivebackDate = ct_PhieuBaoHanh.getNgayHenTra();
+		Date oldActualGivebackDate = ct_PhieuBaoHanh.getNgayTra();
+
+		// update values correctly before being updated, this means we have to
+		// check if temporary class's fields are null
+		if (this.tempNgayHenTra == null) {
+			this.tempNgayHenTra = oldPlanedGivebackDate;
+		}
+		if (this.tempNgayTra == null) {
+			this.tempNgayTra = oldActualGivebackDate;
+		}
+
 		ct_PhieuBaoHanh.setNgayHenTra(this.tempNgayHenTra);
 		ct_PhieuBaoHanh.setNgayTra(this.tempNgayTra);
 		if (this.ct_PhieuBaoHanhServiceImpl.update(id, ct_PhieuBaoHanh)) {
@@ -81,6 +94,7 @@ public class PhieuBaoHanhEditViewModel {
 																							// details
 			Messagebox.show("Cập nhật thành công", "Thông báo", Messagebox.OK, Messagebox.INFORMATION);
 		} else {
+			// Error occurs, warn to user
 			Messagebox.show("Cập nhật lối", "Lỗi", Messagebox.RETRY, Messagebox.ERROR);
 		}
 	}

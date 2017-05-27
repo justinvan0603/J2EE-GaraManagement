@@ -4,7 +4,7 @@
 	<!-- import mutual menu bar -->
 	<include src="menu_bar.zul"></include>
 	<window title="Phiếu bảo hành mới" border="normal" width="100%"
-		height="94%" apply="org.zkoss.bind.BindComposer"
+		height="100%" apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('viewmodels.PhieuBaoHanhAddViewModel')">
 		<!-- thong tin phieu bao hanh moi -->
 		<vlayout>
@@ -21,7 +21,7 @@
 					<vbox width="180px">
 						<label>Nhân viên lập</label>
 						<textbox readonly="true"
-							value="@load(vm.phieuBaoHanh.nhanVien.hoTen)" rows="3">
+							value="@load(vm.currentSignedStaffName)" rows="3">
 						</textbox>
 					</vbox>
 					<vbox width="240px">
@@ -87,7 +87,10 @@
 					</listitem>
 				</template>
 			</listbox>
-			<button image="/images/ic_done.png" onClick="@command('luuPhieuBaoHanh')">Lưu</button>
+			<button image="/images/ic_done.png"
+				onClick="@command('luuPhieuBaoHanh')">
+				Lưu
+			</button>
 		</vlayout>
 	</window>
 </zk>

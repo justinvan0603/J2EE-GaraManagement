@@ -1,8 +1,8 @@
 <?page title="Cập nhật thông tin phiếu tiếp nhận" contentType="text/html;charset=UTF-8"?>
 <zk>
 	<include src="menu_bar.zul"></include>
-	<window title="Cập nhật thông tin phiếu tiếp nhận" border="normal" height="94%"
-		apply="org.zkoss.bind.BindComposer"
+	<window title="Cập nhật thông tin phiếu tiếp nhận" border="normal"
+		height="94%" apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('viewmodels.PhieuTiepNhanEditViewModel')">
 		<style src="./css/style.css" />
 		<hbox>
@@ -29,14 +29,14 @@
 			</vbox>
 			<vbox sclass="layout_fit_margins">
 				<label>Ngày trả xe</label>
-				<datebox
+				<datebox readonly="true"
 					value="@bind(vm.selectedPhieuTiepNhan.givebackDate) @save(vm.selectedPhieuTiepNhan.givebackDate, before='updatePhieuTiepNhan')"
 					width="280px">
 				</datebox>
 				<label>Tình trạng</label>
 				<textbox
 					value="@bind(vm.selectedPhieuTiepNhan.state) @save(vm.selectedPhieuTiepNhan.state, before='updatePhieuTiepNhan')"
-					rows="5" width="280px">
+					rows="10" cols="50" width="280px">
 				</textbox>
 				<button image="/images/ic_done.png"
 					onClick="@command('updatePhieuTiepNhan', phieutiepnhan_id= vm.selectedPhieuTiepNhan.id)">

@@ -4,8 +4,8 @@
 	<!-- import mutual menu bar -->
 	<include src="menu_bar.zul"></include>
 
-	<window title="Danh sách phiếu tiếp nhận" border="normal" height="94%"
-		apply="org.zkoss.bind.BindComposer"
+	<window title="Danh sách phiếu tiếp nhận" border="normal"
+		height="100%" apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('viewmodels.PhieuTiepNhanDSViewModel')">
 		<vlayout width="100%">
 			<hlayout style="text-align : left; padding : 4px;">
@@ -17,20 +17,19 @@
 					</template>
 				</combobox>
 				<textbox width="400px" id="search_textbox"></textbox>
-				<button id="searchButton"
-				image="/images/ic_search.png"
+				<button id="searchButton" image="/images/ic_search.png"
 					onClick="@command('filterData', search_index = search_type_combobox.selectedIndex , search_string = search_textbox.text )">
 					Tìm kiếm
 				</button>
 				|
 				<button id="button_add_new_customer"
-				image="/images/ic_add.png"
+					image="/images/ic_add.png"
 					onClick="@command('addNewHeaderFromNewCustomer')">
 					Thêm mới từ khách mới
 				</button>
 				|
 				<button id="button_add_from_frequenter"
-				image="/images/ic_add.png"
+					image="/images/ic_add.png"
 					onClick="@command('addNewHeaderFromFrequenter')">
 					Thêm mới từ khách quen
 				</button>
@@ -40,13 +39,13 @@
 			<listbox hflex="1" mold="paging" pageSize="15"
 				model="@load(vm.listOfReceiveHeaders)" width="100%">
 				<listhead>
-					<listheader label="Mã phiếu" width="70px" />
-					<listheader label="Biển số xe" width="90px" />
-					<listheader label="Khách hàng" width="150px"/>
-					<listheader label="Ngày lập" width="100px" />
-					<listheader label="Ngày trả" width="100px" />
+					<listheader width="70px" label="Mã phiếu" />
+					<listheader width="200px" label="Biển số xe" />
+					<listheader label="Khách hàng" />
+					<listheader width="120px" label="Ngày lập" />
+					<listheader width="120px" label="Ngày trả" />
 					<listheader label="Tình trạng" />
-					<listheader label="Tên nhân viên" width="150px" />
+					<listheader width="150px" label="Tên nhân viên" />
 					<listheader label="Tác vụ" />
 				</listhead>
 				<template name="model" var="e">
@@ -54,31 +53,27 @@
 						<listcell label="@load(e.id)"></listcell>
 						<listcell label="@load(e.licensePlate)"></listcell>
 						<listcell label="@load(e.customer.hoTen)"></listcell>
-						<listcell label="@load(e.shortCreationDate)">
-						</listcell>
+						<listcell label="@load(e.shortCreationDate)"></listcell>
 						<listcell label="@load(e.shortGiveBackDate)"></listcell>
 						<listcell label="@load(e.state)"></listcell>
 						<listcell label="@load(e.nhanVien.hoTen)"></listcell>
 						<listcell>
-							<hbox>
-								<button
-									onClick="@command('seePhieuTiepNhanDetail', phieutiepnhan_id = e.id)"
-									image="/images/ic_edit_black_18dp_1x.png">
-									Cập nhật
-								</button>
-								<button
-									image="/images/ic_add.png"
-									if="${e.numberofServiceHeaders == 0}" visible="true"
-									onClick="@command('lapPhieuDichVu',phietiepnhan_id = e.id)">
-									Lập phiếu dịch vụ
-								</button>
-								<button
-									onClick="@command('deletePhieuTiepNhan', phieutiepnhan_id = e.id)"
-									if="${e.numberofServiceHeaders == 0}" visible="true"
-									image="/images/ic_delete_black_18dp_1x.png">
-									Xóa
-								</button>
-							</hbox>
+							<button
+								onClick="@command('seePhieuTiepNhanDetail', phieutiepnhan_id = e.id)"
+								image="/images/ic_edit_black_18dp_1x.png">
+								Cập nhật
+							</button>
+							<button image="/images/ic_add.png"
+								if="${e.numberofServiceHeaders == 0}" visible="true"
+								onClick="@command('lapPhieuDichVu',phietiepnhan_id = e.id)">
+								Lập phiếu dịch vụ
+							</button>
+							<button
+								onClick="@command('deletePhieuTiepNhan', phieutiepnhan_id = e.id)"
+								if="${e.numberofServiceHeaders == 0}" visible="true"
+								image="/images/ic_delete_black_18dp_1x.png">
+								Xóa
+							</button>
 						</listcell>
 					</listitem>
 				</template>

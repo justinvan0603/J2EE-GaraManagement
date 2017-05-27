@@ -30,7 +30,7 @@
 				</vbox>
 				<vbox width="240px">
 					<label>Tình trạng</label>
-					<textbox rows="5" cols="25"
+					<textbox rows="5" cols="40"
 						value=" @save(vm.selectedPhieuBaoHanh.tinhTrang, before='updatePhieuBaoHanh') @load(vm.selectedPhieuBaoHanh.tinhTrang)">
 					</textbox>
 				</vbox>
@@ -62,15 +62,15 @@
 						<listcell label="@load(e.maPhuTung)"></listcell>
 						<listcell label="@load(e.phuTung.tenPhuTung)"></listcell>
 						<listcell>
-							<datebox width="180px"
+							<datebox width="180px" readonly="true"
 								onChange="@command('onDateBoxNgayHenTraChange', ngayhentra = self.value)"
-								value="@load(e.ngayHenTra)">
+								value="@bind(e.ngayHenTra)">
 							</datebox>
 						</listcell>
 						<listcell>
-							<datebox width="180px"
+							<datebox width="180px" readonly="true"
 								onChange="@command('onDateBoxNgayTraChange', ngaytra = self.value)"
-								value="@load(e.ngayTra)">
+								value="@bind(e.ngayTra)">
 							</datebox>
 						</listcell>
 						<listcell>
