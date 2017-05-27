@@ -270,7 +270,15 @@ public class PhieuDichVuAddViewModel {
 	@NotifyChange("thanhTien")
 	public void ontxtSoLuongChanging(@BindingParam("soluong") Integer soluong) {
 		// this.ThanhTien = 0;
+		try
+		{
 		this.setThanhTien((double) (soluong.intValue() * this.selectedPhuTung.getDonGiaXuat()));
+		}
+		catch(Exception ex)
+		{
+			Messagebox.show("Số lượng không hợp lệ!", "Lỗi", Messagebox.OK, Messagebox.ERROR);
+			return;
+		}
 	}
 
 	@Command
@@ -311,18 +319,23 @@ public class PhieuDichVuAddViewModel {
 
 	@Command
 	@NotifyChange("setofChiTietPhieuDV")
-	public void themChiTiet(@BindingParam("soluong") int soLuong) {
-		if (soLuong <= 0) {
+	public void themChiTiet(@BindingParam("soluong") String soLuong) {
+		if(soLuong.isEmpty() || soLuong == null)
+		{
 			Messagebox.show("Số lượng không hợp lệ!", "Lỗi", Messagebox.OK, Messagebox.ERROR);
 			return;
 		}
-		if (soLuong <= this.selectedPhuTung.getSoLuongTon()) {
+		if (Integer.parseInt(soLuong) <= 0) {
+			Messagebox.show("Số lượng không hợp lệ!", "Lỗi", Messagebox.OK, Messagebox.ERROR);
+			return;
+		}
+		if (Integer.parseInt(soLuong) <= this.selectedPhuTung.getSoLuongTon()) {
 			CT_PhieuDichVu ctPhieu = new CT_PhieuDichVu();
-			this.selectedPhuTung.setSoLuongTon(this.selectedPhuTung.getSoLuongTon() - soLuong);
-			ctPhieu.setThanhTien(soLuong * this.selectedPhuTung.getDonGiaXuat());
+			this.selectedPhuTung.setSoLuongTon(this.selectedPhuTung.getSoLuongTon() - Integer.parseInt(soLuong));
+			ctPhieu.setThanhTien(Integer.parseInt(soLuong) * this.selectedPhuTung.getDonGiaXuat());
 			ctPhieu.setMaPhuTung(this.selectedPhuTung.getId());
 			ctPhieu.setDonGia(this.selectedPhuTung.getDonGiaXuat());
-			ctPhieu.setSoLuong(soLuong);
+			ctPhieu.setSoLuong(Integer.parseInt(soLuong));
 			ctPhieu.setMaPT(this.selectedPhuTung.getMaPhuTung());
 			ctPhieu.setTenPT(this.selectedPhuTung.getTenPhuTung());
 			ctPhieu.setHanBaoHanh(this.selectedPhuTung.getHanBaoHanh());

@@ -241,20 +241,32 @@ public class PhieuBanLeEditViewModel {
 	}
 	@Command
 	@NotifyChange("setOfChiTietPhieuBL")
-	public void themChiTiet(@BindingParam("soluong") int soLuong) {
-		if(soLuong <= this.selectedPhuTung.getSoLuongTon())
+	public void themChiTiet(@BindingParam("soluong") String soLuong) {
+		if(soLuong.isEmpty() || soLuong == null)
 		{
-			this.selectedPhuTung.setSoLuongTon(this.selectedPhuTung.getSoLuongTon()-soLuong);
-			this.selectedKhachHang.setSoTienNo(this.selectedKhachHang.getSoTienNo() + (soLuong * this.selectedPhuTung.getDonGiaXuat()));
+			Messagebox.show("Nhập sai số lượng! Vui lòng nhập lại!", "Lỗi", Messagebox.OK,
+					Messagebox.ERROR);
+				return;
+		}
+		if(Integer.parseInt(soLuong) <= 0)
+		{
+			Messagebox.show("Nhập sai số lượng! Vui lòng nhập lại!", "Lỗi", Messagebox.OK,
+					Messagebox.ERROR);
+				return;
+		}
+		if(Integer.parseInt(soLuong) <= this.selectedPhuTung.getSoLuongTon())
+		{
+			this.selectedPhuTung.setSoLuongTon(this.selectedPhuTung.getSoLuongTon()-Integer.parseInt(soLuong));
+			this.selectedKhachHang.setSoTienNo(this.selectedKhachHang.getSoTienNo() + (Integer.parseInt(soLuong) * this.selectedPhuTung.getDonGiaXuat()));
 			this.customerServiceImpl.update(this.selectedKhachHang.getMaKH(), this.selectedKhachHang);
 			this.phuTungServiceImpl.update(this.selectedPhuTung.getId(), this.selectedPhuTung);
 			CT_PhieuBanLe ctPhieu  = new CT_PhieuBanLe();
 			ctPhieu.setIdPhieuBanLe(this.phieuBanLe.getIdPhieuBanLe());
 			ctPhieu.setDonGia(this.selectedPhuTung.getDonGiaXuat());
 			ctPhieu.setThoiHanBaoHanh(this.selectedPhuTung.getHanBaoHanh());
-			ctPhieu.setSoLuong(soLuong);
+			ctPhieu.setSoLuong(Integer.parseInt(soLuong));
 			ctPhieu.setMaPhuTung(this.selectedPhuTung.getId());
-			ctPhieu.setThanhTien(soLuong * this.selectedPhuTung.getDonGiaXuat());
+			ctPhieu.setThanhTien(Integer.parseInt(soLuong) * this.selectedPhuTung.getDonGiaXuat());
 			ctPhieu.setTenPT(this.selectedPhuTung.getTenPhuTung());
 			ctPhieu.setMaPT(this.selectedPhuTung.getMaPhuTung());
 			this.setOfChiTietPhieuBL.add(ctPhieu);

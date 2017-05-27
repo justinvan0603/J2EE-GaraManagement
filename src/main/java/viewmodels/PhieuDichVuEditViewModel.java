@@ -192,18 +192,27 @@ public class PhieuDichVuEditViewModel {
 	}
 	@Command
 	@NotifyChange("setofChiTietPhieuDV")
-	public void themChiTiet(@BindingParam("soluong") int soLuong) {
-		CT_PhieuDichVu ctPhieu = new CT_PhieuDichVu();
-		if(soLuong <= 0)
+	public void themChiTiet(@BindingParam("soluong") String soLuong) {
+		if(soLuong.isEmpty() || soLuong == null)
 		{
 			Messagebox.show("Số lượng không hợp lệ!", "Lỗi", Messagebox.OK, Messagebox.ERROR);
 			return;
 		}
-		if (soLuong <= this.selectedPhuTung.getSoLuongTon()) {
+		if (Integer.parseInt(soLuong) <= 0) {
+			Messagebox.show("Số lượng không hợp lệ!", "Lỗi", Messagebox.OK, Messagebox.ERROR);
+			return;
+		}
+		CT_PhieuDichVu ctPhieu = new CT_PhieuDichVu();
+//		if(soLuong <= 0)
+//		{
+//			Messagebox.show("Số lượng không hợp lệ!", "Lỗi", Messagebox.OK, Messagebox.ERROR);
+//			return;
+//		}
+		if (Integer.parseInt(soLuong) <= this.selectedPhuTung.getSoLuongTon()) {
 			
-		ctPhieu.setThanhTien(soLuong * this.selectedPhuTung.getDonGiaXuat());
+		ctPhieu.setThanhTien(Integer.parseInt(soLuong) * this.selectedPhuTung.getDonGiaXuat());
 		ctPhieu.setDonGia(this.selectedPhuTung.getDonGiaXuat());
-		ctPhieu.setSoLuong(soLuong);
+		ctPhieu.setSoLuong(Integer.parseInt(soLuong));
 		ctPhieu.setMaPT(this.selectedPhuTung.getMaPhuTung());
 		ctPhieu.setTenPT(this.selectedPhuTung.getTenPhuTung());
 		ctPhieu.setHanBaoHanh(this.selectedPhuTung.getHanBaoHanh());
@@ -214,7 +223,7 @@ public class PhieuDichVuEditViewModel {
 		this.setofChiTietPhieuDV.clear();
 		this.chiTietPhieuDichVuServiceImpl.save(ctPhieu);
 		this.setofChiTietPhieuDV = new HashSet<CT_PhieuDichVu>( this.chiTietPhieuDichVuServiceImpl.getByPhieuDichVuId(this.phieuDichVu.getIdPhieuDichVu()));
-		this.selectedPhuTung.setSoLuongTon(this.selectedPhuTung.getSoLuongTon() - soLuong);
+		this.selectedPhuTung.setSoLuongTon(this.selectedPhuTung.getSoLuongTon() - Integer.parseInt(soLuong));
 		this.currentKhachHang.setSoTienNo(this.currentKhachHang.getSoTienNo() + ctPhieu.getThanhTien());
 		this.phuTungServiceImpl.update(this.selectedPhuTung.getId(), this.selectedPhuTung);
 		this.customerServiceImpl.update(this.currentKhachHang.getMaKH(), this.currentKhachHang);

@@ -6,7 +6,7 @@
 		<vlayout>
 		<hbox pack="center">
 				<label>Password</label>
-				<textbox style="margin-left:30px;" type="password" id="password_textbox" width="400px" value="@bind(vm.currentNhanVien.password)"
+				<textbox style="margin-left:30px;" type="password" id="password_textbox" width="400px" 
 					constraint="no empty">
 				</textbox>
 			</hbox>
