@@ -1,6 +1,7 @@
 package viewmodels;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.zkoss.bind.annotation.BindingParam;
@@ -15,11 +16,15 @@ import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.Messagebox;
 
+import business.entities.CT_PhieuBanLe;
 import business.entities.Customer;
 import business.entities.PhieuBanLe;
+import business.entities.PhuTung;
+import business.service.ChiTietPhieuBanLeServiceImpl;
 import business.service.CustomerServiceImpl;
 import business.service.PhieuBanLeServiceImpl;
 import business.service.PhieuThuServiceImpl;
+import business.service.PhuTungServiceImpl;
 import utils.DateUtil;
 
 public class PhieuBanLeDSViewModel {
@@ -32,6 +37,10 @@ public class PhieuBanLeDSViewModel {
 	public static String PBL_ID = "PBL_ID";
 	@WireVariable
 	private CustomerServiceImpl customerServiceImpl;
+	@WireVariable
+	private ChiTietPhieuBanLeServiceImpl chiTietPhieuBanLeServiceImpl;
+	@WireVariable
+	private PhuTungServiceImpl phuTungServiceImpl;
 	private Integer dialogResult;
 	public PhieuBanLeServiceImpl getPhieuBanLeServiceImpl() {
 		return phieuBanLeServiceImpl;
@@ -81,6 +90,8 @@ public class PhieuBanLeDSViewModel {
 			Messagebox.show("Vui lòng đăng nhập!");
 			Executions.sendRedirect("./Login.zul");
 		}
+		this.phuTungServiceImpl = (PhuTungServiceImpl) SpringUtil.getBean("phutung_service");
+		this.chiTietPhieuBanLeServiceImpl = (ChiTietPhieuBanLeServiceImpl) SpringUtil.getBean("chitietphieubanle_service");
 		this.phieuThuServiceImpl = (PhieuThuServiceImpl) SpringUtil.getBean("phieuthu_service");
 		this.phieuBanLeServiceImpl = (PhieuBanLeServiceImpl) SpringUtil.getBean("phieubanle_service");
 		this.listPhieuBanLe =  this.phieuBanLeServiceImpl.getAll(PhieuBanLe.class);
@@ -132,8 +143,21 @@ public class PhieuBanLeDSViewModel {
 						{
 							case Messagebox.OK:
 							{
+								
+								
+								
 								if(phieuThuServiceImpl.findByIdPhieuCanThu("pbl", id).isEmpty())
 								{
+									List<CT_PhieuBanLe> listChiTiet = chiTietPhieuBanLeServiceImpl.getByIdPhieuBanLe(id, CT_PhieuBanLe.class);
+									for(Iterator<CT_PhieuBanLe> i = listChiTiet.iterator(); i.hasNext();)
+									{
+										CT_PhieuBanLe ct = i.next();
+										
+										PhuTung pt = phuTungServiceImpl.findById(ct.getMaPhuTung(), PhuTung.class);
+										pt.setSoLuongTon(pt.getSoLuongTon() + ct.getSoLuong());
+										phuTungServiceImpl.update(pt.getId(), pt);
+										chiTietPhieuBanLeServiceImpl.delete(ct.getId(), CT_PhieuBanLe.class);
+									}
 									if(phieuBanLeServiceImpl.delete(id, PhieuBanLe.class))
 									{
 										Customer kh = customerServiceImpl.findById(makh, Customer.class);

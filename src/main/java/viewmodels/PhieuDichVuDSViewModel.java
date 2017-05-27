@@ -44,6 +44,7 @@ public class PhieuDichVuDSViewModel {
 	private CustomerServiceImpl customerServiceImpl;
 	@WireVariable
 	private PhieuTiepNhanServiceImpl phieuTiepNhanServiceImpl;
+
 	private Integer dialogResult;
 	public Integer getDialogResult() {
 		return dialogResult;
@@ -157,27 +158,30 @@ public class PhieuDichVuDSViewModel {
 						{
 							if(phieuThuServiceImpl.findByIdPhieuCanThu("pdv", id).size() == 0)
 							{
+								PhieuTiepNhan phieutiepnhan = phieuTiepNhanServiceImpl.findById(ptn, PhieuTiepNhan.class);
+								List<CT_PhieuDichVu> listCt = chiTietPhieuDichVuServiceImpl.getByPhieuDichVuId(id);
+								if(!listCt.isEmpty())
+								{ 
+									for(Iterator<CT_PhieuDichVu> i = listCt.iterator(); i.hasNext();)
+									{
+										CT_PhieuDichVu ctPhieu = i.next();
+										PhuTung pt = phuTungServiceImpl.findById(ctPhieu.getMaPhuTung(), PhuTung.class);
+										pt.setSoLuongTon(pt.getSoLuongTon() + ctPhieu.getSoLuong());
+										phuTungServiceImpl.update(pt.getId(), pt);
+										chiTietPhieuDichVuServiceImpl.delete((long)ctPhieu.getId(), CT_PhieuDichVu.class);
+									}
+								}
 								if(phieuDichVuService.delete(id, PhieuDichVu.class))
 								{
-									PhieuTiepNhan phieutiepnhan = phieuTiepNhanServiceImpl.findById(ptn, PhieuTiepNhan.class);
+									
+									
 									Customer kh = customerServiceImpl.findById(phieutiepnhan.getCustomerId(), Customer.class);
 									kh.setSoTienNo(kh.getSoTienNo() - tongtien);
 									customerServiceImpl.update(kh.getMaKH(), kh);
 									listPhieuDichVu.clear();
 									setListPhieuDichVu( phieuDichVuService.getAll(PhieuDichVu.class));
 								
-									List<CT_PhieuDichVu> listCt = chiTietPhieuDichVuServiceImpl.getByPhieuDichVuId(id);
-									if(!listCt.isEmpty())
-									{ 
-										for(Iterator<CT_PhieuDichVu> i = listCt.iterator(); i.hasNext();)
-										{
-											CT_PhieuDichVu ctPhieu = i.next();
-											PhuTung pt = phuTungServiceImpl.findById(ctPhieu.getMaPhuTung(), PhuTung.class);
-											pt.setSoLuongTon(pt.getSoLuongTon() + ctPhieu.getSoLuong());
-											phuTungServiceImpl.update(pt.getId(), pt);
-											chiTietPhieuDichVuServiceImpl.delete((long)ctPhieu.getId(), CT_PhieuDichVu.class);
-										}
-									}
+									
 								}
 								else
 									
