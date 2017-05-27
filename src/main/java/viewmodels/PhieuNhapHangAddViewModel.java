@@ -95,7 +95,7 @@ public class PhieuNhapHangAddViewModel {
 
 	@Command
 	@NotifyChange({ "setOfCT_Phieus", "tongTien" })
-	public void themChiTiet(@BindingParam("id_pt") long mapt, @BindingParam("sl") int sl,
+	public void themChiTiet(@BindingParam("id_pt") String ma_pt, @BindingParam("sl") int sl,
 			@BindingParam("dongia") double dongia, @BindingParam("thanhtien") double thanhtien) {
 		int soluongnhaptoida = Integer.valueOf(SystemParam.getValueByKey("SoLuongNhapHangToiDa"));
 		if (sl > soluongnhaptoida) {
@@ -103,6 +103,16 @@ public class PhieuNhapHangAddViewModel {
 					"Lỗi", Messagebox.OK, Messagebox.ERROR);
 			return;
 		}
+		
+		long mapt;
+		try {
+			mapt = Long.valueOf(ma_pt);
+		} catch (NumberFormatException e) {
+			System.out.println("MaPT is " + e.getMessage());
+			Messagebox.show("Bạn phải chọn phụ tùng", "Lỗi", Messagebox.OK, Messagebox.ERROR);
+			return;
+		}
+		
 		PhuTung pt = this.phuTungServiceImpl.findById(mapt, PhuTung.class);
 		CT_PhieuNhapHang ct_Phieu = new CT_PhieuNhapHang();
 		ct_Phieu.setIdPhuTung(mapt);
@@ -170,6 +180,13 @@ public class PhieuNhapHangAddViewModel {
 	@Command
 	public void luuPhieu() {
 		if (this.setOfCT_Phieus.size() > 0) {
+			
+			if (selectedNCC == null){
+				Messagebox.show("Bạn phải chọn nhà cung cấp", "Lỗi",
+						Messagebox.OK, Messagebox.ERROR);
+				return;
+			}
+			
 			this.phieu.setTongTien(tongTien);
 			this.phieu.setMaNhaCungCap(selectedNCC.getMaNCC());
 			if (this.phieuServiceImpl.save(this.phieu)) {

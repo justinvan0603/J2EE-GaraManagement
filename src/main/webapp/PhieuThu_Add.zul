@@ -9,7 +9,7 @@
 				<hlayout style="text-align : left; padding : 4px;">
 					<vbox width="300px">
 						<label>Mã phiếu thu</label>
-						<textbox maxlength="20"
+						<textbox maxlength="20" constraint="no empty"
 							value="@load(vm.phieuThu.maPhieuThu) @save(vm.phieuThu.maPhieuThu, before = 'saveNewPhieuThu')"
 							width="200px">
 						</textbox>
@@ -30,7 +30,7 @@
 				<hlayout style="text-align : left; padding : 4px;">
 					<vbox width="300px">
 						<label>Nội dung thu</label>
-						<textbox maxlength="20"
+						<textbox maxlength="20" constraint="no empty"
 							value="@load(vm.phieuThu.noiDung)" width="200px" rows="3">
 						</textbox>
 					</vbox>
@@ -51,7 +51,7 @@
 					xmlns:w="client">
 					<vbox width="300px">
 						<label>Số tiền thu</label>
-						<textbox maxlength="20"
+						<textbox maxlength="20" constraint="no empty"
 							value="@load(vm.phieuThu.soTien) @save(vm.phieuThu.soTien, before = 'saveNewPhieuThu')"
 							width="200px">
 							<attribute w:name="doKeyPress_">

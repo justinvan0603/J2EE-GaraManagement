@@ -9,7 +9,7 @@
 				<hlayout style="text-align : left; padding : 4px;">
 					<vbox width="300px">
 						<label>Mã phiếu nhập</label>
-						<textbox maxlength="20"
+						<textbox maxlength="20" constraint="no empty"
 							value="@load(vm.phieu.maPhieuNhapHang) @save(vm.phieu.maPhieuNhapHang, before = 'luuPhieu')"
 							width="200px">
 						</textbox>
@@ -75,7 +75,7 @@
 						value="@load(vm.selectedPhuTung.soLuongTon)" width="40px">
 					</textbox>
 					<label>Số lượng:</label>
-					<textbox id="textbox_soluong"
+					<textbox id="textbox_soluong" constraint="no empty"
 						onChange="@command('onSlandDongiaChange',sl = textbox_soluong.value, dongia = textbox_dongia.value)"
 						width="40px" maxlength="3">
 						<attribute w:name="doKeyPress_">
@@ -89,7 +89,7 @@
 						</attribute>
 					</textbox>
 					<label>Đơn giá:</label>
-					<textbox id="textbox_dongia"
+					<textbox id="textbox_dongia" constraint="no empty"
 						value="@load(vm.selectedPhuTung.donGiaXuat)"
 						onChange="@command('onSlandDongiaChange',sl = textbox_soluong.value, dongia = textbox_dongia.value)"
 						width="100px" maxlength="8">

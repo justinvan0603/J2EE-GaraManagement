@@ -9,7 +9,7 @@
 				<hlayout style="text-align : left; padding : 4px;">
 					<vbox width="300px">
 						<label>Mã phiếu đặt</label>
-						<textbox maxlength="20"
+						<textbox maxlength="20"  constraint="no empty"
 							value="@load(vm.phieu.maPhieuDat) @save(vm.phieu.maPhieuDat, before = 'luuPhieu')"
 							width="200px">
 						</textbox>
@@ -39,7 +39,7 @@
 				<hlayout style="text-align : left; padding : 4px;">
 					<vbox width="300px">
 						<label>Nhóm nhà cung cấp</label>
-						<combobox id="combobox_nhomncc" width="200px"
+						<combobox id="combobox_nhomncc" width="200px"  constraint="no empty"
 							onSelect="@command('onComboboxNhomNCCChange', tennhom = self.selectedItem.value)"
 							model="@load(vm.listOfNhomNCCs)" readonly="true">
 							<template name="model">
@@ -50,7 +50,7 @@
 					</vbox>
 					<vbox width="300px">
 						<label>Nhà cung cấp</label>
-						<combobox id="combobox_ncc" width="200px"
+						<combobox id="combobox_ncc" width="200px"  constraint="no empty"
 							onSelect="@command('onComboboxNCCChange', ma_ncc = self.selectedItem.value)"
 							selectedItem="@load(vm.selectedNCC)"
 							model="@load(vm.listOfNhaCungCaps)" readonly="true">
@@ -89,7 +89,7 @@
 						value="@load(vm.selectedPhuTung.soLuongTon)" width="40px">
 					</textbox>
 					<label>Số lượng:</label>
-					<textbox id="textbox_soluong"
+					<textbox id="textbox_soluong" constraint="no empty"
 						onChange="@command('onSlandDongiaChange',sl = textbox_soluong.value, dongia = textbox_dongia.value)"
 						width="40px" maxlength="3">
 						<attribute w:name="doKeyPress_">
@@ -103,7 +103,7 @@
 						</attribute>
 					</textbox>
 					<label>Đơn giá:</label>
-					<textbox id="textbox_dongia"
+					<textbox id="textbox_dongia"  constraint="no empty"
 						value="@load(vm.selectedPhuTung.donGiaXuat)"
 						onChange="@command('onSlandDongiaChange',sl = textbox_soluong.value, dongia = textbox_dongia.value)"
 						width="100px" maxlength="8">
