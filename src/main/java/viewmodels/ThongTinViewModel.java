@@ -13,7 +13,7 @@ import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.Messagebox;
 
 import business.entities.NhanVien;
-import business.entities.NhomNguoiDung;
+
 import business.service.NhanVienServiceImpl;
 import utils.Md5Encryptor;
 
@@ -24,6 +24,11 @@ public class ThongTinViewModel {
 
 	@Init
 	public void init() {
+		if((Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) == null) || Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERNAME) == null)
+		{
+			Messagebox.show("Vui lòng đăng nhập!");
+			Executions.sendRedirect("./Login.zul");
+		}
 		this.nhanVienServiceImpl = (NhanVienServiceImpl) SpringUtil.getBean("nhanvien_service");
 		Long nhanVienID = (Long) Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID);
 		this.currentNhanVien = this.nhanVienServiceImpl.findById(nhanVienID, NhanVien.class);
@@ -59,22 +64,23 @@ public class ThongTinViewModel {
 	@Command
 	public void EditNhanVien(@BindingParam("name") String name, @BindingParam("address") String address,
 			@BindingParam("phone_number") String phoneNumber, @BindingParam("gender") String gender,
-			@BindingParam("permission") NhomNguoiDung permission, @BindingParam("username") String username,
+			
 			@BindingParam("password") String password) {
-		if (!name.isEmpty() && !address.isEmpty() && !phoneNumber.isEmpty() && !gender.isEmpty() && !username.isEmpty()
+		
+		if (!name.isEmpty() && !address.isEmpty() && !phoneNumber.isEmpty() && !gender.isEmpty() 
 				&& !password.isEmpty()) {
-			NhanVien nhanvien = new NhanVien();
+			//NhanVien nhanvien = new NhanVien();
 
-			nhanvien.setMaNhomNguoiDung(permission.getMaNhomNguoiDung());
-			nhanvien.setUsername(username);
-			nhanvien.setPassword(Md5Encryptor.MD5Hash(password));
-			nhanvien.setDiachi(address);
-			nhanvien.setGioiTinh(gender == GENDERS.get(0) ? true : false);
-			nhanvien.setHoTen(name);
-			nhanvien.setSdt(phoneNumber);
-			if (this.nhanVienServiceImpl.update(nhanvien.getMaNV(), nhanvien)) {
+
+			//nhanvien.setUsername(username);
+			this.currentNhanVien.setPassword(Md5Encryptor.MD5Hash(password));
+			this.currentNhanVien.setDiachi(address);
+			this.currentNhanVien.setGioiTinh(gender == GENDERS.get(0) ? true : false);
+			this.currentNhanVien.setHoTen(name);
+			this.currentNhanVien.setSdt(phoneNumber);
+			if (this.nhanVienServiceImpl.update(this.currentNhanVien.getMaNV(), this.currentNhanVien)) {
 				Messagebox.show("Thành công");
-				Executions.sendRedirect("./NhanVien_DS.zul");
+				//Executions.sendRedirect("./NhanVien_DS.zul");
 			} else {
 				Messagebox.show("Đã có lỗi xảy ra", "Lỗi", Messagebox.OK, Messagebox.ERROR);
 			}

@@ -40,7 +40,7 @@
 			</vlayout>
 			<hbox pack="center">
 			<button style="margin-left:90px;"
-				onClick="@command('EditNhanVien', name =  name_textbox.value , address = address_textbox.value , phone_number = phone_textbox.value,cmnd = CMND_textbox.value, gender = gender_combobox.selectedItem.label, permission = permission_combobox.selectedItem.value, username = username_textbox, password = password_textbox)">
+				onClick="@command('EditNhanVien', name =  name_textbox.value , address = address_textbox.value , phone_number = phone_textbox.value, gender = gender_combobox.selectedItem.label, permission = permission_combobox.selectedItem.value, password = password_textbox.value)">
 				Lưu
 			</button>
 			</hbox>
