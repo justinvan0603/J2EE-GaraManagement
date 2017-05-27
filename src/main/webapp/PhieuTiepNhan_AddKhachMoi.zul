@@ -25,7 +25,7 @@
 					rows="3" width="250px">
 				</textbox>
 				<label>Số điện thoại</label>
-				<textbox xmlns:w="client" constraint="no empty"
+				<textbox xmlns:w="client" constraint="no empty" maxlength="11"
 					id="textbox_sdt"
 					value="@save(vm.customer.sdt, before='luuPhieuTiepNhan')"
 					width="250px">
@@ -45,12 +45,12 @@
 					</attribute>
 				</textbox>
 				<label>Số CMND</label>
-				<intbox constraint="no empty" id="textbox_cmnd"
+				<intbox constraint="no empty" id="textbox_cmnd" maxlength="9"
 					value="@save(vm.customer.cmnd, before='luuPhieuTiepNhan')"
 					width="250px">
 				</intbox>
 				<label>Giới tính</label>
-				<combobox id="combobox_gioitinh" width="250px"
+				<combobox id="combobox_gioitinh" width="250px" constraint="no empty"
 					onSelect="@command('onComboboxGenderChanged' , gender_boolean = self.selectedItem.value)"
 					readonly="true">
 					<comboitem value="@bind(true)" label="Nam" />
@@ -61,12 +61,12 @@
 			<!-- vehicle information box -->
 			<vbox style="padding : 16px;">
 				<label>Biển số xe</label>
-				<textbox constraint="no empty" id="textbox_biensoxe"
+				<textbox constraint="no empty" id="textbox_biensoxe" maxlength="11"
 					value="@save(vm.xe.bienSoXe, before='luuPhieuTiepNhan')"
 					width="250px">
 				</textbox>
 				<label>Hiệu xe</label>
-				<combobox id="cmbHieuXe" width="250px"
+				<combobox id="cmbHieuXe" width="250px" constraint="no empty"
 					onSelect="@command('onVehicleTypesComboboxChanged', vehicle_type = self.selectedItem.value)"
 					model="@load(vm.listOfHieuXes)" readonly="true">
 					<template name="model">
@@ -75,27 +75,27 @@
 					</template>
 				</combobox>
 				<label>Số khung</label>
-				<textbox id="textbox_sokhung"
+				<textbox id="textbox_sokhung" maxlength="11" constraint="no empty"
 					value=" @save(vm.xe.soKhung, before='luuPhieuTiepNhan')"
 					width="250px">
 				</textbox>
 				<label>Số máy</label>
-				<textbox id="textbox_somay"
+				<textbox id="textbox_somay" maxlength="11" constraint="no empty"
 					value=" @save(vm.xe.soMay, before='luuPhieuTiepNhan')"
 					width="250px">
 				</textbox>
 				<label>Số KM</label>
-				<intbox id="textbox_sokm"
+				<intbox id="textbox_sokm" maxlength="9" constraint="no empty"
 					value="@save(vm.xe.soKM, before='luuPhieuTiepNhan')"
 					width="250px">
 				</intbox>
 				<label>Tình trạng</label>
-				<textbox id="textbox_tinhtrang"
+				<textbox id="textbox_tinhtrang" constraint="no empty"
 					value="@save( vm.xe.tinhTrang, before='luuPhieuTiepNhan')" rows="5"
 					width="250px">
 				</textbox>
 				<label>Đời xe</label>
-				<intbox id="textbox_doixe"
+				<intbox id="textbox_doixe" maxlength="4" constraint="no empty"
 					value=" @save ( vm.xe.doiXe, before='luuPhieuTiepNhan')"
 					width="250px">
 				</intbox>
@@ -103,7 +103,7 @@
 			</vbox>
 			<vbox>
 				<label>Ngày trả</label>
-				<datebox constraint="no empty" id="datebox_ngaytraxe"
+				<datebox constraint="no empty, no past" id="datebox_ngaytraxe"
 					value="@save(vm.phieuTiepNhan.givebackDate)" width="250px">
 				</datebox>
 				<button image="/images/ic_done.png"
