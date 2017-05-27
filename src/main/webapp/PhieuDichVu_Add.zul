@@ -58,7 +58,7 @@
 					</template>
 				</combobox>
 					<label>Số lượng</label>
-					<textbox maxlength="3" id="txtSoLuong" value="0" onChange="@command('ontxtSoLuongChanging',soluong = txtSoLuong.value)">
+					<textbox  maxlength="3" id="txtSoLuong" value="0" onChange="@command('ontxtSoLuongChanging',soluong = txtSoLuong.value)">
 						<attribute w:name="doKeyPress_">
 							<![CDATA[
 								function(evt)

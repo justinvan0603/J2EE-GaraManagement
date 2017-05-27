@@ -33,7 +33,10 @@
 				<label>Điện thoại</label>
 				<textbox xmlns:w="client" style="margin-left:26px;" id="phone_textbox" width="400px"
 					constraint="no empty">
-					<![CDATA[ function (evt) { var keyCode =
+					<attribute w:name="doKeyDown_">
+
+						
+						<![CDATA[ function (evt) { var keyCode =
 						event.keyCode; if( keyCode == 8 || keyCode == 13
 						|| keyCode == 16 || (keyCode >= 35 && keyCode <=
 						40) || keyCode == 46) { this.$doKeyDown_(evt); }
@@ -41,6 +44,9 @@
 						keyCode <= 57) || (keyCode >= 96 && keyCode <=
 						105)) { this.$doKeyDown_(evt); } else {
 						evt.stop(); return; } } ]]>
+						
+						
+					</attribute>
 				</textbox>
 			</hbox>
 			<hbox pack="center">
