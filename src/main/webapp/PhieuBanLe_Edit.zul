@@ -11,7 +11,7 @@
 				<hlayout style="text-align : left; padding : 4px;">
 					<vbox width="180px">
 						<label>Mã số phiếu:</label>
-						<textbox id="txtMaSoPhieu" value="@bind(vm.phieuBanLe.maPhieuBan)"
+						<textbox id="txtMaSoPhieu" value="@bind(vm.phieuBanLe.maPhieuBan)" constraint="no empty"
 							>
 						</textbox>
 					</vbox>
