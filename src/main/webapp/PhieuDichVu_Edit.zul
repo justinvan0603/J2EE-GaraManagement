@@ -29,8 +29,17 @@
 					</vbox>
 					<vbox width="180px">
 						<label>Tiền công:</label>
-						<textbox id="txtTienCong" value = "@load(vm.phieuDichVu.tienCong)"
+						<textbox xmlns:w="client" id="txtTienCong" value = "@load(vm.phieuDichVu.tienCong)" constraint="no empty" maxlength="6"
 							>
+							<attribute w:name="doKeyPress_">
+							<![CDATA[
+								function(evt)
+								{
+									if ((evt.which < 48 || evt.which > 57) && evt.which != 8 && evt.which != 0)
+										evt.stop();
+								}
+							]]>
+						</attribute>
 						</textbox>
 					</vbox>
 				</hlayout>
