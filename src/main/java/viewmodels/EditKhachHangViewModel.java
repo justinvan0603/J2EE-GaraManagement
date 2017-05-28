@@ -83,13 +83,13 @@ public class EditKhachHangViewModel {
 			@BindingParam("address") String address, @BindingParam("phone_number") String phoneNumber,
 			@BindingParam("cmnd") String cmnd, @BindingParam("gender") String gender) {
 		if (!name.isEmpty() && !address.isEmpty() && !phoneNumber.isEmpty() && !gender.isEmpty() && !cmnd.isEmpty()) {
-			Customer customer = this.customerService.findById(id, Customer.class);
-			customer.setCmnd(cmnd);
-			customer.setDiachi(address);
-			customer.setHoTen(name);
-			customer.setSdt(phoneNumber);
-			customer.setGioiTinh(gender == GENDERS.get(0) ? true : false);
-			if (this.customerService.update(id, customer)) {
+			//Customer customer = this.customerService.findById(id, Customer.class);
+			this.currentCustomer.setCmnd(cmnd);
+			this.currentCustomer.setDiachi(address);
+			this.currentCustomer.setHoTen(name);
+			this.currentCustomer.setSdt(phoneNumber);
+			this.currentCustomer.setGioiTinh(gender == GENDERS.get(0) ? true : false);
+			if (this.customerService.update(id, this.currentCustomer)) {
 				Messagebox.show("Cập nhật thành công");
 				Executions.sendRedirect("./customer_list.zul");
 			} else {

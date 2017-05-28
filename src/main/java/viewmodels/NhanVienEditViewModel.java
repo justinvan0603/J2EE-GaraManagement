@@ -101,16 +101,16 @@ public class NhanVienEditViewModel {
 	{
 		if (!name.isEmpty() && !address.isEmpty() && !phoneNumber.isEmpty() && !gender.isEmpty()
 			&&	!username.isEmpty() && !password.isEmpty()) {
-			NhanVien nhanvien = new NhanVien();
+			//NhanVien nhanvien = new NhanVien();
 			
-			nhanvien.setMaNhomNguoiDung(permission.getMaNhomNguoiDung());
-			nhanvien.setUsername(username);
-			nhanvien.setPassword(Md5Encryptor.MD5Hash(password));
-			nhanvien.setDiachi(address);
-			nhanvien.setGioiTinh(gender == GENDERS.get(0) ? true : false);
-			nhanvien.setHoTen(name);
-			nhanvien.setSdt(phoneNumber);
-			if (this.nhanVienService.update(nhanvien.getMaNV(), nhanvien)) {
+			this.currentNhanVien.setMaNhomNguoiDung(permission.getMaNhomNguoiDung());
+			this.currentNhanVien.setUsername(username);
+			this.currentNhanVien.setPassword(Md5Encryptor.MD5Hash(password));
+			this.currentNhanVien.setDiachi(address);
+			this.currentNhanVien.setGioiTinh(gender == GENDERS.get(0) ? true : false);
+			this.currentNhanVien.setHoTen(name);
+			this.currentNhanVien.setSdt(phoneNumber);
+			if (this.nhanVienService.update(this.currentNhanVien.getMaNV(), this.currentNhanVien)) {
 				Messagebox.show("Thành công");
 				Executions.sendRedirect("./NhanVien_DS.zul");
 			} else {
