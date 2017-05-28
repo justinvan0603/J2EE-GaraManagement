@@ -134,8 +134,11 @@ public class PhieuDichVuEditViewModel {
 		
 		//this.selectedPhuTung = new PhuTung();
 		this.setThanhTien(0);
-//		if(this.listPhuTung != null)
-		this.selectedPhuTung = this.listPhuTung.get(0);
+		if(this.listPhuTung != null)
+		{
+			if(this.listPhuTung.size() >0)
+				this.selectedPhuTung = this.listPhuTung.get(0);
+		}
 		//this.selectedTho = this.listTho.get(0);
 		this.thanhTien = this.selectedPhuTung.getDonGiaXuat();
 		//List<CT_PhieuDichVu> list = this.chiTietPhieuDichVuServiceImpl.getByPhieuDichVuId(id);

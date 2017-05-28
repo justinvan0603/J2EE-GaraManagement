@@ -173,7 +173,12 @@ public class PhieuBanLeAddViewModel {
 		this.listKhachHang = this.customerServiceImpl.getAll(Customer.class);
 		this.setThanhTien(0);
 		this.setOfChiTietPhieuBL = new  HashSet<CT_PhieuBanLe>();
-		this.selectedKhachHang = this.listKhachHang.get(0);
+		if(this.listKhachHang != null)
+		{
+			if(this.listKhachHang.size() >0)
+				this.selectedKhachHang = this.listKhachHang.get(0);
+		}
+		
 	}
 	@Command
 	@NotifyChange("thanhTien")
