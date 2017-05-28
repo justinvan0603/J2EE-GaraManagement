@@ -15,7 +15,7 @@
 					<vbox width="180px">
 						<label>Ngày lập</label>
 						<textbox readonly="true"
-							value="@load(vm.phieuBaoHanh.ngayLap)">
+							value="@load(vm.phieuBaoHanh.shortCreationDate)">
 						</textbox>
 					</vbox>
 					<vbox width="180px">
@@ -49,11 +49,11 @@
 						model="@load(vm.listOfPhuTungs)" readonly="true">
 						<template name="model">
 							<comboitem value="@load(each.id)"
-								label="@load(each.tenPhuTung)" />
+								label="@load(each.tenVaMaPT)" />
 						</template>
 					</combobox>
 					<label>Ngày hẹn trả</label>
-					<datebox id="datebox_ngayhentra"></datebox>
+					<datebox id="datebox_ngayhentra" constraint="no past" readonly="true"></datebox>
 					<button image="/images/ic_add.png"
 						onClick="@command('themChiTiet', maphutung = combobox_phutung.selectedItem.value
 						 , ngayhentra = datebox_ngayhentra.value)">

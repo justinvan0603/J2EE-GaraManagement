@@ -19,7 +19,7 @@
 					</template>
 				</combobox>
 				<label>Ngày tiếp nhận</label>
-				<datebox id="in_date_box" width="250px"></datebox>
+				<datebox id="in_date_box" width="250px" constraint="no past" readonly="true"></datebox>
 				<label>Hình thức</label>
 				<textbox value="Xe sửa" readonly="true" width="250px">
 				</textbox>

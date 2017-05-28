@@ -55,7 +55,7 @@
 					onSelect="@command('onComboboxPhuTungChange',soluong = txtSoLuong.value, selectedPT =combobox_phutung.selectedItem.value)"
 					constraint="no empty" readonly="true">
 					<template name="model">
-						<comboitem label="${each.getTenPhuTung()}"  ></comboitem>
+						<comboitem label="${each.getTenVaMaPT()}"  ></comboitem>
 					</template>
 				</combobox>
 					<label>Số lượng</label>

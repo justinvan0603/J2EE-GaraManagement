@@ -15,7 +15,7 @@
 					width="250px" readonly="true">
 				</textbox>
 				<label>Ngày tiếp nhận</label>
-				<datebox id="in_date_box"
+				<datebox id="in_date_box" readonly="true"
 					value="@bind(vm.currentVehicle.ngayTiepNhan)" width="250px">
 				</datebox>
 				<label>Hình thức</label>
