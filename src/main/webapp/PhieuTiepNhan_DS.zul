@@ -5,7 +5,7 @@
 	<include src="menu_bar.zul"></include>
 
 	<window title="Danh sách phiếu tiếp nhận" border="normal"
-		height="100%" apply="org.zkoss.bind.BindComposer"
+		height="94%" apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('viewmodels.PhieuTiepNhanDSViewModel')">
 		<vlayout width="100%">
 			<hlayout style="text-align : left; padding : 4px;">
@@ -40,13 +40,13 @@
 				model="@load(vm.listOfReceiveHeaders)" width="100%">
 				<listhead>
 					<listheader width="70px" label="Mã phiếu" />
-					<listheader width="200px" label="Biển số xe" />
-					<listheader label="Khách hàng" />
+					<listheader width="100px" label="Biển số xe" />
+					<listheader label="Khách hàng" width="150px" />
 					<listheader width="120px" label="Ngày lập" />
 					<listheader width="120px" label="Ngày trả" />
 					<listheader label="Tình trạng" />
 					<listheader width="150px" label="Tên nhân viên" />
-					<listheader label="Tác vụ" />
+					<listheader label="Tác vụ" width="350px"  />
 				</listhead>
 				<template name="model" var="e">
 					<listitem>

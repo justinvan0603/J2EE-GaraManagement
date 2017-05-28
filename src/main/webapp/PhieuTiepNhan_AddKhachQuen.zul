@@ -37,7 +37,7 @@
 					</template>
 				</combobox>
 				<label>Ngày trả</label>
-				<datebox constraint="no empty" id="datebox_ngaytra"
+				<datebox constraint="no empty, no past" id="datebox_ngaytra"
 					readonly="true"
 					value="@save(vm.phieuTiepNhan.givebackDate, before='luuPhieuTiepNhan')"
 					width="250px">

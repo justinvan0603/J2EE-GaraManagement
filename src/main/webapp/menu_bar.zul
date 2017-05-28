@@ -1,6 +1,6 @@
 <?page title="new page title" contentType="text/html;charset=UTF-8"?>
 <zk>
-	<vlayout>
+	<vlayout height="6%">
 
 		<menubar id="menubar" autodrop="true">
 			<menuitem label="TRANG CHỦ" href="/PhieuTiepNhan_DS.zul" />

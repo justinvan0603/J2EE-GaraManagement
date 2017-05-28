@@ -29,7 +29,7 @@
 			</vbox>
 			<vbox sclass="layout_fit_margins">
 				<label>Ngày trả xe</label>
-				<datebox readonly="true"
+				<datebox readonly="true" constraint="no past"
 					value="@bind(vm.selectedPhieuTiepNhan.givebackDate) @save(vm.selectedPhieuTiepNhan.givebackDate, before='updatePhieuTiepNhan')"
 					width="280px">
 				</datebox>
