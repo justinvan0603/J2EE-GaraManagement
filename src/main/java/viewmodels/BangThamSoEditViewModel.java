@@ -11,6 +11,7 @@ import org.zkoss.zul.Messagebox;
 import business.entities.BangThamSo;
 
 import business.service.BangThamSoServiceImpl;
+import utils.PermissionChecker;
 
 
 public class BangThamSoEditViewModel {
@@ -40,6 +41,10 @@ public class BangThamSoEditViewModel {
 		{
 			Messagebox.show("Vui lòng đăng nhập!");
 			Executions.sendRedirect("./Login.zul");
+		}
+		if(!PermissionChecker.isAdministrator((String)Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_PERMISSION)))
+		{
+			Messagebox.show("Bạn không có quyền truy cập vào chức năng này!");
 		}
 		this.bangThamSoService = (BangThamSoServiceImpl) SpringUtil.getBean("bangthamso_service");
 		String thamsoId = (String) Sessions.getCurrent().getAttribute(BangThamSoDSViewModel.SELECTED_THAMSO);

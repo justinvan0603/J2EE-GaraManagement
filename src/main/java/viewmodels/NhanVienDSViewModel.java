@@ -19,7 +19,8 @@ import business.entities.NhanVien;
 import business.entities.NhomNguoiDung;
 
 import business.service.NhanVienServiceImpl;
-import business.service.NhomNguoiDungServiceImpl;;
+import business.service.NhomNguoiDungServiceImpl;
+import utils.PermissionChecker;;
 
 public class NhanVienDSViewModel {
 	@WireVariable
@@ -70,6 +71,10 @@ public class NhanVienDSViewModel {
 		{
 			Messagebox.show("Vui lòng đăng nhập!");
 			Executions.sendRedirect("./Login.zul");
+		}
+		if(!PermissionChecker.isAdministrator((String)Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_PERMISSION)))
+		{
+			Messagebox.show("Bạn không có quyền truy cập vào chức năng này!");
 		}
 		this.nhanVienService = (NhanVienServiceImpl) SpringUtil.getBean("nhanvien_service");
 		this.nhomNguoiDungService = (NhomNguoiDungServiceImpl) SpringUtil.getBean("nhomnguoidung_service");
