@@ -4,5 +4,7 @@
 	<!-- [Optional] Uncomment if you want to defines the application's name 
 		<preference> <name>org.zkoss.zk.ui.WebApp.name</name> <value>GaragManagementSystem</value> 
 		</preference> -->
-
+<sessionconfig>
+   <sessiontimeout>120</sessiontimeout>
+</sessionconfig>
 </zk>
