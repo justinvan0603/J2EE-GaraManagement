@@ -59,6 +59,10 @@ public class PhieuTiepNhanAddViewModel {
 		}
 
 		this.type = (String) Sessions.getCurrent().getAttribute(PhieuTiepNhanDSViewModel.ADD_NEW_TYPE);
+		// make sure we have valid session value
+		if (this.type == null) {
+			Executions.sendRedirect("./PhieuTiepNhan_DS.zul");
+		}
 
 		this.customerServiceImpl = (CustomerServiceImpl) SpringUtil.getBean("customer_service");
 		this.hieuXeServiceImpl = (HieuXeServiceImpl) SpringUtil.getBean("hieuxe_service");
@@ -83,6 +87,12 @@ public class PhieuTiepNhanAddViewModel {
 				this.phieuTiepNhan = new PhieuTiepNhan();
 				if (this.customerServiceImpl != null) {
 					this.listOfCustomers = this.customerServiceImpl.getAll(Customer.class);
+					this.customer = this.listOfCustomers.get(0);
+					this.listOfVehicle = this.xeServiceImpl
+							.loadByCustomerId(Integer.parseInt(this.customer.getMaKH() + ""));
+					if (this.listOfVehicle != null) {
+						this.xe = this.listOfVehicle.get(0);
+					}
 				}
 			}
 		}
@@ -92,13 +102,24 @@ public class PhieuTiepNhanAddViewModel {
 	 * Handle when combobox customer changes selected item
 	 */
 	@Command
-	@NotifyChange("listOfVehicle")
+	@NotifyChange({ "listOfVehicle", "xe" })
 	public void onCustomerSelectChange(@BindingParam("selected_customer_id") Long customerId,
 			@BindingParam("vehicle_combobox") Component component) {
 		// get list of vehicle belonging to selected customer
 		this.listOfVehicle = this.xeServiceImpl.loadByCustomerId(customerId.intValue());
 		// update selected customer id
 		this.phieuTiepNhan.setCustomerId(customerId);
+		// update selected customer vehicle
+		List<Xe> listOfCustomerVehicle = this.xeServiceImpl.loadByCustomerId(customerId.intValue());
+		if (listOfCustomerVehicle != null) {
+			if (!listOfCustomerVehicle.isEmpty()) {
+				this.xe = listOfCustomerVehicle.get(0);
+			} else {
+				this.xe = new Xe();
+			}
+		} else {
+			this.xe = new Xe();
+		}
 	}
 
 	@Command

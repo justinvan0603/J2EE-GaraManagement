@@ -1,5 +1,6 @@
 package business.entities;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -24,7 +25,12 @@ import utils.StringFormatUtil;
  */
 @Entity
 @Table(name = "xe")
-public class Xe {
+public class Xe implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@Column(name = "BienSoXe")
 	private String bienSoXe;
@@ -190,6 +196,85 @@ public class Xe {
 	 */
 	public String getInDateStringFormat() {
 		return StringFormatUtil.shortDateTime(this.ngayTiepNhan);
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((bienSoXe == null) ? 0 : bienSoXe.hashCode());
+		result = prime * result + ((doiXe == null) ? 0 : doiXe.hashCode());
+		result = prime * result + ((hieuXeReference == null) ? 0 : hieuXeReference.hashCode());
+		result = prime * result + ((hinhThuc == null) ? 0 : hinhThuc.hashCode());
+		result = prime * result + ((maKH == null) ? 0 : maKH.hashCode());
+		result = prime * result + ((ngayTiepNhan == null) ? 0 : ngayTiepNhan.hashCode());
+		result = prime * result + ((soKM == null) ? 0 : soKM.hashCode());
+		result = prime * result + ((soKhung == null) ? 0 : soKhung.hashCode());
+		result = prime * result + ((soMay == null) ? 0 : soMay.hashCode());
+		result = prime * result + ((tinhTrang == null) ? 0 : tinhTrang.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Xe other = (Xe) obj;
+		if (bienSoXe == null) {
+			if (other.bienSoXe != null)
+				return false;
+		} else if (!bienSoXe.equals(other.bienSoXe))
+			return false;
+		if (doiXe == null) {
+			if (other.doiXe != null)
+				return false;
+		} else if (!doiXe.equals(other.doiXe))
+			return false;
+		if (hieuXeReference == null) {
+			if (other.hieuXeReference != null)
+				return false;
+		} else if (!hieuXeReference.equals(other.hieuXeReference))
+			return false;
+		if (hinhThuc == null) {
+			if (other.hinhThuc != null)
+				return false;
+		} else if (!hinhThuc.equals(other.hinhThuc))
+			return false;
+		if (maKH == null) {
+			if (other.maKH != null)
+				return false;
+		} else if (!maKH.equals(other.maKH))
+			return false;
+		if (ngayTiepNhan == null) {
+			if (other.ngayTiepNhan != null)
+				return false;
+		} else if (!ngayTiepNhan.equals(other.ngayTiepNhan))
+			return false;
+		if (soKM == null) {
+			if (other.soKM != null)
+				return false;
+		} else if (!soKM.equals(other.soKM))
+			return false;
+		if (soKhung == null) {
+			if (other.soKhung != null)
+				return false;
+		} else if (!soKhung.equals(other.soKhung))
+			return false;
+		if (soMay == null) {
+			if (other.soMay != null)
+				return false;
+		} else if (!soMay.equals(other.soMay))
+			return false;
+		if (tinhTrang == null) {
+			if (other.tinhTrang != null)
+				return false;
+		} else if (!tinhTrang.equals(other.tinhTrang))
+			return false;
+		return true;
 	}
 
 	@Override

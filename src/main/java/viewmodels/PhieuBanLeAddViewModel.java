@@ -33,7 +33,6 @@ import business.service.PhieuBanLeServiceImpl;
 import business.service.PhuTungServiceImpl;
 import utils.SystemParam;
 
-
 public class PhieuBanLeAddViewModel {
 	@WireVariable
 	private PhieuBanLeServiceImpl phieuBanLeServiceImpl;
@@ -50,110 +49,139 @@ public class PhieuBanLeAddViewModel {
 	private HieuXeServiceImpl hieuXeServiceImpl;
 	private CustomerServiceImpl customerServiceImpl;
 	private Set<CT_PhieuBanLe> setOfChiTietPhieuBL;
+
 	@WireVariable
 	private ChiTietPhieuBanLeServiceImpl chiTietPhieuBanLeServiceImpl;
+
 	public Customer getSelectedKhachHang() {
 		return selectedKhachHang;
 	}
+
 	public void setSelectedKhachHang(Customer selectedKhachHang) {
 		this.selectedKhachHang = selectedKhachHang;
 	}
+
 	public HieuXe getSelectedHieuXe() {
 		return selectedHieuXe;
 	}
+
 	public List<Customer> getListKhachHang() {
 		return listKhachHang;
 	}
+
 	public void setListKhachHang(List<Customer> listKhachHang) {
 		this.listKhachHang = listKhachHang;
 	}
+
 	public void setSelectedHieuXe(HieuXe selectedHieuXe) {
 		this.selectedHieuXe = selectedHieuXe;
 	}
-	
+
 	public HieuXeServiceImpl getHieuXeServiceImpl() {
 		return hieuXeServiceImpl;
 	}
+
 	public CustomerServiceImpl getCustomerServiceImpl() {
 		return customerServiceImpl;
 	}
+
 	public void setCustomerServiceImpl(CustomerServiceImpl customerServiceImpl) {
 		this.customerServiceImpl = customerServiceImpl;
 	}
+
 	public void setHieuXeServiceImpl(HieuXeServiceImpl hieuXeServiceImpl) {
 		this.hieuXeServiceImpl = hieuXeServiceImpl;
 	}
-	
+
 	public List<HieuXe> getListHieuXe() {
 		return listHieuXe;
 	}
+
 	public void setListHieuXe(List<HieuXe> listHieuXe) {
 		this.listHieuXe = listHieuXe;
 	}
-	
-	
+
 	public Set<CT_PhieuBanLe> getSetOfChiTietPhieuBL() {
 		return setOfChiTietPhieuBL;
 	}
+
 	public void setSetOfChiTietPhieuBL(Set<CT_PhieuBanLe> setOfChiTietPhieuBL) {
 		this.setOfChiTietPhieuBL = setOfChiTietPhieuBL;
 	}
+
 	public PhieuBanLeServiceImpl getPhieuBanLeServiceImpl() {
 		return phieuBanLeServiceImpl;
 	}
+
 	public void setPhieuBanLeServiceImpl(PhieuBanLeServiceImpl phieuBanLeServiceImpl) {
 		this.phieuBanLeServiceImpl = phieuBanLeServiceImpl;
 	}
+
 	public List<PhuTung> getListPhuTung() {
 		return listPhuTung;
 	}
+
 	public void setListPhuTung(List<PhuTung> listPhuTung) {
 		this.listPhuTung = listPhuTung;
 	}
+
 	public PhuTung getSelectedPhuTung() {
 		return selectedPhuTung;
 	}
+
 	public void setSelectedPhuTung(PhuTung selectedPhuTung) {
 		this.selectedPhuTung = selectedPhuTung;
 	}
+
 	public PhieuBanLe getPhieuBanLe() {
 		return phieuBanLe;
 	}
+
 	public void setPhieuBanLe(PhieuBanLe phieuBanLe) {
 		this.phieuBanLe = phieuBanLe;
 	}
+
 	public double getDonGia() {
 		return DonGia;
 	}
+
 	public void setDonGia(double donGia) {
 		DonGia = donGia;
 	}
+
 	public double getThanhTien() {
 		return thanhTien;
 	}
+
 	public void setThanhTien(double thanhTien) {
 		this.thanhTien = thanhTien;
 	}
+
 	public PhuTungServiceImpl getPhuTungServiceImpl() {
 		return phuTungServiceImpl;
 	}
+
 	public void setPhuTungServiceImpl(PhuTungServiceImpl phuTungServiceImpl) {
 		this.phuTungServiceImpl = phuTungServiceImpl;
 	}
+
 	public ChiTietPhieuBanLeServiceImpl getChiTietPhieuBanLeServiceImpl() {
 		return chiTietPhieuBanLeServiceImpl;
 	}
+
 	public void setChiTietPhieuBanLeServiceImpl(ChiTietPhieuBanLeServiceImpl chiTietPhieuBanLeServiceImpl) {
 		this.chiTietPhieuBanLeServiceImpl = chiTietPhieuBanLeServiceImpl;
 	}
+
 	@Init
 	public void init() {
-		if((Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) == null) || Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERNAME) == null)
-		{
+		if ((Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) == null)
+				|| Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERNAME) == null) {
 			Messagebox.show("Vui lòng đăng nhập!");
 			Executions.sendRedirect("./Login.zul");
 		}
-		this.chiTietPhieuBanLeServiceImpl =(ChiTietPhieuBanLeServiceImpl) SpringUtil.getBean("chitietphieubanle_service");
+		this.chiTietPhieuBanLeServiceImpl = (ChiTietPhieuBanLeServiceImpl) SpringUtil
+				.getBean("chitietphieubanle_service");
 		this.phieuBanLeServiceImpl = (PhieuBanLeServiceImpl) SpringUtil.getBean("phieubanle_service");
 		this.phuTungServiceImpl = (PhuTungServiceImpl) SpringUtil.getBean("phutung_service");
 		this.hieuXeServiceImpl = (HieuXeServiceImpl) SpringUtil.getBean("hieuxe_service");
@@ -161,8 +189,8 @@ public class PhieuBanLeAddViewModel {
 		this.listHieuXe = this.hieuXeServiceImpl.getAll(HieuXe.class);
 		this.phieuBanLe = new PhieuBanLe();
 		this.phieuBanLe.setNgayLap(new Date());
-		
-		Long nhanVienID = (Long)Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID);
+
+		Long nhanVienID = (Long) Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID);
 		this.phieuBanLe.setMaNV(nhanVienID);
 		Date day = new Date();
 		Calendar c = Calendar.getInstance();
@@ -172,87 +200,81 @@ public class PhieuBanLeAddViewModel {
 		this.phieuBanLe.setHanChotThanhToan(day);
 		this.listKhachHang = this.customerServiceImpl.getAll(Customer.class);
 		this.setThanhTien(0);
-		this.setOfChiTietPhieuBL = new  HashSet<CT_PhieuBanLe>();
-		if(this.listKhachHang != null)
-		{
-			if(this.listKhachHang.size() >0)
+		this.setOfChiTietPhieuBL = new HashSet<CT_PhieuBanLe>();
+		if (this.listKhachHang != null) {
+			if (this.listKhachHang.size() > 0)
 				this.selectedKhachHang = this.listKhachHang.get(0);
 		}
-		
+
 	}
+
 	@Command
 	@NotifyChange("thanhTien")
-	public void ontxtSoLuongChanging(@BindingParam("soluong") Integer soluong)
-	{
-		//this.ThanhTien = 0;
-		try
-		{
-			this.setThanhTien((double)(soluong.intValue() * this.selectedPhuTung.getDonGiaXuat()));
-		}
-		catch(Exception ex)
-		{
-			Messagebox.show("Nhập sai số lượng! Vui lòng nhập lại!", "Lỗi", Messagebox.OK,
-					Messagebox.ERROR);
+	public void ontxtSoLuongChanging(@BindingParam("soluong") Integer soluong) {
+		// this.ThanhTien = 0;
+		try {
+			this.setThanhTien((double) (soluong.intValue() * this.selectedPhuTung.getDonGiaXuat()));
+		} catch (Exception ex) {
+			Messagebox.show("Nhập sai số lượng! Vui lòng nhập lại!", "Lỗi", Messagebox.OK, Messagebox.ERROR);
 		}
 	}
+
 	@Command
-	@NotifyChange( {"thanhTien","selectedPhuTung" })
-	public void onComboboxPhuTungChange(@BindingParam("soluong") Integer soluong,@BindingParam("selectedPT")PhuTung item) {
-		//Messagebox.show(this.selectedPhuTung.getDonGiaXuat().toString(), "asd", Button.ABORT, null);
-		//if(soluong.toString() != null && !soluong.toString().isEmpty())
+	@NotifyChange({ "thanhTien", "selectedPhuTung" })
+	public void onComboboxPhuTungChange(@BindingParam("soluong") Integer soluong,
+			@BindingParam("selectedPT") PhuTung item) {
+		// Messagebox.show(this.selectedPhuTung.getDonGiaXuat().toString(),
+		// "asd", Button.ABORT, null);
+		// if(soluong.toString() != null && !soluong.toString().isEmpty())
 		this.selectedPhuTung = item;
 		this.thanhTien = 0;
-		this.thanhTien = (double)(this.selectedPhuTung.getDonGiaXuat() * soluong.intValue());
-	     
-//		this.listOfPhuTungs = this.phuTungServiceImpl.find(null, null, maHieuXe);
-//		this.selectedPhutung = this.listOfPhuTungs.get(0);
-		
+		this.thanhTien = (double) (this.selectedPhuTung.getDonGiaXuat() * soluong.intValue());
+
+		// this.listOfPhuTungs = this.phuTungServiceImpl.find(null, null,
+		// maHieuXe);
+		// this.selectedPhutung = this.listOfPhuTungs.get(0);
+
 	}
+
 	@Command
-	@NotifyChange( {"selectedHieuXe","listPhuTung" })
-	public void onComboboxHieuXeChange(@BindingParam("selectedHX")HieuXe item) {
-		
+	@NotifyChange({ "selectedHieuXe", "listPhuTung", "selectedPhuTung" })
+	public void onComboboxHieuXeChange(@BindingParam("selectedHX") HieuXe item) {
+
 		this.setSelectedHieuXe(item);
-		if(this.listPhuTung != null)
+		if (this.listPhuTung != null)
 			this.listPhuTung.clear();
-		this.setListPhuTung(this.phuTungServiceImpl.find(null,null,this.selectedHieuXe.getMaHieuXe()));
-		if(this.listPhuTung.size() >=1)
+		this.setListPhuTung(this.phuTungServiceImpl.find(null, null, this.selectedHieuXe.getMaHieuXe()));
+		if (this.listPhuTung.size() >= 1)
 			this.selectedPhuTung = this.listPhuTung.get(0);
 
-	     
-//		this.listOfPhuTungs = this.phuTungServiceImpl.find(null, null, maHieuXe);
-//		this.selectedPhutung = this.listOfPhuTungs.get(0);
-		
+		// this.listOfPhuTungs = this.phuTungServiceImpl.find(null, null,
+		// maHieuXe);
+		// this.selectedPhutung = this.listOfPhuTungs.get(0);
+
 	}
+
 	@Command
 	@NotifyChange("setOfChiTietPhieuBL")
 	public void themChiTiet(@BindingParam("soluong") String soLuong) {
-		if(this.selectedPhuTung == null)
-		{
+		if (this.selectedPhuTung == null) {
 			Messagebox.show("Vui lòng chọn phụ tùng!", "Lỗi", Messagebox.OK, Messagebox.ERROR);
 			return;
 		}
-		if(this.selectedHieuXe == null)
-		{
+		if (this.selectedHieuXe == null) {
 			Messagebox.show("Vui lòng chọn hiệu xe !", "Lỗi", Messagebox.OK, Messagebox.ERROR);
 			return;
 		}
-		if(soLuong.isEmpty() || soLuong == null)
-		{
-			Messagebox.show("Nhập sai số lượng! Vui lòng nhập lại!", "Lỗi", Messagebox.OK,
-					Messagebox.ERROR);
+		if (soLuong.isEmpty() || soLuong == null) {
+			Messagebox.show("Nhập sai số lượng! Vui lòng nhập lại!", "Lỗi", Messagebox.OK, Messagebox.ERROR);
 			return;
 		}
-		if(Integer.parseInt(soLuong) <=0)
-		{
-			Messagebox.show("Nhập sai số lượng! Vui lòng nhập lại!", "Lỗi", Messagebox.OK,
-					Messagebox.ERROR);
+		if (Integer.parseInt(soLuong) <= 0) {
+			Messagebox.show("Nhập sai số lượng! Vui lòng nhập lại!", "Lỗi", Messagebox.OK, Messagebox.ERROR);
 			return;
 		}
-		if(Integer.parseInt(soLuong) <= this.selectedPhuTung.getSoLuongTon())
-		{
-			this.selectedPhuTung.setSoLuongTon(this.selectedPhuTung.getSoLuongTon()-Integer.parseInt(soLuong));
-			CT_PhieuBanLe ctPhieu  = new CT_PhieuBanLe();
+		if (Integer.parseInt(soLuong) <= this.selectedPhuTung.getSoLuongTon()) {
+			this.selectedPhuTung.setSoLuongTon(this.selectedPhuTung.getSoLuongTon() - Integer.parseInt(soLuong));
+			CT_PhieuBanLe ctPhieu = new CT_PhieuBanLe();
 			ctPhieu.setDonGia(this.selectedPhuTung.getDonGiaXuat());
 			ctPhieu.setThoiHanBaoHanh(this.selectedPhuTung.getHanBaoHanh());
 			ctPhieu.setSoLuong(Integer.parseInt(soLuong));
@@ -262,36 +284,28 @@ public class PhieuBanLeAddViewModel {
 			ctPhieu.setMaPT(this.selectedPhuTung.getMaPhuTung());
 			ctPhieu.setMaPhuTung(this.selectedPhuTung.getId());
 			this.setOfChiTietPhieuBL.add(ctPhieu);
-			
-		}
-		else
-		{
-			Messagebox.show("Số lượng nhập vượt quá số lượng tồn", "Lỗi", Messagebox.OK,
-					Messagebox.ERROR);
+
+		} else {
+			Messagebox.show("Số lượng nhập vượt quá số lượng tồn", "Lỗi", Messagebox.OK, Messagebox.ERROR);
 		}
 	}
-	
+
 	@Command
-	public void SavePhieuDichVu(@BindingParam("mapbl") String mapbl)
-	{
-		if (!mapbl.isEmpty() && this.selectedKhachHang != null && this.setOfChiTietPhieuBL.size() >0)
-		{
-			//Messagebox.show(this.selectedKhachHang.getHoTen());
+	public void SavePhieuDichVu(@BindingParam("mapbl") String mapbl) {
+		if (!mapbl.isEmpty() && this.selectedKhachHang != null && this.setOfChiTietPhieuBL.size() > 0) {
+			// Messagebox.show(this.selectedKhachHang.getHoTen());
 			this.phieuBanLe.setMaPhieuBan(mapbl);
 			this.phieuBanLe.setNgayLap(new Date());
 			this.phieuBanLe.setMaKH(this.selectedKhachHang.getMaKH());
-			//this.phieuBanLe.setMaNV(2);
+			// this.phieuBanLe.setMaNV(2);
 			double tongchitiet = 0;
-			for(CT_PhieuBanLe i : this.setOfChiTietPhieuBL)
-			{
+			for (CT_PhieuBanLe i : this.setOfChiTietPhieuBL) {
 				tongchitiet += i.getThanhTien();
 			}
 			this.phieuBanLe.setTongTien(tongchitiet);
 			this.phieuBanLe.setSoTienConLai(tongchitiet);
-			if(this.phieuBanLeServiceImpl.save(this.phieuBanLe))
-			{
-				for(CT_PhieuBanLe i : this.setOfChiTietPhieuBL)
-				{
+			if (this.phieuBanLeServiceImpl.save(this.phieuBanLe)) {
+				for (CT_PhieuBanLe i : this.setOfChiTietPhieuBL) {
 					i.setIdPhieuBanLe(this.phieuBanLe.getIdPhieuBanLe());
 					this.chiTietPhieuBanLeServiceImpl.save(i);
 					PhuTung pt = this.phuTungServiceImpl.findById(i.getMaPhuTung(), PhuTung.class);
@@ -304,13 +318,11 @@ public class PhieuBanLeAddViewModel {
 				Messagebox.show("Lưu Thành công");
 				Executions.sendRedirect("./PhieuBanLe_DS.zul");
 			}
-		}
-		else
-		{
-			Messagebox.show("Vui lòng nhập đầy đủ thông tin!", "Lỗi", Messagebox.OK,
-					Messagebox.ERROR);
+		} else {
+			Messagebox.show("Vui lòng nhập đầy đủ thông tin!", "Lỗi", Messagebox.OK, Messagebox.ERROR);
 		}
 	}
+
 	@Command
 	@NotifyChange("setofChiTietPhieuDV")
 	public void xoaChiTiet(@BindingParam("maphutung") Integer maPhuTung) {
@@ -318,19 +330,17 @@ public class PhieuBanLeAddViewModel {
 			CT_PhieuBanLe ctPhieu = iterator.next();
 			if (ctPhieu.getMaPhuTung() == maPhuTung.intValue()) {
 				iterator.remove();
-				for(Iterator<PhuTung> i = this.listPhuTung.iterator(); i.hasNext();)
-				{
+				for (Iterator<PhuTung> i = this.listPhuTung.iterator(); i.hasNext();) {
 					PhuTung pt = i.next();
-					if(pt.getId() == ctPhieu.getMaPhuTung())
-					{
+					if (pt.getId() == ctPhieu.getMaPhuTung()) {
 						pt.setSoLuongTon(pt.getSoLuongTon() + ctPhieu.getSoLuong());
 						break;
 					}
 				}
-					
+
 				break;
 			}
 		}
 	}
-	
+
 }

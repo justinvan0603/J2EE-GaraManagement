@@ -19,7 +19,7 @@
 					</datebox>
 					<label>Nhân viên lập</label>
 					<textbox id="textbox_nhanvienlap" width="250px"
-						readonly="true" value="@load(vm.staff.hoTen) ">
+						readonly="true" value="@load(vm.currentSignedInStaffName) ">
 					</textbox>
 				</vlayout>
 			</groupbox>
@@ -39,7 +39,8 @@
 						readonly="true"
 						value="@load(vm.phieuChi.idPhieuNhapHang) @save(vm.phieuChi.idPhieuNhapHang, before='luuPhieuChi')">
 					</intbox>
-					<button image="/images/ic_done.png" onClick="@command('luuPhieuChi')">
+					<button image="/images/ic_done.png"
+						onClick="@command('luuPhieuChi')">
 						Lưu
 					</button>
 				</vlayout>

@@ -36,7 +36,7 @@
 			</hlayout>
 			<!-- mechanic list area -->
 
-			<listbox hflex="1" mold="paging" pageSize="15"
+			<listbox hflex="1" mold="paging" pageSize="15" vflex="true"
 				model="@load(vm.listOfReceiveHeaders)" width="100%">
 				<listhead>
 					<listheader width="70px" label="Mã phiếu" />
@@ -46,7 +46,7 @@
 					<listheader width="120px" label="Ngày trả" />
 					<listheader label="Tình trạng" />
 					<listheader width="150px" label="Tên nhân viên" />
-					<listheader label="Tác vụ" width="350px"  />
+					<listheader label="Tác vụ" width="350px" />
 				</listhead>
 				<template name="model" var="e">
 					<listitem>

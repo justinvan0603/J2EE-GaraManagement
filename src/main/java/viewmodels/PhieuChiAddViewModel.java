@@ -25,6 +25,9 @@ public class PhieuChiAddViewModel {
 	private PhieuChi phieuChi;
 	private NhanVien staff;
 
+	// additional fields
+	private String currentSignedInStaffName;
+
 	@Init
 	public void init() {
 
@@ -46,6 +49,10 @@ public class PhieuChiAddViewModel {
 			// redirected from this page
 			Integer selectedPhieuNhapHangId = (Integer) Sessions.getCurrent()
 					.getAttribute(PhieuNhapHangDSViewModel.SELECTED_PNH_ID);
+			this.currentSignedInStaffName = this.nhanVienServiceImpl
+					.findById(Long.parseLong(Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID) + ""),
+							NhanVien.class)
+					.getHoTen();
 			// make sure session value is valid
 			if (selectedPhieuNhapHangId != null) {
 				System.out.println("Session valid is VALID");
@@ -101,6 +108,16 @@ public class PhieuChiAddViewModel {
 						});
 			}
 		}
+	}
+
+	
+	
+	public String getCurrentSignedInStaffName() {
+		return currentSignedInStaffName;
+	}
+
+	public void setCurrentSignedInStaffName(String currentSignedInStaffName) {
+		this.currentSignedInStaffName = currentSignedInStaffName;
 	}
 
 	public PhieuChi getPhieuChi() {

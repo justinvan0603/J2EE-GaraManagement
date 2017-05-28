@@ -1,27 +1,32 @@
 <?page title="Cập nhật thông tin" contentType="text/html;charset=UTF-8"?>
 <zk>
-<include src="menu_bar.zul"></include>
-<window title="Thông tin khách hàng" border="normal" height="94%"
+	<include src="menu_bar.zul"></include>
+	<window title="Thông tin khách hàng" border="normal" height="94%"
 		apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('viewmodels.EditKhachHangViewModel')">
 		<vlayout>
 			<hbox pack="center">
 				<label>Họ tên</label>
-				<textbox style="margin-left:40px;" id="name_textbox" width="400px"
-					constraint="no empty" value="@bind(vm.currentCustomer.hoTen)">
+				<textbox style="margin-left:40px;" id="name_textbox"
+					width="400px" constraint="no empty"
+					value="@bind(vm.currentCustomer.hoTen)">
 				</textbox>
 			</hbox>
 			<hbox pack="center">
 				<label>Địa chỉ</label>
-				<textbox style="margin-left:38px;" id="address_textbox" width="400px" value="@bind(vm.currentCustomer.diachi)"
+				<textbox style="margin-left:38px;" id="address_textbox"
+					width="400px" value="@bind(vm.currentCustomer.diachi)"
 					constraint="no empty">
 				</textbox>
 			</hbox>
 			<hbox pack="center">
 				<label>Điện thoại</label>
-				<textbox xmlns:w="client" style="margin-left:19px;" id="phone_textbox" width="400px" value="@bind(vm.currentCustomer.sdt)"
-					constraint="no empty">
+				<textbox xmlns:w="client" style="margin-left:19px;"
+					id="phone_textbox" width="400px"
+					value="@bind(vm.currentCustomer.sdt)" constraint="no empty">
 					<attribute w:name="doKeyDown_">
+
+
 
 						
 						<![CDATA[ function (evt) { var keyCode =
@@ -34,14 +39,20 @@
 						evt.stop(); return; } } ]]>
 						
 						
+						
+						
 					</attribute>
 				</textbox>
 			</hbox>
 			<hbox pack="center">
 				<label>CMND:</label>
-				<textbox  xmlns:w="client"  style="margin-left:36px;" id="CMND_textbox" width="400px" value="@bind(vm.currentCustomer.cmnd)"
-					constraint="no empty">
-					<![CDATA[ function (evt) { var keyCode =
+				<textbox xmlns:w="client" style="margin-left:36px;"
+					id="CMND_textbox" width="400px"
+					value="@bind(vm.currentCustomer.cmnd)" constraint="no empty">
+					<attribute w:name="doKeyDown_">
+
+						
+						<![CDATA[ function (evt) { var keyCode =
 						event.keyCode; if( keyCode == 8 || keyCode == 13
 						|| keyCode == 16 || (keyCode >= 35 && keyCode <=
 						40) || keyCode == 46) { this.$doKeyDown_(evt); }
@@ -49,22 +60,26 @@
 						keyCode <= 57) || (keyCode >= 96 && keyCode <=
 						105)) { this.$doKeyDown_(evt); } else {
 						evt.stop(); return; } } ]]>
+						
+					</attribute>
 				</textbox>
 			</hbox>
 			<hbox pack="center">
 				<label>Giới tính</label>
-				<combobox style="margin-left:30px;" model="@load(vm.genders)" id="gender_combobox"
+				<combobox style="margin-left:30px;"
+					model="@load(vm.genders)" id="gender_combobox"
 					constraint="no empty" selectedItem="@bind(vm.currentGender)">
 					<template name="model">
 						<comboitem label="@load(each)"></comboitem>
 					</template>
 				</combobox>
 			</hbox>
-			<button style="margin-left:90px;" image="/images/ic_done.png"
+			<button style="margin-left:90px;"
+				image="/images/ic_done.png"
 				onClick="@command('updateCustomer',id = vm.currentCustomer.maKH, name =  name_textbox.value , address = address_textbox.value , phone_number = phone_textbox.value,cmnd = CMND_textbox.value, gender = gender_combobox.selectedItem.label)">
 				Lưu
 			</button>
 		</vlayout>
 
-</window>
+	</window>
 </zk>

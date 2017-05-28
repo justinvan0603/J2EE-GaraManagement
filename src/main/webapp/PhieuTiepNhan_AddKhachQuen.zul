@@ -17,6 +17,7 @@
 				<!-- Customer combobox -->
 				<label>Khách hàng</label>
 				<combobox id="combobox_customers" width="250px"
+					constraint="no empty" selectedItem="@bind(vm.customer)"
 					onSelect="@command('onCustomerSelectChange' , selected_customer_id = self.selectedItem.value, vehicle_combobox = combobox_vehicle)"
 					model="@bind(vm.listOfCustomers)" readonly="true">
 					<template name="model">
@@ -29,6 +30,7 @@
 			<vbox style="padding : 16px;">
 				<label>Xe</label>
 				<combobox id="combobox_vehicle" width="250px"
+					constraint="no empty" selectedItem="@bind(vm.xe)"
 					onSelect="@command('onComboboxVehicleChanged', vehicle_licenseplate = self.selectedItem.value)"
 					model="@bind(vm.listOfVehicle)" readonly="true">
 					<template name="model">
@@ -47,7 +49,8 @@
 					value=" @save ( vm.phieuTiepNhan.state, before='luuPhieuTiepNhan')"
 					rows="5" width="250px">
 				</textbox>
-				<button image="/images/ic_done.png" onClick="@command('luuPhieuTiepNhan')">
+				<button image="/images/ic_done.png"
+					onClick="@command('luuPhieuTiepNhan')">
 					Lưu
 				</button>
 			</vbox>
