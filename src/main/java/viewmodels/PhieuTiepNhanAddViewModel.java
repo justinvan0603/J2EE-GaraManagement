@@ -90,7 +90,7 @@ public class PhieuTiepNhanAddViewModel {
 					this.customer = this.listOfCustomers.get(0);
 					this.listOfVehicle = this.xeServiceImpl
 							.loadByCustomerId(Integer.parseInt(this.customer.getMaKH() + ""));
-					if (this.listOfVehicle != null) {
+					if (this.listOfVehicle != null && this.listOfVehicle.size() > 0) {
 						this.xe = this.listOfVehicle.get(0);
 					}
 				}
