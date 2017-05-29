@@ -86,7 +86,7 @@ public class BangThamSoDSViewModel {
 	}
 
 	@Command
-	@NotifyChange("listNhanVien")
+	@NotifyChange("listThamSo")
 	public void filterData(@BindingParam("search_string") String searchString,
 			@BindingParam("combobox_selected_index") int selectedIndex) {
 		// if search type is name
