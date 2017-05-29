@@ -7,4 +7,5 @@
 	<sessionconfig>
 		<sessiontimeout>120</sessiontimeout>
 	</sessionconfig>
+	<max-requests-per-session>10000</max-requests-per-session>
 </zk>
