@@ -64,6 +64,7 @@ public class NhanVienAddViewModel {
 		if(!PermissionChecker.isAdministrator((String)Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_PERMISSION)))
 		{
 			Messagebox.show("Bạn không có quyền truy cập vào chức năng này!");
+			Executions.sendRedirect("./PhieuTiepNhan_DS.zul");
 		}
 		this.nhanVienService = (NhanVienServiceImpl) SpringUtil.getBean("nhanvien_service");
 		this.nhomNguoiDungService = (NhomNguoiDungServiceImpl) SpringUtil.getBean("nhomnguoidung_service");

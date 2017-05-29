@@ -52,6 +52,7 @@ public class BangThamSoDSViewModel {
 		if(!PermissionChecker.isAdministrator((String)Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_PERMISSION)))
 		{
 			Messagebox.show("Bạn không có quyền truy cập vào chức năng này!");
+			Executions.sendRedirect("./PhieuTiepNhan_DS.zul");
 		}
 		this.bangThamSoServiceImpl = (BangThamSoServiceImpl) SpringUtil.getBean("bangthamso_service");
 		this.listThamSo = this.bangThamSoServiceImpl.getAll(BangThamSo.class);
