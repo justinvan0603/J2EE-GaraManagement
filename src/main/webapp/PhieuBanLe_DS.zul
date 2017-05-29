@@ -7,8 +7,8 @@
 		<vlayout >
 			<hlayout style="text-align : left; padding : 4px;">
 				<label value="Tìm kiếm"></label>
-				<combobox id="search_type_combobox"
-					model="@load(vm.searchTypes)">
+				<combobox id="search_type_combobox" readonly="true"
+					model="@load(vm.searchTypes)" >
 					<template name="model">
 						<comboitem label="@load(each)"></comboitem>
 					</template>

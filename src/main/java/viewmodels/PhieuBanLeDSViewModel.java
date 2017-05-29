@@ -98,7 +98,7 @@ public class PhieuBanLeDSViewModel {
 		this.customerServiceImpl = (CustomerServiceImpl) SpringUtil.getBean("customer_service");
 	}
 	@Command
-	@NotifyChange("listPhieuDichVu")
+	@NotifyChange("listPhieuBanLe")
 	public void filterData(@BindingParam("search_string") String searchString,
 			@BindingParam("combobox_selected_index") int selectedIndex) {
 		// if search type is name
