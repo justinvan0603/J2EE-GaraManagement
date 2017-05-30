@@ -250,6 +250,7 @@ public class PhieuDichVuEditViewModel {
 		if(this.phieuDichVuServiceImpl.update(this.phieuDichVu.getIdPhieuDichVu(), this.phieuDichVu))
 		{
 			Messagebox.show("Cập nhật thành công!", "Thông báo", Messagebox.OK, Messagebox.INFORMATION);
+			Executions.sendRedirect("./PhieuDichVu_DS.zul");
 		}
 		else
 		{
