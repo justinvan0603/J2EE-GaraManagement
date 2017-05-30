@@ -30,8 +30,6 @@
 					value="@save(vm.customer.sdt, before='luuPhieuTiepNhan')"
 					width="250px">
 					<attribute w:name="doKeyDown_">
-
-
 						
 						<![CDATA[ function (evt) { var keyCode =
 						event.keyCode; if( keyCode == 8 || keyCode == 13
@@ -41,9 +39,7 @@
 						keyCode <= 57) || (keyCode >= 96 && keyCode <=
 						105)) { this.$doKeyDown_(evt); } else {
 						evt.stop(); return; } } ]]>
-						
-						
-						
+																											
 					</attribute>
 				</textbox>
 				<label>Số CMND</label>
@@ -113,7 +109,7 @@
 			</vbox>
 			<vbox>
 				<label>Ngày trả</label>
-				<datebox constraint="no empty, no past"
+				<datebox constraint="no empty, no past" readonly="true"
 					id="datebox_ngaytraxe" value="@save(vm.phieuTiepNhan.givebackDate)"
 					width="250px">
 				</datebox>

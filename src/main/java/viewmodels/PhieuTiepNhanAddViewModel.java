@@ -92,6 +92,7 @@ public class PhieuTiepNhanAddViewModel {
 							.loadByCustomerId(Integer.parseInt(this.customer.getMaKH() + ""));
 					if (this.listOfVehicle != null && this.listOfVehicle.size() > 0) {
 						this.xe = this.listOfVehicle.get(0);
+						this.phieuTiepNhan.setLicensePlate(this.xe.getBienSoXe());
 					}
 				}
 			}
@@ -114,6 +115,8 @@ public class PhieuTiepNhanAddViewModel {
 		if (listOfCustomerVehicle != null) {
 			if (!listOfCustomerVehicle.isEmpty()) {
 				this.xe = listOfCustomerVehicle.get(0);
+				// update bien so xe phieu tiep nhan
+				this.phieuTiepNhan.setLicensePlate(this.xe.getBienSoXe());
 			} else {
 				this.xe = new Xe();
 			}
@@ -140,6 +143,7 @@ public class PhieuTiepNhanAddViewModel {
 
 	@Command
 	public void onComboboxVehicleChanged(@BindingParam("vehicle_licenseplate") String licensePlate) {
+		System.out.println("onComboboxVehicleChanged licensePlate  :" + licensePlate);
 		// update bien so xe cho phieu tiep nhan
 		this.phieuTiepNhan.setLicensePlate(licensePlate);
 	}

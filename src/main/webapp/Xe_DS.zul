@@ -5,7 +5,7 @@
 	<window title="Danh sách xe" border="normal" height="100%"
 		apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('viewmodels.XeDSViewModel')">
-		<vlayout width="100%">
+		<vlayout width="100%" height="100%">
 			<hlayout style="text-align : left; padding : 4px;">
 				<label value="Tìm kiếm"></label>
 				<combobox readonly="true" id="search_type_combobox"
@@ -27,7 +27,7 @@
 			</hlayout>
 			<!-- mechanic list area -->
 
-			<listbox hflex="1" mold="paging" pageSize="10"
+			<listbox hflex="1" mold="paging" pageSize="10" vflex="true"
 				model="@load(vm.listOfVehicel)" width="100%"
 				selectedItem="@bind(vm.selectedXe)">
 				<listhead>

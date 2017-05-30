@@ -57,26 +57,30 @@ public class PhieuChiDSViewModel {
 	public void filterData(@BindingParam("search_index") int searchIndex,
 			@BindingParam("search_string") String searchString) {
 
-		switch (searchIndex) {
-		case 0: // load all
+		// if search string is empty, get all by default
+		if (searchString.isEmpty()) {
 			this.listOfPhieuChis = this.phieuChiServiceImpl.getAll(PhieuChi.class);
-			break;
-		case 1: // search by employee
-			this.listOfPhieuChis = this.phieuChiServiceImpl.filterByCreationStaffName(searchString.trim());
-			break;
-		case 2: // search by creation date
-			try {
-				this.listOfPhieuChis = this.phieuChiServiceImpl
-						.findByCreationDate(DateUtil.parseFromStringArray(searchString.trim().split("/")));
-			} catch (Exception e) {
-				// TODO: handle exception
-				Messagebox.show("Vui lòng nhập đúng định dạng ngày. Ví dụ : 25/8/2016", "Lỗi", Messagebox.OK,
-						Messagebox.ERROR);
+		} else
+			switch (searchIndex) {
+			case 0: // load all
+				this.listOfPhieuChis = this.phieuChiServiceImpl.getAll(PhieuChi.class);
+				break;
+			case 1: // search by employee
+				this.listOfPhieuChis = this.phieuChiServiceImpl.filterByCreationStaffName(searchString.trim());
+				break;
+			case 2: // search by creation date
+				try {
+					this.listOfPhieuChis = this.phieuChiServiceImpl
+							.findByCreationDate(DateUtil.parseFromStringArray(searchString.trim().split("/")));
+				} catch (Exception e) {
+					// TODO: handle exception
+					Messagebox.show("Vui lòng nhập đúng định dạng ngày. Ví dụ : 25/8/2016", "Lỗi", Messagebox.OK,
+							Messagebox.ERROR);
+				}
+				break;
+			default:
+				break;
 			}
-			break;
-		default:
-			break;
-		}
 	}
 
 	/**
