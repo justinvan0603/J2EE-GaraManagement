@@ -36,7 +36,6 @@
 					<listheader label="Ngày tiếp nhận" width="110px" />
 					<listheader label="Hiệu xe" width="110px" />
 					<listheader label="Tình trạng" />
-					<listheader label="Hình thức" width="110px" />
 					<listheader label="Số máy" width="80px" />
 					<listheader label="Số khung" width="80px" />
 					<listheader label="Số KM" width="90px" />
@@ -49,7 +48,6 @@
 						<listcell label="@load(e.inDateStringFormat)"></listcell>
 						<listcell label="@load(e.hieuXe.maHieuXe)"></listcell>
 						<listcell label="@load(e.tinhTrang)"></listcell>
-						<listcell label="@load(e.typeString)"></listcell>
 						<listcell label="@load(e.soMay)"></listcell>
 						<listcell label="@load(e.soKhung)"></listcell>
 						<listcell label="@load(e.soKM)"></listcell>

@@ -32,7 +32,7 @@ public class XeDSViewModel {
 	// array of search types string for this page
 	private static final String[] SEARCH_TYPES = new String[] {
 
-			"Tất cả", "Biển số", "Ngày tiếp nhận", "Xe GARA", "Xe khách hàng" };
+			"Tất cả", "Biển số", "Ngày tiếp nhận" };
 	@WireVariable
 	private XeServiceImpl xeServiceImpl; // database service
 	private List<Xe> listOfVehicel;
@@ -80,12 +80,6 @@ public class XeDSViewModel {
 							Messagebox.ERROR);
 				}
 			}
-			break;
-		case 3: //
-			this.listOfVehicel = this.xeServiceImpl.filterByType(true);
-			break;
-		case 4:
-			this.listOfVehicel = this.xeServiceImpl.filterByType(false);
 			break;
 		default:
 			break;
