@@ -14,7 +14,7 @@
 					</template>
 				</combobox>
 				<textbox width="400px" id="search_textbox"></textbox>
-				<button id="searchButton"  image="/images/ic_add.png"
+				<button id="searchButton"  image="/images/ic_search.png"
 					onClick="@command('filterData', search_string=search_textbox.value , combobox_selected_index = search_type_combobox.selectedIndex )">
 					Tìm kiếm
 				</button>
