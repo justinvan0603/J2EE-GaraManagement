@@ -49,6 +49,9 @@ public class PhieuTiepNhanAddViewModel {
 	private PhieuTiepNhan phieuTiepNhan;
 	private Xe xe;
 
+	private HieuXe selectedHieuXe;
+	private String selectedGioiTinh = "Nam";
+
 	@Init
 	public void init() {
 		// get parameter from session
@@ -79,6 +82,9 @@ public class PhieuTiepNhanAddViewModel {
 				if (this.hieuXeServiceImpl != null) {
 					// load all vehicle types except type "Tất cả"
 					this.listOfHieuXes = this.hieuXeServiceImpl.getListOfHieuXeExceptTatCa();
+					if (this.listOfHieuXes != null && this.listOfHieuXes.size() > 0) {
+						this.selectedHieuXe = this.listOfHieuXes.get(0);
+					}
 				}
 
 			} else if (type.equals(PhieuTiepNhanDSViewModel.FROM_FREQUENTER)) { // from
@@ -244,9 +250,29 @@ public class PhieuTiepNhanAddViewModel {
 	public void setXe(Xe xe) {
 		this.xe = xe;
 	}
+	
+	
+
+	public HieuXe getSelectedHieuXe() {
+		return selectedHieuXe;
+	}
+
+	public void setSelectedHieuXe(HieuXe selectedHieuXe) {
+		this.selectedHieuXe = selectedHieuXe;
+	}
 
 	public Date getCurrentDate() {
 		return new Date();
 	}
+
+	public String getSelectedGioiTinh() {
+		return selectedGioiTinh;
+	}
+
+	public void setSelectedGioiTinh(String selectedGioiTinh) {
+		this.selectedGioiTinh = selectedGioiTinh;
+	}
+	
+	
 
 }

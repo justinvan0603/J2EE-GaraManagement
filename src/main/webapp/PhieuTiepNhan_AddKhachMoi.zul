@@ -1,6 +1,23 @@
 <?page title="Phiếu tiếp nhận mới" contentType="text/html;charset=UTF-8"?>
 <zk>
 	<include src="menu_bar.zul"></include>
+	<zscript><![CDATA[
+	class MyConst implements Constraint, CustomConstraint {
+		//Constraint//
+		public void validate(Component comp, Object value) {
+			if (value == null || ((Integer) value).intValue() > 2017)
+				throw new WrongValueException(comp, "Current year is maximun value for it");
+
+		}
+
+		//CustomConstraint//
+		public void showCustomError(Component comp, WrongValueException ex) {
+			errmsg.setValue(ex != null ? ex.getMessage() : "");
+		}
+	}
+	Constraint ctt = new MyConst();
+]]>
+    </zscript>
 	<window title="Phiếu tiếp nhận mới" border="normal" height="100%"
 		width="100%" apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('viewmodels.PhieuTiepNhanAddViewModel')">
@@ -30,7 +47,7 @@
 					value="@save(vm.customer.sdt, before='luuPhieuTiepNhan')"
 					width="250px">
 					<attribute w:name="doKeyDown_">
-						
+		
 						<![CDATA[ function (evt) { var keyCode =
 						event.keyCode; if( keyCode == 8 || keyCode == 13
 						|| keyCode == 16 || (keyCode >= 35 && keyCode <=
@@ -39,7 +56,7 @@
 						keyCode <= 57) || (keyCode >= 96 && keyCode <=
 						105)) { this.$doKeyDown_(evt); } else {
 						evt.stop(); return; } } ]]>
-																											
+																																
 					</attribute>
 				</textbox>
 				<label>Số CMND</label>
@@ -49,10 +66,14 @@
 					width="250px">
 				</intbox>
 				<label>Giới tính</label>
+
 				<combobox id="combobox_gioitinh" width="250px"
 					constraint="no empty"
 					onSelect="@command('onComboboxGenderChanged' , gender_boolean = self.selectedItem.value)"
 					readonly="true">
+					<attribute name="onCreate">
+						self.setSelectedIndex(0);
+					</attribute>
 					<comboitem value="@bind(true)" label="Nam" />
 					<comboitem value="@bind(false)" label="Nữ" />
 				</combobox>
@@ -70,6 +91,7 @@
 				<combobox id="cmbHieuXe" width="250px"
 					constraint="no empty"
 					onSelect="@command('onVehicleTypesComboboxChanged', vehicle_type = self.selectedItem.value)"
+					selectedItem="@load(vm.selectedHieuXe)"
 					model="@load(vm.listOfHieuXes)" readonly="true">
 					<template name="model">
 						<comboitem value="@load(each.maHieuXe)"
@@ -90,7 +112,7 @@
 				</textbox>
 				<label>Số KM</label>
 				<intbox id="textbox_sokm" maxlength="9"
-					constraint="no empty"
+					constraint="no empty, no negative"
 					value="@save(vm.xe.soKM, before='luuPhieuTiepNhan')"
 					width="250px">
 				</intbox>
@@ -101,7 +123,7 @@
 				</textbox>
 				<label>Đời xe</label>
 				<intbox id="textbox_doixe" maxlength="4"
-					constraint="no empty"
+					constraint="${ctt}"
 					value=" @save ( vm.xe.doiXe, before='luuPhieuTiepNhan')"
 					width="250px">
 				</intbox>

@@ -31,6 +31,8 @@ public class XeAddViewModel {
 	private List<Customer> listOfCustomers;
 	private List<HieuXe> listOfHieuXes;
 
+	private HieuXe selectedHieuXe;
+
 	@Init
 	public void init() {
 
@@ -47,6 +49,9 @@ public class XeAddViewModel {
 		if (this.hieuXeServiceImpl != null) {
 			// load all vehicle types except type "Tất cả"
 			this.listOfHieuXes = this.hieuXeServiceImpl.getListOfHieuXeExceptTatCa();
+			if (this.listOfHieuXes != null && this.listOfHieuXes.size() > 0) {
+				this.selectedHieuXe = this.listOfHieuXes.get(0);
+			}
 		}
 		if (this.customerServiceImpl != null) {
 			this.listOfCustomers = this.customerServiceImpl.getAll(Customer.class);
@@ -95,5 +100,15 @@ public class XeAddViewModel {
 	public void setListOfHieuXes(List<HieuXe> listOfHieuXes) {
 		this.listOfHieuXes = listOfHieuXes;
 	}
+
+	public HieuXe getSelectedHieuXe() {
+		return selectedHieuXe;
+	}
+
+	public void setSelectedHieuXe(HieuXe selectedHieuXe) {
+		this.selectedHieuXe = selectedHieuXe;
+	}
+	
+	
 
 }
