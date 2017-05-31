@@ -112,6 +112,7 @@ public class CustomerViewModel {
 								{
 									customers = customerService.getAll(Customer.class);
 									Messagebox.show("Xóa thành công");
+									Executions.sendRedirect("./Tho_DS.zul");
 								}
 								else
 								{
