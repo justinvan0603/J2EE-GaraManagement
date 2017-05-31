@@ -132,6 +132,7 @@ public class NhanVienDSViewModel {
 								if(nhanVienService.delete(id, NhanVien.class))
 								{
 									Messagebox.show("Xóa thành công!");
+									Executions.sendRedirect("./NhanVien_DS.zul");
 								}
 								else
 								{
