@@ -86,4 +86,29 @@ public class HieuXeServiceImpl implements GeneralService<HieuXe> {
 		return result;
 	}
 
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public List<HieuXe> getListOfHieuXeExceptTatCa() {
+		Session session = null;
+		Transaction transaction = null;
+		List<HieuXe> result = null;
+		try {
+			session = this.hieuXeDaoImpl.getSessionFactory().openSession();
+			transaction = session.beginTransaction();
+			Criteria criteria = session.createCriteria(HieuXe.class);
+			criteria.add(Restrictions.ne("MaHieuXe", "Tất cả"));
+			result = criteria.list(); // get result
+			transaction.commit();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			result = null;
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
+		return result;
+	}
+
 }

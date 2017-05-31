@@ -77,8 +77,8 @@ public class PhieuTiepNhanAddViewModel {
 				this.phieuTiepNhan = new PhieuTiepNhan();
 				this.xe = new Xe();
 				if (this.hieuXeServiceImpl != null) {
-					// get all of hieuxe
-					this.listOfHieuXes = this.hieuXeServiceImpl.getAll(HieuXe.class);
+					// load all vehicle types except type "Tất cả"
+					this.listOfHieuXes = this.hieuXeServiceImpl.getListOfHieuXeExceptTatCa();
 				}
 
 			} else if (type.equals(PhieuTiepNhanDSViewModel.FROM_FREQUENTER)) { // from

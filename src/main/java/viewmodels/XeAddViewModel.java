@@ -45,7 +45,8 @@ public class XeAddViewModel {
 		this.customerServiceImpl = (CustomerServiceImpl) SpringUtil.getBean("customer_service");
 
 		if (this.hieuXeServiceImpl != null) {
-			this.listOfHieuXes = this.hieuXeServiceImpl.getAll(HieuXe.class);
+			// load all vehicle types except type "Tất cả"
+			this.listOfHieuXes = this.hieuXeServiceImpl.getListOfHieuXeExceptTatCa();
 		}
 		if (this.customerServiceImpl != null) {
 			this.listOfCustomers = this.customerServiceImpl.getAll(Customer.class);
