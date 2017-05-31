@@ -9,7 +9,7 @@
 			<groupbox>
 				<vlayout style="margin: 32px;">
 					<label>Mã phiếu</label>
-					<textbox id="textbox_maphieu" width="250px"
+					<textbox id="textbox_maphieu" width="250px" constraint="no empty"
 						value="@load(vm.phieuChi.maPhieuChi) @save(vm.phieuChi.maPhieuChi, before='luuPhieuChi')">
 					</textbox>
 					<label>Ngày lập</label>

@@ -73,7 +73,7 @@ public class PhieuChiAddViewModel {
 			}
 			// initialize essential value
 			this.phieuChi.setNgayLap(new Date()); // creation date is today
-			this.phieuChi.setMaPhieuChi(System.currentTimeMillis() + ""); // random
+			this.phieuChi.setMaPhieuChi(""); // random
 
 			// get current signed in staff
 			this.phieuChi

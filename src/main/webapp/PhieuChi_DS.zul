@@ -1,10 +1,10 @@
-<?page title="Danh sách phiếu bán xe" contentType="text/html;charset=UTF-8"?>
+<?page title="Danh sách phiếu chi" contentType="text/html;charset=UTF-8"?>
 <?import  utils.StringFormatUtil ?>
 <zk>
 	<!-- import mutual menu bar -->
 	<include src="menu_bar.zul"></include>
 
-	<window title="Danh phiếu bán xe" border="normal" height="94%"
+	<window title="Danh phiếu chi" border="normal" height="94%"
 		apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('viewmodels.PhieuChiDSViewModel')">
 		<vlayout width="100%">

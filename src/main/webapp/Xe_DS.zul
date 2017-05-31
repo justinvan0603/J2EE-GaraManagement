@@ -32,7 +32,7 @@
 				selectedItem="@bind(vm.selectedXe)">
 				<listhead>
 					<listheader label="Biển số" width="90px" />
-					<listheader label="Khách hàng" width="120px" />
+					<listheader label="Khách hàng" />
 					<listheader label="Ngày tiếp nhận" width="110px" />
 					<listheader label="Hiệu xe" width="110px" />
 					<listheader label="Tình trạng" />
