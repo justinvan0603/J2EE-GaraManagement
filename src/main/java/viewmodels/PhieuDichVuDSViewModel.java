@@ -180,7 +180,7 @@ public class PhieuDichVuDSViewModel {
 									customerServiceImpl.update(kh.getMaKH(), kh);
 									listPhieuDichVu.clear();
 									setListPhieuDichVu( phieuDichVuService.getAll(PhieuDichVu.class));
-								
+									Executions.sendRedirect("./PhieuDichVu_DS.zul");
 									
 								}
 								else

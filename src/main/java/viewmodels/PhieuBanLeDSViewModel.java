@@ -165,6 +165,7 @@ public class PhieuBanLeDSViewModel {
 										customerServiceImpl.update(kh.getMaKH(), kh);
 										listPhieuBanLe.clear();
 										setListPhieuBanLe(phieuBanLeServiceImpl.getAll(PhieuBanLe.class));
+										Executions.sendRedirect("./PhieuBanLe_DS.zul");
 									}
 									else
 									{
