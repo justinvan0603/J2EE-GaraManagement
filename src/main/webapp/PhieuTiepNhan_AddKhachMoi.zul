@@ -71,9 +71,6 @@
 					constraint="no empty"
 					onSelect="@command('onComboboxGenderChanged' , gender_boolean = self.selectedItem.value)"
 					readonly="true">
-					<attribute name="onCreate">
-						self.setSelectedIndex(0);
-					</attribute>
 					<comboitem value="@bind(true)" label="Nam" />
 					<comboitem value="@bind(false)" label="Nữ" />
 				</combobox>
