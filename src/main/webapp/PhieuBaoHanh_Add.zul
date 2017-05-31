@@ -53,7 +53,9 @@
 						</template>
 					</combobox>
 					<label>Ngày hẹn trả</label>
-					<datebox id="datebox_ngayhentra" constraint="no past" readonly="true"></datebox>
+					<datebox id="datebox_ngayhentra"
+						constraint="no past" readonly="true">
+					</datebox>
 					<button image="/images/ic_add.png"
 						onClick="@command('themChiTiet', maphutung = combobox_phutung.selectedItem.value
 						 , ngayhentra = datebox_ngayhentra.value)">
@@ -77,7 +79,7 @@
 				<template name="model" var="e">
 					<listitem>
 						<listcell label="@load(e.maPhuTung)"></listcell>
-						<listcell label="@load(e.ngayHenTra)"></listcell>
+						<listcell label="@load(e.ngayHenTraString)"></listcell>
 						<listcell>
 							<button
 								onClick="@command('xoaChiTiet', maphutung = e.maPhuTung)">

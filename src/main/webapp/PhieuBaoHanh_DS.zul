@@ -4,8 +4,8 @@
 	<!-- import mutual menu bar -->
 	<include src="menu_bar.zul"></include>
 
-	<window title="Danh sách phiếu bảo hành" border="normal" height="94%"
-		apply="org.zkoss.bind.BindComposer"
+	<window title="Danh sách phiếu bảo hành" border="normal"
+		height="94%" apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('viewmodels.PhieuBaoHanhDSViewModel')">
 		<vlayout width="100%">
 			<hlayout style="text-align : left; padding : 4px;">
@@ -29,7 +29,7 @@
 			</hlayout>
 			<!-- mechanic list area -->
 
-			<listbox hflex="1" mold="paging" pageSize="15"
+			<listbox hflex="1" mold="paging" pageSize="15" vflex="true"
 				model="@load(vm.listOfPhieuBaoHanhs)" width="100%">
 				<auxhead>
 					<auxheader colspan="5">
@@ -41,7 +41,7 @@
 					<listheader label="Ngày lập" />
 					<listheader label="Nhân viên" />
 					<listheader label="Tình trạng" />
-					<listheader label="Tác vụ" width="200px"  />
+					<listheader label="Tác vụ" width="200px" />
 				</listhead>
 				<template name="model" var="e">
 					<listitem>

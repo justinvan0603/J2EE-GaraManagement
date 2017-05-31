@@ -13,6 +13,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import utils.StringFormatUtil;
+
 @Entity
 @Table(name = "ct_phieubh")
 public class CT_PhieuBaoHanh {
@@ -90,6 +92,14 @@ public class CT_PhieuBaoHanh {
 
 	public void setPhuTung(PhuTung phuTung) {
 		this.phuTung = phuTung;
+	}
+
+	public String getNgayHenTraString() {
+		if (this.ngayHenTra != null) {
+			return StringFormatUtil.shortDateTime(this.ngayHenTra);
+		} else {
+			return "";
+		}
 	}
 
 	@Override
