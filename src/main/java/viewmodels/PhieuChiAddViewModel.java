@@ -107,11 +107,12 @@ public class PhieuChiAddViewModel {
 							}
 						});
 			}
+
+			// remove this session value
+			Sessions.getCurrent().removeAttribute(PhieuNhapHangDSViewModel.SELECTED_PNH_ID);
 		}
 	}
 
-	
-	
 	public String getCurrentSignedInStaffName() {
 		return currentSignedInStaffName;
 	}
