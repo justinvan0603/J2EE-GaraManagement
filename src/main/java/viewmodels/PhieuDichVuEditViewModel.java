@@ -246,6 +246,7 @@ public class PhieuDichVuEditViewModel {
 		double chenhlech =   tiencong-this.phieuDichVu.getTienCong();
 		this.phieuDichVu.setTienCong(this.phieuDichVu.getTienCong() + chenhlech);
 		this.phieuDichVu.setTongTien(this.phieuDichVu.getTongTien() + chenhlech);
+		this.phieuDichVu.setSoTienConLai(this.phieuDichVu.getSoTienConLai() + chenhlech);
 		this.phieuDichVu.setMaPhieuDichVu(mapdv);
 		if(this.phieuDichVuServiceImpl.update(this.phieuDichVu.getIdPhieuDichVu(), this.phieuDichVu))
 		{
