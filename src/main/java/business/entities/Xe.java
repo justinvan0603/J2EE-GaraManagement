@@ -75,7 +75,7 @@ public class Xe implements Serializable {
 
 	// relationships
 	@ManyToOne
-	@JoinColumn(name = "HieuXe", insertable = false, updatable = false)
+	@JoinColumn(name = "HieuXe", referencedColumnName = "MaHieuXe", insertable = false, updatable = false)
 	private HieuXe hieuXe;
 
 	public String getBienSoXe() {

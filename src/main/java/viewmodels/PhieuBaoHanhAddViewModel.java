@@ -45,6 +45,7 @@ public class PhieuBaoHanhAddViewModel {
 	private List<HieuXe> listOfHieuXes;
 	private List<PhuTung> listOfPhuTungs;
 	private PhuTung selectedPhutung;
+	private HieuXe selectedHieuXe;
 
 	// entities to be saved
 	private PhieuBaoHanh phieuBaoHanh;
@@ -84,6 +85,13 @@ public class PhieuBaoHanhAddViewModel {
 
 			// load list to view
 			this.listOfHieuXes = this.hieuXeServiceImpl.getAll(HieuXe.class);
+			if (this.listOfHieuXes != null && this.listOfHieuXes.size() > 0) {
+				this.selectedHieuXe = this.listOfHieuXes.get(0);
+				this.listOfPhuTungs = this.phuTungServiceImpl.find(null, null, this.selectedHieuXe.getMaHieuXe());
+				if (this.listOfPhuTungs != null && this.listOfPhuTungs.size() > 0) {
+					this.selectedPhutung = this.listOfPhuTungs.get(0);
+				}
+			}
 
 			// initialize list
 			this.setOfCT_PhieuBaoHanhs = new HashSet<CT_PhieuBaoHanh>(); //
@@ -208,7 +216,13 @@ public class PhieuBaoHanhAddViewModel {
 	public void setCurrentSignedStaffName(String currentSignedStaffName) {
 		this.currentSignedStaffName = currentSignedStaffName;
 	}
-	
-	
+
+	public HieuXe getSelectedHieuXe() {
+		return selectedHieuXe;
+	}
+
+	public void setSelectedHieuXe(HieuXe selectedHieuXe) {
+		this.selectedHieuXe = selectedHieuXe;
+	}
 
 }

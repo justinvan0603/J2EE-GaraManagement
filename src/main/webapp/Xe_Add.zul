@@ -29,7 +29,8 @@
 				</textbox>
 				<label>Khách hàng</label>
 				<combobox constraint="no empty" id="combobox_khachhang"
-					width="250px" model="@load(vm.listOfCustomers)" readonly="true">
+					selectedItem="@bind(vm.selectedCustomer)" width="250px"
+					model="@load(vm.listOfCustomers)" readonly="true">
 					<template name="model">
 						<comboitem value="@load(each.maKH)"
 							label="@load(each.hoTen)" />
@@ -64,8 +65,8 @@
 					width="250px">
 				</textbox>
 				<label>Đời xe</label>
-				<intbox constraint="${ctt}" id="textbox_doixe" maxlength="4"
-					width="250px">
+				<intbox constraint="${ctt}" id="textbox_doixe"
+					maxlength="4" width="250px">
 				</intbox>
 				<!-- update button -->
 				<button image="/images/ic_done.png"

@@ -37,6 +37,7 @@
 				<hlayout style="padding : 4px;">
 					<label>Hiệu xe</label>
 					<combobox id="cmbHieuXe" width="250px"
+						constraint="no empty" selectedItem="@bind(vm.selectedHieuXe)"
 						onSelect="@command('onComboboxHieuXeChange', ma_hieuxe = self.selectedItem.value, cmb_event = combobox_phutung)"
 						model="@load(vm.listOfHieuXes)" readonly="true">
 						<template name="model">
@@ -45,7 +46,7 @@
 						</template>
 					</combobox>
 					<combobox id="combobox_phutung" width="250px"
-						selectedItem="@load(vm.selectedPhutung)"
+						constraint="no empty" selectedItem="@bind(vm.selectedPhutung)"
 						model="@load(vm.listOfPhuTungs)" readonly="true">
 						<template name="model">
 							<comboitem value="@load(each.id)"
@@ -54,7 +55,7 @@
 					</combobox>
 					<label>Ngày hẹn trả</label>
 					<datebox id="datebox_ngayhentra"
-						constraint="no past" readonly="true">
+						constraint="no empty,no past" readonly="true">
 					</datebox>
 					<button image="/images/ic_add.png"
 						onClick="@command('themChiTiet', maphutung = combobox_phutung.selectedItem.value

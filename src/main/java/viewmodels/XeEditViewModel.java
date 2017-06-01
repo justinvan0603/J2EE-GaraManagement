@@ -6,6 +6,7 @@ import java.util.List;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
+import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
@@ -89,6 +90,12 @@ public class XeEditViewModel {
 			Messagebox.show("Không thành công");
 		}
 
+	}
+
+	@Command
+	@NotifyChange("selectedHieuXe")
+	public void onComboboxVehicleTypeChanges(@BindingParam("hieuxe") String hieuXe) {
+		//this.selectedHieuXe = this.hieuXeServiceImpl.findByIdString(hieuXe);
 	}
 
 	public Xe getCurrentVehicle() {

@@ -32,6 +32,7 @@ public class XeAddViewModel {
 	private List<HieuXe> listOfHieuXes;
 
 	private HieuXe selectedHieuXe;
+	private Customer selectedCustomer;
 
 	@Init
 	public void init() {
@@ -51,10 +52,14 @@ public class XeAddViewModel {
 			this.listOfHieuXes = this.hieuXeServiceImpl.getListOfHieuXeExceptTatCa();
 			if (this.listOfHieuXes != null && this.listOfHieuXes.size() > 0) {
 				this.selectedHieuXe = this.listOfHieuXes.get(0);
+
 			}
 		}
 		if (this.customerServiceImpl != null) {
 			this.listOfCustomers = this.customerServiceImpl.getAll(Customer.class);
+			if (this.listOfCustomers != null && this.listOfCustomers.size() > 0) {
+				this.selectedCustomer = this.listOfCustomers.get(0);
+			}
 		}
 	}
 
@@ -107,6 +112,14 @@ public class XeAddViewModel {
 
 	public void setSelectedHieuXe(HieuXe selectedHieuXe) {
 		this.selectedHieuXe = selectedHieuXe;
+	}
+
+	public Customer getSelectedCustomer() {
+		return selectedCustomer;
+	}
+
+	public void setSelectedCustomer(Customer selectedCustomer) {
+		this.selectedCustomer = selectedCustomer;
 	}
 	
 	

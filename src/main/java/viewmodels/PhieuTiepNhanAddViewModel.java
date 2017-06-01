@@ -84,6 +84,8 @@ public class PhieuTiepNhanAddViewModel {
 					this.listOfHieuXes = this.hieuXeServiceImpl.getListOfHieuXeExceptTatCa();
 					if (this.listOfHieuXes != null && this.listOfHieuXes.size() > 0) {
 						this.selectedHieuXe = this.listOfHieuXes.get(0);
+						// by default, the first hieuxe will be assigned
+						this.xe.setHieuXeReference(this.selectedHieuXe.getMaHieuXe());
 					}
 				}
 
@@ -93,7 +95,10 @@ public class PhieuTiepNhanAddViewModel {
 				this.phieuTiepNhan = new PhieuTiepNhan();
 				if (this.customerServiceImpl != null) {
 					this.listOfCustomers = this.customerServiceImpl.getAll(Customer.class);
-					this.customer = this.listOfCustomers.get(0);
+					if (this.listOfCustomers != null && this.listOfCustomers.size() > 0) {
+						this.customer = this.listOfCustomers.get(0);
+						this.phieuTiepNhan.setCustomerId(this.customer.getMaKH());
+					}
 					this.listOfVehicle = this.xeServiceImpl
 							.loadByCustomerId(Integer.parseInt(this.customer.getMaKH() + ""));
 					if (this.listOfVehicle != null && this.listOfVehicle.size() > 0) {
@@ -250,8 +255,6 @@ public class PhieuTiepNhanAddViewModel {
 	public void setXe(Xe xe) {
 		this.xe = xe;
 	}
-	
-	
 
 	public HieuXe getSelectedHieuXe() {
 		return selectedHieuXe;
@@ -272,7 +275,5 @@ public class PhieuTiepNhanAddViewModel {
 	public void setSelectedGioiTinh(String selectedGioiTinh) {
 		this.selectedGioiTinh = selectedGioiTinh;
 	}
-	
-	
 
 }

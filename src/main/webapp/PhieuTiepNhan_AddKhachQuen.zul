@@ -17,9 +17,13 @@
 				<!-- Customer combobox -->
 				<label>Khách hàng</label>
 				<combobox id="combobox_customers" width="250px"
-					constraint="no empty" selectedItem="@bind(vm.customer)"
+					autocomplete="true" autodrop="true" constraint="no empty"
 					onSelect="@command('onCustomerSelectChange' , selected_customer_id = self.selectedItem.value, vehicle_combobox = combobox_vehicle)"
-					model="@bind(vm.listOfCustomers)" readonly="true">
+					model="@bind(vm.listOfCustomers)" readonly="true"
+					selectedItem="@bind(vm.customer)">
+					<attribute name="onAfterRender"><![CDATA[
+					        combobox_customers.setSelectedIndex(0);
+   						 ]]></attribute>
 					<template name="model">
 						<comboitem value="@load(each.maKH)"
 							label="@load(each.hoTen)" />
@@ -39,8 +43,8 @@
 					</template>
 				</combobox>
 				<label>Ngày trả</label>
-				<datebox constraint="no empty, no past" id="datebox_ngaytra"
-					readonly="true"
+				<datebox constraint="no empty, no past"
+					id="datebox_ngaytra" readonly="true"
 					value="@save(vm.phieuTiepNhan.givebackDate, before='luuPhieuTiepNhan')"
 					width="250px">
 				</datebox>
