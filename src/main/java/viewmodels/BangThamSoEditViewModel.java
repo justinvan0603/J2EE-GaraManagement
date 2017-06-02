@@ -12,6 +12,7 @@ import business.entities.BangThamSo;
 
 import business.service.BangThamSoServiceImpl;
 import utils.PermissionChecker;
+import utils.SystemParam;
 
 
 public class BangThamSoEditViewModel {
@@ -59,6 +60,8 @@ public class BangThamSoEditViewModel {
 		{
 			if(this.bangThamSoService.update(this.currentThamSo.getTenThamSo(), this.currentThamSo))
 			{
+				SystemParam.listBTS.clear();
+				SystemParam.listBTS = this.bangThamSoService.getAll(BangThamSo.class);
 				Messagebox.show("Cập nhật thành công");
 				Executions.sendRedirect("./BangThamSo_DS.zul");
 			}
