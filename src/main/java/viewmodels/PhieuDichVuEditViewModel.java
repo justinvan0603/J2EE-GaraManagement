@@ -1,10 +1,11 @@
 package viewmodels;
 
 
-import java.util.HashSet;
+import java.util.ArrayList;
+
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
+
 
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
@@ -50,13 +51,13 @@ public class PhieuDichVuEditViewModel {
 	private double thanhTien;
 	private PhuTungServiceImpl phuTungServiceImpl;
 	private ChiTietPhieuDichVuServiceImpl chiTietPhieuDichVuServiceImpl;
-	private Set<CT_PhieuDichVu> setofChiTietPhieuDV;
+	private List<CT_PhieuDichVu> setofChiTietPhieuDV;
 	private PhieuTiepNhan currentPhieuTiepNhan;
 	private Customer currentKhachHang;
-	public Set<CT_PhieuDichVu> getSetofChiTietPhieuDV() {
+	public List<CT_PhieuDichVu> getSetofChiTietPhieuDV() {
 		return setofChiTietPhieuDV;
 	}
-	public void setSetofChiTietPhieuDV(Set<CT_PhieuDichVu> setofChiTietPhieuDV) {
+	public void setSetofChiTietPhieuDV(List<CT_PhieuDichVu> setofChiTietPhieuDV) {
 		this.setofChiTietPhieuDV = setofChiTietPhieuDV;
 	}
 	public PhieuDichVuServiceImpl getPhieuDichVuServiceImpl() {
@@ -142,7 +143,7 @@ public class PhieuDichVuEditViewModel {
 		//this.selectedTho = this.listTho.get(0);
 		this.thanhTien = this.selectedPhuTung.getDonGiaXuat();
 		//List<CT_PhieuDichVu> list = this.chiTietPhieuDichVuServiceImpl.getByPhieuDichVuId(id);
-		this.setofChiTietPhieuDV = new HashSet<CT_PhieuDichVu>( this.chiTietPhieuDichVuServiceImpl.getByPhieuDichVuId(id));
+		this.setofChiTietPhieuDV = new ArrayList<CT_PhieuDichVu>( this.chiTietPhieuDichVuServiceImpl.getByPhieuDichVuId(id));
 
 		
 	}
@@ -230,7 +231,7 @@ public class PhieuDichVuEditViewModel {
 		this.phieuDichVu.setSoTienConLai(this.phieuDichVu.getSoTienConLai() + ctPhieu.getThanhTien());
 		this.setofChiTietPhieuDV.clear();
 		this.chiTietPhieuDichVuServiceImpl.save(ctPhieu);
-		this.setofChiTietPhieuDV = new HashSet<CT_PhieuDichVu>( this.chiTietPhieuDichVuServiceImpl.getByPhieuDichVuId(this.phieuDichVu.getIdPhieuDichVu()));
+		this.setofChiTietPhieuDV = new ArrayList<CT_PhieuDichVu>( this.chiTietPhieuDichVuServiceImpl.getByPhieuDichVuId(this.phieuDichVu.getIdPhieuDichVu()));
 		this.selectedPhuTung.setSoLuongTon(this.selectedPhuTung.getSoLuongTon() - Integer.parseInt(soLuong));
 		this.currentKhachHang.setSoTienNo(this.currentKhachHang.getSoTienNo() + ctPhieu.getThanhTien());
 		this.phuTungServiceImpl.update(this.selectedPhuTung.getId(), this.selectedPhuTung);

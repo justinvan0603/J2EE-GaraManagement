@@ -150,4 +150,8 @@ public class PhieuDichVu {
 		NumberFormat formatter = new DecimalFormat("##,###,###");  
 		return formatter.format(this.SoTienConLai);
 	}
+	public Long getTienCongLongFormated()
+	{
+		return Math.round(this.TienCong);
+	}
 }

@@ -2,10 +2,11 @@ package viewmodels;
 
 
 
-import java.util.HashSet;
+import java.util.ArrayList;
+
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
+
 
 
 import org.zkoss.bind.annotation.BindingParam;
@@ -38,12 +39,12 @@ public class PhieuBanLeEditViewModel {
 	private HieuXe selectedHieuXe;
 	private List<Customer> listKhachHang;
 	private Customer selectedKhachHang;
-	private Set<CT_PhieuBanLe> setOfChiTietPhieuBL;
+	private List<CT_PhieuBanLe> setOfChiTietPhieuBL;
 	private ChiTietPhieuBanLeServiceImpl chiTietPhieuBanLeServiceImpl;
-	public Set<CT_PhieuBanLe> getSetOfChiTietPhieuBL() {
+	public List<CT_PhieuBanLe> getSetOfChiTietPhieuBL() {
 		return setOfChiTietPhieuBL;
 	}
-	public void setSetOfChiTietPhieuBL(Set<CT_PhieuBanLe> setOfChiTietPhieuBL) {
+	public void setSetOfChiTietPhieuBL(List<CT_PhieuBanLe> setOfChiTietPhieuBL) {
 		this.setOfChiTietPhieuBL = setOfChiTietPhieuBL;
 	}
 	public ChiTietPhieuBanLeServiceImpl getChiTietPhieuBanLeServiceImpl() {
@@ -159,7 +160,7 @@ public class PhieuBanLeEditViewModel {
 		this.listKhachHang = this.customerServiceImpl.getAll(Customer.class);
 		this.setThanhTien(0);
 		this.listPhuTung = this.phuTungServiceImpl.getAll(PhuTung.class);
-		this.setOfChiTietPhieuBL = new  HashSet<CT_PhieuBanLe>(this.chiTietPhieuBanLeServiceImpl.getByIdPhieuBanLe(id, CT_PhieuBanLe.class));
+		this.setOfChiTietPhieuBL = new  ArrayList<CT_PhieuBanLe>(this.chiTietPhieuBanLeServiceImpl.getByIdPhieuBanLe(id, CT_PhieuBanLe.class));
 		for(Iterator<Customer> i = this.listKhachHang.iterator(); i.hasNext();)
 		{
 			Customer kh = i.next();
@@ -284,7 +285,7 @@ public class PhieuBanLeEditViewModel {
 			this.phieuBanLe.setSoTienConLai(this.phieuBanLe.getSoTienConLai() + ctPhieu.getThanhTien());
 			this.chiTietPhieuBanLeServiceImpl.save(ctPhieu);
 			this.setOfChiTietPhieuBL.clear();
-			this.setOfChiTietPhieuBL = new HashSet<CT_PhieuBanLe>(this.chiTietPhieuBanLeServiceImpl.getByIdPhieuBanLe(this.phieuBanLe.getIdPhieuBanLe(), CT_PhieuBanLe.class));
+			this.setOfChiTietPhieuBL = new ArrayList<CT_PhieuBanLe>(this.chiTietPhieuBanLeServiceImpl.getByIdPhieuBanLe(this.phieuBanLe.getIdPhieuBanLe(), CT_PhieuBanLe.class));
 		}
 		else
 		{
