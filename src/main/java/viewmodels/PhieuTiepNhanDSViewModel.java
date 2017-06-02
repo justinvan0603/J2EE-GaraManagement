@@ -1,5 +1,6 @@
 package viewmodels;
 
+import java.util.Date;
 import java.util.List;
 
 import org.zkoss.bind.annotation.BindingParam;
@@ -215,6 +216,10 @@ public class PhieuTiepNhanDSViewModel {
 	 */
 	public String[] getSearchTypes() {
 		return SEARCH_TYPES;
+	}
+
+	public Date getCurrenDate() {
+		return new Date();
 	}
 
 }

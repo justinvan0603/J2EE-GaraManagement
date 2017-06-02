@@ -45,7 +45,7 @@
 				<label>Ngày trả</label>
 				<datebox constraint="no empty, no past"
 					id="datebox_ngaytra" readonly="true"
-					value="@save(vm.phieuTiepNhan.givebackDate, before='luuPhieuTiepNhan')"
+					value="@load(vm.currentDate) @save(vm.phieuTiepNhan.givebackDate, before='luuPhieuTiepNhan')"
 					width="250px">
 				</datebox>
 				<label>Tình trạng</label>

@@ -77,7 +77,9 @@ public class PhieuTiepNhanAddViewModel {
 			if (type.equals(PhieuTiepNhanDSViewModel.FROM_NEW_CUSTOMER)) {
 				// instance essential values
 				this.customer = new Customer();
+				this.customer.setGioiTinh(true); // male by default
 				this.phieuTiepNhan = new PhieuTiepNhan();
+				this.phieuTiepNhan.setGivebackDate(new Date());
 				this.xe = new Xe();
 				if (this.hieuXeServiceImpl != null) {
 					// load all vehicle types except type "Tất cả"
@@ -93,6 +95,7 @@ public class PhieuTiepNhanAddViewModel {
 																				// frequenter
 				// instance essential values
 				this.phieuTiepNhan = new PhieuTiepNhan();
+				this.phieuTiepNhan.setGivebackDate(new Date());
 				if (this.customerServiceImpl != null) {
 					this.listOfCustomers = this.customerServiceImpl.getAll(Customer.class);
 					if (this.listOfCustomers != null && this.listOfCustomers.size() > 0) {
