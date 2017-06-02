@@ -63,8 +63,12 @@ public class PhieuBaoHanhDSViewModel {
 				switch (index) {
 				case 0: // search by id
 					this.listOfPhieuBaoHanhs.clear();
-					this.listOfPhieuBaoHanhs
-							.add(this.phieuBaoHanhServiceImpl.findById(Long.parseLong(keyword), PhieuBaoHanh.class));
+
+					PhieuBaoHanh result = this.phieuBaoHanhServiceImpl.findById(Long.parseLong(keyword),
+							PhieuBaoHanh.class);
+					if (result != null) {
+						this.listOfPhieuBaoHanhs.add(result);
+					}
 					break;
 
 				case 1: // search by creation date

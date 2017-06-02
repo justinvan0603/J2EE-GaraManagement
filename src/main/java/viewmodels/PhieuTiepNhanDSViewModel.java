@@ -110,10 +110,12 @@ public class PhieuTiepNhanDSViewModel {
 			switch (typeIndex) {
 			case 0: // search by id of receive header
 
-				this.listOfReceiveHeaders.clear(); // clear all items
+				this.listOfReceiveHeaders.clear();
 				PhieuTiepNhan header = this.phieuTiepNhanServiceImpl.findById(Long.parseLong(searchString.trim()),
 						PhieuTiepNhan.class);
-				this.listOfReceiveHeaders.add(header);
+				if (header != null) {
+					this.listOfReceiveHeaders.add(header);
+				}
 				break;
 			case 1: // search by license plate
 				this.listOfReceiveHeaders = this.phieuTiepNhanServiceImpl.findByLicensePlate(searchString.trim());
