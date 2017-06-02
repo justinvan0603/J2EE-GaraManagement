@@ -183,6 +183,7 @@ public class PhieuDichVuEditViewModel {
 					this.phuTungServiceImpl.update(pt.getId(),pt);
 					this.currentKhachHang.setSoTienNo(this.currentKhachHang.getSoTienNo() - ctPhieu.getThanhTien());
 					this.customerServiceImpl.update(this.currentKhachHang.getMaKH(), this.currentKhachHang);
+					this.setofChiTietPhieuDV.clear();
 					this.setSetofChiTietPhieuDV(this.chiTietPhieuDichVuServiceImpl.getByPhieuDichVuId(this.phieuDichVu.getIdPhieuDichVu()));
 					//break;
 				//}
