@@ -9,6 +9,7 @@
 		<sessiontimeout>-1</sessiontimeout>
 		<max-requests-per-session>-1</max-requests-per-session>
 		<max-desktops-per-session>-1</max-desktops-per-session>
+		<automatic-timeout>false</automatic-timeout>
 	</session-config>
 	
 </zk>

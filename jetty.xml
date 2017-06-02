@@ -1,7 +1,19 @@
 <?xml version="1.0"?>
 <!DOCTYPE Configure PUBLIC "-//Jetty//Configure//EN" "http://www.eclipse.org/jetty/configure_9_3.dtd">
 <Configure id="Server" class="org.eclipse.jetty.server.Server">
+<Get name="ThreadPool">
+    
+    <Set name="maxThreads" type="int"><Property name="solr.jetty.threads.max" default="100000"/></Set>
+    <Set name="idleTimeout" type="int"><Property name="solr.jetty.threads.idle.timeout" default="5000000"/></Set>
+    <Set name="stopTimeout" type="int"><Property name="solr.jetty.threads.stop.timeout" default="6000000"/></Set>
+    <Set name="detailedDump">false</Set>
+  </Get>
 	<Call name="addConnector">
+		<Arg>
+    		<New class="org.mortbay.jetty.nio.SelectChannelConnector">
+        		<Set name="maxIdleTime">86400000</Set>
+        </New>
+        </Arg>
 		<Arg>
 			<New id="httpConnector" class="org.eclipse.jetty.server.ServerConnector">
 				<Arg name="server">
