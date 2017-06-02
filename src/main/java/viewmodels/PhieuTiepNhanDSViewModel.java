@@ -36,8 +36,8 @@ public class PhieuTiepNhanDSViewModel {
 	public static final String FROM_FREQUENTER = "frequenter";
 	public static final String SELECTED_PHIEUTIEPNHAN_ID = "selected_phieutiepnhan_id";
 	// list of search types for view page
-	private static final String[] SEARCH_TYPES = new String[] { "Mã phiếu", "Biển số xe", "Ngày tiếp nhận",
-			"Ngày hẹn trả", "Tên nhân viên lập" };
+	private static final String[] SEARCH_TYPES = new String[] { "Mã phiếu", "Biển số xe", "Ngày lập",
+			"Ngày trả", "Tên nhân viên lập" };
 
 	@WireVariable
 	private PhieuTiepNhanServiceImpl phieuTiepNhanServiceImpl;
