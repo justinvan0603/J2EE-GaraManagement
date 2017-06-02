@@ -62,6 +62,7 @@ public class PhieuBaoHanhEditViewModel {
 		if (this.phieuBaoHanhServiceImpl.update(Long.valueOf(this.selectedPhieuBaoHanh.getMaPhieuBaoHanh().toString()),
 				this.selectedPhieuBaoHanh)) {
 			Messagebox.show("Cập nhật thành công", "Thông báo", Messagebox.OK, Messagebox.INFORMATION);
+			Executions.sendRedirect("./PhieuBaoHanh_DS.zul");
 		} else {
 			Messagebox.show("Cập nhật lối", "Lỗi", Messagebox.RETRY, Messagebox.ERROR);
 		}

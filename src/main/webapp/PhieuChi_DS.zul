@@ -43,7 +43,7 @@
 					<listheader label="Mã phiếu" width="100px" />
 					<listheader label="Ngày lập" />
 					<listheader label="Nhân viên" />
-					<listheader label="Nội dung" />
+					<listheader label="Nội dung" width="350px" />
 					<listheader label="Trị giá" />
 					<listheader label="Thao tác" />
 				</listhead>
