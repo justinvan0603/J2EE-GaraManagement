@@ -3,7 +3,7 @@ package viewmodels;
 
 import java.util.ArrayList;
 
-import java.util.Iterator;
+
 import java.util.List;
 
 
@@ -16,6 +16,7 @@ import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zkplus.spring.SpringUtil;
 import org.zkoss.zul.Messagebox;
+
 
 import business.entities.CT_PhieuDichVu;
 import business.entities.Customer;
@@ -164,13 +165,15 @@ public class PhieuDichVuEditViewModel {
 			Messagebox.show("Không thể xóa! Phải có ít nhất 1 chi tiết trong phiếu dịch vụ!", "Lỗi", Messagebox.OK, Messagebox.ERROR);
 			return;
 		}
+		
+		CT_PhieuDichVu ctPhieu = this.chiTietPhieuDichVuServiceImpl.findById(machitiet.longValue(), CT_PhieuDichVu.class);
 		//Messagebox.show(maphutung.toString(), "Lỗi", Messagebox.OK, Messagebox.ERROR);
 		if(this.chiTietPhieuDichVuServiceImpl.delete(machitiet, CT_PhieuDichVu.class))
 		{
-			CT_PhieuDichVu ctPhieu = null;
-			for (Iterator<CT_PhieuDichVu> iterator = this.setofChiTietPhieuDV.iterator(); iterator.hasNext();) {
-				ctPhieu= iterator.next();
-				if (ctPhieu.getId() == machitiet) {
+			
+			//for (Iterator<CT_PhieuDichVu> iterator = this.setofChiTietPhieuDV.iterator(); iterator.hasNext();) {
+				//ctPhieu= iterator.next();
+				//if (ctPhieu.getId() == machitiet) {
 					this.phieuDichVu.setTongTien(this.phieuDichVu.getTongTien() - ctPhieu.getThanhTien());
 					this.phieuDichVu.setSoTienConLai(this.phieuDichVu.getSoTienConLai() - ctPhieu.getThanhTien());
 					//this.phieuDichVuServiceImpl.update(this.phieuDichVu.getIdPhieuDichVu(), this.phieuDichVu);
@@ -180,11 +183,12 @@ public class PhieuDichVuEditViewModel {
 					this.phuTungServiceImpl.update(pt.getId(),pt);
 					this.currentKhachHang.setSoTienNo(this.currentKhachHang.getSoTienNo() - ctPhieu.getThanhTien());
 					this.customerServiceImpl.update(this.currentKhachHang.getMaKH(), this.currentKhachHang);
-					break;
-				}
+					this.setSetofChiTietPhieuDV(this.chiTietPhieuDichVuServiceImpl.getByPhieuDichVuId(this.phieuDichVu.getIdPhieuDichVu()));
+					//break;
+				//}
 				
-			}
-			this.setofChiTietPhieuDV.remove(ctPhieu);
+			
+			//this.setofChiTietPhieuDV.remove(ctPhieu);
 			
 			
 			Messagebox.show("Xóa thành công!", "Thông báo", Messagebox.OK, Messagebox.INFORMATION);

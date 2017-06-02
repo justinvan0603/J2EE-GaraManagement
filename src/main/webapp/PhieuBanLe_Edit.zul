@@ -54,7 +54,7 @@
 					</template>
 				</combobox>
 					<label>Số lượng</label>
-					<textbox id="txtSoLuong" width="50px"  value="0" onChange="@command('ontxtSoLuongChanging',soluong = txtSoLuong.value)">
+					<textbox id="txtSoLuong" width="50px"  value="@bind(vm.soLuong)" onChange="@command('ontxtSoLuongChanging',soluong = txtSoLuong.value)">
 						<attribute w:name="doKeyPress_">
 							
 							<![CDATA[ function(evt) { if ((evt.which <
@@ -99,7 +99,7 @@
 						<listcell label="@load(e.thoiHanBaoHanh)"></listcell>
 						<listcell>
 							<button image="/images/ic_delete_black_18dp_1x.png"
-								onClick="@command('xoaChiTiet', maphutung = e.maPhuTung)">
+								onClick="@command('xoaChiTiet', machitiet = e.id)">
 								Xóa
 							</button>
 						</listcell>

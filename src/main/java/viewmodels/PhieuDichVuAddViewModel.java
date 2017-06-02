@@ -53,6 +53,15 @@ public class PhieuDichVuAddViewModel {
 	private List<PhuTung> listPhuTung;
 	private PhuTung selectedPhuTung;
 	private Customer currentKhachHang;
+	private int soLuong;
+	
+	public int getSoLuong() {
+		return soLuong;
+	}
+
+	public void setSoLuong(int soLuong) {
+		this.soLuong = soLuong;
+	}
 
 	public HieuXeServiceImpl getHieuXeServiceImpl() {
 		return hieuXeServiceImpl;
@@ -207,6 +216,7 @@ public class PhieuDichVuAddViewModel {
 			Messagebox.show("Vui lòng đăng nhập!");
 			Executions.sendRedirect("./Login.zul");
 		}
+		this.soLuong = 0;
 		Integer idPhieuTiepNhan = (Integer) Sessions.getCurrent()
 				.getAttribute(PhieuTiepNhanDSViewModel.SELECTED_PHIEUTIEPNHAN_ID);
 		this.hieuXeServiceImpl = (HieuXeServiceImpl) SpringUtil.getBean("hieuxe_service");

@@ -49,6 +49,15 @@ public class PhieuBanLeAddViewModel {
 	private HieuXeServiceImpl hieuXeServiceImpl;
 	private CustomerServiceImpl customerServiceImpl;
 	private Set<CT_PhieuBanLe> setOfChiTietPhieuBL;
+	private int soLuong;
+	
+	public int getSoLuong() {
+		return soLuong;
+	}
+
+	public void setSoLuong(int soLuong) {
+		this.soLuong = soLuong;
+	}
 
 	@WireVariable
 	private ChiTietPhieuBanLeServiceImpl chiTietPhieuBanLeServiceImpl;
@@ -180,6 +189,7 @@ public class PhieuBanLeAddViewModel {
 			Messagebox.show("Vui lòng đăng nhập!");
 			Executions.sendRedirect("./Login.zul");
 		}
+		this.soLuong = 0;
 		this.chiTietPhieuBanLeServiceImpl = (ChiTietPhieuBanLeServiceImpl) SpringUtil
 				.getBean("chitietphieubanle_service");
 		this.phieuBanLeServiceImpl = (PhieuBanLeServiceImpl) SpringUtil.getBean("phieubanle_service");
@@ -237,7 +247,7 @@ public class PhieuBanLeAddViewModel {
 	}
 
 	@Command
-	@NotifyChange({ "selectedHieuXe", "listPhuTung", "selectedPhuTung" })
+	@NotifyChange({ "selectedHieuXe", "listPhuTung", "selectedPhuTung", "thanhTien" })
 	public void onComboboxHieuXeChange(@BindingParam("selectedHX") HieuXe item) {
 
 		this.setSelectedHieuXe(item);
@@ -245,7 +255,11 @@ public class PhieuBanLeAddViewModel {
 			this.listPhuTung.clear();
 		this.setListPhuTung(this.phuTungServiceImpl.find(null, null, this.selectedHieuXe.getMaHieuXe()));
 		if (this.listPhuTung.size() >= 1)
+		{
 			this.selectedPhuTung = this.listPhuTung.get(0);
+			this.setThanhTien(this.selectedPhuTung.getDonGiaXuat() * this.soLuong);
+			
+		}
 
 		// this.listOfPhuTungs = this.phuTungServiceImpl.find(null, null,
 		// maHieuXe);

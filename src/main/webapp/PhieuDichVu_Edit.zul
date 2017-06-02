@@ -29,7 +29,7 @@
 					</vbox>
 					<vbox width="180px">
 						<label>Tiền công:</label>
-						<textbox xmlns:w="client" id="txtTienCong" value = "@load(vm.phieuDichVu.tienCong)" constraint="no empty" maxlength="6"
+						<textbox xmlns:w="client" id="txtTienCong" value = "@load(vm.phieuDichVu.tienCongLongFormated)" constraint="no empty" maxlength="6"
 							>
 							<attribute w:name="doKeyPress_">
 							<![CDATA[

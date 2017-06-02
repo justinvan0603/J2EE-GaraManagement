@@ -59,7 +59,7 @@
 					</template>
 				</combobox>
 					<label>Số lượng</label>
-					<textbox id="txtSoLuong" width="50px"  value="0" onChange="@command('ontxtSoLuongChanging',soluong = txtSoLuong.value)">
+					<textbox id="txtSoLuong" width="50px"  value="@bind(vm.soLuong)" onChange="@command('ontxtSoLuongChanging',soluong = txtSoLuong.value)">
 						<attribute w:name="doKeyPress_">
 							
 							<![CDATA[ function(evt) { if ((evt.which <

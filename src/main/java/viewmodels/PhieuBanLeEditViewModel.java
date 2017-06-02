@@ -41,6 +41,13 @@ public class PhieuBanLeEditViewModel {
 	private Customer selectedKhachHang;
 	private List<CT_PhieuBanLe> setOfChiTietPhieuBL;
 	private ChiTietPhieuBanLeServiceImpl chiTietPhieuBanLeServiceImpl;
+	private int soLuong;
+	public int getSoLuong() {
+		return soLuong;
+	}
+	public void setSoLuong(int soLuong) {
+		this.soLuong = soLuong;
+	}
 	public List<CT_PhieuBanLe> getSetOfChiTietPhieuBL() {
 		return setOfChiTietPhieuBL;
 	}
@@ -146,6 +153,7 @@ public class PhieuBanLeEditViewModel {
 			Messagebox.show("Vui lòng đăng nhập!");
 			Executions.sendRedirect("./Login.zul");
 		}
+		this.soLuong =  0;
 		long id = (Long)Sessions.getCurrent().getAttribute(PhieuBanLeDSViewModel.PBL_ID);
 		this.chiTietPhieuBanLeServiceImpl =(ChiTietPhieuBanLeServiceImpl) SpringUtil.getBean("chitietphieubanle_service");
 		this.phieuBanLeServiceImpl = (PhieuBanLeServiceImpl) SpringUtil.getBean("phieubanle_service");
@@ -174,35 +182,44 @@ public class PhieuBanLeEditViewModel {
 	}
 	@Command
 	@NotifyChange("setOfChiTietPhieuBL")
-	public void xoaChiTiet(@BindingParam("maphutung") Integer maPhuTung) {
-		CT_PhieuBanLe ctPhieu = null;
-		for (Iterator<CT_PhieuBanLe> iterator = this.setOfChiTietPhieuBL.iterator(); iterator.hasNext();) {
-			 ctPhieu = iterator.next();
-			if (ctPhieu.getMaPhuTung() == maPhuTung.intValue()) {
-				this.chiTietPhieuBanLeServiceImpl.delete(ctPhieu.getId(), CT_PhieuBanLe.class);
-				this.phieuBanLe.setTongTien(this.phieuBanLe.getTongTien() - ctPhieu.getThanhTien());
-				this.phieuBanLe.setSoTienConLai(this.phieuBanLe.getSoTienConLai() - ctPhieu.getThanhTien());
-				this.selectedKhachHang.setSoTienNo(this.selectedKhachHang.getSoTienNo() - (ctPhieu.getThanhTien()));
-				this.customerServiceImpl.update(this.selectedKhachHang.getMaKH(), this.selectedKhachHang);
-				//iterator.remove();
-				for(Iterator<PhuTung> i = this.listPhuTung.iterator(); i.hasNext();)
+	public void xoaChiTiet(@BindingParam("machitiet") Integer maChiTiet) {
+		if(this.setOfChiTietPhieuBL.size() == 1)
+		{
+			Messagebox.show("Không thể xóa! Phải có ít nhất 1 chi tiết trong phiếu bán lẻ!", "Lỗi", Messagebox.OK, Messagebox.ERROR);
+			return;
+		}
+		CT_PhieuBanLe ctPhieu = this.chiTietPhieuBanLeServiceImpl.findById(maChiTiet, CT_PhieuBanLe.class);
+		//for (Iterator<CT_PhieuBanLe> iterator = this.setOfChiTietPhieuBL.iterator(); iterator.hasNext();) {
+			 //ctPhieu = iterator.next();
+			//if (ctPhieu.getMaPhuTung() == maPhuTung.intValue()) {
+				if(this.chiTietPhieuBanLeServiceImpl.delete(ctPhieu.getId(), CT_PhieuBanLe.class))
 				{
-					PhuTung pt = i.next();
-					if(pt.getId() == ctPhieu.getMaPhuTung())
-					{
+					this.phieuBanLe.setTongTien(this.phieuBanLe.getTongTien() - ctPhieu.getThanhTien());
+					this.phieuBanLe.setSoTienConLai(this.phieuBanLe.getSoTienConLai() - ctPhieu.getThanhTien());
+					this.selectedKhachHang.setSoTienNo(this.selectedKhachHang.getSoTienNo() - (ctPhieu.getThanhTien()));
+					this.customerServiceImpl.update(this.selectedKhachHang.getMaKH(), this.selectedKhachHang);
+				//iterator.remove();
+				//for(Iterator<PhuTung> i = this.listPhuTung.iterator(); i.hasNext();)
+				//{
+					PhuTung pt = this.phuTungServiceImpl.findById(ctPhieu.getMaPhuTung(), PhuTung.class);
+					//PhuTung pt = i.next();
+					//if(pt.getId() == ctPhieu.getMaPhuTung())
+					//{
 						pt.setSoLuongTon(pt.getSoLuongTon() + ctPhieu.getSoLuong());
 						PhuTung target = this.phuTungServiceImpl.findById(ctPhieu.getMaPhuTung(), PhuTung.class);
 						target.setSoLuongTon(target.getSoLuongTon() + ctPhieu.getSoLuong());
 						this.phuTungServiceImpl.update(target.getId(), target);
-						
-						break;
-					}
+						this.setOfChiTietPhieuBL.clear();
+						this.setSetOfChiTietPhieuBL(this.chiTietPhieuBanLeServiceImpl.getByIdPhieuBanLe(this.phieuBanLe.getIdPhieuBanLe(), CT_PhieuBanLe.class));
 				}
+						//break;
+					//}
+				//}
 					
-				break;
-			}
-		}
-		this.setOfChiTietPhieuBL.remove(ctPhieu);
+				//break;
+			//}
+		//}
+		//this.setOfChiTietPhieuBL.remove(ctPhieu);
 	}
 	@Command
 	@NotifyChange("thanhTien")
@@ -225,7 +242,7 @@ public class PhieuBanLeEditViewModel {
 		
 	}
 	@Command
-	@NotifyChange( {"selectedHieuXe","listPhuTung" })
+	@NotifyChange( {"selectedHieuXe","listPhuTung","thanhTien","selectedPhuTung" })
 	public void onComboboxHieuXeChange(@BindingParam("selectedHX")HieuXe item) {
 		
 		this.setSelectedHieuXe(item);
@@ -233,7 +250,10 @@ public class PhieuBanLeEditViewModel {
 			this.listPhuTung.clear();
 		this.setListPhuTung(this.phuTungServiceImpl.find(null,null,this.selectedHieuXe.getMaHieuXe()));
 		if(this.listPhuTung.size() >=1)
+		{
 			this.selectedPhuTung = this.listPhuTung.get(0);
+			this.setThanhTien(this.selectedPhuTung.getDonGiaXuat()*this.soLuong);
+		}
 
 	     
 //		this.listOfPhuTungs = this.phuTungServiceImpl.find(null, null, maHieuXe);
