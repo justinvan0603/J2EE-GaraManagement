@@ -21,6 +21,14 @@ public class ThongTinViewModel {
 	@WireVariable
 	private NhanVienServiceImpl nhanVienServiceImpl;
 	private NhanVien currentNhanVien;
+	private String currentGender;
+	public String getCurrentGender() {
+		return currentGender;
+	}
+
+	public void setCurrentGender(String currentGender) {
+		this.currentGender = currentGender;
+	}
 
 	@Init
 	public void init() {
@@ -32,7 +40,7 @@ public class ThongTinViewModel {
 		this.nhanVienServiceImpl = (NhanVienServiceImpl) SpringUtil.getBean("nhanvien_service");
 		Long nhanVienID = (Long) Sessions.getCurrent().getAttribute(LoginViewModel.LOGIN_USERID);
 		this.currentNhanVien = this.nhanVienServiceImpl.findById(nhanVienID, NhanVien.class);
-
+		this.setCurrentGender(this.currentNhanVien.getGioiTinh() ? "Nam" : "Nữ");
 	}
 
 	public NhanVienServiceImpl getNhanVienServiceImpl() {

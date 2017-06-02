@@ -45,7 +45,7 @@
 			<hbox pack="center">
 				<label>Giới tính</label>
 				<combobox style="margin-left:37px;" model="@load(vm.genders)" id="gender_combobox"
-					constraint="no empty" readonly="true">
+					constraint="no empty" readonly="true" selectedItem="@bind(vm.currentGender)">
 					<template name="model">
 						<comboitem label="@load(each)"  ></comboitem>
 					</template>
