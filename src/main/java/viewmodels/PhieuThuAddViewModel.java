@@ -100,7 +100,7 @@ public class PhieuThuAddViewModel {
 	public boolean checkValueIsValid(){
 		Double sotienthutoithieu = Double.valueOf(SystemParam.getValueByKey("SoTienThuToiThieu"));
 		
-		if (this.phieuThu.getSoTien() > this.getTienConLai()){
+		if (this.phieuThu.getSoTien().compareTo(this.getTienConLai()) > 0){
 			Messagebox.show("Số tiền thu phải bé hơn hoặc bằng số tiền còn lại", "Lỗi", Messagebox.OK, Messagebox.ERROR);
 			return false;
 		} else if (this.phieuThu.getSoTien() < sotienthutoithieu) {
